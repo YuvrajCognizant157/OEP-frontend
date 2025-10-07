@@ -14,6 +14,7 @@ export class StartExam implements OnInit {
   examId!: number;
   userId = 5; // Replace with actual logged-in user ID
   examData!: StartExamResponseDTO;
+  backendError = false;
   timeLeft!: number;
   timerInterval: any;
   examStarted = false;
@@ -60,6 +61,7 @@ export class StartExam implements OnInit {
         }
       },
       error: (err) => {
+        this.backendError=true;
         console.error('Error starting exam:', err);
         alert('Internal error occurred.');
       },

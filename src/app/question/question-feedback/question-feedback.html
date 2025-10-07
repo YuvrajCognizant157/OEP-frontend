@@ -1,0 +1,19 @@
+<div class="container mt-4">
+  <h3>Submitted Question Feedbacks</h3>
+
+  @if (feedbacks.length === 0) {
+    <div class="alert alert-info">
+        No feedbacks submitted yet.
+    </div>
+  }
+  
+  @for (feedback of feedbacks; track feedback.feedback) {
+    <div class="card mb-2">
+        <div class="card-body">
+        <p><strong>Question ID:</strong> {{ feedback.qId }}</p>
+        <p><strong>Feedback:</strong> {{ feedback.feedback }}</p>
+        </div>
+    </div>
+  }
+  
+</div>

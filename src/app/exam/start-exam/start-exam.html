@@ -1,3 +1,15 @@
+@if (!examData) {
+  @if(!backendError){
+    <div>
+      <p>Please Wait Loading Exam...</p>
+    </div>
+  }@else {
+    <div>
+      <p>Some Error Occured....</p>
+    </div>
+  }
+  
+}
 <div class="container mt-4" *ngIf="examStarted">
   <h2>{{ examData.name }}</h2>
   <p><strong>Total Marks:</strong> {{ examData.totalMarks }}</p>
