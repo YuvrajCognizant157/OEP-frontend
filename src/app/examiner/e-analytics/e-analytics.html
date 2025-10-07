@@ -1,0 +1,16 @@
+<h2>Examiner Analytics</h2>
+<div *ngIf="analyticsData">
+  <p>Total Exams Created: {{ analyticsData.totalExamsCreated }}</p>
+  <h3>Average Scores Per Exam</h3>
+  <ul>
+    <li *ngFor="let exam of analyticsData.averageScoresPerExam">
+      {{ exam.examTitle }}: {{ exam.averageScore | number : '1.2-2' }}
+    </li>
+  </ul>
+  <h3>Question Approval Status</h3>
+  <ul>
+    <li *ngFor="let status of analyticsData.questionApprovalStats">
+      {{ status.isApproved ? 'Approved' : 'Pending/Rejected' }}: {{ status.count }}
+    </li>
+  </ul>
+</div>
