@@ -1,0 +1,35 @@
+<div class="container mt-4" *ngIf="examStarted">
+  <h2>{{ examData.name }}</h2>
+  <p><strong>Total Marks:</strong> {{ examData.totalMarks }}</p>
+  <p><strong>Duration:</strong> {{ examData.duration }} mins</p>
+  <p><strong>Time Left:</strong> {{ getFormattedTime() }}</p>
+
+  <div *ngIf="!timeUp; else timeUpTemplate">
+    <div *ngFor="let question of examData.questions" class="card mb-3">
+      <div class="card-body">
+        <h5>{{ question.questionName }}</h5>
+        <p><strong>Marks:</strong> {{ question.marks }}</p>
+        <div *ngFor="let option of question.options">
+            <label for="q{{question.qid}}" >
+                <input
+                    type="radio"
+                    name="q{{ question.qid }}"
+                    value="{{option.value}}"
+                    [value]="option.id"
+                    (change)="onOptionSelected(question.qid, option.id)"
+                    style="color: black;"
+                    />
+                {{option.value}}
+            </label>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-warning mt-3" (click)="onFinishExam()">Finish Exam</button>
+  </div>
+
+  <ng-template #timeUpTemplate>
+    <div class="alert alert-warning">
+      Time is up! Your responses are being submitted or locked.
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,11 @@
+<div class="container mt-4">
+  <h3>Review Your Answers</h3>
+  <div *ngFor="let answer of selectedAnswers" class="card mb-2">
+    <div class="card-body">
+      <p><strong>Question ID:</strong> {{ answer.qid }}</p>
+      <p><strong>Selected Option ID:</strong> {{ answer.Resp }}</p>
+    </div>
+  </div>
+
+  <button class="btn btn-success" (click)="submitExam()">Submit Exam</button>
+</div>
