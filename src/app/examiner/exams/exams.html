@@ -1,4 +1,26 @@
-<h2><button (click)="ngOnInit()"> Exams</button></h2>
-<ul>
-  <li *ngFor="let exam of exams">{{ exam.name }} - {{ exam.description }}</li>
-</ul>
+<div class="exam-list-container">
+  <h2>My Exams</h2>
+  <div class="exam-cards">
+    <div class="exam-card" *ngFor="let exam of exams">
+      <div class="card-content" (click)="viewExamDetails(exam.eid)">
+        <h3>{{ exam.name }}</h3>
+        <p><strong>Description:</strong> {{ exam.description }}</p>
+        <p><strong>Total Questions:</strong> {{ exam.totalQuestions }}</p>
+        <p><strong>Total Marks:</strong> {{ exam.totalMarks }}</p>
+        <p><strong>Duration:</strong> {{ exam.duration }} mins</p>
+      </div>
+      <div class="card-actions">
+        <button [disabled]="exam.approvalStatusOfExam === -1" (click)="onUpdateExam(exam.eid)">Update</button>
+        <button [disabled]="exam.approvalStatusOfExam === -1" (click)="onDeleteExam(exam.eid)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-exam-modal [exam]="selectedExam" [isOpen]="isModalOpen" (closeModal)="closeModal()"></app-exam-modal>
+<app-update-exam-modal
+  [examData]="examToUpdate()"
+  [isOpen]="isUpdateModalOpen()"
+  (closeModal)="closeUpdateModal()"
+  (examUpdated)="onExamUpdated()">
+</app-update-exam-modal>

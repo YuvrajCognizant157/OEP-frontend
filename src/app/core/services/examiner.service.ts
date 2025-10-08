@@ -16,6 +16,10 @@ export class ExaminerService {
     return this.http.get(`${this.apiUrl}/get-exams/e?userid=${userId}`);
   }
 
+  getExamById(examId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get-exams/e/${examId}`);
+  }
+
   getTopics(): Observable<any> {
     return this.http.get(`${this.apiUrl}/get-topic`);
   }
@@ -24,5 +28,14 @@ export class ExaminerService {
     return this.http.post(`${this.apiUrl}/add-exam`, examData);
   }
 
-  // Add more methods for other functionalities as needed
+  updateExam(examId: number, examData: any): Observable<any> {
+    console.log("received data in service");
+    return this.http.put(`${this.apiUrl}/update-exam/${examId}`, examData);
+  }
+
+  deleteExam(examId: number): Observable<any> {
+    // Implement the API call for deleting an exam
+    return this.http.delete(`${this.apiUrl}/delete-exam/${examId}`);
+  }
+  
 }

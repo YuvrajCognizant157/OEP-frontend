@@ -1,0 +1,63 @@
+.exam-list-container {
+  padding: 20px;
+}
+
+.exam-list-container h2 {
+  margin-bottom: 20px;
+}
+
+.exam-list-container .exam-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.exam-list-container .exam-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: calc(33.333% - 20px);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.exam-list-container .exam-card:hover {
+  transform: translateY(-5px);
+}
+
+.exam-list-container .exam-card .card-content {
+  margin-bottom: 15px;
+}
+
+.exam-list-container .exam-card .card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.exam-list-container .exam-card .card-actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.exam-list-container .exam-card .card-actions button:first-of-type {
+  background-color: #007bff;
+  color: white;
+}
+
+.exam-list-container .exam-card .card-actions button:last-of-type {
+  background-color: #dc3545;
+  color: white;
+}
+
+.card-actions button:disabled {
+  background-color: #6c757d !important; /* muted gray */
+  color: white !important;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+

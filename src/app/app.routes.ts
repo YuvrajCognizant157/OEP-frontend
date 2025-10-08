@@ -31,6 +31,10 @@ export const routes: Routes = [
         path: 'topics',
         loadComponent: () => import('./examiner/topics/topics').then((m) => m.Topics),
       },
+      {
+        path:'create-exam',
+        loadComponent: () => import('./examiner/create-exam/create-exam').then((m) => m.CreateExam)
+      },
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
     ],
   },
