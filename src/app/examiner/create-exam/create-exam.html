@@ -1,0 +1,92 @@
+<div class="create-exam-container">
+  <h2>Create a New Exam</h2>
+  <form [formGroup]="examForm">
+    <div class="form-group">
+      <label for="name">Exam Name</label>
+      <input id="name" type="text" formControlName="name" />
+      <div
+        *ngIf="
+          examForm.get('name')?.invalid &&
+          (examForm.get('name')?.dirty || examForm.get('name')?.touched)
+        "
+        class="validation-error"
+      >
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="duration">Duration (in minutes)</label>
+      <input id="duration" type="number" formControlName="duration" />
+      <div
+        *ngIf="
+          examForm.get('duration')?.invalid &&
+          (examForm.get('duration')?.dirty || examForm.get('duration')?.touched)
+        "
+        class="validation-error"
+      >
+        Duration is required and must be a positive number.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="totalQuestions">Total Questions</label>
+      <input id="totalQuestions" type="number" formControlName="totalQuestions" />
+      <div
+        *ngIf="
+          examForm.get('totalQuestions')?.invalid &&
+          (examForm.get('totalQuestions')?.dirty || examForm.get('totalQuestions')?.touched)
+        "
+        class="validation-error"
+      >
+        Total questions is required and must be at least 1.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="displayedQuestions">Displayed Questions (optional)</label>
+      <input id="displayedQuestions" type="number" formControlName="displayedQuestions" />
+    </div>
+
+    <div class="form-group">
+      <label for="marksPerQuestion">Marks Per Question</label>
+      <input id="marksPerQuestion" type="number" formControlName="marksPerQuestion" />
+      <div
+        *ngIf="
+          examForm.get('marksPerQuestion')?.invalid &&
+          (examForm.get('marksPerQuestion')?.dirty || examForm.get('marksPerQuestion')?.touched)
+        "
+        class="validation-error"
+      >
+        Marks per question is required and must be at least 1.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label><a (click)="getTopics()" style="color: aqua">Select Topics</a></label>
+
+      @for (topic of topics; track topic.tid) {
+      <div>
+        <label for="topic.tid">
+          <input
+            type="checkbox"
+            [value]="topic.tid"
+            name="topic.tid"
+            (change)="onTopicChange($event, topic.tid)"
+          />
+          {{ topic.subject }}
+        </label>
+      </div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="examForm.invalid" (click)="addQuestions()">
+      Add Questions
+    </button>
+  </form>
+</div>
