@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 import { StudentAuthGuard } from './auth/student-auth.guard';
 import { ExaminerAuthGuard } from './auth/examiner-auth.guard';
+import { Home } from './home/home';
 
 export const routes: Routes = [
+  { path: '', component: Home },
   {
     path: 'student/start-exam',
     loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
@@ -56,6 +58,5 @@ export const routes: Routes = [
   /*Angular routes are relative to the app's root, not the browser's URL path. So using '/' as a redirect target doesn't work as expected. It may cause infinite redirects or blank pages.
   */
 
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: '' },
 ];

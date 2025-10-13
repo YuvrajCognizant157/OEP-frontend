@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 50" fill="white">
+  <path d="M25 40 C-5 40, -5 10, 25 10 C55 10, 55 40, 25 40 Z" transform="rotate(-30 25 25)"/>
+  <text x="95" y="32" font-family="sans-serif" font-size="22" text-anchor="middle" font-weight="bold">EGGS</text>
+</svg>

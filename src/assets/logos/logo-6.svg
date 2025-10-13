@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 50" fill="white">
+  <path d="M35 10 A20 20 0 0 0 15 30 H5 A30 30 0 0 1 35 0 Z" />
+  <path d="M25 17 A10 10 0 0 0 15 27 H10 A15 15 0 0 1 25 12 Z" />
+  <text x="110" y="32" font-family="sans-serif" font-size="22" text-anchor="middle" font-weight="bold">ECHOES</text>
+</svg>
