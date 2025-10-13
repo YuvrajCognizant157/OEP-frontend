@@ -1,0 +1,245 @@
+<div class="page-container">
+  <header>
+    <nav>
+      <div class="nav-logo">
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+            stroke="#292D32"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M15.5 12H8.5"
+            stroke="#292D32"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M12 15.5V8.5"
+            stroke="#292D32"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>Online Exam Portal</span>
+      </div>
+      <div class="nav-links">
+        <a href="#">Exams <mat-icon>keyboard_arrow_down</mat-icon></a>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Help <mat-icon>keyboard_arrow_down</mat-icon></a>
+      </div>
+      <div class="nav-actions">
+        <button class="signup-btn">Sign up</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="hero-section">
+    <div class="hero-content">
+      <h1>
+        <span>EXAMS MADE</span>
+        <span>EASY FOR</span>
+        <span>EVERYONE</span>
+      </h1>
+    </div>
+  </main>
+
+  <section class="feature-section">
+    <div class="feature-text">
+      <p>
+        Register, take exams, and see results—all in one place. Simple tools for students,
+        examiners, and admins to manage every step with ease.
+      </p>
+      <button mat-raised-button color="primary" class="get-started-btn">Get started</button>
+    </div>
+    <div class="feature-image">
+      <img
+        src="assets/home-exam-giver.png"
+        alt="A user interacting with an online exam dashboard on a curved monitor"
+      />
+    </div>
+  </section>
+
+  <section class="client-logos-section">
+    <div class="logos-text-content">
+      <h2 class="mat-headline-4">Effortless exams, instant feedback</h2>
+      <p class="mat-body-1">
+        Manage exams, results, and feedback with ease. Students, admins, and examiners all get a
+        smooth, stress-free experience. Everything you need for online exams, all in one place.
+      </p>
+    </div>
+
+    <div class="logos-grid-container">
+      <div class="logos-controls">
+        <button mat-icon-button aria-label="Previous client logo">
+          <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Next client logo">
+          <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="View all client logos">
+          <mat-icon>apps</mat-icon>
+        </button>
+      </div>
+      <div class="logos-grid">
+        <img src="assets/logos/logo-1.svg" alt="Client Logo 1" />
+        <img src="assets/logos/logo-2.svg" alt="Client Logo 2" />
+        <img src="assets/logos/logo-3.svg" alt="Client Logo 3" />
+        <img src="assets/logos/logo-4.svg" alt="Client Logo 4" />
+        <img src="assets/logos/logo-5.svg" alt="Client Logo 5" />
+        <img src="assets/logos/logo-6.svg" alt="Client Logo 6" />
+      </div>
+    </div>
+  </section>
+
+  <section class="carousel-section">
+    <div class="carousel-header">
+      <p class="section-tag mat-body-2">TOP FEATURES</p>
+      <h2 class="mat-headline-3">All-in-one exam tools</h2>
+    </div>
+
+    <div class="carousel-container">
+      <div class="carousel-controls-top">
+        <button
+          mat-icon-button
+          (click)="prevItem()"
+          [disabled]="selectedIndex === 0"
+          aria-label="Previous feature"
+        >
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="nextItem()"
+          [disabled]="selectedIndex === carouselItems.length - 1"
+          aria-label="Next feature"
+        >
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="View all features">
+          <mat-icon>apps</mat-icon>
+        </button>
+      </div>
+
+      <div class="carousel-content">
+        @let item = carouselItems[selectedIndex]; @if (item) {
+        <div class="carousel-item active">
+          <div class="carousel-image-wrapper">
+            <img [src]="item.image" [alt]="item.title" />
+          </div>
+          <div class="carousel-text-content">
+            <p class="item-tag">{{ item.tag }}</p>
+            <h3 class="mat-headline-4">{{ item.title }}</h3>
+            <p class="mat-body-1">{{ item.description }}</p>
+            <button mat-raised-button color="primary" class="carousel-action-btn">
+              {{ item.buttonText }}
+            </button>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <div class="faq-header">
+      <p class="section-tag mat-body-2">FAQ</p>
+      <h2 class="mat-headline-3">Quick answers, zero stress</h2>
+      <p class="mat-body-1">
+        Got questions? We've got simple answers about registering, taking exams, checking results,
+        and more. Let's make your exam journey easy.
+      </p>
+    </div>
+
+    <mat-accordion class="faq-grid" multi="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>How do I sign up for an exam?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          Log in, head to Exams, pick your test, and follow the steps to register. It's quick and
+          easy.
+        </p>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>How do I begin my exam?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          Go to the Exams tab at your scheduled time and hit 'Start Exam'. Make sure your internet
+          is steady.
+        </p>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Can I see my results?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          Yes! After you finish, check the Results tab for your scores and any feedback from the
+          team.
+        </p>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>How do I share feedback?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          After your exam, you'll see a feedback form. Let us know how it went or report any issues
+          there.
+        </p>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Who checks and approves exams?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          Admins review and approve all exams and topics before they go live. You'll get a
+          notification when it's done.
+        </p>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>How can I add questions?</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          If you're an examiner, open your exam draft, click 'Add Question', fill it out, and save.
+          Add as many as you need before submitting.
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </section>
+
+  <footer>
+    <div class="footer-left">
+      <p>555-555-5555</p>
+      <p>help@onlineexamportal.com</p>
+      <a href="#">Privacy</a>
+    </div>
+    <div class="footer-center">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    </div>
+    <div class="footer-right">
+      <p>Made by Me</p>
+    </div>
+  </footer>
+</div>
