@@ -1,23 +1,28 @@
 import { Routes } from '@angular/router';
-// import { StudentAuthGuard } from './core/guards/student-auth.guard';
+import { StudentAuthGuard } from './auth/student-auth.guard';
+import { ExaminerAuthGuard } from './auth/examiner-auth.guard';
 
 export const routes: Routes = [
   {
     path: 'student/start-exam',
     loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
+    canActivate: [StudentAuthGuard],
   },
   {
     path: 'student/review-exam',
     loadComponent: () => import('./exam/review-exam/review-exam').then((m) => m.ReviewExam),
+    canActivate: [StudentAuthGuard],
   },
   {
     path: 'student/view-reported-questions',
     loadComponent: () =>
       import('./question/question-feedback/question-feedback').then((m) => m.QuestionFeedback),
+    canActivate: [StudentAuthGuard],
   },
   {
     path: 'examiner/dashboard',
     loadComponent: () => import('./examiner/dashboard/dashboard').then((m) => m.Dashboard),
+    canActivate: [ExaminerAuthGuard],
     children: [
       {
         path: 'analytics',
@@ -26,14 +31,17 @@ export const routes: Routes = [
       {
         path: 'exams',
         loadComponent: () => import('./examiner/exams/exams').then((m) => m.Exams),
+        canActivate: [ExaminerAuthGuard],
       },
       {
         path: 'topics',
         loadComponent: () => import('./examiner/topics/topics').then((m) => m.Topics),
+        canActivate: [ExaminerAuthGuard],
       },
       {
-        path:'create-exam',
-        loadComponent: () => import('./examiner/create-exam/create-exam').then((m) => m.CreateExam)
+        path: 'create-exam',
+        loadComponent: () => import('./examiner/create-exam/create-exam').then((m) => m.CreateExam),
+        canActivate: [ExaminerAuthGuard],
       },
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
     ],
@@ -42,9 +50,12 @@ export const routes: Routes = [
     path: 'student/results',
     loadComponent: () =>
       import('./student/results/results.component').then((m) => m.ResultsComponent),
-    // canActivate: [StudentAuthGuard]
+    canActivate: [StudentAuthGuard],
   },
 
-  { path: '', redirectTo: 'examiner/dashboard', pathMatch: 'full' },
+  /*Angular routes are relative to the app's root, not the browser's URL path. So using '/' as a redirect target doesn't work as expected. It may cause infinite redirects or blank pages.
+  */
+
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: '' },
 ];

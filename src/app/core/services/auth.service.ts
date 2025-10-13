@@ -17,8 +17,13 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return null;
 
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload['role'] || null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload['role'] || null;
+    } catch (e) {
+      console.error('Invalid token', e);
+      return null;
+    }
   }
 
   logout() {
