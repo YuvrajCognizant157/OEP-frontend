@@ -1,0 +1,37 @@
+.custom-navbar {
+  /* Matching the dark gradient theme */
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center; /* Center the links container */
+}
+
+.nav-links-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap; /* Allows links to wrap on smaller screens */
+  width: 100%;
+}
+
+a[mat-button] {
+  color: #e0e7ff;
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0 0.5rem;
+  padding: 0 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+a[mat-button]:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Style for the currently active link */
+.active-link {
+  background: linear-gradient(45deg, #7b5aff 0%, #5a40c0 100%);
+  color: white !important; /* Use !important to override default color */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}

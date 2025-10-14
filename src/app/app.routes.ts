@@ -29,6 +29,7 @@ export const routes: Routes = [
       {
         path: 'analytics',
         loadComponent: () => import('./examiner/e-analytics/e-analytics').then((m) => m.EAnalytics),
+        canActivate: [ExaminerAuthGuard],
       },
       {
         path: 'exams',
