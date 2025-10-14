@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+:root{
+  --bg:#071029; /* page background */
+  --panel:#0b1630; /* card / panel */
+  --muted:#9fb0c8;
+  --text:#eaf6ff;
+  --accent:#0078d4;
+  --glass: rgba(255,255,255,0.03);
+}
+
+/* Scope styles to this file to avoid global leakage where possible */
+.about-hero, .about-details, .how-it-works, footer{
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color:var(--text);
+}
+
+/* Hero */
+.about-hero{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;
+  padding:2.5rem 1.25rem;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.6);
+}
+.hero-content h1{ font-size:2.05rem; margin:0 0 .5rem; color:var(--text); letter-spacing:0.2px }
+.hero-content p{ color:var(--muted); line-height:1.6 }
+.hero-features li{ color:#cfe8ff }
+
+/* Buttons */
+.btn{ display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .18s ease, box-shadow .18s ease; text-decoration:none }
+.btn.primary{ background:linear-gradient(180deg,var(--accent), #005fa1); color:#fff; border-radius:8px; padding:.65rem 1.05rem; box-shadow:0 6px 18px rgba(0,120,212,0.12)}
+.btn.primary:hover{ transform:translateY(-4px); box-shadow:0 18px 40px rgba(0,120,212,0.12)}
+.btn.outline{ background:transparent; color:var(--accent); border:1px solid rgba(255,255,255,0.08); padding:.55rem .9rem; border-radius:8px }
+.btn.outline:hover{ background:rgba(255,255,255,0.02); transform:translateY(-3px) }
+
+/* Hero image subtle float */
+.hero-image img{ max-width:100%; height:auto; border-radius:12px; box-shadow:0 10px 30px rgba(2,6,23,0.6); transform-origin:center; animation:float 6s ease-in-out infinite; }
+@keyframes float{ 0%{transform:translateY(0)} 50%{transform:translateY(-8px)} 100%{transform:translateY(0)} }
+
+/* Feature cards */
+.features-grid .feature-card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px; padding:1rem; border:1px solid rgba(255,255,255,0.03);
+  transition:transform .2s ease, box-shadow .2s ease; color:var(--text);
+}
+.features-grid .feature-card:hover{ transform:translateY(-8px); box-shadow:0 20px 40px rgba(2,6,23,0.6) }
+.features-grid h3{ color:#e6f6ff }
+.features-grid p{ color:var(--muted) }
+
+/* How it works cards */
+.how-it-works > div > div{ background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); border-radius:10px; color:var(--text) }
+.how-it-works strong{ color:#dff0ff }
+
+/* Footer */
+footer{ border-top:1px solid rgba(255,255,255,0.03); margin-top:1.5rem }
+footer img{ filter: drop-shadow(0 6px 18px rgba(2,6,23,0.6)) }
+
+/* Small responsive tweaks */
+@media (max-width:720px){
+  .hero-content h1{ font-size:1.6rem }
+  .about-hero{ padding:1.25rem }
+}
+
+/* Entrance animations */
+.fade-up{ opacity:0; transform:translateY(10px); animation:fadeUp .6s ease forwards }
+@keyframes fadeUp{ to{ opacity:1; transform:translateY(0) } }
+
+/* Apply initial fade to main sections */
+.about-hero, .about-details, .how-it-works{ opacity:0; transform:translateY(6px); animation:fadeUp .6s ease forwards; animation-delay:0.06s }
+.about-details{ animation-delay:0.12s }
+.how-it-works{ animation-delay:0.18s }
