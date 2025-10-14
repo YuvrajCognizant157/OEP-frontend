@@ -5,9 +5,17 @@ import { ExaminerService } from '../../core/services/examiner.service';
 import { TopicsService } from '../../core/services/topics.service';
 import { Router } from '@angular/router';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+
 @Component({
   selector: 'app-create-exam',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatButtonModule],
   templateUrl: './create-exam.html',
   styleUrl: './create-exam.css'
 })
@@ -69,18 +77,18 @@ export class CreateExam implements OnInit {
         userId: this.userId
       };
 
-      this.examinerService.addExam(examData).subscribe(
-        (response) => {
+      this.examinerService.addExam(examData).subscribe({
+        next:(response) => {
           console.log('Exam metadata saved. You can now add questions:', response);
           alert('Exam metadata saved successfully.');
           
           this.router.navigate(['/examiner/dashboard/add-questions'], { queryParams: { examId: response.examId } });
         },
-        (error) => {
+        error:(error) => {
           console.error('Failed to create exam:', error);
           alert('Failed to create exam. Please try again.');
         }
-      );
+      });
     } else {
       alert('Please fill out the form correctly.');
     }
