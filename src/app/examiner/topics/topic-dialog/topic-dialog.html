@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>{{ topic.subject }}</h2>
+
+<mat-dialog-content class="mat-typography topic-dialog-content">
+  <h4>Details</h4>
+  <ul>
+    <li><strong>Topic ID:</strong> {{ topic.tid }}</li>
+    <li><strong>Topic Approved By:</strong> {{ topic.approvedByUserId || -1}}</li>
+    @if (!topic.questions) {
+        <p>No Question Available./p>
+    }
+    @else {
+        <li><strong>Total Occurence:</strong> {{ topic.questions.length }}</li>
+    }
+    </ul>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button [mat-dialog-close]="true" color="primary">Close</button>
+</mat-dialog-actions>

@@ -1,0 +1,80 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align at the top, not center vertically */
+  min-height: calc(100vh - 64px); /* Assuming 64px for navbar height */
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%); /* Full dark background */
+  padding: 2rem; /* Add padding to prevent container from touching edges */
+  box-sizing: border-box;
+}
+
+.topics-container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
+  background-color: #1a222f; /* Dark background from our theme */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #e0e7ff; /* White/light-blue for heading */
+  text-align: center;
+}
+
+/* --- Loading State --- */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+}
+
+.loading-container p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #aeb8d0; /* Light-blue for loading text */
+  margin-bottom: 0;
+}
+
+.topics-container mat-list-item {
+  color: #e0e7ff !important;
+  height: 60px !important;
+  border-bottom: 1px solid #2a3544;
+  transition: background-color 0.2s ease-in-out;
+  font-size: 1.05rem;
+  cursor: pointer; /* <-- ADD THIS LINE */
+}
+
+mat-progress-bar {
+    width: 80%; /* Make progress bar a bit narrower than full width */
+}
+
+/* --- Material List Styling --- */
+mat-list {
+  padding-top: 0;
+}
+::ng-deep mat-list-item .mdc-list-item__primary-text {
+  color: #e0e7ff !important;
+}
+
+mat-list-item {
+  height: 60px !important;
+  border-bottom: 1px solid #2a3544;
+  transition: background-color 0.2s ease-in-out;
+  font-size: 1.05rem; 
+}
+
+mat-list-item:last-child {
+  border-bottom: none;
+}
+
+mat-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
