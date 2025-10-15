@@ -20,10 +20,6 @@ export class ExaminerService {
     return this.http.get(`${this.apiUrl}/get-exams/e/${examId}`);
   }
 
-  getTopics(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/get-topic`);
-  }
-
   addExam(examData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/add-exam`, examData);
   }

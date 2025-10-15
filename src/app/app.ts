@@ -4,7 +4,7 @@ import { ResultsComponent } from "./student/results/results.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ResultsComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
