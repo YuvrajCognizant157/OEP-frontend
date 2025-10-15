@@ -1,0 +1,141 @@
+:host {
+  display: flex; /* Use flexbox for centering */
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px); /* Full viewport height minus header if applicable */
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%); /* Dark gradient background */
+  color: #e0e7ff; /* Light text color for contrast */
+  padding: 2rem;
+  box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+.form-container {
+  max-width: 900px;
+  width: 100%; /* Ensure it takes full width up to max-width */
+  padding: 2.5rem 3rem; /* More generous padding */
+  background-color: #1a222f; /* Darker background for the form itself */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+}
+
+h1 {
+  font-size: 2.2rem; /* Larger heading */
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  color: #e0e7ff; /* Light text */
+  text-align: center;
+}
+
+/* --- The Responsive Grid Layout --- */
+.exam-form {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column on mobile by default */
+  gap: 1.8rem; /* Increased space between form fields */
+}
+
+/* --- Topics Section --- */
+.topics-container {
+  margin-top: 1rem;
+}
+
+h3 {
+  font-size: 1.25rem; /* Larger topic heading */
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #e0e7ff;
+}
+
+.topics-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem; /* Space between checkboxes */
+}
+
+/* --- Actions --- */
+.actions-container {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+button[mat-raised-button] {
+    padding: 0.8rem 2.5rem;
+    font-size: 1.1rem;
+    background: linear-gradient(45deg, #7b5aff 0%, #5a40c0 100%); /* Purple gradient button */
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease-in-out;
+}
+
+button[mat-raised-button]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Media Query for Tablet and Desktop --- */
+@media (min-width: 768px) {
+  .exam-form {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.8rem 2.5rem; /* Row and Column gap */
+  }
+
+  .grid-col-span-2 {
+    grid-column: span 2;
+  }
+}
+
+/* -- Material Form Field Customization (Theming) -- */
+mat-form-field {
+    width: 100%;
+}
+
+/* Customizing the fill appearance to match dark theme */
+:host ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: #2a3544; /* Darker background for input areas */
+    border-radius: 8px 8px 0 0;
+    padding: 0.75em 0.75em 0 0.75em; /* Adjust padding for visual balance */
+}
+
+:host ::ng-deep .mat-form-field-appearance-fill .mat-form-field-label {
+    color: #aeb8d0 !important; /* Lighter label color */
+}
+
+:host ::ng-deep .mat-form-field-label.mat-focused {
+    color: #9c27b0 !important; /* Material purple for focused label */
+}
+
+:host ::ng-deep .mat-form-field-underline {
+    background-color: #4b5a7a !important; /* Subtle underline color */
+}
+
+:host ::ng-deep .mat-form-field-ripple {
+    background-color: #9c27b0 !important; /* Ripple color on focus */
+}
+
+:host ::ng-deep .mat-input-element {
+    color: #e0e7ff; /* Input text color */
+}
+
+/* Specific styling for the textarea to give it a smaller default height */
+:host ::ng-deep .mat-form-field-type-textarea.mat-form-field-appearance-fill .mat-form-field-flex {
+    min-height: 80px; /* Smaller initial height for textarea */
+}
+
+:host ::ng-deep textarea.mat-input-element {
+    min-height: 48px; /* Actual textarea element min height */
+    padding-top: 0.5em; /* Adjust internal padding if needed */
+}
+
+/* Mat-checkbox theme */
+:host ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+    background-color: #7b5aff !important; /* Checked checkbox color */
+}
+
+:host ::ng-deep .mat-checkbox-label {
+    color: #e0e7ff; /* Checkbox label color */
+}
+
+mat-error {
+    color: #ff6b6b; /* Red for errors */
+}

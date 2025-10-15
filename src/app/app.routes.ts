@@ -25,26 +25,27 @@ export const routes: Routes = [
   {
     path: 'examiner/dashboard',
     loadComponent: () => import('./examiner/dashboard/dashboard').then((m) => m.Dashboard),
-    canActivate: [ExaminerAuthGuard],
+    // canActivate: [ExaminerAuthGuard],
     children: [
       {
         path: 'analytics',
         loadComponent: () => import('./examiner/e-analytics/e-analytics').then((m) => m.EAnalytics),
+        // canActivate: [ExaminerAuthGuard],
       },
       {
         path: 'exams',
         loadComponent: () => import('./examiner/exams/exams').then((m) => m.Exams),
-        canActivate: [ExaminerAuthGuard],
+        // canActivate: [ExaminerAuthGuard],
       },
       {
         path: 'topics',
         loadComponent: () => import('./examiner/topics/topics').then((m) => m.Topics),
-        canActivate: [ExaminerAuthGuard],
+        // canActivate: [ExaminerAuthGuard],
       },
       {
         path: 'create-exam',
         loadComponent: () => import('./examiner/create-exam/create-exam').then((m) => m.CreateExam),
-        canActivate: [ExaminerAuthGuard],
+        // canActivate: [ExaminerAuthGuard],
       },
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
     ],
