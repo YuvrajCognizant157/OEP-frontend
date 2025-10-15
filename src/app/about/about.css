@@ -131,32 +131,83 @@ p {
   gap: 1.5rem;
 }
 
+
+/* --- Feature Cards (mat-card) --- */
 .feature-card {
-    background: var(--panel);
-    color: var(--text);
-    box-shadow: 0 4px 12px var(--shadow-dark) !important;
-    border: 1px solid var(--border-subtle);
-    transition: transform .2s ease, background-color .2s ease;
+  background: var(--panel);
+  color: var(--text);
+  border: 1.5px solid rgba(255, 255, 255, 0.15); /* Visible light border */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  transition: 
+    transform 0.3s ease, 
+    box-shadow 0.4s ease, 
+    border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Hover effect: lift + shine + accent glow */
 .feature-card:hover {
-    transform: translateY(-5px);
-    background-color: var(--panel-light);
+  cursor:pointer;
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(0, 120, 212, 0.6),
+              0 0 40px rgba(0, 120, 212, 0.3);
+}
+
+/* Add shining gradient animation border */
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: linear-gradient(120deg, 
+              rgba(0,120,212,0.6),
+              rgba(0,200,255,0.4),
+              rgba(0,120,212,0.6));
+  background-size: 200% 200%;
+  filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: shineGlow 2.5s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.feature-card:hover::before {
+  opacity: 1; /* Appear on hover */
+}
+
+/* Ensure card content stays above glowing layer */
+.feature-card * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Shining animation keyframes */
+@keyframes shineGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .feature-card .mat-mdc-card-title {
-    color: var(--text);
-    font-size: 1.2rem;
-}
-.feature-card .mat-mdc-card-content p {
-    color: var(--muted);
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
+.feature-card .mat-mdc-card-content p {
+  color: var(--muted);
+}
 /* --- How It Works Section --- */
 .how-it-works {
     background-color: var(--bg);
     padding: 4rem 1.25rem;
 }
-
+/* 
 .step-card {
     background: var(--panel);
     color: var(--text);
@@ -170,6 +221,78 @@ p {
 }
 .step-card .mat-mdc-card-content p {
     color: var(--muted);
+} */
+
+/* --- How It Works Section --- */
+.step-card {
+  padding: 1.4rem;
+  background: var(--panel);
+  color: var(--text);
+  border: 1.5px solid rgba(255, 255, 255, 0.15); /* Visible border on dark bg */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  transition: 
+    transform 0.3s ease, 
+    box-shadow 0.4s ease, 
+    border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Effect - Lift + Blue Glow */
+.step-card:hover {
+  cursor: pointer;
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(0, 120, 212, 0.6),
+              0 0 40px rgba(0, 120, 212, 0.3);
+}
+
+/* Glowing animated gradient border (same as feature cards) */
+.step-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: linear-gradient(120deg, 
+              rgba(0,120,212,0.6),
+              rgba(0,200,255,0.4),
+              rgba(0,120,212,0.6));
+  background-size: 200% 200%;
+  filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: shineGlow 2.5s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.step-card:hover::before {
+  opacity: 1; /* Show glow on hover */
+}
+
+/* Keep card text and icons above glow */
+.step-card * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Optional consistent text styling */
+.step-card .mat-mdc-card-title {
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.step-card .mat-mdc-card-content p {
+  color: var(--muted);
+}
+
+/* Reuse the same animation as feature cards */
+@keyframes shineGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .process-summary {
@@ -183,12 +306,25 @@ p {
 /* --- Footer Section --- */
 .about-footer {
   border-top: 1px solid var(--border-subtle);
+  padding: 1.5rem 1.25rem;
+}
+
+
+.footer-content {
+  /* FIX: Ensure content is centered horizontally */
+  display: flex;
+  flex-direction: column; /* Stack children (logo group and help text) vertically */
+  align-items: center; /* Center the stacked children horizontally */
+  gap: 1rem; /* Add some space between the stacked items */
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .logo-group {
     display: flex;
     align-items: center;
     gap: .6rem;
+    text-align: center;
 }
 .portal-logo {
     color: var(--accent);
