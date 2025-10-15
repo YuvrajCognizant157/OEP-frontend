@@ -5,6 +5,7 @@ import { Home } from './home/home';
 
 export const routes: Routes = [
   { path: '', component: Home },
+  {path: 'about', loadComponent: () => import('./about/about').then((m) => m.About)  },
   {
     path: 'student/start-exam',
     loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
