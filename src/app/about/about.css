@@ -1,70 +1,222 @@
+/* Import the font and define custom dark theme variables */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-:root{
-  --bg:#071029; /* page background */
-  --panel:#0b1630; /* card / panel */
-  --muted:#9fb0c8;
-  --text:#eaf6ff;
-  --accent:#0078d4;
-  --glass: rgba(255,255,255,0.03);
+
+/* Define the theme variables using the requested base color */
+:root {
+  --bg: #121212; /* Main page background */
+  --panel: #1e1e1e; /* Card/Panel background - Slightly lighter than BG */
+  --panel-light: #2a2a2a; /* Card hover/step background */
+  --muted: #a0a0a0; 
+  --text: #e0e0e0; 
+  --accent: #0078d4;
+  --shadow-dark: rgba(0, 0, 0, 0.4);
+  --border-subtle: rgba(255, 255, 255, 0.1);
 }
 
-/* Scope styles to this file to avoid global leakage where possible */
-.about-hero, .about-details, .how-it-works, footer{
+.about-page{
+  background-color: #121212; /* Use the dark background directly */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Global Styles for the About Page */
+.about-hero, .about-details, .how-it-works, .about-footer {
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  color:var(--text);
+  color: #fff;
+  padding: 2rem 1.25rem; /* Default padding */
+  background-color: var(--bg);
 }
 
-/* Hero */
-.about-hero{
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius:12px;
-  padding:2.5rem 1.25rem;
-  box-shadow: 0 12px 40px rgba(2,6,23,0.6);
-}
-.hero-content h1{ font-size:2.05rem; margin:0 0 .5rem; color:var(--text); letter-spacing:0.2px }
-.hero-content p{ color:var(--muted); line-height:1.6 }
-.hero-features li{ color:#cfe8ff }
-
-/* Buttons */
-.btn{ display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .18s ease, box-shadow .18s ease; text-decoration:none }
-.btn.primary{ background:linear-gradient(180deg,var(--accent), #005fa1); color:#fff; border-radius:8px; padding:.65rem 1.05rem; box-shadow:0 6px 18px rgba(0,120,212,0.12)}
-.btn.primary:hover{ transform:translateY(-4px); box-shadow:0 18px 40px rgba(0,120,212,0.12)}
-.btn.outline{ background:transparent; color:var(--accent); border:1px solid rgba(255,255,255,0.08); padding:.55rem .9rem; border-radius:8px }
-.btn.outline:hover{ background:rgba(255,255,255,0.02); transform:translateY(-3px) }
-
-/* Hero image subtle float */
-.hero-image img{ max-width:100%; height:auto; border-radius:12px; box-shadow:0 10px 30px rgba(2,6,23,0.6); transform-origin:center; animation:float 6s ease-in-out infinite; }
-@keyframes float{ 0%{transform:translateY(0)} 50%{transform:translateY(-8px)} 100%{transform:translateY(0)} }
-
-/* Feature cards */
-.features-grid .feature-card{
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius:12px; padding:1rem; border:1px solid rgba(255,255,255,0.03);
-  transition:transform .2s ease, box-shadow .2s ease; color:var(--text);
-}
-.features-grid .feature-card:hover{ transform:translateY(-8px); box-shadow:0 20px 40px rgba(2,6,23,0.6) }
-.features-grid h3{ color:#e6f6ff }
-.features-grid p{ color:var(--muted) }
-
-/* How it works cards */
-.how-it-works > div > div{ background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); border-radius:10px; color:var(--text) }
-.how-it-works strong{ color:#dff0ff }
-
-/* Footer */
-footer{ border-top:1px solid rgba(255,255,255,0.03); margin-top:1.5rem }
-footer img{ filter: drop-shadow(0 6px 18px rgba(2,6,23,0.6)) }
-
-/* Small responsive tweaks */
-@media (max-width:720px){
-  .hero-content h1{ font-size:1.6rem }
-  .about-hero{ padding:1.25rem }
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-/* Entrance animations */
-.fade-up{ opacity:0; transform:translateY(10px); animation:fadeUp .6s ease forwards }
-@keyframes fadeUp{ to{ opacity:1; transform:translateY(0) } }
+/* --- Utility Classes & Text --- */
+.text-center {
+  text-align: center;
+}
+.mat-h2 {
+    color: var(--text);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+.mat-h3 {
+    color: var(--text);
+    font-size: 1.2rem;
+}
+p {
+    color: var(--muted);
+    line-height: 1.6;
+}
 
-/* Apply initial fade to main sections */
-.about-hero, .about-details, .how-it-works{ opacity:0; transform:translateY(6px); animation:fadeUp .6s ease forwards; animation-delay:0.06s }
-.about-details{ animation-delay:0.12s }
-.how-it-works{ animation-delay:0.18s }
+/* --- Hero Section (.about-hero) --- */
+.about-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+   background: var(--bg); /* Keep base color */
+  box-shadow: none; 
+}
+
+.hero-features {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: .5rem;
+}
+
+.hero-features li {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  color: var(--text);
+}
+.feature-icon {
+    color: var(--accent); /* Color the Material icons */
+    font-size: 20px;
+}
+
+/* --- Material Buttons --- */
+.hero-actions {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+/* Targeting Material Buttons via classes for custom sizing/shadow */
+.btn {
+  border-radius: 6px;
+  padding: 0 1rem !important; /* Material buttons use padding on .mat-mdc-button-touch-target */
+  height: 40px; /* Custom height for consistency */
+}
+
+/* Primary Button */
+.btn.primary.mat-mdc-unelevated-button {
+  background: var(--accent);
+  box-shadow: 0 4px 12px rgba(0,120,212,0.3);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.btn.primary.mat-mdc-unelevated-button:hover {
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,120,212,0.4);
+}
+
+/* Outline Button */
+.btn.outline.mat-mdc-stroked-button {
+  color: var(--accent);
+  border-color: var(--accent);
+  transition: background-color .18s ease, transform .18s ease;
+}
+.btn.outline.mat-mdc-stroked-button:hover {
+    background-color: rgba(0, 120, 212, 0.1);
+    transform: translateY(-2px);
+}
+
+/* --- Feature Cards (mat-card) --- */
+.about-details {
+
+  background-color: var(--bg);
+  padding: 4rem 1.25rem;
+}
+
+.features-grid, .steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 1.5rem;
+}
+
+.feature-card {
+    background: var(--panel);
+    color: var(--text);
+    box-shadow: 0 4px 12px var(--shadow-dark) !important;
+    border: 1px solid var(--border-subtle);
+    transition: transform .2s ease, background-color .2s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    background-color: var(--panel-light);
+}
+
+.feature-card .mat-mdc-card-title {
+    color: var(--text);
+    font-size: 1.2rem;
+}
+.feature-card .mat-mdc-card-content p {
+    color: var(--muted);
+}
+
+/* --- How It Works Section --- */
+.how-it-works {
+    background-color: var(--bg);
+    padding: 4rem 1.25rem;
+}
+
+.step-card {
+    background: var(--panel);
+    color: var(--text);
+    box-shadow: 0 6px 18px var(--shadow-dark) !important;
+    border: 1px solid var(--border-subtle);
+}
+.step-card .mat-mdc-card-title {
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.step-card .mat-mdc-card-content p {
+    color: var(--muted);
+}
+
+.process-summary {
+  margin-top: 2rem;
+  color: var(--muted);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- Footer Section --- */
+.about-footer {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+.portal-logo {
+    color: var(--accent);
+    font-size: 32px;
+}
+.tagline, .help-text {
+    color: var(--muted);
+    font-size: .9rem;
+}
+.logo-group strong {
+    color: var(--text);
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .about-hero {
+    flex-direction: column;
+  }
+  .hero-content {
+      order: 0;
+  }
+  .hero-image {
+      order: 0;
+      margin-bottom: 1.5rem;
+  }
+  .features-grid, .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
