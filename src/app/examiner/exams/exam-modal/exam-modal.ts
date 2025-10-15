@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-exam-modal',
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+  ],
   templateUrl: './exam-modal.html',
-  styleUrl: './exam-modal.css'
+  styleUrl: './exam-modal.css',
 })
 export class ExamModal {
   @Input() exam: any;

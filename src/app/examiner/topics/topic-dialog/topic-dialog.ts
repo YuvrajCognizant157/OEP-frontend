@@ -10,7 +10,7 @@ export interface Topic {
   questions: any[];
   subject: string;
   submittedForApproval: boolean;
-  tid: string;
+  tid: number;
 }
 
 @Component({

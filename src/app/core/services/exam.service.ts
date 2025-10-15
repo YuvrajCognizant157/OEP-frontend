@@ -14,7 +14,7 @@ export class ExamService {
   }
 
   startExam(examId: number, userId: number) {
-    return this.http.post(`https://localhost:44395/api/Exams/start-exam/${examId}?userId=${userId}`, {});
+    return this.http.post(`${this.baseUrl}/start-exam/${examId}?userId=${userId}`, {});
   }
 
   
