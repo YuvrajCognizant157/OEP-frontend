@@ -8,8 +8,7 @@ import { TopicDialog } from './topic-dialog/topic-dialog';
 
 @Component({
   selector: 'app-topics',
-  imports: [CommonModule,MatListModule,MatProgressBarModule,MatDialogModule,
-    TopicDialog],
+  imports: [CommonModule,MatListModule,MatProgressBarModule,MatDialogModule],
   templateUrl: './topics.html',
   styleUrl: './topics.css'
 })

@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>{{ data.isEdit ? 'Update Topic' : 'Create a New Topic' }}</h2>
+    <mat-dialog-content>
+      <form [formGroup]="topicForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width-field">
+          <mat-label>Topic Name</mat-label>
+          <input matInput formControlName="name" placeholder="e.g., Advanced C#" required>
+          @if (topicForm.get('name')?.hasError('required') && topicForm.get('name')?.touched) {
+            <mat-error>Topic name is required.</mat-error>
+          }
+        </mat-form-field>
+      </form>
+       @if (feedbackMessage()) {
+          <div class="feedback-message" [class.error]="true">
+             <mat-icon>error</mat-icon><span>{{ feedbackMessage() }}</span>
+          </div>
+       }
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="onNoClick()">Cancel</button>
+      @if(isLoading()){
+        <mat-spinner diameter="30"></mat-spinner>
+      } @else {
+        <button mat-flat-button class="submit-button" (click)="onSubmit()" [disabled]="topicForm.invalid">
+          {{ data.isEdit ? 'Update' : 'Create' }}
+        </button>
+      }
+    </mat-dialog-actions>

@@ -1,14 +1,25 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ExaminerService } from '../../core/services/examiner.service';
 import { CommonModule } from '@angular/common';
-import { ExamModal } from "./exam-modal/exam-modal";
-import { UpdateExamModal } from "./update-exam-modal/update-exam-modal";
-
+import { ExamModal } from './exam-modal/exam-modal';
+import { UpdateExamModal } from './update-exam-modal/update-exam-modal';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-exams',
-  imports: [CommonModule, ExamModal, UpdateExamModal],
+  imports: [
+    CommonModule,
+    ExamModal,
+    UpdateExamModal,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatDividerModule,
+  ],
   templateUrl: './exams.html',
-  styleUrl: './exams.css'
+  styleUrl: './exams.css',
 })
 export class Exams implements OnInit {
   exams: any[] = [];
@@ -20,7 +31,7 @@ export class Exams implements OnInit {
   isUpdateModalOpen = signal<boolean>(false);
   examToUpdate = signal<any | null>(null);
 
-  constructor(private examinerService: ExaminerService) { }
+  constructor(private examinerService: ExaminerService) {}
 
   ngOnInit(): void {
     this.fetchExams();
@@ -29,25 +40,24 @@ export class Exams implements OnInit {
 
   fetchExams(): void {
     this.examinerService.getExamsForExaminer(this.userId).subscribe({
-      next:(data) => {
+      next: (data) => {
         this.exams = data;
       },
-      error:(err) => {
+      error: (err) => {
         console.error('Error fetching exams:', err.error);
-      }
+      },
     });
-
   }
 
   viewExamDetails(examId: number): void {
     this.examinerService.getExamById(examId).subscribe({
-      next:(data) => {
+      next: (data) => {
         this.selectedExam = data;
         this.isModalOpen = true;
       },
-      error:(error) => {
+      error: (error) => {
         console.error('Error fetching exam details:', error);
-      }
+      },
     });
   }
 
@@ -67,20 +77,20 @@ export class Exams implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching exam details for update:', error);
-      }
+      },
     });
   }
 
   onDeleteExam(examId: number): void {
     if (confirm('Are you sure you want to delete this exam?')) {
       this.examinerService.deleteExam(examId).subscribe({
-        next:(data)=> {
+        next: (data) => {
           console.log(`Exam with ID ${examId} deleted successfully.`);
           this.fetchExams(); // Refresh the list
         },
-        error:(error) => {
+        error: (error) => {
           console.error('Error deleting exam:', error);
-        }
+        },
       });
     }
   }
@@ -94,5 +104,4 @@ export class Exams implements OnInit {
     this.closeUpdateModal();
     this.fetchExams();
   }
-
 }

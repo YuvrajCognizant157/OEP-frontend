@@ -1,26 +1,64 @@
 <div class="exam-list-container">
-  <h2>My Exams</h2>
-  <div class="exam-cards">
-    <div class="exam-card" *ngFor="let exam of exams">
-      <div class="card-content" (click)="viewExamDetails(exam.eid)">
-        <h3>{{ exam.name }}</h3>
-        <p><strong>Description:</strong> {{ exam.description }}</p>
-        <p><strong>Total Questions:</strong> {{ exam.totalQuestions }}</p>
-        <p><strong>Total Marks:</strong> {{ exam.totalMarks }}</p>
-        <p><strong>Duration:</strong> {{ exam.duration }} mins</p>
-      </div>
-      <div class="card-actions">
-        <button [disabled]="exam.approvalStatusOfExam === -1" (click)="onUpdateExam(exam.eid)">Update</button>
-        <button [disabled]="exam.approvalStatusOfExam === -1" (click)="onDeleteExam(exam.eid)">Delete</button>
-      </div>
-    </div>
+  <h2 class="page-title">My Exams</h2>
+  <div class="exam-cards-grid">
+    @for(exam of exams; track exam.eid) {
+    <mat-card class="exam-card">
+      <mat-card-header>
+        <mat-card-title>{{ exam.name }}</mat-card-title>
+        <mat-card-subtitle>{{ exam.description }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="card-content" (click)="viewExamDetails(exam.eid)">
+        <mat-divider></mat-divider>
+        <div class="exam-details">
+          <div class="detail-item">
+            <mat-icon>help_outline</mat-icon>
+            <span>{{ exam.totalQuestions }} Questions</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>check_circle_outline</mat-icon>
+            <span>{{ exam.totalMarks }} Marks</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>timer</mat-icon>
+            <span>{{ exam.duration }} mins</span>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="card-actions">
+        <button
+          mat-flat-button
+          class="update-button"
+          [disabled]="exam.approvalStatusOfExam === -1"
+          (click)="onUpdateExam(exam.eid)"
+        >
+          <mat-icon>edit</mat-icon>
+          Update
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          [disabled]="exam.approvalStatusOfExam === -1"
+          (click)="onDeleteExam(exam.eid)"
+        >
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    }
   </div>
 </div>
 
-<app-exam-modal [exam]="selectedExam" [isOpen]="isModalOpen" (closeModal)="closeModal()"></app-exam-modal>
+<!-- Modals remain the same -->
+<app-exam-modal
+  [exam]="selectedExam"
+  [isOpen]="isModalOpen"
+  (closeModal)="closeModal()"
+></app-exam-modal>
 <app-update-exam-modal
   [examData]="examToUpdate()"
   [isOpen]="isUpdateModalOpen()"
   (closeModal)="closeUpdateModal()"
-  (examUpdated)="onExamUpdated()">
+  (examUpdated)="onExamUpdated()"
+>
 </app-update-exam-modal>

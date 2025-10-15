@@ -12,7 +12,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: #2d3851;
   padding: 30px;
   border-radius: 12px;
   max-width: 650px;
@@ -22,6 +22,7 @@
   overflow-y: auto;
   transform: scale(1);
   transition: transform 0.3s ease-out;
+  color: #eee;
 }
 
 .modal-header {
@@ -34,7 +35,6 @@
 
   h3 {
     margin: 0;
-    color: #333;
     font-size: 1.5rem;
   }
 
@@ -43,7 +43,7 @@
     border: none;
     font-size: 30px;
     cursor: pointer;
-    color: #aaa;
+    color: rgb(213, 216, 218);
     &:hover {
       color: #dc3545;
     }
@@ -76,7 +76,6 @@
     display: block;
     margin-bottom: 5px;
     font-weight: 600;
-    color: #555;
   }
 
   input[type="text"],
@@ -88,10 +87,11 @@
     border-radius: 6px;
     box-sizing: border-box;
     transition: border-color 0.2s;
+    background-color: rgb(179, 178, 178);
     &:focus {
       border-color: #007bff;
       outline: none;
-    }
+    };
   }
 
   textarea {
@@ -132,7 +132,7 @@
     }
 
     &[disabled] {
-      background-color: #a0c9f8;
+      background-color: #44678e;
       cursor: not-allowed;
     }
   }

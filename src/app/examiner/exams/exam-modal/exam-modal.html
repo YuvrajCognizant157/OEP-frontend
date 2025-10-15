@@ -1,23 +1,40 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onModalClick($event)">
+@if (isOpen) {
+<div class="modal-overlay" (click)="onModalClick($event)">
   <div class="modal-content">
     <div class="modal-header">
       <h3>{{ exam?.examName }} Details</h3>
       <button class="close-button" (click)="onClose()">&times;</button>
     </div>
-    <div class="modal-body" *ngIf="exam">
+    @if(exam){
+      <div class="modal-body" >
       <p><strong>Exam ID:</strong> {{ exam.eid }}</p>
       <p><strong>Total Questions:</strong> {{ exam.totalQuestions }}</p>
       <p><strong>Total Marks:</strong> {{ exam.marksPerQuestion * exam.totalQuestions }}</p>
-      <p><strong>Approval Status:</strong> {{ exam.approvalStatusOfExam === 1 ? 'Approved' : 'Pending' }}</p>
-      
+      <p>
+        <strong>Approval Status:</strong>
+        {{ exam.approvalStatusOfExam === 1 ? 'Approved' : 'Pending' }}
+      </p>
+
       <h4>Questions ({{ exam.questions.length }})</h4>
       <ul class="question-list">
-        <li *ngFor="let question of exam.questions">
-          <p><strong>Q{{ question.qid }}:</strong> {{ question.questionText }}</p>
-          <p><strong>Marks:</strong> {{ question.marks }}</p>
-          <p><strong>Type:</strong> {{ question.type }}</p>
-        </li>
+        @if (exam.questions && exam.questions.length > 0) {
+          @for (ques of exam.questions; track ques.qid) {
+            <li >
+              <p>
+                <strong>Q{{ ques.qid }}:</strong> {{ ques.questionText }}
+              </p>
+              <p><strong>Marks:</strong> {{ ques.marks }}</p>
+              <p><strong>Type:</strong> {{ ques.type }}</p>
+            </li>
+          }
+        }@else {
+          <p> Please Wait, While we load the Questions for You.</p>
+        }
       </ul>
     </div>
+    }@else {
+      <p>Couldn't Find the Exam , you were looking For.</p>
+    }
   </div>
 </div>
+}

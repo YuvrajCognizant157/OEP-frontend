@@ -1,63 +1,120 @@
+:host {
+  --page-bg: #1c2333;
+  --card-bg: #2a3447;
+  --text-main: #ffffff;
+  --text-light: #c1c8d6;
+  --accent-purple: #675ee3;
+  --border-color: #404a5e;
+  --warn-color: #f44336; /* Default Material warn color */
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%); 
+  padding: 2rem; 
+}
+
 .exam-list-container {
-  padding: 20px;
+  background-color: var(--page-bg);
+  padding: 32px;
+  min-height: 100vh;
 }
 
-.exam-list-container h2 {
-  margin-bottom: 20px;
+.page-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: var(--text-main);
+  text-align: center;
 }
 
-.exam-list-container .exam-cards {
+.exam-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.exam-card {
+  background-color: var(--card-bg);
+  color: var(--text-light);
+  border-radius: 12px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
 }
 
-.exam-list-container .exam-card {
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: calc(33.333% - 20px);
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-}
-
-.exam-list-container .exam-card:hover {
+.exam-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-.exam-list-container .exam-card .card-content {
-  margin-bottom: 15px;
+mat-card-header {
+  padding-bottom: 0;
 }
 
-.exam-list-container .exam-card .card-actions {
-  display: flex;
-  gap: 10px;
+mat-card-title {
+  color: var(--text-main);
+  font-weight: 600;
 }
 
-.exam-list-container .exam-card .card-actions button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
+mat-card-subtitle {
+  color: var(--text-light);
+  padding-bottom: 12px;
+}
+
+.card-content {
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
-.exam-list-container .exam-card .card-actions button:first-of-type {
-  background-color: #007bff;
-  color: white;
+mat-divider {
+  border-top-color: var(--border-color);
 }
 
-.exam-list-container .exam-card .card-actions button:last-of-type {
-  background-color: #dc3545;
-  color: white;
+.exam-details {
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+}
+
+.detail-item mat-icon {
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+mat-card-actions {
+  margin-top: auto; /* Pushes actions to the bottom */
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px !important;
+  gap: 8px;
+}
+
+/* Custom style for the purple update button */
+.update-button {
+  background-color: var(--accent-purple);
+  color: var(--text-main);
+}
+
+.card-actions button {
+  border-radius: 20px;
+}
+
+.card-actions button mat-icon {
+  margin-right: 4px;
 }
 
 .card-actions button:disabled {
-  background-color: #6c757d !important; /* muted gray */
-  color: white !important;
-  cursor: not-allowed;
-  opacity: 0.65;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.3);
 }
-

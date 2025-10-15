@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ExaminerService } from '../../../core/services/examiner.service';
 import { TopicsService } from '../../../core/services/topics.service';
+
 @Component({
   selector: 'app-update-exam-modal',
   imports: [CommonModule, ReactiveFormsModule],
@@ -10,10 +11,10 @@ import { TopicsService } from '../../../core/services/topics.service';
   styleUrl: './update-exam-modal.css'
 })
 export class UpdateExamModal implements OnChanges, OnInit {
-  @Input() examData: any; // Full exam data fetched from GetExamByIdForExaminerAction
+  @Input() examData: any;
   @Input() isOpen: boolean = false;
-  @Output() closeModal = new EventEmitter<boolean>(); // Emits true on successful update
-  @Output() examUpdated = new EventEmitter<void>(); // Event to refresh the list
+  @Output() closeModal = new EventEmitter<boolean>(); 
+  @Output() examUpdated = new EventEmitter<void>();
 
   updateForm!: FormGroup;
   topics = signal<any[]>([]); // To hold all available topics

@@ -47,6 +47,11 @@ export const routes: Routes = [
         loadComponent: () => import('./examiner/create-exam/create-exam').then((m) => m.CreateExam),
         // canActivate: [ExaminerAuthGuard],
       },
+      {
+        path: 'manage-topic',
+        loadComponent: () => import('./examiner/manage-topic/manage-topic').then((m) => m.ManageTopic),
+        // canActivate: [ExaminerAuthGuard],
+      },
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
     ],
   },
