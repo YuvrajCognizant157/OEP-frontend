@@ -12,79 +12,7 @@
 /* ==================================== */
 /* Header / Navigation                  */
 /* ==================================== */
-header {
-  background-color: #CAC8F3;
-  padding: 1rem 3rem;
-  width: 100%;
-  box-sizing: border-box;
-}
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #1e293b;
-}
-
-.nav-logo svg path {
-  stroke: #1e293b;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2.5rem;
-}
-
-.nav-links a {
-  display: inline-flex;
-  align-items: center;
-
-  text-decoration: none;
-  color: #334155;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.nav-links a mat-icon {
-  
-  font-size: 1.25rem; 
-  height: 1.25rem;
-  width: 1.25rem;
-}
-
-.nav-links a:hover {
-  color: #1e293b;
-}
-
-.nav-links .arrow {
-  font-size: 0.6rem;
-  margin-left: 0.2rem;
-  vertical-align: middle;
-}
-
-.signup-btn {
-  background-color: #5d5fef;
-  color: white;
-  border: none;
-  padding: 0.8rem 1.8rem;
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: 2rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.signup-btn:hover {
-  background-color: #4a4cc7;
-}
 
 /* ==================================== */
 /* Hero Section                         */
