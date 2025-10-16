@@ -1,0 +1,55 @@
+:host{
+    display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+h3{
+    margin-bottom: 30px;
+}
+.feedback-container {
+  padding: 24px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.847);
+  border: 1px solid rgba(255, 255, 255, 0.164);
+  background-color: #1d2331;
+  color: #ffffff;
+}
+.feedback-grid{
+display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.feedback-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.847);
+  border: 1px solid rgba(255, 255, 255, 0.164);
+  background-color: #2a3447;
+}
+
+/* Styles for the loading spinner and empty state message */
+.spinner-container,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  color: #6c757d; /* Muted text color */
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+}
