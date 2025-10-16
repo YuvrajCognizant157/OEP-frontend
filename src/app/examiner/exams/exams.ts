@@ -24,8 +24,6 @@ import { AuthService, userDetails } from '../../core/services/auth.service';
 })
 export class Exams implements OnInit {
   exams: any[] = [];
-  userId = 1; // Get this from a logged-in user's session
-
   selectedExam: any = null; // Holds the data for the modal
   isModalOpen: boolean = false;
 
@@ -34,10 +32,11 @@ export class Exams implements OnInit {
 
   constructor(private examinerService: ExaminerService,private authService: AuthService) {}
 
+  userId = -1;
+
   ngOnInit(): void {
     let tokenDetails:userDetails = this.authService.getUserRole()!;
-    console.log(tokenDetails? "yes":"no");
-    this.userId = Number(tokenDetails?.id);
+    this.userId = tokenDetails?.id;
     this.fetchExams();
   }
 
@@ -45,7 +44,6 @@ export class Exams implements OnInit {
     this.examinerService.getExamsForExaminer(this.userId).subscribe({
       next: (data) => {
         this.exams = data;
-        console.log(data);
       },
       error: (err) => {
         console.error('Error fetching exams:', err.error);
