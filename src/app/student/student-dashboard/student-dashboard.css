@@ -1,7 +1,7 @@
 /* Dark Theme Variables (Adjust these if you have a global theme file) */
 .dark-theme {
   --background-color: #121212; /* Deep Black/Dark Grey */
-  --card-background: #1e1e1e;  /* Slightly lighter for card elevation */
+  --card-background: #1c1c2d;;  /* Slightly lighter for card elevation */
   --text-color-primary: #e0e0e0;
   --text-color-secondary: #a0a0a0;
   --primary-color: #90caf9; /* Light Blue for buttons/accents */
@@ -98,6 +98,7 @@ p {
 .available-exams-card {
   display: flex;
   flex-direction: column;
+ 
 }
 .exam-list {
   display: flex;
