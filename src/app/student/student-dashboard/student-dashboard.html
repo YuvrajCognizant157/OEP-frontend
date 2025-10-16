@@ -63,26 +63,84 @@
         <!-- Right column: total questions with animation -->
         <div class="questions-summary-row" style="display: flex; gap: 16px;">
             <mat-card class="questions-summary-card" style="flex: 1;">
-                <h3>Total Questions Encountered</h3>
-                <div class="circle-progress">
-                    <mat-progress-spinner [value]="questionsEncounteredPercent" mode="determinate" diameter="100"
-                        color="primary">
-                    </mat-progress-spinner>
-                    <div class="percentage-text">
-                        {{ questionsEncounteredPercent }}%
-                    </div>
+            <h3>Questions Encountered</h3>
+            <div class="circle-progress" style="position: relative; display: inline-block;">
+                <!-- Outer outline -->
+                <div 
+                style="
+                    position: absolute;
+                    top: 0; left: 0; 
+                    width: 100px; height: 100px;
+                    border-radius: 50%;
+                    border: 3px solid #bdbdbd;
+                    box-sizing: border-box;
+                    z-index: 1;
+                ">
                 </div>
-            </mat-card>
-            <mat-card class="exams-attempted-card" style="flex: 1;">
-                <h3>Exams Attempted</h3>
-                <div class="circle-progress">
-                    <mat-progress-spinner [value]="examsAttemptedPercent" mode="determinate" diameter="100"
-                        color="accent">
-                    </mat-progress-spinner>
-                    <div class="percentage-text">
-                        {{ examsAttemptedPercent }}%
-                    </div>
+                <!-- Spinner -->
+                <mat-progress-spinner 
+                [value]="questionsEncounteredPercent" 
+                mode="determinate" 
+                diameter="100"
+                color="primary"
+                style="position: relative; z-index: 2;">
+                </mat-progress-spinner>
+                <!-- Inner outline -->
+                <div 
+                style="
+                    position: absolute;
+                    top: 15px; left: 15px; 
+                    width: 70px; height: 70px;
+                    border-radius: 50%;
+                    border: 2px solid #e0e0e0;
+                    box-sizing: border-box;
+                    z-index: 3;
+                ">
                 </div>
+                <div class="percentage-text" style="position: absolute; top: 35px; left: 0; width: 100px; text-align: center; z-index: 4;">
+                {{ questionsEncounteredPercent }}%
+                </div>
+            </div>
+            </mat-card> 
+            <mat-card class="questions-summary-card" style="flex: 1;">
+            <h3>Exams Attempted</h3>
+            <div class="circle-progress" style="position: relative; display: inline-block;">
+                <!-- Outer outline -->
+                <div 
+                style="
+                    position: absolute;
+                    top: 0; left: 0; 
+                    width: 100px; height: 100px;
+                    border-radius: 50%;
+                    border: 3px solid #bdbdbd;
+                    box-sizing: border-box;
+                    z-index: 1;
+                ">
+                </div>
+                <!-- Spinner -->
+                <mat-progress-spinner 
+                [value]="examsAttemptedPercent" 
+                mode="determinate" 
+                diameter="100"
+                color="accent"
+                style="position: relative; z-index: 2;">
+                </mat-progress-spinner>
+                <!-- Inner outline -->
+                <div 
+                style="
+                    position: absolute;
+                    top: 15px; left: 15px; 
+                    width: 70px; height: 70px;
+                    border-radius: 50%;
+                    border: 2px solid #e0e0e0;
+                    box-sizing: border-box;
+                    z-index: 3;
+                ">
+                </div>
+                <div class="percentage-text" style="position: absolute; top: 35px; left: 0; width: 100px; text-align: center; z-index: 4;">
+                {{ examsAttemptedPercent }}%
+                </div>
+            </div>
             </mat-card>
         </div>
 
