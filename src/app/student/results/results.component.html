@@ -1,85 +1,74 @@
-<div class="container mt-4">
-  <h2 class="mb-4">Your Attempted Exams</h2>
+<div class="result-container">
+  <h2 >Your Attempted Exams</h2>
   @if(exams.length == 0){
-    <div class="alert alert-info">No exams found.</div>
+  <div class="info-box">No exams found.</div>
   }
 
-  <div class="row">
-    <div class="col-md-6 mb-3" *ngFor="let exam of exams">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ exam.name }}</h5>
-          <p class="card-text">{{ exam.description }}</p>
+  <div class="exam-grid">
+    <div class="exam-card" *ngFor="let exam of exams">
+          <h5 >Name: <strong>{{ exam.name }}</strong></h5>
+          <p >Description: <strong>{{ exam.description }}</strong></p>
           <p><strong>Duration:</strong> {{ exam.duration }} mins</p>
           <p><strong>Total Marks:</strong> {{ exam.totalMarks }}</p>
           <p><strong>Attempts:</strong> {{ exam.attemptNo }}</p>
-          <button class="btn btn-primary me-2" (click)="viewResult(exam.eid)">View Result</button>
-          <!-- <button class="btn btn-success" (click)="createResult(exam.eid)">Create Result</button> -->
-        </div>
-      </div>
+          <button (click)="viewResult(exam.eid)">View Result</button>
     </div>
   </div>
 </div>
 
-<!-- View Modal Section -->
+<!-- View Modal Section  -->
 @if(showModal) {
-    <div class="modal">
-        <div class="modal-content">
-            <h4>Result Viewer</h4>
+<div class="modal">
+  <div class="modal-content">
+    <h4>Result Viewer</h4>
 
-            @if (isLoading) {
-            <div>
-            <p>Loading result...</p>
-            </div>
-            } @else if(!isLoading) {
-            <div>
-            @if (resultData) {
-            <pre>{{ resultData | json }}</pre>
-
-            <!-- @for (result of resultData; track resultData.examId && resultData.userId) {
-            <div>
-                <p>
-                <span>Attempt No: </span><span>{{ result.attempts }}</span>
-                </p>
-                <p>
-                <span>Score: </span><span>{{ result.score }}</span>
-                </p>
-            </div>
-            } -->
-
-            } @else {
-            <p>No result found. Please create one.</p>
-            }
-            </div>
-            }
-
-            <button class="btn btn-secondary mt-3" (click)="showModal = false">Close</button>
-        </div>
+    @if (isLoading) {
+    <div>
+      <p>Loading result...</p>
     </div>
+    } @else if(!isLoading) {
+    <div>
+      @if (resultData) {
+      <pre>{{ resultData | json }}</pre>
+
+      @for (result of resultData; track resultData.examId && resultData.userId) {
+      <div>
+        <p>
+          <span>Attempt No: </span><span>{{ result.attempts }}</span>
+        </p>
+        <p>
+          <span>Score: </span><span>{{ result.score }}</span>
+        </p>
+      </div>
+      } } @else {
+      <p>No result found. Please create one.</p>
+      }
+    </div>
+    }
+
+    <button (click)="showModal = false">Close</button>
+  </div>
+</div>
 }
 
-
-<!-- Create Result Loader Modal Section -->
-@if(showCreateResultModal) {
-  @if(createResultLoader){
-    <div class="modal">
-        <div class="modal-content">
-            <h4>Creating Result , Please Wait</h4>
-        </div>
-    </div>
-  }
-    
-  @else {
-    <div class="modal">
-        <div class="modal-content">
-            @if(createResultResponse){
-                <h4>Result created , Please View the results.</h4>
-            }
-            @else if(!createResultResponse) {
-                <h4>Result could not be created . Either all attempts results are created or Some Internal Error</h4>
-            }
-            <button class="btn btn-secondary mt-3" (click)="onCloseCreateResultModal()">Close</button>
-        </div>
-    </div>
-  }
-}
+<!-- Create Result Loader Modal Section  -->
+@if(showCreateResultModal) { @if(createResultLoader){
+<div class="modal">
+  <div class="modal-content">
+    <h4>Creating Result , Please Wait</h4>
+  </div>
+</div>
+} @else {
+<div class="modal">
+  <div class="modal-content">
+    @if(createResultResponse){
+    <h4>Result created , Please View the results.</h4>
+    } @else if(!createResultResponse) {
+    <h4>
+      Result could not be created . Either all attempts results are created or Some Internal Error
+    </h4>
+    }
+    <button (click)="onCloseCreateResultModal()">Close</button>
+  </div>
+</div>
+} }
