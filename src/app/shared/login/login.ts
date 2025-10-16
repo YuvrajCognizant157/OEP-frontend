@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 
 import { trigger, transition, style, animate } from '@angular/animations';
-import { LoginRequest, LoginResponse } from './login.model'; // ✅ Import model
+import { LoginRequest, LoginResponse } from '../login/login.model'; // ✅ Import model
 import { LoginService } from '../../core/services/login.service';
 
 const fadeSlide = trigger('fadeSlide', [
