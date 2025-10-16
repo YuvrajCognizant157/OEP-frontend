@@ -35,7 +35,10 @@
       </a>
     </div>
     <div class="nav-links">
-      <a [routerLink]="['/exams']">Exams </a>
+    <a 
+      [routerLink]="getRole() === 'student' ? ['/student/dashboard'] : getRole() === 'admin' ? ['/admin/dashboard'] : ['/examiner/dashboard']">
+      Dashboard
+    </a>
       <a [routerLink]="['/about']">About</a>
       <a [routerLink]="['/blog']">Blog</a>
       <a [routerLink]="['/help']">Help </a>
