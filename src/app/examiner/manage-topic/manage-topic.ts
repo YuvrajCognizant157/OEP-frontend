@@ -10,13 +10,21 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { HttpClient } from '@angular/common/http';
 import { TopicDialog } from './topic-dialog/topic-dialog';
+import { TopicsService } from '../../core/services/topics.service';
+
 interface Topic {
   tid: number;
   subject: string;
   approvalStatus: number;
 }
+interface CreateTopicResponse{
+  Message :string; CreatedTopicStatus : number;
+}
+interface TopicResponse{
+  Message :string, TopicStatus :number;
+};
+
 @Component({
   selector: 'app-manage-topic',
   imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule,
@@ -26,17 +34,17 @@ interface Topic {
 })
 export class ManageTopic {
   
-  private http = inject(HttpClient);
   private dialog = inject(MatDialog);
 
   topics = signal<Topic[]>([]);
   isLoading = signal(true);
 
-  // --- MOCK DATA ---
+  constructor(private topicsService:TopicsService){}
+
   private mockTopics: Topic[] = [
-      { tid: 1, subject: 'Angular Core Concepts', approvalStatus: 1 },
-      { tid: 2, subject: 'Advanced TypeScript', approvalStatus: 0 },
-      { tid: 3, subject: 'C# Design Patterns', approvalStatus: -1 },
+      { tid: 1, subject: 'Angular Core Concepts Sample', approvalStatus: 1 },
+      { tid: 2, subject: 'Advanced TypeScript Sample', approvalStatus: 0 },
+      { tid: 3, subject: 'C# Design Patterns Sample', approvalStatus: -1 },
   ];
 
   ngOnInit() {
@@ -79,22 +87,27 @@ export class ManageTopic {
   }
 
   createTopic(topicName: string) {
-    // API URL from your backend
-    const apiUrl = `/api/topics/add-topic?TopicName=${encodeURIComponent(topicName)}`;
-    console.log(`Calling CREATE API: ${apiUrl}`);
-    // this.http.post(apiUrl, {}).subscribe(...)
     
-    // MOCK: Add to local list
-    const newTopic: Topic = { tid: Math.floor(Math.random() * 1000), subject: topicName, approvalStatus: 0 };
-    this.topics.update(currentTopics => [...currentTopics, newTopic]);
+    this.topicsService.createTopicService(topicName).subscribe({
+      next: (response:CreateTopicResponse) =>{
+        alert(response.Message);
+      },
+      error:(err)=>{
+        console.error(err);
+      }
+    })
   }
 
   updateTopic(tid: number, topicName: string) {
-    // API URL from your backend
-    const apiUrl = `/api/topics/update-topic/${tid}`;
-    const payload = { Name: topicName };
-     console.log(`Calling UPDATE API: ${apiUrl} with payload`, payload);
-    // this.http.post(apiUrl, payload).subscribe(...)
+   
+     this.topicsService.updateTopicService(topicName,tid).subscribe({
+      next: (response:TopicResponse)=>{
+        alert(response.Message);
+      },
+      error:(err)=>{
+        console.error(err);
+      }
+     })
     
     // MOCK: Update local list
     this.topics.update(currentTopics => 
@@ -103,14 +116,14 @@ export class ManageTopic {
   }
 
   deleteTopic(topicId: number) {
-    // For now, we'll just log and mock the deletion
-    console.log(`Attempting to delete topic ID: ${topicId}`);
-    // API URL from your backend
-    const apiUrl = `/api/topics/delete-topic/${topicId}`;
-    
-    // MOCK: Remove from local list
+    this.topicsService.deleteTopicService(topicId).subscribe({
+      next: (response:TopicResponse)=>{
+        alert(response.Message);
+      },
+      error:(err)=>{
+        console.error(err);
+      }
+    })
     this.topics.update(currentTopics => currentTopics.filter(t => t.tid !== topicId));
-    // In a real app, you'd show a confirmation dialog first
-    // and then make the HTTP POST request on confirmation.
   }
 }
