@@ -60,7 +60,7 @@ p {
 .questions-summary-card { grid-column: 1/2; grid-row: 1; }
 .available-exams-card { grid-column: 1 / 2; grid-row: 2; }
 .history-card { grid-column: 1 / 2; grid-row: 3; }
-.profile-card { grid-column: 2 / 3; grid-row: 2; }
+.topic-exams-graph-card { grid-column: 2 / 3; grid-row: 2; }
 .analytics-card { grid-column: 2 / 3; grid-row: 3; }
 
 

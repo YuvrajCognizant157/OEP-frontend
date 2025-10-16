@@ -167,14 +167,14 @@
             </canvas>
         </mat-card>
 
-        <mat-card class="profile-card">
-            <h3>Profile</h3>
-            <div class="profile-details">
-                <h4>{{ student.name }}</h4>
-                <p>{{ student.email }}</p>
-            </div>
-            <hr>
-            <p class="stat">Exams Appeared: {{ student.examsAppeared }}</p>
+        <mat-card class="topic-exams-graph-card">
+            <h3>Exams Appeared by Topic</h3>
+            <canvas 
+            baseChart
+            [data]="topicExamsChartData"
+            [options]="topicExamsChartOptions"
+            chartType="pie">
+            </canvas>
         </mat-card>
 
         <mat-card class="history-card">

@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, ChartType } from 'chart.js';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -53,6 +53,26 @@ export class StudentDashboardComponent {
         borderWidth: 1,
       }
     ]
+  };
+
+  topicExamsChartData: ChartConfiguration<'pie'>['data'] = {
+    labels: ['Angular', 'Node.js', 'C#', 'Database'],
+    datasets: [
+      {
+        data: [5, 3, 2, 2],
+        label: 'Exams Appeared',
+        backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc'],
+        borderColor: '#fff',
+        borderWidth: 2
+      }
+    ]
+  };
+
+  topicExamsChartOptions: ChartConfiguration<'pie'>['options'] = {
+    responsive: true,
+    plugins: {
+      legend: { labels: { color: '#fff' } }
+    }
   };
 
  
