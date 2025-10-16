@@ -35,7 +35,6 @@ export class CreateExam implements OnInit {
   ngOnInit(): void {
     let tokenDetails: userDetails = this.authService.getUserRole()!;
     this.userId = tokenDetails?.id;
-    console.log(this.userId);
     this.examForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],

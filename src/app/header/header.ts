@@ -30,8 +30,6 @@ export class Header implements OnInit {
   getRole(): string | null {
     if (!this.isLoggedIn) return null;
     const userRole = this.authService.getUserRole()?.role?.toLocaleLowerCase();
-
-    console.log("userRole in header:", userRole);
     
     return userRole ? userRole : null;
   }

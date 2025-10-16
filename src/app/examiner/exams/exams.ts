@@ -36,9 +36,7 @@ export class Exams implements OnInit {
 
   ngOnInit(): void {
     let tokenDetails:userDetails = this.authService.getUserRole()!;
-    console.log(tokenDetails?.id ? "yes":"no");
     this.userId = tokenDetails?.id;
-    console.log(this.userId);
     this.fetchExams();
   }
 
@@ -46,7 +44,6 @@ export class Exams implements OnInit {
     this.examinerService.getExamsForExaminer(this.userId).subscribe({
       next: (data) => {
         this.exams = data;
-        console.log(data);
       },
       error: (err) => {
         console.error('Error fetching exams:', err.error);
