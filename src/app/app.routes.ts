@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { StudentAuthGuard } from './auth/student-auth.guard';
-import { ExaminerAuthGuard } from './auth/examiner-auth.guard';
+import {  examinerAuthGuardFn } from './auth/examiner-auth.guard';
 import { Home } from './home/home';
 
 export const routes: Routes = [
@@ -44,8 +44,8 @@ export const routes: Routes = [
   {
     path: 'examiner/dashboard',
     loadComponent: () => import('./examiner/dashboard/dashboard').then((m) => m.Dashboard),
-    canActivate: [ExaminerAuthGuard],
-    canActivateChild:[ExaminerAuthGuard],
+    canActivate: [examinerAuthGuardFn],
+    canActivateChild:[examinerAuthGuardFn],
     children: [
       {
         path: 'analytics',
