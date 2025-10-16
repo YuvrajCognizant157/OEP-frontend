@@ -1,10 +1,11 @@
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, ChartType } from 'chart.js';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -16,7 +17,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatTableModule,
     BaseChartDirective,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './student-dashboard.html',
   styleUrl: './student-dashboard.css'
@@ -27,6 +29,8 @@ export class StudentDashboardComponent {
     email: 'amishraj@example.com',
     examsAppeared: 12
   };
+  questionsEncounteredPercent = 50;
+  examsAttemptedPercent = 30;
 
   availableExams = [
     { id: 1, title: 'Angular Basics', duration: 60, marks: 50 },
@@ -49,6 +53,26 @@ export class StudentDashboardComponent {
         borderWidth: 1,
       }
     ]
+  };
+
+  topicExamsChartData: ChartConfiguration<'pie'>['data'] = {
+    labels: ['Angular', 'Node.js', 'C#', 'Database'],
+    datasets: [
+      {
+        data: [5, 3, 2, 2],
+        label: 'Exams Appeared',
+        backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc'],
+        borderColor: '#fff',
+        borderWidth: 2
+      }
+    ]
+  };
+
+  topicExamsChartOptions: ChartConfiguration<'pie'>['options'] = {
+    responsive: true,
+    plugins: {
+      legend: { labels: { color: '#fff' } }
+    }
   };
 
  
