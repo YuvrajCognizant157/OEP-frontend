@@ -61,17 +61,30 @@
         </div>
 
         <!-- Right column: total questions with animation -->
-        <mat-card class="questions-summary-card">
-            <h3>Total Questions Encountered</h3>
-            <div class="circle-progress">
-                <mat-progress-spinner [value]="questionsEncounteredPercent" mode="determinate" diameter="100"
-                    color="primary">
-                </mat-progress-spinner>
-                <div class="percentage-text">
-                    {{ questionsEncounteredPercent }}%
+        <div class="questions-summary-row" style="display: flex; gap: 16px;">
+            <mat-card class="questions-summary-card" style="flex: 1;">
+                <h3>Total Questions Encountered</h3>
+                <div class="circle-progress">
+                    <mat-progress-spinner [value]="questionsEncounteredPercent" mode="determinate" diameter="100"
+                        color="primary">
+                    </mat-progress-spinner>
+                    <div class="percentage-text">
+                        {{ questionsEncounteredPercent }}%
+                    </div>
                 </div>
-            </div>
-        </mat-card>
+            </mat-card>
+            <mat-card class="exams-attempted-card" style="flex: 1;">
+                <h3>Exams Attempted</h3>
+                <div class="circle-progress">
+                    <mat-progress-spinner [value]="examsAttemptedPercent" mode="determinate" diameter="100"
+                        color="accent">
+                    </mat-progress-spinner>
+                    <div class="percentage-text">
+                        {{ examsAttemptedPercent }}%
+                    </div>
+                </div>
+            </mat-card>
+        </div>
 
 
 

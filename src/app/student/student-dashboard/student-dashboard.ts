@@ -29,7 +29,8 @@ export class StudentDashboardComponent {
     email: 'amishraj@example.com',
     examsAppeared: 12
   };
-  questionsEncounteredPercent = 150;
+  questionsEncounteredPercent = 50;
+  examsAttemptedPercent = 30;
 
   availableExams = [
     { id: 1, title: 'Angular Basics', duration: 60, marks: 50 },
