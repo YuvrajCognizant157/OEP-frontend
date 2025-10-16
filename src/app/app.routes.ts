@@ -17,14 +17,14 @@ export const routes: Routes = [
     // canActivate: [StudentAuthGuard],
   },
 
-  // {
-  //   path: 'register-employee',
-  //   loadComponent: () => import('./register/register-employee/register-employee').then(m => m.RegisterEmployeeComponent)
-  // },
-  // {
-  //   path: 'register-student',
-  //   loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
-  // },
+  {
+    path: 'register-employee',
+    loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent)
+  },
+  {
+    path: 'register-student',
+    loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
+  },
   {
     path: 'student/start-exam',
     loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
@@ -44,32 +44,28 @@ export const routes: Routes = [
   {
     path: 'examiner/dashboard',
     loadComponent: () => import('./examiner/dashboard/dashboard').then((m) => m.Dashboard),
-    // canActivate: [ExaminerAuthGuard],
+    canActivate: [ExaminerAuthGuard],
+    canActivateChild:[ExaminerAuthGuard],
     children: [
       {
         path: 'analytics',
-        loadComponent: () => import('./examiner/e-analytics/e-analytics').then((m) => m.EAnalytics),
-        // canActivate: [ExaminerAuthGuard],
+        loadComponent: () => import('./examiner/e-analytics/e-analytics').then((m) => m.EAnalytics),       
       },
       {
         path: 'exams',
-        loadComponent: () => import('./examiner/exams/exams').then((m) => m.Exams),
-        // canActivate: [ExaminerAuthGuard],
+        loadComponent: () => import('./examiner/exams/exams').then((m) => m.Exams),        
       },
       {
         path: 'topics',
-        loadComponent: () => import('./examiner/topics/topics').then((m) => m.Topics),
-        // canActivate: [ExaminerAuthGuard],
+        loadComponent: () => import('./examiner/topics/topics').then((m) => m.Topics),        
       },
       {
         path: 'create-exam',
         loadComponent: () => import('./examiner/create-exam/create-exam').then((m) => m.CreateExam),
-        // canActivate: [ExaminerAuthGuard],
       },
       {
         path: 'manage-topic',
         loadComponent: () => import('./examiner/manage-topic/manage-topic').then((m) => m.ManageTopic),
-        // canActivate: [ExaminerAuthGuard],
       },
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
     ],

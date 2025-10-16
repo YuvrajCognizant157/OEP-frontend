@@ -45,8 +45,6 @@ export class ManageTopic {
 
   fetchTopics() {
     this.isLoading.set(true);
-    // In a real app, you would make an HTTP GET request here.
-    // For now, we'll use mock data.
     setTimeout(() => {
         this.topics.set(this.mockTopics);
         this.isLoading.set(false);

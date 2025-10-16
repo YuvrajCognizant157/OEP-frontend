@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService, userDetails } from '../../core/services/auth.service';
 @Component({
   selector: 'app-exams',
   imports: [
@@ -31,17 +32,20 @@ export class Exams implements OnInit {
   isUpdateModalOpen = signal<boolean>(false);
   examToUpdate = signal<any | null>(null);
 
-  constructor(private examinerService: ExaminerService) {}
+  constructor(private examinerService: ExaminerService,private authService: AuthService) {}
 
   ngOnInit(): void {
+    let tokenDetails:userDetails = this.authService.getUserRole()!;
+    console.log(tokenDetails? "yes":"no");
+    this.userId = Number(tokenDetails?.id);
     this.fetchExams();
-    console.log(this.exams);
   }
 
   fetchExams(): void {
     this.examinerService.getExamsForExaminer(this.userId).subscribe({
       next: (data) => {
         this.exams = data;
+        console.log(data);
       },
       error: (err) => {
         console.error('Error fetching exams:', err.error);

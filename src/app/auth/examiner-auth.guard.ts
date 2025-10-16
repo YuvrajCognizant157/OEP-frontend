@@ -7,7 +7,7 @@ export class ExaminerAuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.authService.isLoggedIn() && this.authService.getUserRole() === 'Examiner') {
+    if (this.authService.isLoggedIn() && this.authService.getUserRole()?.role === 'Examiner') {
       return true;
     }
     this.router.navigate(['/login']);

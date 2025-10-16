@@ -1,0 +1,51 @@
+<div class="register-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Register Employee</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="email" name="email" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Full Name</mat-label>
+          <input matInput type="text" [(ngModel)]="fullName" name="fullName" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" [(ngModel)]="password" name="password" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput type="date" [(ngModel)]="dob" name="dob" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Phone Number</mat-label>
+          <input matInput type="tel" [(ngModel)]="phoneNo" name="phoneNo" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Role</mat-label>
+          <input matInput type="text" [(ngModel)]="role" name="role" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Token</mat-label>
+          <input matInput type="text" [(ngModel)]="token" name="token" />
+        </mat-form-field>
+
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+        <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+        <button mat-raised-button color="primary" type="submit">Register</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

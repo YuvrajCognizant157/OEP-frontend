@@ -11,15 +11,16 @@ import { MatCardModule } from '@angular/material/card';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { LoginRequest, LoginResponse } from '../login/login.model'; // ✅ Import model
 import { LoginService } from '../../core/services/login.service';
+import { AuthService } from '../../core/services/auth.service';
 
 const fadeSlide = trigger('fadeSlide', [
   transition(':enter', [
     style({ transform: 'translateY(-20px)', opacity: 0 }),
-    animate('300ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
+    animate('300ms ease-out', style({ transform: 'translateY(0)', opacity: 1 })),
   ]),
   transition(':leave', [
-    animate('300ms ease-in', style({ transform: 'translateY(-20px)', opacity: 0 }))
-  ])
+    animate('300ms ease-in', style({ transform: 'translateY(-20px)', opacity: 0 })),
+  ]),
 ]);
 
 @Component({
@@ -31,11 +32,11 @@ const fadeSlide = trigger('fadeSlide', [
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
   ],
   animations: [fadeSlide],
   templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  styleUrls: ['./login.css'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   username = '';
@@ -44,7 +45,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   errorMessage = '';
   private loginTimeout: any;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private authS: AuthService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -60,13 +65,32 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     const loginData: LoginRequest = {
       email: this.username,
-      password: this.password
+      password: this.password,
     };
 
     this.loginService.login(loginData).subscribe({
       next: (res) => {
         localStorage.setItem('token', res.token);
-        this.router.navigate(['/dashboard']);
+
+        const userDetails = this.authS.getUserRole();
+        if (!userDetails) {
+          this.router.navigate(['/unauthorized']);
+          return;
+        }
+
+        switch (userDetails.role) {
+          case 'Examiner':
+            this.router.navigate(['/examiner/dashboard']);
+            break;
+          case 'Student':
+            this.router.navigate(['/student/dashboard']);
+            break;
+          case 'Admin':
+            this.router.navigate(['/admin/dashboard']);
+            break;
+          default:
+            this.router.navigate(['/unauthorized']);
+        }
       },
       error: (err) => {
         this.errorMessage = 'Invalid credentials. Please try again.';
@@ -76,13 +100,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.loginTimeout = setTimeout(() => {
           this.loading = false;
         }, 500);
-      }
+      },
     });
   }
 }
-
-
-
-
-
-

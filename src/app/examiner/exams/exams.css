@@ -16,6 +16,7 @@
   background-color: var(--page-bg);
   padding: 32px;
   min-height: 100vh;
+  min-width: 70%;
 }
 
 .page-title {
@@ -84,6 +85,10 @@ mat-divider {
   align-items: center;
   gap: 12px;
   font-size: 0.95rem;
+}
+.else-case{
+  display: flex;
+  justify-content: center;
 }
 
 .detail-item mat-icon {
