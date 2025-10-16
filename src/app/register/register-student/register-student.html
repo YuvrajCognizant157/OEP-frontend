@@ -1,0 +1,38 @@
+<div class="register-container">
+  <mat-card>
+    <mat-card-title>Register Student</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()">
+        <mat-form-field class="full-width">
+          <mat-label>Full Name</mat-label>
+          <input matInput type="text" [(ngModel)]="fullName" name="fullName" required>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="email" name="email" required>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" [(ngModel)]="password" name="password" required>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Phone Number</mat-label>
+          <input matInput type="text" [(ngModel)]="phoneNo" name="phoneNo">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput type="date" [(ngModel)]="dob" name="dob">
+        </mat-form-field>
+
+        <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+        <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+
+        <button mat-raised-button color="primary" type="submit">Register</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -10,14 +10,14 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent)
   },
-  // {
-  //   path: 'register-employee',
-  //   loadComponent: () => import('./register/register-employee/register-employee').then(m => m.RegisterEmployeeComponent)
-  // },
-  // {
-  //   path: 'register-student',
-  //   loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
-  // },
+  {
+    path: 'register-employee',
+    loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent)
+  },
+  {
+    path: 'register-student',
+    loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
+  },
   {
     path: 'student/start-exam',
     loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
