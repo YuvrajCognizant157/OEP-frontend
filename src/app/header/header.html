@@ -1,47 +1,52 @@
 <header>
-    <nav>
-      <div class="nav-logo">
-        <svg
-          width="32"
-          height="32"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
-            stroke="#292D32"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M15.5 12H8.5"
-            stroke="#292D32"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M12 15.5V8.5"
-            stroke="#292D32"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-        <a href="/" style="text-decoration: none; color: inherit;">
-            <span>Online Exam Portal</span>
-        </a>
-      </div>
-      <div class="nav-links">
-        <a href="#">Exams <mat-icon>keyboard_arrow_down</mat-icon></a>
-        <a href="/about">About</a>
-        <a href="#">Blog</a>
-        <a href="#">Help <mat-icon>keyboard_arrow_down</mat-icon></a>
-      </div>
-      <div class="nav-actions">
-        <button class="signup-btn">Sign up</button>
-      </div>
-    </nav>
-  </header>
+  <nav>
+    <div class="nav-logo">
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+          stroke="#292D32"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M15.5 12H8.5"
+          stroke="#292D32"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M12 15.5V8.5"
+          stroke="#292D32"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <a [routerLink]="['/']" style="text-decoration: none; color: inherit;">
+          <span>Online Exam Portal</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a [routerLink]="['/exams']">Exams </a>
+      <a [routerLink]="['/about']">About</a>
+      <a [routerLink]="['/blog']">Blog</a>
+      <a [routerLink]="['/help']">Help </a>
+    </div>
+    <div class="nav-actions">
+      <button 
+        [ngClass]="isLoggedIn ? 'logout-btn' : 'signin-btn'"
+        [routerLink]="!isLoggedIn ? ['/login'] : null" 
+        (click)="handleAuthAction()">
+        {{ isLoggedIn ? 'Log out' : 'Sign in' }}
+      </button>
+    </div>
+  </nav>
+</header>
