@@ -56,8 +56,8 @@ p {
 }
 
 /* Grid Area Placement */
-.actions-column { grid-column: 1 / 2; grid-row: 1; } 
-.questions-summary-card { grid-column: 2 / 3; grid-row: 1; }
+.actions-column { grid-column: 2/ 3; grid-row: 1; }
+.questions-summary-card { grid-column: 1/2; grid-row: 1; }
 .available-exams-card { grid-column: 1 / 2; grid-row: 2; }
 .history-card { grid-column: 1 / 2; grid-row: 3; }
 .profile-card { grid-column: 2 / 3; grid-row: 2; }
@@ -93,6 +93,62 @@ p {
 .action-card span {
   font-size: 16px;
   font-weight: 500;
+}
+
+
+.action-card-content {
+  /* Use Flexbox to put the content (icon+text) on the left 
+     and the button on the right, spanning the entire card width. */
+  display: flex;
+  justify-content: space-between; /* Space out the info and the button */
+  align-items: center; 
+  width: 100%;
+}
+
+/* Container for Icon and Text (Left side of the card) */
+.action-card-content .card-info {
+  display: flex;
+  align-items: center; /* Vertically align icon with text block */
+  gap: 10px; /* Space between icon and text block */
+}
+
+/* Text block containing H4 and Tagline */
+.action-card-content .card-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left; /* Explicitly align text to the left */
+}
+
+.action-card-content mat-icon {
+  font-size: 32px; /* Smaller icon size for inline use */
+  height: 32px;
+  width: 32px;
+  margin: 0; /* Remove previous margins */
+}
+
+.action-card-content h4 {
+  font-size: 1rem; /* Reduced size for smaller card */
+  margin: 0 0 2px 0; /* Align top margin */
+}
+
+/* New Tagline Style */
+.action-card-content .tagline {
+  font-size: 0.75rem; /* Small, descriptive text */
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+/* Style for the button (Right side of the card) */
+.action-card-content button {
+  /* Use Mat Icon Button, making it subtly visible */
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+/* Highlight the primary action */
+.action-card.primary-action {
+    background-color: rgba(255, 204, 128, 0.05) !important; 
+    border: 1px solid var(--warn-color);
 }
 
 /* --- Circular Progress Card --- */

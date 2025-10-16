@@ -15,18 +15,48 @@
         <!-- Quick Actions in 3 separate cards (single column layout) -->
         <div class="actions-column">
             <mat-card class="action-card" routerLink="/exams/available">
-                <mat-icon color="primary">description</mat-icon>
-                <span>Available Exams</span>
+                <div class="action-card-content">
+                    <div class="card-info">
+                        <mat-icon color="primary">category</mat-icon>
+                        <div class="card-text">
+                            <h4>Explore Topics</h4>
+                            <p class="tagline">Filter exams with different Topics.</p>
+                        </div>
+                    </div>
+                    <button mat-icon-button color="primary">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
             </mat-card>
- 
+
             <mat-card class="action-card" routerLink="/results">
-                <mat-icon color="accent">leaderboard</mat-icon>
-                <span>View Results</span>
+                <div class="action-card-content">
+                    <div class="card-info">
+                        <mat-icon color="accent">leaderboard</mat-icon>
+                        <div class="card-text">
+                            <h4>View Results</h4>
+                            <p class="tagline">Check scores and detailed analysis.</p>
+                        </div>
+                    </div>
+                    <button mat-icon-button color="accent">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
             </mat-card>
 
             <mat-card class="action-card" routerLink="/feedback">
-                <mat-icon color="warn">rate_review</mat-icon>
-                <span>Feedback</span>
+                <div class="action-card-content">
+                    <div class="card-info">
+                        <mat-icon color="accent">rate_review</mat-icon>
+                        <div class="card-text">
+                            <h4>Feedback</h4>
+                            <p class="tagline">Share your experience with us.</p>
+                        </div>
+                    </div>
+                    <button mat-icon-button color="accent">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
             </mat-card>
         </div>
 
