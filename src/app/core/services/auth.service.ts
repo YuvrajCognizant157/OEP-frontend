@@ -25,6 +25,7 @@ export class AuthService {
     return !!this.getToken();
   }
 
+
   getUserRole(): userDetails | null {
     const token = this.getToken();
     if (!token) return null;
