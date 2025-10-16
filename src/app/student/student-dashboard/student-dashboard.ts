@@ -38,27 +38,35 @@ export class StudentDashboardComponent {
     { title: 'Database Design', score: 65, total: 100, date: '2025-09-10', passed: false }
   ];
 
-  chartData: ChartConfiguration<'line'>['data'] = {
+  chartData: ChartConfiguration<'bar'>['data'] = {
     labels: ['Aug', 'Sep', 'Oct'],
     datasets: [
       {
         data: [80, 72, 90],
         label: 'Average %',
+        backgroundColor: '#90caf9', 
         borderColor: '#90caf9',
-        fill: false,
-        tension: 0.3
+        borderWidth: 1,
       }
     ]
   };
 
-  chartOptions: ChartConfiguration<'line'>['options'] = {
+ 
+  chartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
+    indexAxis: 'x', 
     plugins: {
       legend: { labels: { color: '#fff' } }
     },
     scales: {
-      x: { ticks: { color: '#bbb' } },
-      y: { ticks: { color: '#bbb' } }
+      x: { 
+        ticks: { color: '#bbb' },
+        grid: { color: 'rgba(255, 255, 255, 0.1)' } // Dark theme grid
+      },
+      y: { 
+        ticks: { color: '#bbb' },
+        grid: { color: 'rgba(255, 255, 255, 0.1)' } // Dark theme grid
+      }
     }
   };
 

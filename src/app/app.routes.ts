@@ -14,7 +14,7 @@ export const routes: Routes = [
     path: 'student/dashboard',
     loadComponent: () =>
       import('./student/student-dashboard/student-dashboard').then((m) => m.StudentDashboardComponent),
-    // canActivate: [StudentAuthGuard],
+    canActivate: [StudentAuthGuard],
   },
 
   {
