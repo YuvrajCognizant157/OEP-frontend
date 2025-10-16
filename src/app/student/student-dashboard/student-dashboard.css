@@ -56,42 +56,67 @@ p {
 }
 
 /* Grid Area Placement */
-.quick-actions-card { grid-column: 1 / 3; } 
+.actions-column { grid-column: 1 / 2; grid-row: 1; } 
+.questions-summary-card { grid-column: 2 / 3; grid-row: 1; }
 .available-exams-card { grid-column: 1 / 2; grid-row: 2; }
 .history-card { grid-column: 1 / 2; grid-row: 3; }
 .profile-card { grid-column: 2 / 3; grid-row: 2; }
 .analytics-card { grid-column: 2 / 3; grid-row: 3; }
 
-/* --- Quick Actions --- */
-.quick-actions-card {
-  padding: 16px 24px;
-}
-.quick-actions-grid {
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
-}
-.action-item {
+
+
+/* --- New Quick Actions Layout --- */
+.actions-column {
+    
   display: flex;
   flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  padding: 8px 16px;
-  border-radius: 8px;
-  transition: background-color 0.2s;
+  gap: 20px;
 }
-.action-item:hover {
+
+.action-card {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.action-card:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
-.action-item mat-icon {
+.action-card mat-icon {
   font-size: 32px;
   height: 32px;
   width: 32px;
-  margin-bottom: 4px;
 }
-.action-item span {
-  font-size: 14px;
+.action-card span {
+  font-size: 16px;
   font-weight: 500;
+}
+
+/* --- Circular Progress Card --- */
+.questions-summary-card {
+  /* grid-column: 2 / 3; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-progress {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.percentage-text {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary-color);
 }
 
 /* --- Available Exams --- */

@@ -1,3 +1,4 @@
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -16,7 +17,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatTableModule,
     BaseChartDirective,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './student-dashboard.html',
   styleUrl: './student-dashboard.css'
@@ -27,6 +29,7 @@ export class StudentDashboardComponent {
     email: 'amishraj@example.com',
     examsAppeared: 12
   };
+  questionsEncounteredPercent = 150;
 
   availableExams = [
     { id: 1, title: 'Angular Basics', duration: 60, marks: 50 },
