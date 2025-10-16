@@ -1,0 +1,88 @@
+<div class="dashboard-container dark-theme">
+
+  <mat-card class="header-card">
+    <div class="header-content">
+      <div class="header-text">
+        <h2>Welcome back, {{ student.name }} 👋</h2>
+        <p class="subtitle">You’ve appeared in {{ student.examsAppeared }} exams so far.</p>
+      </div>
+      <button mat-flat-button color="primary">View Profile</button>
+    </div>
+  </mat-card>
+
+  <div class="main-content-grid">
+
+    <mat-card class="quick-actions-card">
+      <div class="quick-actions-grid">
+        <div class="action-item" routerLink="/exams/available">
+          <mat-icon color="primary">description</mat-icon>
+          <span>Available Exams</span>
+        </div>
+        <div class="action-item" routerLink="/results">
+          <mat-icon color="accent">leaderboard</mat-icon>
+          <span>View Results</span>
+        </div>
+        <div
+          class="action-item"
+          *ngIf="availableExams[0]"
+          (click)="startExam(availableExams[0].id)">
+          <mat-icon color="warn">play_arrow</mat-icon>
+          <span>Start Exam</span>
+        </div>
+        <div class="action-item" routerLink="/feedback">
+          <mat-icon color="accent">rate_review</mat-icon>
+          <span>Feedback</span>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="available-exams-card">
+      <h3>Available Exams</h3>
+      <div class="exam-list">
+        <div *ngFor="let exam of availableExams" class="exam-item">
+          <div class="exam-details">
+            <h4>{{ exam.title }}</h4>
+            <p>Duration: {{ exam.duration }} mins | Marks: {{ exam.marks }}</p>
+          </div>
+          <button mat-flat-button color="primary" (click)="startExam(exam.id)">Start Exam</button>
+        </div>
+      </div>
+      <button mat-button class="view-all-btn">View All Exams</button>
+    </mat-card>
+
+
+    <mat-card class="analytics-card">
+      <h3>Performance Analytics</h3>
+      <canvas baseChart
+        [data]="chartData"
+        [options]="chartOptions"
+        chartType="line">
+      </canvas>
+    </mat-card>
+
+    <mat-card class="profile-card">
+      <h3>Profile</h3>
+      <div class="profile-details">
+        <h4>{{ student.name }}</h4>
+        <p>{{ student.email }}</p>
+      </div>
+      <hr>
+      <p class="stat">Exams Appeared: {{ student.examsAppeared }}</p>
+    </mat-card>
+
+    <mat-card class="history-card">
+      <h3>Exam History</h3>
+      <div class="history-list">
+        <div class="history-item" *ngFor="let e of examHistory">
+          <div class="history-title-score">
+            <span class="exam-title">{{ e.title }}</span>
+            <span class="exam-score">{{ e.score }}/{{ e.total }}</span>
+          </div>
+          <span class="exam-date">{{ e.date | date: 'mediumDate' }}</span>
+        </div>
+      </div>
+      <button mat-button class="view-all-btn">Full History</button>
+    </mat-card>
+
+  </div>
+</div>

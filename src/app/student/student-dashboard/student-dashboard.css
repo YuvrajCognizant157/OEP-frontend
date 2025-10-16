@@ -1,0 +1,188 @@
+/* Dark Theme Variables (Adjust these if you have a global theme file) */
+.dark-theme {
+  --background-color: #121212; /* Deep Black/Dark Grey */
+  --card-background: #1e1e1e;  /* Slightly lighter for card elevation */
+  --text-color-primary: #e0e0e0;
+  --text-color-secondary: #a0a0a0;
+  --primary-color: #90caf9; /* Light Blue for buttons/accents */
+  --accent-color: #a5d6a7;  /* Soft Green */
+  --warn-color: #ffcc80;    /* Soft Orange */
+
+  background-color: var(--background-color);
+  min-height: 100vh;
+  padding: 20px;
+  color: var(--text-color-primary);
+}
+
+/* Base Card Styling */
+:host ::ng-deep .mat-mdc-card {
+  background-color: var(--card-background) !important;
+  color: var(--text-color-primary) !important;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* General Text Styling */
+h2, h3, h4 {
+  color: var(--text-color-primary);
+  margin-top: 0;
+}
+p {
+  color: var(--text-color-secondary);
+}
+
+/* --- Layout Grid --- */
+
+/* Header Card spans full width */
+.header-card {
+  margin-bottom: 20px;
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-text .subtitle {
+  color: var(--text-color-secondary);
+  margin: 4px 0 0 0;
+}
+
+/* Main Content Grid (2 Columns) */
+.main-content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Left section wider than Right (2/3 vs 1/3) */
+  gap: 20px;
+}
+
+/* Grid Area Placement */
+.quick-actions-card { grid-column: 1 / 3; } /* Spans both columns */
+.available-exams-card { grid-column: 1 / 2; grid-row: 2; }
+.history-card { grid-column: 1 / 2; grid-row: 3; }
+.profile-card { grid-column: 2 / 3; grid-row: 2; }
+.analytics-card { grid-column: 2 / 3; grid-row: 3; }
+
+/* --- Quick Actions --- */
+.quick-actions-card {
+  padding: 16px 24px;
+}
+.quick-actions-grid {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+.action-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.action-item mat-icon {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+  margin-bottom: 4px;
+}
+.action-item span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* --- Available Exams --- */
+.available-exams-card {
+  display: flex;
+  flex-direction: column;
+}
+.exam-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.exam-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+.exam-item h4 {
+  margin: 0;
+  font-size: 16px;
+}
+.exam-item p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-color-secondary);
+}
+
+/* --- Profile --- */
+.profile-details h4 {
+  margin-bottom: 4px;
+}
+.profile-details p {
+  margin-bottom: 15px;
+}
+.profile-card hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 15px 0;
+}
+.profile-card .stat {
+  font-weight: 500;
+  color: var(--text-color-primary);
+}
+
+/* --- Exam History --- */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.history-title-score {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.exam-score {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+.exam-date {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+}
+
+/* View All Buttons */
+.view-all-btn {
+  margin-top: 15px;
+  align-self: flex-start;
+  color: var(--primary-color);
+}
+
+/* Chart adjustments for dark theme */
+.analytics-card {
+  /* No specific styling needed beyond what chartOptions handles */
+}
+
+/* Angular Material Button Overrides for Dark Theme (Optional, but good practice) */
+:host ::ng-deep .mat-mdc-unelevated-button.mat-primary,
+:host ::ng-deep .mat-mdc-flat-button.mat-primary {
+  --mdc-filled-button-container-color: #1976d2; /* Darker blue for background */
+  --mdc-filled-button-label-text-color: #fff;
+}
