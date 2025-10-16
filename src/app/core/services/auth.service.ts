@@ -37,6 +37,7 @@ export class AuthService {
     }
   }
 
+
   getUserRole(): userDetails | null {
     const token = this.getToken();
     if (!token) return null;

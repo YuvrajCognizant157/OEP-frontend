@@ -8,6 +8,27 @@
   color: #f1f1f1;
 }
 
+.nav-actions{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #f1f1f1;
+}   
+.icon-avatar {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #d842cc; /* Blue color */
+    margin-bottom: 5px;
+}
 .nav-logo svg path {
   stroke: #f1f1f1;
 }
