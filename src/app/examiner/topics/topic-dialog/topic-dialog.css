@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  background-color: #1a222f; /* Dark container background */
+  color: #e0e7ff; /* Light text */
+}
+
+h2[mat-dialog-title] {
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
+  color: #e0e7ff;
+  margin: 24px 20px;
+  padding: 20px 24px;
+}
+
+mat-dialog-content h4 {
+  margin-top: 20px;
+  border-bottom: 1px solid #2a3544;
+  padding-bottom: 8px;
+}
+
+mat-dialog-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+mat-dialog-content li {
+  margin-bottom: 8px;
+}
+
+::ng-deep .topic-dialog-content {
+  color: #e0e7ff !important; /* Light color */
+}
+
+::ng-deep .topic-dialog-content h2,
+::ng-deep .topic-dialog-content h4,
+::ng-deep .topic-dialog-content li,
+::ng-deep .topic-dialog-content p,
+::ng-deep .topic-dialog-content strong {
+  color: #e0e7ff !important;
+}

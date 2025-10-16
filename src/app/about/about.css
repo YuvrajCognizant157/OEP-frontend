@@ -1,0 +1,358 @@
+/* Import the font and define custom dark theme variables */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+/* Define the theme variables using the requested base color */
+:root {
+  --bg: #121212; /* Main page background */
+  --panel: #1e1e1e; /* Card/Panel background - Slightly lighter than BG */
+  --panel-light: #2a2a2a; /* Card hover/step background */
+  --muted: #a0a0a0; 
+  --text: #e0e0e0; 
+  --accent: #0078d4;
+  --shadow-dark: rgba(0, 0, 0, 0.4);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+}
+
+.about-page{
+  background-color: #121212; /* Use the dark background directly */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Global Styles for the About Page */
+.about-hero, .about-details, .how-it-works, .about-footer {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #fff;
+  padding: 2rem 1.25rem; /* Default padding */
+  background-color: var(--bg);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* --- Utility Classes & Text --- */
+.text-center {
+  text-align: center;
+}
+.mat-h2 {
+    color: var(--text);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+.mat-h3 {
+    color: var(--text);
+    font-size: 1.2rem;
+}
+p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* --- Hero Section (.about-hero) --- */
+.about-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+   background: var(--bg); /* Keep base color */
+  box-shadow: none; 
+}
+
+.hero-features {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: .5rem;
+}
+
+.hero-features li {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  color: var(--text);
+}
+.feature-icon {
+    color: var(--accent); /* Color the Material icons */
+    font-size: 20px;
+}
+
+/* --- Material Buttons --- */
+.hero-actions {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+/* Targeting Material Buttons via classes for custom sizing/shadow */
+.btn {
+  border-radius: 6px;
+  padding: 0 1rem !important; /* Material buttons use padding on .mat-mdc-button-touch-target */
+  height: 40px; /* Custom height for consistency */
+}
+
+/* Primary Button */
+.btn.primary.mat-mdc-unelevated-button {
+  background: var(--accent);
+  box-shadow: 0 4px 12px rgba(0,120,212,0.3);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.btn.primary.mat-mdc-unelevated-button:hover {
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,120,212,0.4);
+}
+
+/* Outline Button */
+.btn.outline.mat-mdc-stroked-button {
+  color: var(--accent);
+  border-color: var(--accent);
+  transition: background-color .18s ease, transform .18s ease;
+}
+.btn.outline.mat-mdc-stroked-button:hover {
+    background-color: rgba(0, 120, 212, 0.1);
+    transform: translateY(-2px);
+}
+
+/* --- Feature Cards (mat-card) --- */
+.about-details {
+
+  background-color: var(--bg);
+  padding: 4rem 1.25rem;
+}
+
+.features-grid, .steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 1.5rem;
+}
+
+
+/* --- Feature Cards (mat-card) --- */
+.feature-card {
+  background: var(--panel);
+  color: var(--text);
+  border: 1.5px solid rgba(255, 255, 255, 0.15); /* Visible light border */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  transition: 
+    transform 0.3s ease, 
+    box-shadow 0.4s ease, 
+    border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover effect: lift + shine + accent glow */
+.feature-card:hover {
+  cursor:pointer;
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(0, 120, 212, 0.6),
+              0 0 40px rgba(0, 120, 212, 0.3);
+}
+
+/* Add shining gradient animation border */
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: linear-gradient(120deg, 
+              rgba(0,120,212,0.6),
+              rgba(0,200,255,0.4),
+              rgba(0,120,212,0.6));
+  background-size: 200% 200%;
+  filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: shineGlow 2.5s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.feature-card:hover::before {
+  opacity: 1; /* Appear on hover */
+}
+
+/* Ensure card content stays above glowing layer */
+.feature-card * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Shining animation keyframes */
+@keyframes shineGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.feature-card .mat-mdc-card-title {
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.feature-card .mat-mdc-card-content p {
+  color: var(--muted);
+}
+/* --- How It Works Section --- */
+.how-it-works {
+    background-color: var(--bg);
+    padding: 4rem 1.25rem;
+}
+/* 
+.step-card {
+    background: var(--panel);
+    color: var(--text);
+    box-shadow: 0 6px 18px var(--shadow-dark) !important;
+    border: 1px solid var(--border-subtle);
+}
+.step-card .mat-mdc-card-title {
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.step-card .mat-mdc-card-content p {
+    color: var(--muted);
+} */
+
+/* --- How It Works Section --- */
+.step-card {
+  padding: 1.4rem;
+  background: var(--panel);
+  color: var(--text);
+  border: 1.5px solid rgba(255, 255, 255, 0.15); /* Visible border on dark bg */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  transition: 
+    transform 0.3s ease, 
+    box-shadow 0.4s ease, 
+    border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Effect - Lift + Blue Glow */
+.step-card:hover {
+  cursor: pointer;
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(0, 120, 212, 0.6),
+              0 0 40px rgba(0, 120, 212, 0.3);
+}
+
+/* Glowing animated gradient border (same as feature cards) */
+.step-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: linear-gradient(120deg, 
+              rgba(0,120,212,0.6),
+              rgba(0,200,255,0.4),
+              rgba(0,120,212,0.6));
+  background-size: 200% 200%;
+  filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: shineGlow 2.5s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.step-card:hover::before {
+  opacity: 1; /* Show glow on hover */
+}
+
+/* Keep card text and icons above glow */
+.step-card * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Optional consistent text styling */
+.step-card .mat-mdc-card-title {
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.step-card .mat-mdc-card-content p {
+  color: var(--muted);
+}
+
+/* Reuse the same animation as feature cards */
+@keyframes shineGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.process-summary {
+  margin-top: 2rem;
+  color: var(--muted);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- Footer Section --- */
+.about-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 1.5rem 1.25rem;
+}
+
+
+.footer-content {
+  /* FIX: Ensure content is centered horizontally */
+  display: flex;
+  flex-direction: column; /* Stack children (logo group and help text) vertically */
+  align-items: center; /* Center the stacked children horizontally */
+  gap: 1rem; /* Add some space between the stacked items */
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    text-align: center;
+}
+.portal-logo {
+    color: var(--accent);
+    font-size: 32px;
+}
+.tagline, .help-text {
+    color: var(--muted);
+    font-size: .9rem;
+}
+.logo-group strong {
+    color: var(--text);
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .about-hero {
+    flex-direction: column;
+  }
+  .hero-content {
+      order: 0;
+  }
+  .hero-image {
+      order: 0;
+      margin-bottom: 1.5rem;
+  }
+  .features-grid, .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}

@@ -8,20 +8,12 @@ export class ExaminerService {
 
   constructor(private http: HttpClient) { }
 
-  getExaminerAnalytics(examinerId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/examiner/${examinerId}`);
-  }
-
   getExamsForExaminer(userId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/get-exams/e?userid=${userId}`);
   }
 
   getExamById(examId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/get-exams/e/${examId}`);
-  }
-
-  getTopics(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/get-topic`);
   }
 
   addExam(examData: any): Observable<any> {

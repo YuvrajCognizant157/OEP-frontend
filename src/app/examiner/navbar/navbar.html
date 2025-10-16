@@ -1,14 +1,9 @@
-<nav class="navbar" style="
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content:space-evenly;
-      margin: auto;
-    ">
-  <a routerLink="/examiner/dashboard/analytics">Analytics</a>
-    <a routerLink="/examiner/dashboard/exams">Exams</a>
-    <a routerLink="/examiner/dashboard/topics">Topics</a>
-    <a routerLink="/examiner/dashboard/profile">Profile</a>
-    <a routerLink="/examiner/dashboard/create-exam">Create Exam</a>
-    <a routerLink="/examiner/dashboard/create-topic">Create Topic</a>
-</nav>
+<mat-toolbar class="custom-navbar">
+  <div class="nav-links-container">
+    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/analytics">Analytics</a>
+    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/exams">Exams</a>
+    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/topics">Topics</a>
+    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/create-exam">Create Exam</a>
+    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/manage-topic">Manage Topics</a>
+  </div>
+</mat-toolbar>
