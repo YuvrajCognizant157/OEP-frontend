@@ -1,0 +1,29 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #101111;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+  text-align: center;
+}
