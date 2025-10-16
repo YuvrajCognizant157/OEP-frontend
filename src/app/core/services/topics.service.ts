@@ -15,7 +15,15 @@ export class TopicsService {
     return this.http.get<any>(`${this.apiUrl}/get-topic/${topicId}`);
   }
 
-  createTopic(topicName: string): Observable<any> {
+  createTopicService(topicName: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/add-topic?TopicName=${topicName}`, {});
+  }
+
+  updateTopicService(topicName:string,tid:number){
+    return this.http.post<any>(`${this.apiUrl}/update-topic/${tid}`,{Name:topicName});
+  }
+
+  deleteTopicService(topicId:number){
+    return this.http.delete<any>(`${this.apiUrl}/delete-topic/${topicId}`);
   }
 }
