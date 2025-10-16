@@ -1,5 +1,6 @@
 <div class="exam-list-container">
   <h2 class="page-title">My Exams</h2>
+  @if(exams.length !=0){
   <div class="exam-cards-grid">
     @for(exam of exams; track exam.eid) {
     <mat-card class="exam-card">
@@ -47,6 +48,11 @@
     </mat-card>
     }
   </div>
+  }@else {
+  <div class="detail-item else-case">
+    <p style="color: antiquewhite !important;">No Exams Created..</p>
+  </div>
+  }
 </div>
 
 <!-- Modals remain the same -->
