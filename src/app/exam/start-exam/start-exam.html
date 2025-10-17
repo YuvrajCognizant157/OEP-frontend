@@ -1,11 +1,11 @@
-<ng-container *ngIf="!examData">
+<div *ngIf="!examData">
   <div *ngIf="!backendError">
     <p>Please wait, loading exam...</p>
   </div>
   <div *ngIf="backendError">
     <p>Some error occurred...</p>
   </div>
-</ng-container>
+</div>
 
 <div class="exam-container" *ngIf="examStarted">
   <mat-card-header class="exam-details">
