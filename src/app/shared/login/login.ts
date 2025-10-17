@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         switch (userDetails.role) {
           case 'Examiner':
-            this.router.navigate(['/examiner/dashboard']);
+            this.router.navigate(['/employee/dashboard']);
             break;
           case 'Student':
             this.router.navigate(['/student/dashboard']);
@@ -94,6 +94,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.errorMessage = 'Invalid credentials. Please try again.';
+        this.loading = false;
         console.error(err);
       },
       complete: () => {
@@ -102,5 +103,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, 500);
       },
     });
+  }
+  registerAsEmployee(): void {
+    this.router.navigate(['/register-employee']);
+  }
+
+  registerAsStudent(): void {
+    this.router.navigate(['/register-student']);
   }
 }

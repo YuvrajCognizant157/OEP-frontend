@@ -5,7 +5,7 @@ import { LoginRequest, LoginResponse } from '../../shared/login/login.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
-  private apiUrl = 'https://localhost:44395/api/Auth'; // Replace with your actual API URL if needed
+  private apiUrl = 'https://localhost:44395/api/Auth';
 
   constructor(private http: HttpClient) {}
 

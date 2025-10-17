@@ -15,7 +15,8 @@ export class ProfileUpdateComponent {
   user: UpdateUser = {
     fullName: '',
     dob: '',
-    phoneNo: ''
+    phoneNo: '',
+    email:''
   };
 
   constructor(private profileUpdateService: ProfileUpdateService) {}
