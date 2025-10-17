@@ -12,14 +12,74 @@
   color: #c1c8d6;
 }
 
-.info-box {
-  background-color: #f0f0f0;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  color: #333;
+.results-page-container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgb(0, 0, 0);
+  border: 1px solid rgba(255, 255, 255, 0.445);
+  background-color: var(--page-bg);
+  min-height: 100vh;
+  padding: 24px 48px;
+  color: var(--text-main);
 }
 
+.exam-card {
+  margin-bottom: 20px;
+}
+
+.empty-state-message {
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+  font-size: 1.1em;
+}
+
+.dialog-content-area {
+  min-width: 350px;
+  padding-top: 20px;
+}
+
+.dialog-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px;
+  min-height: 120px;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 4px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.result-row:last-child {
+  border-bottom: none;
+}
+
+.score-display {
+  font-size: 1.1em;
+}
+
+.dialog-text-success {
+  color: #155724; /* Dark green */
+  font-weight: 500;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.dialog-text-error {
+  color: #721c24; /* Dark red */
+  font-weight: 500;
+  text-align: center;
+  padding: 20px 0;
+}
 .exam-grid {
   display: flex;
   flex-wrap: wrap;
@@ -32,7 +92,7 @@
   border-radius: 10px;
   padding: 15px;
   width: 300px;
-  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.966);
+  box-shadow: 2px 4px 12px rgba(61, 61, 61, 0.966);
 }
 
 .exam-card h3 {
@@ -51,36 +111,4 @@
 
 .exam-card button:hover {
   background-color: #0056b3;
-}
-
-
-.result-container{
-   max-width: 900px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 2.5rem 3rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.847);
-  border: 1px solid rgba(255, 255, 255, 0.164);
-  background-color: var(--page-bg);
-  min-height: 100vh;
-  padding: 24px 48px;
-  color: var(--text-main);
-}
-
-.modal {
-  color: aliceblue;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
 }

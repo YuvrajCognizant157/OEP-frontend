@@ -1,74 +1,72 @@
-<div class="result-container">
-  <h2 >Your Attempted Exams</h2>
-  @if(exams.length == 0){
-  <div class="info-box">No exams found.</div>
-  }
-
+<!-- Main Component View -->
+<div class="results-page-container">
+  <h2>Available Exams</h2>
+  @if (exams.length > 0) {
   <div class="exam-grid">
-    <div class="exam-card" *ngFor="let exam of exams">
-          <h5 >Name: <strong>{{ exam.name }}</strong></h5>
-          <p >Description: <strong>{{ exam.description }}</strong></p>
-          <p><strong>Duration:</strong> {{ exam.duration }} mins</p>
-          <p><strong>Total Marks:</strong> {{ exam.totalMarks }}</p>
-          <p><strong>Attempts:</strong> {{ exam.attemptNo }}</p>
-          <button (click)="viewResult(exam.eid)">View Result</button>
-    </div>
+    @for (exam of exams; track exam.eid) {
+    <mat-card class="exam-card">
+      <mat-card-header>
+        <mat-card-title>{{ exam.name }}</mat-card-title>
+        <mat-card-subtitle> description: {{ exam.description }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary" (click)="viewResult(exam.eid)">
+          View Result
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    }
   </div>
+
+  } @else {
+  <p class="empty-state-message">No exams are available at the moment.</p>
+  }
 </div>
 
-<!-- View Modal Section  -->
-@if(showModal) {
-<div class="modal">
-  <div class="modal-content">
-    <h4>Result Viewer</h4>
-
+<ng-template #resultDialog>
+  <h2 mat-dialog-title>Exam Result</h2>
+  <mat-dialog-content class="dialog-content-area">
     @if (isLoading) {
-    <div>
+    <div class="dialog-loader">
+      <mat-spinner diameter="50"></mat-spinner>
       <p>Loading result...</p>
     </div>
-    } @else if(!isLoading) {
-    <div>
-      @if (resultData) {
-      <pre>{{ resultData | json }}</pre>
-
-      @for (result of resultData; track resultData.examId && resultData.userId) {
-      <div>
-        <p>
-          <span>Attempt No: </span><span>{{ result.attempts }}</span>
-        </p>
-        <p>
-          <span>Score: </span><span>{{ result.score }}</span>
-        </p>
-      </div>
-      } } @else {
-      <p>No result found. Please create one.</p>
-      }
+    } @else if (resultData && resultData.length > 0) { @for (result of resultData; track
+    result.attempts) {
+    <div class="result-row">
+      <span
+        >Attempt No: <strong>{{ result.attempts }}</strong></span
+      >
+      <span class="score-display"
+        >Score: <strong>{{ result.score }}</strong></span
+      >
     </div>
+    } } @else {
+    <p>No result data was found for this exam.</p>
     }
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-flat-button color="warn" [mat-dialog-close]="true">Close</button>
+  </mat-dialog-actions>
+</ng-template>
 
-    <button (click)="showModal = false">Close</button>
-  </div>
-</div>
-}
-
-<!-- Create Result Loader Modal Section  -->
-@if(showCreateResultModal) { @if(createResultLoader){
-<div class="modal">
-  <div class="modal-content">
-    <h4>Creating Result , Please Wait</h4>
-  </div>
-</div>
-} @else {
-<div class="modal">
-  <div class="modal-content">
-    @if(createResultResponse){
-    <h4>Result created , Please View the results.</h4>
-    } @else if(!createResultResponse) {
-    <h4>
-      Result could not be created . Either all attempts results are created or Some Internal Error
-    </h4>
-    }
-    <button (click)="onCloseCreateResultModal()">Close</button>
-  </div>
-</div>
-} }
+<ng-template #createResultDialog>
+  <h2 mat-dialog-title>Result Creation</h2>
+  <mat-dialog-content class="dialog-content-area">
+    @if (createResultLoader) {
+    <div class="dialog-loader">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Creating result, please wait...</p>
+    </div>
+    } @else { @if(createResultResponse) {
+    <p class="dialog-text-success">Result created successfully!</p>
+    } @else {
+    <p class="dialog-text-error">
+      Could not create the result. All attempts may be recorded or an internal error occurred.
+    </p>
+    } }
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-flat-button color="warn" (click)="onCloseCreateResultModal()">Close</button>
+  </mat-dialog-actions>
+</ng-template>

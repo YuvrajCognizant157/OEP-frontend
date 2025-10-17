@@ -1,0 +1,77 @@
+:host {
+  --page-bg: #1c2333;
+  --card-bg: #2a3447;
+  --text-main: #ffffff;
+  --text-light: #c1c8d6;
+  --accent-purple: #675ee3;
+  --status-approved: #66bb6a;
+  --status-pending: #ffa726;
+  --status-rejected: #ef5350;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.review-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.847);
+  border: 1px solid rgba(255, 255, 255, 0.164);
+  background-color: var(--page-bg);
+  min-height: 100vh;
+  padding: 24px 48px;
+  color: var(--text-main);
+}
+
+.review-header {
+  margin-bottom: 24px;
+  text-align: center;
+  font-size: 1.8em;
+  color: #e0dfdf;
+}
+
+.answers-list {
+  display: grid;
+  gap: 16px;
+}
+
+.answer-card {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.answer-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.answer-content p {
+  margin: 0;
+  padding: 4px 0;
+  font-size: 1em;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+  font-size: 1.1em;
+}
+
+.submit-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  
+}
+
+button[mat-raised-button] {
+  padding: 10px 30px;
+  font-size: 1.1em;
+  background-color: var(--accent-purple);
+  color: var(--text-main);
+  border-radius: 30px;
+}
