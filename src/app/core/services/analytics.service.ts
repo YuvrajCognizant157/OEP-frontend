@@ -15,4 +15,12 @@ export class AnalyticsService {
   getStudentAnalytics(studentId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/student/${studentId}`);
   }
+
+  getTotalActiveExams(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/total-active-exams`);
+  }
+
+  getTotalActiveQuestions(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/total-active-questions`);
+  }
 }

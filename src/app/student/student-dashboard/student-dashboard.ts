@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProfileService } from '../../core/services/profile.service';
 import { ResultService } from '../../core/services/result.service';
 import { AnalyticsService } from '../../core/services/analytics.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -31,9 +32,9 @@ export class StudentDashboardComponent implements OnInit {
   public userFullName: string = 'Student';
   public isLoading: boolean = true;
 
-  private userId: number | null = null; 
+
   // ⬇️ Properties updated from analytics service
-  public questionsEncounteredTotal: number = 0; 
+  public questionsEncounteredTotal: number = 0;
   public examsAppearedTotal: number = 0;
 
   student = {
@@ -43,15 +44,20 @@ export class StudentDashboardComponent implements OnInit {
     examsAppeared: 12
   };
 
+  percentageAnalytics = {
+    questionsEncounteredPercent: 0,
+    examsAttemptedPercent: 0
+  }
+
   basicAnalytics = {
-    totalQuestionsEncountered: 0,
-    totalExamsAppeared: 0
+    totalQuestions: 0,
+    totalExams: 0
   };
 
   constructor(private profileService: ProfileService,
-              private resultService: ResultService,
-              private analyticsService: AnalyticsService
-          
+    private resultService: ResultService,
+    private analyticsService: AnalyticsService
+
   ) { }
 
   ngOnInit(): void {
@@ -62,18 +68,15 @@ export class StudentDashboardComponent implements OnInit {
           this.userFullName = profileData.fullName;
           this.student.name = profileData.fullName;
           this.student.email = profileData.email;
-          
-          // Assuming the user ID is available in the profileData
           this.student.id = profileData.id ?? this.student.id;
 
-          // 2. Chain Analytics Call using the fetched userId
           if (this.student.id) {
-            this.loadStudentAnalytics(this.student.id);
+            this.loadAllAnalytics(this.student.id); // ⬅️ Call the new chaining method
           } else {
-            this.isLoading = false; // Stop loading if ID is missing
+            this.isLoading = false;
           }
         } else {
-            this.isLoading = false; // Stop loading if profile data is incomplete
+          this.isLoading = false;
         }
       },
       error: (err) => {
@@ -84,34 +87,59 @@ export class StudentDashboardComponent implements OnInit {
     });
   }
 
+  private loadAllAnalytics(userId: number): void {
+    this.isLoading = true;
 
-  private loadStudentAnalytics(userId: number): void {
-    this.analyticsService.getStudentAnalytics(userId).subscribe({
-      next: (analyticsData) => {
-        // 3. Update component properties with data from analytics service
-        if (analyticsData) {
-          console.log('Analytics Data:', analyticsData);
-          
-          // Assuming the analytics object has these properties:
-          this.questionsEncounteredTotal = analyticsData.value.totalQuestionsEncountered || 0;
-          this.basicAnalytics.totalQuestionsEncountered = this.questionsEncounteredTotal;
-          this.examsAppearedTotal = analyticsData.value.totalExamsTaken || 0; 
-          this.basicAnalytics.totalExamsAppeared = this.examsAppearedTotal;
-          
-          // Update the student object property
+    // Use forkJoin to wait for all three necessary async calls to complete
+    forkJoin({
+      studentAnalytics: this.analyticsService.getStudentAnalytics(userId),
+      totalExams: this.analyticsService.getTotalActiveExams(),
+      totalQuestions: this.analyticsService.getTotalActiveQuestions()
+    }).subscribe({
+      next: (results) => {
+        // 1. Process Student Analytics
+        const studentData = results.studentAnalytics;
+        if (studentData && studentData.value) {
+          this.questionsEncounteredTotal = studentData.value.totalQuestionsEncountered || 0;
+          this.examsAppearedTotal = studentData.value.totalExamsTaken || 0;
           this.student.examsAppeared = this.examsAppearedTotal;
         }
-        this.isLoading = false; // Stop loading only after analytics data is fetched
+
+        // 2. Process Total Counts
+        this.basicAnalytics.totalExams = results.totalExams || 0;
+        this.basicAnalytics.totalQuestions = results.totalQuestions || 0;
+
+        // 3. NOW ALL DATA IS READY, PERFORM CALCULATION
+        this.calcBasicAnalyticsPercent();
+
+        this.isLoading = false; // Stop loading only when everything is done
       },
       error: (err) => {
-        console.error('Failed to load analytics data:', err);
+        console.error('Error loading dashboard data:', err);
         this.isLoading = false;
       }
     });
   }
 
-  questionsEncounteredPercent = 50;
-  examsAttemptedPercent = 30;
+
+  calcBasicAnalyticsPercent() {
+  
+    if (this.basicAnalytics.totalExams > 0) {
+      this.percentageAnalytics.examsAttemptedPercent =
+        (this.examsAppearedTotal / this.basicAnalytics.totalExams) * 100;
+    } else {
+      this.percentageAnalytics.examsAttemptedPercent = 0;
+    }
+
+    if (this.basicAnalytics.totalQuestions > 0) {
+      this.percentageAnalytics.questionsEncounteredPercent =
+        (this.questionsEncounteredTotal / this.basicAnalytics.totalQuestions) * 100;
+    } else {
+      this.percentageAnalytics.questionsEncounteredPercent = 0;
+    }
+    console.log('Calculation complete. Percentage Analytics:', this.percentageAnalytics);
+  }
+
 
   availableExams = [
     { id: 1, title: 'Angular Basics', duration: 60, marks: 50 },
