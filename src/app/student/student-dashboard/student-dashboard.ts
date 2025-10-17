@@ -1,5 +1,5 @@
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,8 @@ import { MatTableModule } from '@angular/material/table';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { MatIconModule } from '@angular/material/icon';
+import { ProfileService } from '../../core/services/profile.service';
+import { ResultService } from '../../core/services/result.service';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -23,12 +25,43 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './student-dashboard.html',
   styleUrl: './student-dashboard.css'
 })
-export class StudentDashboardComponent {
+export class StudentDashboardComponent implements OnInit {
+
+  public userFullName: string = 'Student';
+  public isLoading: boolean = true;
+
+
   student = {
-    name: 'Amish Raj',
-    email: 'amishraj@example.com',
+    name: 'John Doe',
+    email: 'johndoe@example.com',
     examsAppeared: 12
   };
+
+  constructor(private profileService: ProfileService,
+              private resultService: ResultService
+  ) { }
+
+  ngOnInit(): void {
+    this.profileService.getUserProfile()?.subscribe({
+      next: (profileData) => {
+        // Assuming the service returns an object with a 'fullName' property
+        if (profileData && profileData.fullName) {
+          this.userFullName = profileData.fullName;
+          // Optionally update the student object property
+          this.student.name = profileData.fullName;
+          this.student.email = profileData.email;
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load user profile:', err);
+        this.userFullName = 'Guest User';
+        this.isLoading = false;
+      }
+    });
+  }
+
+
   questionsEncounteredPercent = 50;
   examsAttemptedPercent = 30;
 
@@ -48,7 +81,7 @@ export class StudentDashboardComponent {
       {
         data: [80, 72, 90],
         label: 'Average %',
-        backgroundColor: '#90caf9', 
+        backgroundColor: '#90caf9',
         borderColor: '#90caf9',
         borderWidth: 1,
       }
@@ -75,19 +108,19 @@ export class StudentDashboardComponent {
     }
   };
 
- 
+
   chartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
-    indexAxis: 'x', 
+    indexAxis: 'x',
     plugins: {
       legend: { labels: { color: '#fff' } }
     },
     scales: {
-      x: { 
+      x: {
         ticks: { color: '#bbb' },
         grid: { color: 'rgba(255, 255, 255, 0.1)' } // Dark theme grid
       },
-      y: { 
+      y: {
         ticks: { color: '#bbb' },
         grid: { color: 'rgba(255, 255, 255, 0.1)' } // Dark theme grid
       }
