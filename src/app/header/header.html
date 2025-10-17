@@ -27,7 +27,7 @@
             <ng-container *ngIf="isLoggedIn">
                 <div class="avatar-container">
                     <mat-icon class="icon-avatar">account_circle</mat-icon>
-                    <span class="avatar-name">{{ userFullName }}</span>
+                    <span class="avatar-name">{{ userFullName || 'Loading...'}}</span>
                 </div>
             </ng-container>
             <button [ngClass]="isLoggedIn ? 'logout-btn' : 'signin-btn'" [routerLink]="!isLoggedIn ? ['/login'] : null"

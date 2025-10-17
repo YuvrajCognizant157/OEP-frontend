@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ResultService {
-  private baseUrl = 'https://localhost:44395/api/results';
+  private baseUrl = 'https://localhost:44395/api/Results';
 
   constructor(private http: HttpClient) {}
 
@@ -13,5 +13,9 @@ export class ResultService {
 
   createResult(examId: number, userId: number) {
     return this.http.post(`${this.baseUrl}/create-results/${examId}?userid=${userId}`, {});
+  }
+
+  viewResultsByUserId(userId: number) {
+    return this.http.get(`${this.baseUrl}/all-results/${userId}`);
   }
 }

@@ -72,6 +72,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: (res) => {
         localStorage.setItem('token', res.token);
         let role = this.authS.getUserRole()?.role;
+        let userId = this.authS.getUserRole()?.id;
+        localStorage.setItem('userId', userId ? userId.toString() : '');
         localStorage.setItem('userRole', role ? role : '');
 
         const userDetails = this.authS.getUserRole();

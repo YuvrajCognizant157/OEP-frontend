@@ -21,6 +21,13 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  getUserId(): number | null {
+    if(!this.isLoggedIn()) {
+      return null;
+    }
+    return localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
+  }
+
   isLoggedIn(): boolean {
     const token = this.getToken();
     if (!token) {

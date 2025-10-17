@@ -9,6 +9,13 @@ export interface GetExamDataDTO {
   attemptNo: number;
 }
 
+export interface SimplifiedExam {
+  eid: number;
+  examName: string;
+  duration: number;
+  totalMarks: number;
+}
+
 export interface StartExamQuestionDTO {
   approvalStatus: number;
   marks: number;

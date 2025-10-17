@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface userDetails {
     id?: number;
@@ -41,8 +42,11 @@ export class ProfileService {
         if (id === undefined || id === null) {
             return null;
         }
-
         // http.get returns an Observable<userDetails>
-        return this.http.get<userDetails>(this.userUrl(id));
+        return this.http.get<userDetails>(this.userUrl(id))
+            .pipe(
+                map(user => ({ ...user, id }))
+            );
     }
 }
+
