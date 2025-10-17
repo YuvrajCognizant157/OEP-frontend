@@ -9,6 +9,7 @@ import { ChartConfiguration, ChartType } from 'chart.js';
 import { MatIconModule } from '@angular/material/icon';
 import { ProfileService } from '../../core/services/profile.service';
 import { ResultService } from '../../core/services/result.service';
+import { AnalyticsService } from '../../core/services/analytics.service';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -30,28 +31,50 @@ export class StudentDashboardComponent implements OnInit {
   public userFullName: string = 'Student';
   public isLoading: boolean = true;
 
+  private userId: number | null = null; 
+  // ⬇️ Properties updated from analytics service
+  public questionsEncounteredTotal: number = 0; 
+  public examsAppearedTotal: number = 0;
 
   student = {
+    id: 0,
     name: 'John Doe',
     email: 'johndoe@example.com',
     examsAppeared: 12
   };
 
+  basicAnalytics = {
+    totalQuestionsEncountered: 0,
+    totalExamsAppeared: 0
+  };
+
   constructor(private profileService: ProfileService,
-              private resultService: ResultService
+              private resultService: ResultService,
+              private analyticsService: AnalyticsService
+          
   ) { }
 
   ngOnInit(): void {
+    // 1. Fetch Profile Data
     this.profileService.getUserProfile()?.subscribe({
       next: (profileData) => {
-        // Assuming the service returns an object with a 'fullName' property
         if (profileData && profileData.fullName) {
           this.userFullName = profileData.fullName;
-          // Optionally update the student object property
           this.student.name = profileData.fullName;
           this.student.email = profileData.email;
+          
+          // Assuming the user ID is available in the profileData
+          this.student.id = profileData.id ?? this.student.id;
+
+          // 2. Chain Analytics Call using the fetched userId
+          if (this.student.id) {
+            this.loadStudentAnalytics(this.student.id);
+          } else {
+            this.isLoading = false; // Stop loading if ID is missing
+          }
+        } else {
+            this.isLoading = false; // Stop loading if profile data is incomplete
         }
-        this.isLoading = false;
       },
       error: (err) => {
         console.error('Failed to load user profile:', err);
@@ -61,6 +84,31 @@ export class StudentDashboardComponent implements OnInit {
     });
   }
 
+
+  private loadStudentAnalytics(userId: number): void {
+    this.analyticsService.getStudentAnalytics(userId).subscribe({
+      next: (analyticsData) => {
+        // 3. Update component properties with data from analytics service
+        if (analyticsData) {
+          console.log('Analytics Data:', analyticsData);
+          
+          // Assuming the analytics object has these properties:
+          this.questionsEncounteredTotal = analyticsData.value.totalQuestionsEncountered || 0;
+          this.basicAnalytics.totalQuestionsEncountered = this.questionsEncounteredTotal;
+          this.examsAppearedTotal = analyticsData.value.totalExamsTaken || 0; 
+          this.basicAnalytics.totalExamsAppeared = this.examsAppearedTotal;
+          
+          // Update the student object property
+          this.student.examsAppeared = this.examsAppearedTotal;
+        }
+        this.isLoading = false; // Stop loading only after analytics data is fetched
+      },
+      error: (err) => {
+        console.error('Failed to load analytics data:', err);
+        this.isLoading = false;
+      }
+    });
+  }
 
   questionsEncounteredPercent = 50;
   examsAttemptedPercent = 30;

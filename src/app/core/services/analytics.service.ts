@@ -11,4 +11,8 @@ export class AnalyticsService {
   getExaminerAnalytics(examinerId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/examiner/${examinerId}`);
   }
+
+  getStudentAnalytics(studentId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/student/${studentId}`);
+  }
 }
