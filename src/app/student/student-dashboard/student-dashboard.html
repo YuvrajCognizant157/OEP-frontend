@@ -149,12 +149,12 @@
         <mat-card class="available-exams-card">
             <h3>Available Exams</h3><br />
             <div class="exam-list">
-                <div *ngFor="let exam of availableExams" class="exam-item">
+                <div *ngFor="let exam of availableExamsList | slice:0:2" class="exam-item">
                     <div class="exam-details">
-                        <h4>{{ exam.title }}</h4>
-                        <p>Duration: {{ exam.duration }} mins | Marks: {{ exam.marks }}</p>
+                        <h4>{{ exam.examName }}</h4>
+                        <p>Duration: {{ exam.duration }} mins | Marks: {{ exam.totalMarks }}</p>
                     </div>
-                    <button mat-flat-button color="primary" (click)="startExam(exam.id)">Start Exam</button>
+                    <button mat-flat-button color="primary" (click)="startExam(exam.eid)">Start Exam</button>
                 </div>
             </div>
             <button mat-button class="view-all-btn">View All Exams</button>

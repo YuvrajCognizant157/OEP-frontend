@@ -10,7 +10,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProfileService } from '../../core/services/profile.service';
 import { ResultService } from '../../core/services/result.service';
 import { AnalyticsService } from '../../core/services/analytics.service';
-import { forkJoin } from 'rxjs';
+import { ExamService } from '../../core/services/exam.service';
+import { forkJoin, map, Observable } from 'rxjs';
+import { SimplifiedExam,GetExamDataDTO } from '../../shared/models/exam.model';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -37,6 +39,10 @@ export class StudentDashboardComponent implements OnInit {
   public questionsEncounteredTotal: number = 0;
   public examsAppearedTotal: number = 0;
 
+  public availableExamsList: SimplifiedExam[] = [];
+
+  
+
   student = {
     id: 0,
     name: 'John Doe',
@@ -56,7 +62,8 @@ export class StudentDashboardComponent implements OnInit {
 
   constructor(private profileService: ProfileService,
     private resultService: ResultService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private examService: ExamService
 
   ) { }
 
@@ -94,7 +101,8 @@ export class StudentDashboardComponent implements OnInit {
     forkJoin({
       studentAnalytics: this.analyticsService.getStudentAnalytics(userId),
       totalExams: this.analyticsService.getTotalActiveExams(),
-      totalQuestions: this.analyticsService.getTotalActiveQuestions()
+      totalQuestions: this.analyticsService.getTotalActiveQuestions(),
+      examData: this.processExamData(this.examService.getExams())
     }).subscribe({
       next: (results) => {
         // 1. Process Student Analytics
@@ -108,7 +116,7 @@ export class StudentDashboardComponent implements OnInit {
         // 2. Process Total Counts
         this.basicAnalytics.totalExams = results.totalExams || 0;
         this.basicAnalytics.totalQuestions = results.totalQuestions || 0;
-
+        this.availableExamsList = results.examData;
         // 3. NOW ALL DATA IS READY, PERFORM CALCULATION
         this.calcBasicAnalyticsPercent();
 
@@ -119,6 +127,20 @@ export class StudentDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private processExamData(examObservable: Observable<GetExamDataDTO[]>): Observable<SimplifiedExam[]> {
+    return examObservable.pipe(
+      map((exams: GetExamDataDTO[]) => {
+        // Map the array of GetExamDataDTO to the array of SimplifiedExam
+        return exams.map(exam => ({
+          eid: exam.eid,
+          examName: exam.name,
+          duration: exam.duration,
+          totalMarks: exam.totalMarks
+        }));
+      })
+    );
   }
 
 
@@ -142,8 +164,7 @@ export class StudentDashboardComponent implements OnInit {
 
 
   availableExams = [
-    { id: 1, title: 'Angular Basics', duration: 60, marks: 50 },
-    { id: 2, title: 'C# Advanced Concepts', duration: 90, marks: 100 }
+   
   ];
 
   examHistory = [
