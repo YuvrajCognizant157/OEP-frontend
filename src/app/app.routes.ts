@@ -2,6 +2,16 @@ import { Routes } from '@angular/router';
 import { StudentAuthGuard } from './auth/student-auth.guard';
 import {  examinerAuthGuardFn } from './auth/examiner-auth.guard';
 import { Home } from './home/home';
+// Make sure the file exists at './admin/admin.component.ts' and exports AdminComponent.
+// If the file is named differently, update the path accordingly, for example:
+ // <-- Ensure this file exists and exports AdminComponent
+import { DashboardComponent } from './admin/dashboard/dashboard';
+import { BlockUser } from './admin/block-user/block-user';
+import {ApproveTopic} from './admin/approve-topic/approve-topic';
+import {ApproveExam} from './admin/approve-exam/approve-exam';
+import {ApproveQuestion} from './admin/approve-question/approve-question';
+import {ExamFeedback} from './admin/exam-feedback/exam-feedback';
+//import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -79,6 +89,20 @@ export const routes: Routes = [
   
   /*Angular routes are relative to the app's root, not the browser's URL path. So using '/' as a redirect target doesn't work as expected. It may cause infinite redirects or blank pages.
   */
+
+  {
+   path: 'admin/dashboard',
+   component: DashboardComponent,
+   children: [
+     { path: 'approve-exam', component: ApproveExam },
+     { path: 'approve-question', component: ApproveQuestion },
+     { path: 'approve-topic', component: ApproveTopic },
+     { path: 'block-user', component: BlockUser },
+     { path: 'exam-feedback', component: ExamFeedback },
+   ],
+ },//default route
+
+
 
   { path: '**', redirectTo: '' },
 ];
