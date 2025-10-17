@@ -25,6 +25,11 @@ export const routes: Routes = [
     path: 'register-student',
     loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
   },
+  
+  {
+    path: 'profile-update',
+    loadComponent: () => import('./shared/profile-update/profile-update').then(m => m.ProfileUpdateComponent)
+  },
   {
     path: 'student/start-exam',
     loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
