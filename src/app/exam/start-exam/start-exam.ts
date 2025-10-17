@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExamService } from '../../core/services/exam.service';
 import {
@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { AuthService } from '../../core/services/auth.service';
 
 
 @Component({
@@ -19,8 +20,10 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
   styleUrl: './start-exam.css',
 })
 export class StartExam implements OnInit {
+
+  private authS = inject(AuthService);
   examId!: number;
-  userId = 5; // Replace with actual logged-in user ID
+  userId = this.authS.getUserRole()?.id! || 5; 
   examData!: StartExamResponseDTO;
   backendError = false;
   timeLeft!: number;
@@ -43,7 +46,7 @@ export class StartExam implements OnInit {
   ngOnInit(): void {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
-        alert('Window switching is not allowed during the exam!');
+        // alert('Window switching is not allowed during the exam!');
       }
     });
 
@@ -55,7 +58,6 @@ export class StartExam implements OnInit {
     this.examService.startExam(this.examId, this.userId).subscribe({
       next: (res: any) => {
         if (res.success) {
-          console.log(res);
 
           if (res.examData.questions) {
             for (let q of res.examData.questions) {
@@ -75,7 +77,7 @@ export class StartExam implements OnInit {
           this.examData = res.examData;
           this.currentQuestion = this.examData.questions[0];
           this.timeLeft = res.examData.duration * 60;
-          this.startTimer();
+          // this.startTimer();
           this.examStarted = true;
         } else {
           alert('Exam not available or attempt limit reached.');
@@ -117,7 +119,7 @@ export class StartExam implements OnInit {
   }
 
   onFinishExam() {
-    this.router.navigate(['/exam/review-exam'], {
+    this.router.navigate(['/student/review-exam'], {
       state: {
         selectedAnswers: this.selectedAnswers,
         examId: this.examData.eid,

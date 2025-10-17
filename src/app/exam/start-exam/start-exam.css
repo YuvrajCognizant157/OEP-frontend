@@ -16,6 +16,7 @@
   color: #fff;
   max-width: 900px;
   width: 100%;
+  height: fit-content;
   margin: 0 auto;
   padding: 2.5rem 3rem;
   border-radius: 12px;
