@@ -1,47 +1,50 @@
-@if (!examData) {
-  @if(!backendError){
-    <div>
-      <p>Please Wait Loading Exam...</p>
-    </div>
-  }@else {
-    <div>
-      <p>Some Error Occured....</p>
-    </div>
-  }
-  
-}
-<div class="container mt-4" *ngIf="examStarted">
-  <h2>{{ examData.name }}</h2>
-  <p><strong>Total Marks:</strong> {{ examData.totalMarks }}</p>
-  <p><strong>Duration:</strong> {{ examData.duration }} mins</p>
-  <p><strong>Time Left:</strong> {{ getFormattedTime() }}</p>
-
-  <div *ngIf="!timeUp; else timeUpTemplate">
-    <div *ngFor="let question of examData.questions" class="card mb-3">
-      <div class="card-body">
-        <h5>{{ question.questionName }}</h5>
-        <p><strong>Marks:</strong> {{ question.marks }}</p>
-        <div *ngFor="let option of question.options">
-            <label for="q{{question.qid}}" >
-                <input
-                    type="radio"
-                    name="q{{ question.qid }}"
-                    value="{{option.value}}"
-                    [value]="option.id"
-                    (change)="onOptionSelected(question.qid, option.id)"
-                    style="color: black;"
-                    />
-                {{option.value}}
-            </label>
-        </div>
-      </div>
-    </div>
-    <button class="btn btn-warning mt-3" (click)="onFinishExam()">Finish Exam</button>
+<ng-container *ngIf="!examData">
+  <div *ngIf="!backendError">
+    <p>Please wait, loading exam...</p>
   </div>
+  <div *ngIf="backendError">
+    <p>Some error occurred...</p>
+  </div>
+</ng-container>
+
+<div class="exam-container" *ngIf="examStarted">
+  <mat-card-header class="exam-details">
+    <mat-card-title>{{ examData.name }}</mat-card-title>
+    <mat-card-content>
+      <p>
+        <strong>Total Marks:</strong> {{ examData.totalMarks }} <strong>Duration:</strong>
+        {{ examData.duration }} mins <strong>Time Left:</strong> {{ getFormattedTime() }}
+      </p>
+    </mat-card-content>
+  </mat-card-header>
+
+  <ng-container *ngIf="!timeUp; else timeUpTemplate">
+    <mat-card *ngIf="currentQuestion">
+      <mat-card-title
+        ><strong>Question:</strong> {{ currentQuestion.questionName }}
+        <mat-card-subtitle
+          ><p><strong>Marks:</strong> {{ currentQuestion.marks }}</p></mat-card-subtitle
+        >
+      </mat-card-title>
+      <mat-card-content>
+        <h4>Select the correct options:</h4>
+        <div *ngFor="let option of currentQuestion.ParsedOptions">
+          <mat-checkbox
+            [checked]="isOptionSelected(currentQuestion.qid, option.id)"
+            (change)="onOptionToggled(currentQuestion.qid, option.id, $event.checked)"
+          >
+            {{ option.value }}
+          </mat-checkbox>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <button mat-raised-button color="accent" (click)="markAndNext()">Mark & Next</button>
+  </ng-container>
 
   <ng-template #timeUpTemplate>
-    <div class="alert alert-warning">
-      Time is up! Your responses are being submitted or locked.
-    </div>
+    <mat-card class="alert alert-warning">
+      Time is up! Your responses are being submitted.
+    </mat-card>
   </ng-template>
 </div>
