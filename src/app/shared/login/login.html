@@ -1,4 +1,4 @@
-<div class="login-container" >
+<div class="login-container">
   <mat-card>
     <mat-card-header>
       <mat-card-title>Login</mat-card-title>
@@ -6,14 +6,14 @@
 
     <mat-card-content>
       <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="fill">
           <mat-label>Email</mat-label>
-          <input matInput type="email" [(ngModel)]="username" name="username" required>
+          <input matInput type="email" [(ngModel)]="username" name="username" required />
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="fill">
           <mat-label>Password</mat-label>
-          <input matInput type="password" [(ngModel)]="password" name="password" required>
+          <input matInput type="password" [(ngModel)]="password" name="password" required />
         </mat-form-field>
 
         <div *ngIf="errorMessage" class="error-message">
@@ -24,6 +24,20 @@
           {{ loading ? 'Logging in...' : 'Login' }}
         </button>
       </form>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <button mat-stroked-button color="accent" class="action-btn" (click)="registerAsEmployee()">
+        <mat-icon>person</mat-icon>
+        Register as Employee
+      </button>
+
+      <button mat-stroked-button color="warn" class="action-btn" (click)="registerAsStudent()">
+        <mat-icon>school</mat-icon>
+        Register as Student
+      </button>
     </mat-card-content>
   </mat-card>
 </div>
