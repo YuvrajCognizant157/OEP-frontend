@@ -2,3 +2,7 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #1c2333;}
+
+.custom-dialog .mat-mdc-dialog-title {
+  color: rgba(153, 151, 151, 0.87);
+}

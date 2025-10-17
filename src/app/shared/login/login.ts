@@ -71,6 +71,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginService.login(loginData).subscribe({
       next: (res) => {
         localStorage.setItem('token', res.token);
+        let role = this.authS.getUserRole()?.role;
+        localStorage.setItem('userRole', role ? role : '');
 
         const userDetails = this.authS.getUserRole();
         if (!userDetails) {

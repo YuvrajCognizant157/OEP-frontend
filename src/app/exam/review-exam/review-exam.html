@@ -1,14 +1,30 @@
-<div class="container mt-4">
-  <h3>Review Your Answers</h3>
+<div class="review-container">
+  <h2 class="review-header">Review Your Answers</h2>
 
-    @for (answer of selectedAnswers; track answer.Resp) {
-        <div class="card mb-2">
-            <div class="card-body">
-            <p><strong>Question ID:</strong> {{ answer.qid }}</p>
-            <p><strong>Selected Option ID:</strong> {{ answer.Resp }}</p>
-            </div>
-        </div>
-    }
+  @if (selectedAnswers.length > 0) {
+    <div class="answers-list">
+      @for (answer of selectedAnswers; track answer.Resp) {
+        <mat-card class="answer-card">
+          <mat-card-content class="answer-content">
+            <p class="question-id">
+              <strong>Question ID:</strong> {{ answer.qid }}
+            </p>
+            <p class="selected-option">
+              <strong>Selected Option ID:</strong> {{ answer.Resp }}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <p>You have not answered any questions yet.</p>
+    </div>
+  }
 
-    <button class="btn btn-success" (click)="submitExam()">Submit Exam</button>
+  <div class="submit-button-container">
+    <button mat-raised-button color="primary" (click)="submitExam()">
+      Submit Exam
+    </button>
+  </div>
 </div>
