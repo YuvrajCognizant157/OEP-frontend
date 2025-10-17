@@ -180,12 +180,12 @@
         <mat-card class="history-card">
             <h3>Exam History</h3><br />
             <div class="history-list">
-                <div class="history-item" *ngFor="let e of examHistory">
+                <div class="history-item" *ngFor="let e of examResultsHistory | slice:0:2">
                     <div class="history-title-score">
-                        <span class="exam-title">{{ e.title }}</span>
-                        <span class="exam-score">{{ e.score }}/{{ e.total }}</span>
+                        <span class="exam-title">{{ e.examName }}</span>
+                        <span class="exam-score">{{ e.score }}/{{ e.totalMarks }}</span>
                     </div>
-                    <span class="exam-date">{{ e.date | date: 'mediumDate' }}</span>
+                    <span class="exam-date">{{ e.takenOn | date: 'mediumDate' }}</span>
                 </div>
             </div>
             <button mat-button class="view-all-btn">Full History</button>

@@ -12,7 +12,8 @@ import { ResultService } from '../../core/services/result.service';
 import { AnalyticsService } from '../../core/services/analytics.service';
 import { ExamService } from '../../core/services/exam.service';
 import { forkJoin, map, Observable } from 'rxjs';
-import { SimplifiedExam,GetExamDataDTO } from '../../shared/models/exam.model';
+import { SimplifiedExam, GetExamDataDTO } from '../../shared/models/exam.model';
+import { SimplifiedResult, RawResultDTO } from '../../shared/models/result.model';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -40,8 +41,8 @@ export class StudentDashboardComponent implements OnInit {
   public examsAppearedTotal: number = 0;
 
   public availableExamsList: SimplifiedExam[] = [];
+  public examResultsHistory: SimplifiedResult[] = [];
 
-  
 
   student = {
     id: 0,
@@ -102,7 +103,8 @@ export class StudentDashboardComponent implements OnInit {
       studentAnalytics: this.analyticsService.getStudentAnalytics(userId),
       totalExams: this.analyticsService.getTotalActiveExams(),
       totalQuestions: this.analyticsService.getTotalActiveQuestions(),
-      examData: this.processExamData(this.examService.getExams())
+      examData: this.processExamData(this.examService.getExams()),
+      resultData: this.processResultsData(this.resultService.viewResultsByUserId(userId) as Observable<RawResultDTO[]>)
     }).subscribe({
       next: (results) => {
         // 1. Process Student Analytics
@@ -117,6 +119,7 @@ export class StudentDashboardComponent implements OnInit {
         this.basicAnalytics.totalExams = results.totalExams || 0;
         this.basicAnalytics.totalQuestions = results.totalQuestions || 0;
         this.availableExamsList = results.examData;
+        this.examResultsHistory = results.resultData;
         // 3. NOW ALL DATA IS READY, PERFORM CALCULATION
         this.calcBasicAnalyticsPercent();
 
@@ -127,6 +130,26 @@ export class StudentDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private processResultsData(resultObservable: Observable<RawResultDTO[]>): Observable<SimplifiedResult[]> {
+    return resultObservable.pipe(
+      map((results: RawResultDTO[]) => {
+        // Map the array of RawResultDTO to the array of SimplifiedResult
+        return results.map(result => ({
+          eid: result.eid,
+          examName: result.examName,
+          attempts: result.attempts,
+          score: result.score,
+          takenOn: new Date(result.takenOn).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit'
+          }),
+          totalMarks: result.totalMarks,
+        })) as SimplifiedResult[];
+      })
+    );
   }
 
   private processExamData(examObservable: Observable<GetExamDataDTO[]>): Observable<SimplifiedExam[]> {
@@ -145,7 +168,7 @@ export class StudentDashboardComponent implements OnInit {
 
 
   calcBasicAnalyticsPercent() {
-  
+
     if (this.basicAnalytics.totalExams > 0) {
       this.percentageAnalytics.examsAttemptedPercent =
         (this.examsAppearedTotal / this.basicAnalytics.totalExams) * 100;
@@ -164,7 +187,7 @@ export class StudentDashboardComponent implements OnInit {
 
 
   availableExams = [
-   
+
   ];
 
   examHistory = [
