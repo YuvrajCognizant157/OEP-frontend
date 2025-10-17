@@ -43,8 +43,8 @@ export class Header implements OnInit {
 
   getRole(): string | null {
     if (!this.isLoggedIn) return null;
-    const userRole = this.authService.getUserRole()?.role?.toLocaleLowerCase();
-    
+    const userRole = localStorage.getItem('userRole')?.toLocaleLowerCase();
+
     return userRole ? userRole : null;
   }
 
