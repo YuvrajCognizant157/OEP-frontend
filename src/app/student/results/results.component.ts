@@ -2,107 +2,89 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExamService } from '../../core/services/exam.service';
 import { ResultService } from '../../core/services/result.service';
+import { AuthService } from '../../core/services/auth.service';
 import { GetExamDataDTO } from '../../shared/models/exam.model';
+
+// Import all necessary Angular Material modules
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-results',
+  standalone: true, // Assuming this is a standalone component
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css'],
-  imports: [CommonModule, MatDialogModule, MatProgressSpinnerModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatButtonModule
+  ],
 })
 export class ResultsComponent implements OnInit {
   exams: GetExamDataDTO[] = [];
-  userId = 5;
+  userId!: number;
+
+  // State variables for dialogs
   isLoading = false;
-  resultData: any;
-  showModal = false;
-  hasTriedCreating = false;
-
-  showCreateResultModal = false;
+  resultData: any = [];
+  createResultLoader = false;
   createResultResponse: any;
-  createResultLoader: boolean = false;
 
+  // References to the <ng-template> blocks in the HTML
   @ViewChild('resultDialog') resultDialog!: TemplateRef<any>;
   @ViewChild('createResultDialog') createResultDialog!: TemplateRef<any>;
 
   constructor(
     private examService: ExamService,
     private resultService: ResultService,
+    private authService: AuthService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.userId = this.authService.getUserRole()?.id!;
     this.examService.getExams().subscribe({
       next: (data) => (this.exams = data),
       error: (err) => console.error('Failed to load exams', err),
     });
   }
 
-  openResultDialog(eid: number) {
+  viewResult(examId: number): void {
     this.isLoading = true;
-    this.dialog.open(this.resultDialog);
+    this.resultData = []; // Clear previous data
+    const dialogRef = this.dialog.open(this.resultDialog, {
+      panelClass: 'custom-dialog' // Apply our custom theme
+    });
 
-    // Simulate API call
-    setTimeout(() => {
-      this.resultData = { score: 85, attempts: 2 }; // replace with actual API result
-      this.isLoading = false;
-    }, 1500);
-  }
-
-  openCreateResultDialog() {
-    this.createResultLoader = true;
-    this.dialog.open(this.createResultDialog);
-
-    setTimeout(() => {
-      this.createResultLoader = false;
-      this.createResultResponse = true; // or false based on API
-    }, 2000);
-  }
-
-  onCloseCreateResultModal() {
-    this.dialog.closeAll();
-    this.createResultResponse = null;
-  }
-
-  viewResult(examId: number) {
-    this.isLoading = true;
-    this.showModal = true;
     this.resultService.viewResult(examId, this.userId).subscribe({
       next: (res) => {
         this.resultData = res;
         this.isLoading = false;
-
-        if (!this.resultData && !this.hasTriedCreating) {
-          this.hasTriedCreating = true;
-          this.triggerCreateResult(examId);
-        }
       },
       error: (err) => {
-        console.error('Error viewing result', err);
-        this.resultData = null;
-        this.isLoading = false;
-
-        if (!this.hasTriedCreating) {
-          this.hasTriedCreating = true;
-          this.triggerCreateResult(examId);
-        }
+        console.error('Could not view result, triggering creation...', err);
+        dialogRef.close();
+        this.triggerCreateResult(examId);
       },
     });
   }
 
-  triggerCreateResult(examId: number) {
+  triggerCreateResult(examId: number): void {
     this.createResultLoader = true;
-    this.showCreateResultModal = true;
+    this.createResultResponse = null; // Reset state
+    this.dialog.open(this.createResultDialog, {
+      disableClose: true,
+      panelClass: 'custom-dialog' // Apply our custom theme
+    });
 
     this.resultService.createResult(examId, this.userId).subscribe({
       next: (res) => {
         this.createResultResponse = res;
         this.createResultLoader = false;
-
-        // After creating result, try viewing it again
-        this.viewResult(examId);
       },
       error: (err) => {
         console.error('Error creating result', err.error);
@@ -112,7 +94,7 @@ export class ResultsComponent implements OnInit {
     });
   }
 
-  // onCloseCreateResultModal() {
-  //   this.showCreateResultModal = false;
-  // }
+  onCloseCreateResultModal(): void {
+    this.dialog.closeAll();
+  }
 }

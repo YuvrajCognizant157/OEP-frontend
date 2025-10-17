@@ -3,10 +3,11 @@ import { ExamService } from '../../core/services/exam.service';
 import { ActivatedRoute,Router } from '@angular/router';
 import { SubmittedExamDTO } from '../../shared/models/exam.model';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   selector: 'app-review-exam',
-  imports: [CommonModule],
+  imports: [CommonModule, MatCardModule],
   templateUrl: './review-exam.html',
   styleUrl: './review-exam.css'
 })
