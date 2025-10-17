@@ -8,15 +8,18 @@
   --warn-color: #f44336; /* Default Material warn color */
   display: flex;
   justify-content: center;
-  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%); 
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
   padding: 2rem; 
 }
 
 .exam-list-container {
-  background-color: var(--page-bg);
-  padding: 32px;
+  background-color: #1a222f;
   min-height: 100vh;
   min-width: 70%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px 48px;
 }
 
 .page-title {

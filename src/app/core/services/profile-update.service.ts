@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProfileUpdateService {
-  private apiUrl = 'https://your-api-endpoint.com/api/user/update';
+  private apiUrl = 'https://localhost:44395/api/Auth';
 
   constructor(private http: HttpClient) {}
 

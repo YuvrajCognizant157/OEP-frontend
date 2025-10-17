@@ -41,7 +41,7 @@ export class ReviewExam implements OnInit {
   };
 
     this.examService.submitExam(payload).subscribe({
-      next: () => this.router.navigate(['/exam-feedback']),
+      next: () => this.router.navigate(['/student/exam-feedback']),
       error: err => {console.log(err.error.errors);console.error('Submit failed', err);}
     });
   }
