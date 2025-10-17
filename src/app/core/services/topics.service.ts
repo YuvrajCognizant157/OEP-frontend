@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TopicResponse } from '../../examiner/manage-topic/manage-topic';
+
+interface createTopicRequest {
+  TopicName: string;
+  examinerId: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class TopicsService {
@@ -14,16 +20,25 @@ export class TopicsService {
   getTopicById(topicId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/get-topic/${topicId}`);
   }
-
-  createTopicService(topicName: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/add-topic?TopicName=${topicName}`, {});
+  getYourTopics(examinerId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get-examiner-topic/${examinerId}`);
   }
 
-  updateTopicService(topicName:string,tid:number){
-    return this.http.post<any>(`${this.apiUrl}/update-topic/${tid}`,{Name:topicName});
+  createTopicService(topicName: string, examinerId: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/add-topic`, {
+      topicName: topicName,
+      examinerId: examinerId,
+    });
   }
 
-  deleteTopicService(topicId:number){
+  updateTopicService(topicName: string, tid: number) {
+    return this.http.post<any>(`${this.apiUrl}/update-topic/${tid}`, { Name: topicName });
+  }
+
+  deleteTopicService(topicId: number) {
     return this.http.delete<any>(`${this.apiUrl}/delete-topic/${topicId}`);
+  }
+  sendTopicForApproval(topicId: number): Observable<TopicResponse> {
+    return this.http.post<TopicResponse>(`${this.apiUrl}/send-topic-for-approval/${topicId}`, null);
   }
 }

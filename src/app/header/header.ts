@@ -5,10 +5,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
+import { MatCardAvatar } from '@angular/material/card';
 
 @Component({
   selector: 'app-header',
-  imports: [MatIconModule, MatButtonModule, MatExpansionModule, CommonModule, RouterLink],
+  imports: [MatIconModule, MatButtonModule, MatExpansionModule, CommonModule, RouterLink, MatCardAvatar],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
@@ -27,11 +28,22 @@ export class Header implements OnInit {
 
   }
 
+  getInitials(name: string): string {
+    if (!name) return '';
+    const names = name.split(' ');
+    const initials = names.map(n => n.charAt(0).toUpperCase()).join('');
+    return initials;
+  }
+
+  // getFirstName(): string | null {
+  //   if (!this.isLoggedIn) return null;
+  //   const userName = this.authService.getUserRole()?.name;
+  //   return userName ? userName : null;
+  // }
+
   getRole(): string | null {
     if (!this.isLoggedIn) return null;
     const userRole = this.authService.getUserRole()?.role?.toLocaleLowerCase();
-
-    console.log("userRole in header:", userRole);
     
     return userRole ? userRole : null;
   }

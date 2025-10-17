@@ -93,6 +93,9 @@ h1 {
 .status-rejected {
   color: var(--status-rejected) !important;
 }
+.status-awaited{
+  color: yellow !important;
+}
 mat-card-actions {
   padding: 0px 8px 8px !important;
 }
