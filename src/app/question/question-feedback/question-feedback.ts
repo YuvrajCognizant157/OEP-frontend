@@ -32,4 +32,3 @@ export class QuestionFeedback implements OnInit {
     });
   }
 }
-
