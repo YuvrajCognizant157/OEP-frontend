@@ -8,30 +8,34 @@ export interface GetExamDataDTO {
   displayedQuestions: number;
   attemptNo: number;
 }
-export interface StartExamQuestionDTO{
+
+export interface StartExamQuestionDTO {
   approvalStatus: number;
-  marks:number;
-  options: optionDisplayType[];
-  qid:number;
-  questionName : string;
+  marks: number;
+  options: string | optionDisplayType[];
+  qid: number;
+  questionName: string;
   type: string;
-  questionReports : {
-    qid:number;
-    feedback:string;
-    userId:number;
-  }
+  questionReports: {
+    qid: number;
+    feedback: string;
+    userId: number;
+  };
+  ParsedOptions : optionDisplayType[];
 }
-export interface StartExamResponseDTO{
-  eid :number;
-  totalMarks : number;
+
+export interface StartExamResponseDTO {
+  eid: number;
+  totalMarks: number;
   duration: number;
   name: string;
   displayedQuestions: number;
-  questions :StartExamQuestionDTO[];
-};
+  questions: StartExamQuestionDTO[]; // This now correctly uses the updated question DTO
+}
 
-export interface optionDisplayType{
-  id:number;value:string;
+export interface optionDisplayType {
+  id: number;
+  value: string;
 }
 
 export interface ReceivedResponseDTO {
