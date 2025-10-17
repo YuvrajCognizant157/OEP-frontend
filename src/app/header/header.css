@@ -3,13 +3,34 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #1e293b;
+  font-weight: 1000;
+  font-size: 1.5rem;
+  color: #f1f1f1;
 }
 
+.nav-actions{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #f1f1f1;
+}   
+.icon-avatar {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #d842cc; /* Blue color */
+    margin-bottom: 5px;
+}
 .nav-logo svg path {
-  stroke: #1e293b;
+  stroke: #f1f1f1;
 }
 
 .nav-links {
@@ -22,20 +43,21 @@
   align-items: center;
 
   text-decoration: none;
-  color: #334155;
-  font-weight: 500;
+  color: #FFFFFF;
+  font-weight: 900;
+  font-size: 1.3rem;
   transition: color 0.2s ease;
 }
 
 .nav-links a mat-icon {
   
-  font-size: 1.25rem; 
-  height: 1.25rem;
-  width: 1.25rem;
+  font-size: 1.4rem; 
+  height: 1.4rem;
+  width: 1.4rem;
 }
 
 .nav-links a:hover {
-  color: #1e293b;
+  color: #E0E0E0;
 }
 
 .nav-links .arrow {
@@ -46,7 +68,7 @@
 
 
 header {
-  background-color: #CAC8F3;
+  background-color: #575485;
   padding: 1rem 3rem;
   width: 100%;
   box-sizing: border-box;
@@ -71,4 +93,41 @@ nav {
 
 .signup-btn:hover {
   background-color: #4a4cc7;
+}
+
+
+/* ... existing styles for nav-logo, nav-links, header, nav ... */
+
+/* Sign In Button (original style) */
+.signin-btn {
+  background-color: #5d5fef;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.signin-btn:hover {
+  background-color: #4a4cc7;
+}
+
+/* Log Out Button (Red background) */
+.logout-btn {
+  background-color: #dc3545; /* Red color */
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c82333; /* Darker red on hover */
 }

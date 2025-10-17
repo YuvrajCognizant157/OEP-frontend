@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { ExaminerService } from '../../core/services/examiner.service';
 import { TopicsService } from '../../core/services/topics.service';
 import { Router } from '@angular/router';
-
+import { AuthService, userDetails } from '../../core/services/auth.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -22,16 +22,19 @@ import { MatButtonModule } from '@angular/material/button';
 export class CreateExam implements OnInit {
   examForm!: FormGroup;
   topics: any[] = [];
-  userId = 1; 
+  userId = -1;
 
   constructor(
     private fb: FormBuilder,
     private examinerService: ExaminerService,
-    private router: Router,
-    private topicService :TopicsService
+    private topicService: TopicsService,
+    private authService: AuthService,
+    private router : Router
   ) {}
 
   ngOnInit(): void {
+    let tokenDetails: userDetails = this.authService.getUserRole()!;
+    this.userId = tokenDetails?.id;
     this.examForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -39,26 +42,26 @@ export class CreateExam implements OnInit {
       duration: [null, [Validators.required, Validators.min(0.5)]],
       tids: [[]],
       displayedQuestions: [null],
-      marksPerQuestion: [null, [Validators.required, Validators.min(1)]]
+      marksPerQuestion: [null, [Validators.required, Validators.min(1)]],
     });
 
     this.getTopics();
-   
   }
 
-  getTopics(){
+  getTopics() {
     this.topicService.getTopics().subscribe({
       next: (data) => {
         this.topics = data;
       },
-      error:(err) => {
+      error: (err) => {
         console.error('Error fetching topics:', err);
-      }
+      },
     });
   }
-  onTopicChange(event: any, topicId: number) {
-    const tids = this.examForm.get('tids')?.value as number[];
-    if (event.target.checked) {
+  onTopicChange(event: MatCheckboxChange, topicId: number) {
+    const tids = (this.examForm.get('tids')?.value as number[]) || [];
+
+    if (event.checked) {
       tids.push(topicId);
     } else {
       const index = tids.indexOf(topicId);

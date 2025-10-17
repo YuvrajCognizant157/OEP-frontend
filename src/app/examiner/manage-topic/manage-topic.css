@@ -1,18 +1,101 @@
 :host {
-      --page-bg: #1c2333; --card-bg: #2a3447; --text-main: #ffffff; --text-light: #c1c8d6;
-      --accent-purple: #675ee3; --status-approved: #66bb6a; --status-pending: #ffa726; --status-rejected: #ef5350;
-    }
-    .page-container { background-color: var(--page-bg); min-height: 100vh; padding: 24px 48px; color: var(--text-main); }
-    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
-    h1 { font-size: 2.5rem; font-weight: bold; }
-    .add-button { background-color: var(--accent-purple); color: var(--text-main); }
-    .spinner-container, .empty-state { display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 100px; text-align: center; }
-    .empty-icon { font-size: 80px; width: 80px; height: 80px; color: var(--text-light); }
-    .empty-state h2 { margin-top: 16px; }
-    .empty-state p { color: var(--text-light); }
-    .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
-    .topic-card { background-color: var(--card-bg); display: flex; flex-direction: column; justify-content: space-between; }
-    .status-approved { color: var(--status-approved) !important; }
-    .status-pending { color: var(--status-pending) !important; }
-    .status-rejected { color: var(--status-rejected) !important; }
-    mat-card-actions { padding: 0px 8px 8px !important; }
+  --page-bg: #1c2333;
+  --card-bg: #2a3447;
+  --text-main: #ffffff;
+  --text-light: #c1c8d6;
+  --accent-purple: #675ee3;
+  --status-approved: #66bb6a;
+  --status-pending: #ffa726;
+  --status-rejected: #ef5350;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.page-container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.847);
+  border: 1px solid rgba(255, 255, 255, 0.164);
+  background-color: var(--page-bg);
+  min-height: 100vh;
+  padding: 24px 48px;
+  color: var(--text-main);
+}
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.add-button {
+  background-color: var(--accent-purple);
+  color: var(--text-main);
+}
+.spinner-container,
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 100px;
+  text-align: center;
+}
+.empty-icon {
+  font-size: 80px;
+  width: 80px;
+  height: 80px;
+  color: var(--text-light);
+}
+.empty-state h2 {
+  margin-top: 16px;
+}
+.empty-state p {
+  color: var(--text-light);
+}
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.topic-card {
+  background-color: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.847);
+  border: 1px solid rgba(255, 255, 255, 0.164);
+
+  position: relative; 
+  transition: top 0.3s ease; 
+}
+
+.topic-card:hover {
+  top: -10px; 
+}
+
+.status-approved {
+  color: var(--status-approved) !important;
+}
+.status-pending {
+  color: var(--status-pending) !important;
+}
+.status-rejected {
+  color: var(--status-rejected) !important;
+}
+.status-awaited{
+  color: yellow !important;
+}
+mat-card-actions {
+  padding: 0px 8px 8px !important;
+}

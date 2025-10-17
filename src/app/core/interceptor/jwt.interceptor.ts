@@ -1,21 +1,32 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { EMPTY } from 'rxjs'; // Import EMPTY
 import { AuthService } from '../services/auth.service';
 
-@Injectable()
-export class JwtInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+export const jwtInterceptorFn: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const token = authService.getToken();
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const token = this.authService.getToken();
-    if (token) {
-      const cloned = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      return next.handle(cloned);
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    // 2. Get the expiration timestamp (exp is in seconds, Date.now() is in milliseconds)
+    const expirationDate = new Date(payload.exp * 1000);
+    const now = new Date();
+
+    // 3. Check if the token is expired
+    if (expirationDate <= now) {
+      console.log('JWT Token has expired. Logging out.');
+      authService.logout();
+      return EMPTY; // Stops the request from proceeding
     }
-    return next.handle(req);
+
+    const cloned = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return next(cloned);
   }
-}
+  return next(req);
+};

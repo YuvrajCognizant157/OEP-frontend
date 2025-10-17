@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService, userDetails } from '../../core/services/auth.service';
 @Component({
   selector: 'app-exams',
   imports: [
@@ -23,19 +24,20 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class Exams implements OnInit {
   exams: any[] = [];
-  userId = 1; // Get this from a logged-in user's session
-
   selectedExam: any = null; // Holds the data for the modal
   isModalOpen: boolean = false;
 
   isUpdateModalOpen = signal<boolean>(false);
   examToUpdate = signal<any | null>(null);
 
-  constructor(private examinerService: ExaminerService) {}
+  constructor(private examinerService: ExaminerService,private authService: AuthService) {}
+
+  userId = -1;
 
   ngOnInit(): void {
+    let tokenDetails:userDetails = this.authService.getUserRole()!;
+    this.userId = tokenDetails?.id;
     this.fetchExams();
-    console.log(this.exams);
   }
 
   fetchExams(): void {
