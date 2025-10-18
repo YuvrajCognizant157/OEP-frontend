@@ -1,0 +1,47 @@
+:host{
+  --page-bg: #1c2333;
+  --card-bg: #2a3447;
+  --text-main: #ffffff;
+  --text-light: #c1c8d6;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.exam-container {
+  background-color: #121212;
+  color: #fff;
+  max-width: 900px;
+  width: 100%;
+  height: fit-content;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.847);
+  border: 1px solid rgba(255, 255, 255, 0.164);
+  background-color: var(--page-bg);
+  min-height: 100vh;
+  padding: 24px 48px;
+  color: var(--text-main);
+}
+.exam-details{
+  
+}
+mat-card {
+  background-color: #2a2d4b;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 30px;
+  margin: 30px;
+}
+
+mat-radio-button {
+  color: #fff;
+}
+
+button {
+  margin-top: 20px;
+}
