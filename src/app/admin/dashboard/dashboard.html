@@ -1,0 +1,70 @@
+<mat-toolbar color="primary" class="admin-toolbar">
+<span class="brand">Admin Panel</span>
+<div class="nav-links">
+<a mat-button routerLink="/admin/dashboard" routerLinkActive="active-link">Dashboard</a>
+<a mat-button routerLink="/admin/dashboard/approve-exam" routerLinkActive="active-link">Approve Exams</a>
+<a mat-button routerLink="/admin/dashboard/approve-question" routerLinkActive="active-link">Approve Questions</a>
+<a mat-button routerLink="/admin/dashboard/approve-topic" routerLinkActive="active-link">Approve Topics</a>
+<a mat-button routerLink="/admin/dashboard/block-users" routerLinkActive="active-link">Block Users</a>
+<a mat-button routerLink="/admin/dashboard/exam-feedback" routerLinkActive="active-link">Exam Feedback</a>
+</div>
+</mat-toolbar>
+<!-- ✅ Show analytics cards ONLY on the main dashboard route -->
+<div *ngIf="router.url === '/admin/dashboard'; else showChild">
+<div class="dashboard-container" *ngIf="!loading && analytics; else loadingTpl">
+<div class="dashboard-title">
+<h1>Welcome, Admin 👋</h1>
+<p class="dashboard-subtitle">Here’s a summary of platform activity.</p>
+</div>
+<div class="stats-grid">
+<mat-card class="stat-card blue">
+<mat-icon>help_outline</mat-icon>
+<h2>{{ analytics.totalQuestions }}</h2>
+<p>Total Questions</p>
+</mat-card>
+<mat-card class="stat-card green">
+<mat-icon>group</mat-icon>
+<h2>{{ analytics.totalStudents }}</h2>
+<p>Total Students</p>
+</mat-card>
+<mat-card class="stat-card orange">
+<mat-icon>supervisor_account</mat-icon>
+<h2>{{ analytics.totalExaminers }}</h2>
+<p>Total Examiners</p>
+</mat-card>
+<mat-card class="stat-card red">
+<mat-icon>lock</mat-icon>
+<h2>{{ analytics.blockedExaminers }}</h2>
+<p>Blocked Examiners</p>
+</mat-card>
+</div>
+<div class="activity-section">
+<h2>Top Performing Exams</h2>
+<table class="top-exams">
+<thead>
+<tr>
+<th>Exam ID</th>
+<th>Exam Title</th>
+<th>Average Score</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let exam of analytics.topExams">
+<td>{{ exam.examId }}</td>
+<td>{{ exam.examTitle }}</td>
+<td>{{ exam.averageScore | number: '1.0-2' }}</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- ✅ Render child components (like block-user) here -->
+<ng-template #showChild>
+<router-outlet></router-outlet>
+</ng-template>
+<!-- Loading template -->
+<ng-template #loadingTpl>
+<div class="loading">Loading analytics...</div>
+</ng-template>
+ 

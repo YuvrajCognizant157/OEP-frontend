@@ -1,0 +1,57 @@
+<div class="exam-feedback-container">
+<h2>Exam Feedbacks</h2>
+<!-- Input to select exam ID -->
+<div class="exam-selector">
+<mat-form-field appearance="outline">
+<mat-label>Enter Exam ID</mat-label>
+<input matInput type="number" [(ngModel)]="examId" placeholder="e.g. 12" />
+</mat-form-field>
+<button mat-raised-button color="primary" (click)="loadFeedbacks()">
+
+      Load Feedbacks
+</button>
+</div>
+<!-- Feedback Table -->
+<div *ngIf="!loading; else loadingTpl">
+<table mat-table [dataSource]="feedbacks" class="mat-elevation-z8 full-width-table" *ngIf="feedbacks.length > 0">
+<!-- Exam ID -->
+<ng-container matColumnDef="examId">
+<th mat-header-cell *matHeaderCellDef> Exam ID </th>
+<td mat-cell *matCellDef="let feedback"> {{ feedback.examId }} </td>
+</ng-container>
+<!-- Student Name -->
+<ng-container matColumnDef="studentName">
+<th mat-header-cell *matHeaderCellDef> Student </th>
+<td mat-cell *matCellDef="let feedback"> {{ feedback.studentName }} </td>
+</ng-container>
+<!-- Feedback -->
+<ng-container matColumnDef="feedback">
+<th mat-header-cell *matHeaderCellDef> Feedback </th>
+<td mat-cell *matCellDef="let feedback"> {{ feedback.feedback }} </td>
+</ng-container>
+<!-- Actions -->
+<ng-container matColumnDef="actions">
+<th mat-header-cell *matHeaderCellDef> Actions </th>
+<td mat-cell *matCellDef="let feedback">
+<button mat-stroked-button color="accent" (click)="openRemarksDialog(feedback)">
+
+            Add Remark
+</button>
+</td>
+</ng-container>
+<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<div *ngIf="feedbacks.length === 0" class="no-feedbacks">
+
+      No feedbacks found for this exam.
+</div>
+</div>
+<ng-template #loadingTpl>
+<div class="loading-spinner">
+<mat-spinner diameter="40"></mat-spinner>
+<p>Loading feedbacks...</p>
+</div>
+</ng-template>
+</div>
+ 
