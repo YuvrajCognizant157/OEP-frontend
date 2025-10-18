@@ -29,16 +29,27 @@
         <button
           mat-flat-button
           class="update-button"
-          [disabled]="exam.approvalStatusOfExam === -1"
+          [disabled]="exam.approvalStatus === -1"
           (click)="onUpdateExam(exam.eid)"
         >
           <mat-icon>edit</mat-icon>
           Update
         </button>
+        @if (exam.approvalStatus === 0 && !exam.submittedForApproval) {
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="sendExamForApproval(exam.eid)"
+          aria-label="Send exam for approval"
+        >
+          <mat-icon>send</mat-icon>
+          Get Approval
+        </button>
+        }
         <button
           mat-flat-button
           color="warn"
-          [disabled]="exam.approvalStatusOfExam === -1"
+          [disabled]="exam.approvalStatus === -1"
           (click)="onDeleteExam(exam.eid)"
         >
           <mat-icon>delete</mat-icon>
@@ -50,7 +61,7 @@
   </div>
   }@else {
   <div class="detail-item else-case">
-    <p style="color: antiquewhite !important;">No Exams Created..</p>
+    <p style="color: antiquewhite !important">No Exams Created..</p>
   </div>
   }
 </div>
