@@ -101,15 +101,21 @@ export class StudentDashboardComponent implements OnInit {
   private loadAllAnalytics(userId: number): void {
     this.isLoading = true;
 
+    console.log('Loading dashboard data for user ID:', userId);
+    
+
     // Use forkJoin to wait for all three necessary async calls to complete
     forkJoin({
       studentAnalytics: this.analyticsService.getStudentAnalytics(userId),
       totalExams: this.analyticsService.getTotalActiveExams(),
       totalQuestions: this.analyticsService.getTotalActiveQuestions(),
-      examData: this.processExamData(this.examService.getExams()),
+      examData: this.processExamData(this.examService.getAvailableExams(userId)),
       resultData: this.processResultsData(this.resultService.viewResultsByUserId(userId) as Observable<RawResultDTO[]>)
     }).subscribe({
       next: (results) => {
+
+        console.log('Dashboard data loaded:', results);
+        
         // 1. Process Student Analytics
         const studentData = results.studentAnalytics;
         if (studentData && studentData.value) {
@@ -198,8 +204,13 @@ export class StudentDashboardComponent implements OnInit {
   }
 
   private processExamData(examObservable: Observable<GetExamDataDTO[]>): Observable<SimplifiedExam[]> {
+
+    //console.log('Processing exam data observable:', examObservable);
+    
     return examObservable.pipe(
       map((exams: GetExamDataDTO[]) => {
+        console.log('Raw exam data received:', exams);
+        
         // Map the array of GetExamDataDTO to the array of SimplifiedExam
         return exams.map(exam => ({
           eid: exam.eid,
