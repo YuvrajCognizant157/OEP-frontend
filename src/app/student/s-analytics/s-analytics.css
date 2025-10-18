@@ -1,0 +1,35 @@
+.analytics-container {
+    background-color: #121212;
+  margin: 0 auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.page-title {
+  font-size: 2.80rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #099bc7;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.chart-card {
+    color: #b109c7;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}
