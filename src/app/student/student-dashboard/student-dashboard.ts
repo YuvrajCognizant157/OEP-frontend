@@ -14,6 +14,7 @@ import { ExamService } from '../../core/services/exam.service';
 import { forkJoin, map, Observable } from 'rxjs';
 import { SimplifiedExam, GetExamDataDTO } from '../../shared/models/exam.model';
 import { SimplifiedResult, RawResultDTO } from '../../shared/models/result.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -25,7 +26,8 @@ import { SimplifiedResult, RawResultDTO } from '../../shared/models/result.model
     MatTableModule,
     BaseChartDirective,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RouterLink
   ],
   templateUrl: './student-dashboard.html',
   styleUrl: './student-dashboard.css'
