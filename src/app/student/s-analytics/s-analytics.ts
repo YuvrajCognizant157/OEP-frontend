@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,11 +8,12 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { AnalyticsService } from '../../core/services/analytics.service';
 
 @Component({
   selector: 'app-s-analytics',
   imports: [CommonModule,
-     MatCardModule,
+    MatCardModule,
     MatButtonModule,
     MatTableModule,
     BaseChartDirective,
@@ -23,7 +24,65 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './s-analytics.html',
   styleUrl: './s-analytics.css'
 })
-export class SAnalytics {
+export class SAnalytics implements OnInit {
+
+  constructor(private analyticsService: AnalyticsService) { }
+
+
+  ngOnInit(): void {
+    this.analyticsService.getStudentAnalytics(9).subscribe({
+      next: (res) => {
+        const data = res.value;
+        if (!data) return;
+
+        // ---- BAR: Average Score per Exam ----
+        const exams = data.averageScoreMultipleAttempts;
+        this.barChartData = {
+          labels: exams.map((e: any) => e.examTitle),
+          datasets: [
+            {
+              label: 'Average Score (%)',
+              data: exams.map((e: any) => e.averageScore),
+              backgroundColor: '#46ccd5'
+            }
+          ]
+        };
+
+
+        // ---- PIE: Average Score per Topic ----
+        const topics = data.overallAverageScoreTopicWise;
+        this.pieChartData = {
+          labels: topics.map((t: any) => t.topic),
+          datasets: [
+            {
+              data: topics.map((t: any) => t.averageScore),
+              backgroundColor: ['#46ccd5', '#5e60ce', '#48bfe3', '#64dfdf']
+            }
+          ]
+        };
+
+        // ---- DOUGHNUT: Attempts Distribution ----
+        const attempts = data.examAttemptsRecords;
+        this.doughnutChartData = {
+          labels: ['Single Attempts', 'Double Attempts', 'Triple Attempts'],
+          datasets: [
+            {
+              data: [
+                attempts.singleAttempts,
+                attempts.doubleAttempts,
+                attempts.trippleAttempts
+              ],
+              backgroundColor: ['#5e60ce', '#46ccd5', '#48bfe3']
+            }
+          ]
+        };
+      },
+      error: (err) => console.error('Error loading analytics', err)
+    });
+  }
+
+
+
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     scales: {
@@ -48,7 +107,7 @@ export class SAnalytics {
     responsive: true,
     plugins: {
       legend: { position: 'bottom' },
-      title: { display: true, text: 'Time Spent Distribution' }
+      title: { display: true, text: 'Analysis by topic' }
     }
   };
   public pieChartData: ChartData<'pie', number[], string | string[]> = {
@@ -60,13 +119,13 @@ export class SAnalytics {
   };
   public pieChartType: ChartType = 'pie';
 
-   // ---- Doughnut Chart ----
+  // ---- Doughnut Chart ----
   public doughnutChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    
+
     plugins: {
       legend: { position: 'bottom' },
-      title: { display: true, text: 'Accuracy by Category' }
+      title: { display: true, text: 'Attempts Distribution' }
     }
   };
   public doughnutChartType: ChartType = 'doughnut';
