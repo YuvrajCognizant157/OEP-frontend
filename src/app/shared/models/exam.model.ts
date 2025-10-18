@@ -59,3 +59,22 @@ export interface SubmittedExamDTO {
   DisplayedQuestions?: number;
   Responses: ReceivedResponseDTO[];
 }
+
+export interface AvailableExam {
+  eid: number;
+  name: string;
+  description: string;
+  totalMarks: number;
+  duration: number;
+  tids: string;
+  displayedQuestions: number;
+  attemptNo: number;
+}
+
+export interface ExamDetails {
+  name: string;
+  description: string;
+  displayedQuestions: number;
+  duration: number;
+  tids: string;
+}
