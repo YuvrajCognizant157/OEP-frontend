@@ -117,6 +117,7 @@ export class StudentDashboardComponent implements OnInit {
           this.examsAppearedTotal = studentData.value.totalExamsTaken || 0;
           this.student.examsAppeared = this.examsAppearedTotal;
           this.updateTopicChart(studentData.value.overallAverageScoreTopicWise);
+          this.updateAttemptsChart(studentData.value.examAttemptsRecords);
         }
 
         // 2. Process Total Counts
@@ -134,6 +135,22 @@ export class StudentDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private updateAttemptsChart(records: { singleAttempts: number, doubleAttempts: number, trippleAttempts: number }): void {
+    this.attemptsChartData = {
+      ...this.attemptsChartData, // Keep existing labels and colors
+      datasets: [
+        {
+          ...this.attemptsChartData.datasets[0],
+          data: [
+            records.singleAttempts,
+            records.doubleAttempts,
+            records.trippleAttempts
+          ],
+        }
+      ]
+    };
   }
 
   private updateTopicChart(topicData: OverallAverageScoreTopicWise[]): void {
@@ -236,7 +253,30 @@ export class StudentDashboardComponent implements OnInit {
     ]
   };
 
-  topicExamsChartData: ChartConfiguration<'pie'>['data'] = {
+  public attemptsChartData: ChartConfiguration<'pie'>['data'] = {
+    labels: ['Single Attempts', 'Double Attempts', 'Triple Attempts'],
+    datasets: [
+      {
+        data: [0, 0, 0], // Placeholder data
+        label: 'Exam Attempts Distribution',
+        backgroundColor: ['#29b6f6', '#ffb74d', '#ef5350'], // Blue, Orange, Red
+        borderColor: '#fff',
+        borderWidth: 2
+      }
+    ]
+  };
+
+  // ⬅️ NEW Property for Attempts Chart Options (can reuse existing pie options)
+  public attemptsChartOptions: ChartConfiguration<'pie'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    
+    plugins: {
+      legend: { labels: { color: '#fff' } }
+    }
+  };
+
+  public topicExamsChartData: ChartConfiguration<'pie'>['data'] = {
     labels: [],
     datasets: [
       {
@@ -249,7 +289,7 @@ export class StudentDashboardComponent implements OnInit {
     ]
   };
 
-  topicExamsChartOptions: ChartConfiguration<'pie'>['options'] = {
+  public topicExamsChartOptions: ChartConfiguration<'pie'>['options'] = {
     responsive: true,
     plugins: {
       legend: { labels: { color: '#fff' } }

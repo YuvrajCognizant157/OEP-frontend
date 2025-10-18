@@ -152,13 +152,15 @@
 
 
         <mat-card class="analytics-card">
-            <h3>Performance Analytics</h3><br/>
-            <canvas baseChart [data]="chartData" [options]="chartOptions" chartType="line">
-            </canvas>
+            <h3>Exam Attempts Distribution</h3><br/>
+            <div style="height: 300px;">
+                <canvas baseChart [data]="attemptsChartData" [options]="attemptsChartOptions" type="pie">
+                </canvas>
+            </div>
         </mat-card>
 
         <mat-card class="topic-exams-graph-card">
-            <h3>Exams Appeared by Topic</h3><br/>
+            <h3>Exams Appeared by Topic</h3><br />
             <canvas baseChart [data]="topicExamsChartData" [options]="topicExamsChartOptions" chartType="bar">
             </canvas>
         </mat-card>
