@@ -14,7 +14,7 @@
 
         <!-- Quick Actions in 3 separate cards (single column layout) -->
         <div class="actions-column">
-            <mat-card class="action-card" routerLink="/exams/available">
+            <mat-card class="action-card" routerLink="/student/analytics">
                 <div class="action-card-content">
                     <div class="card-info">
                         <mat-icon color="primary">insights</mat-icon>
@@ -147,7 +147,7 @@
                     <button mat-flat-button color="primary" (click)="startExam(exam.eid)">Start Exam</button>
                 </div>
             </div>
-            <button mat-button class="view-all-btn">View All Exams</button>
+            <button mat-button class="view-all-btn" routerLink="/student/available-exams">View All Exams</button>
         </mat-card>
 
 

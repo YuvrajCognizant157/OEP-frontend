@@ -30,6 +30,12 @@ export const routes: Routes = [
   
     canActivate: [StudentAuthGuard],
   },
+  {
+    path: 'student/analytics',
+    loadComponent: () =>
+      import('./student/s-analytics/s-analytics').then((m) => m.SAnalytics),
+    canActivate: [StudentAuthGuard],
+  },
    {
     path: 'student/available-exams',
     loadComponent: () =>
