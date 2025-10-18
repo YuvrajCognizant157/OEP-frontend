@@ -8,6 +8,31 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService, userDetails } from '../../core/services/auth.service';
+
+// Define the interface for a single Exam object
+export interface Exam {
+  eid: number;
+  name: string;
+  description: string;
+  duration: number;
+  totalQuestions: number;
+  displayedQuestions: number;
+  totalMarks: number;
+  marksPerQuestion: number;
+  approvalStatus: number;
+  submittedForApproval: boolean;
+  adminRemarks: string | null;
+  tids: string;
+  userId: number;
+  reviewerId: number | null;
+  questions: any[];
+  examFeedbacks: any[];
+  responses: any[];
+  results: any[];
+  reviewer: any | null; 
+  user: any | null; 
+}
+
 @Component({
   selector: 'app-exams',
   imports: [
@@ -23,12 +48,13 @@ import { AuthService, userDetails } from '../../core/services/auth.service';
   styleUrl: './exams.css',
 })
 export class Exams implements OnInit {
-  exams: any[] = [];
-  selectedExam: any = null; // Holds the data for the modal
+  exams: Exam[] = [];
+  selectedExam: Exam | null = null;
   isModalOpen: boolean = false;
+  tids : number[]=[];
 
   isUpdateModalOpen = signal<boolean>(false);
-  examToUpdate = signal<any | null>(null);
+  examToUpdate = signal<Exam | null>(null);
 
   constructor(private examinerService: ExaminerService,private authService: AuthService) {}
 
@@ -42,7 +68,7 @@ export class Exams implements OnInit {
 
   fetchExams(): void {
     this.examinerService.getExamsForExaminer(this.userId).subscribe({
-      next: (data) => {
+      next: (data:Exam[]) => {
         this.exams = data;
       },
       error: (err) => {
@@ -53,19 +79,15 @@ export class Exams implements OnInit {
 
   viewExamDetails(examId: number): void {
     this.examinerService.getExamById(examId).subscribe({
-      next: (data) => {
+      next: (data:Exam) => {
         this.selectedExam = data;
+        this.selectedExam!.tids = JSON.parse(this.selectedExam!.tids).map(Number);
         this.isModalOpen = true;
       },
       error: (error) => {
         console.error('Error fetching exam details:', error);
       },
     });
-  }
-
-  closeModal(): void {
-    this.isModalOpen = false;
-    this.selectedExam = null;
   }
 
   onUpdateExam(examId: number): void {
@@ -97,13 +119,37 @@ export class Exams implements OnInit {
     }
   }
 
-  closeUpdateModal(): void {
-    this.isUpdateModalOpen.set(false);
-    this.examToUpdate.set(null);
+  sendExamForApproval(examId: number): void {
+    this.examinerService.sendExamForApproval(examId).subscribe({
+      next: (response: any) => {
+        alert(response.msg || 'Exam submitted for approval successfully!');
+
+        this.exams = this.exams.map((exam) => {
+          if (exam.eid === examId) {
+            return { ...exam, submittedForApproval: true };
+          }
+          return exam;
+        });
+      },
+      error: (err) => {
+        console.error('Failed to send exam for approval:', err.error.msg);
+        alert(`An error occurred while submitting the exam. ${err.error.msg}`);
+      },
+    });
   }
 
   onExamUpdated(): void {
     this.closeUpdateModal();
     this.fetchExams();
+  }
+
+  closeUpdateModal(): void {
+    this.isUpdateModalOpen.set(false);
+    this.examToUpdate.set(null);
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.selectedExam = null;
   }
 }

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Exam } from '../exams';
 
 @Component({
   selector: 'app-exam-modal',
@@ -10,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './exam-modal.css',
 })
 export class ExamModal {
-  @Input() exam: any;
+  @Input() exam: Exam | null = null;
   @Input() isOpen: boolean = false;
   @Output() closeModal = new EventEmitter<void>();
 
