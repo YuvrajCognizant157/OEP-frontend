@@ -1,38 +1,70 @@
 <div class="register-container">
-  <mat-card>
-    <mat-card-title>Register Student</mat-card-title>
-    <mat-card-content>
-      <form (ngSubmit)="onSubmit()">
-        <mat-form-field class="full-width">
-          <mat-label>Full Name</mat-label>
-          <input matInput type="text" [(ngModel)]="fullName" name="fullName" required>
-        </mat-form-field>
+  <div class="register-card">
+    <h2 class="portal-title">Register Student</h2>
 
-        <mat-form-field class="full-width">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" [(ngModel)]="email" name="email" required>
-        </mat-form-field>
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          required
+          ngModel
+        />
+      </div>
 
-        <mat-form-field class="full-width">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" [(ngModel)]="password" name="password" required>
-        </mat-form-field>
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          [(ngModel)]="fullName"
+          required
+          ngModel
+        />
+      </div>
 
-        <mat-form-field class="full-width">
-          <mat-label>Phone Number</mat-label>
-          <input matInput type="text" [(ngModel)]="phoneNo" name="phoneNo">
-        </mat-form-field>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          ngModel
+        />
+      </div>
 
-        <mat-form-field class="full-width">
-          <mat-label>Date of Birth</mat-label>
-          <input matInput type="date" [(ngModel)]="dob" name="dob">
-        </mat-form-field>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input
+          type="date"
+          id="dob"
+          name="dob"
+          [(ngModel)]="dob"
+          ngModel
+        />
+      </div>
 
-        <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-        <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+      <div class="form-group">
+        <label for="phoneNo">Phone Number</label>
+        <input
+          type="tel"
+          id="phoneNo"
+          name="phoneNo"
+          [(ngModel)]="phoneNo"
+          ngModel
+        />
+      </div>
 
-        <button mat-raised-button color="primary" type="submit">Register</button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+      <button type="submit" class="register-btn">Register</button>
+    </form>
+  </div>
 </div>

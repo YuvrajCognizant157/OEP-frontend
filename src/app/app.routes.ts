@@ -27,6 +27,7 @@ export const routes: Routes = [
     path: 'student/results',
     loadComponent: () =>
       import('./student/results/results.component').then((m) => m.ResultsComponent),
+  
     canActivate: [StudentAuthGuard],
   },
    {
