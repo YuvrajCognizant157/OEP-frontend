@@ -15,7 +15,7 @@ export class ExamService {
   }
 
   getAvailableExams(studentId:number): Observable<AvailableExam[]> {
-    return this.http.get<AvailableExam[]>(`${this.baseUrl}/get-s-exams/${studentId}`);
+    return this.http.get<AvailableExam[]>(`${this.baseUrl}/get-exams/${studentId}`);
   }
 
   getExamDetails(examId: number): Observable<ExamDetails> {
