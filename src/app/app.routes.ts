@@ -26,21 +26,14 @@ export const routes: Routes = [
       import('./student/student-dashboard/student-dashboard').then((m) => m.StudentDashboardComponent),
     canActivate: [StudentAuthGuard],
   },
-
-  {
-    path: 'register-employee',
-    loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent)
-  },
-  {
-    path: 'register-student',
-    loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
+   {
+    path: 'student/results',
+    loadComponent: () =>
+      import('./student/results/results.component').then((m) => m.ResultsComponent),
+    canActivate: [StudentAuthGuard],
   },
   
-  {
-    path: 'profile-update',
-    loadComponent: () => import('./shared/profile-update/profile-update').then(m => m.ProfileUpdateComponent)
-  },
-  {
+   {
     path: 'student/start-exam',
     loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
     canActivate: [StudentAuthGuard],
@@ -56,6 +49,21 @@ export const routes: Routes = [
       import('./question/question-feedback/question-feedback').then((m) => m.QuestionFeedback),
     canActivate: [StudentAuthGuard],
   },
+
+  {
+    path: 'register-employee',
+    loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent)
+  },
+  {
+    path: 'register-student',
+    loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
+  },
+  
+  {
+    path: 'profile-update',
+    loadComponent: () => import('./shared/profile-update/profile-update').then(m => m.ProfileUpdateComponent)
+  },
+ 
   {
     path: 'examiner/dashboard',
     loadComponent: () => import('./examiner/dashboard/dashboard').then((m) => m.Dashboard),
@@ -85,13 +93,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
     ],
   },
-  {
-    path: 'student/results',
-    loadComponent: () =>
-      import('./student/results/results.component').then((m) => m.ResultsComponent),
-    canActivate: [StudentAuthGuard],
-  },
-  
+ 
   /*Angular routes are relative to the app's root, not the browser's URL path. So using '/' as a redirect target doesn't work as expected. It may cause infinite redirects or blank pages.
   */
 {

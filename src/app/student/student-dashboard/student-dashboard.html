@@ -17,10 +17,10 @@
             <mat-card class="action-card" routerLink="/exams/available">
                 <div class="action-card-content">
                     <div class="card-info">
-                        <mat-icon color="primary">category</mat-icon>
+                        <mat-icon color="primary">insights</mat-icon>
                         <div class="card-text">
-                            <h4>Explore Topics</h4>
-                            <p class="tagline">Filter exams with different Topics.</p>
+                            <h4>Analytics Insights</h4>
+                            <p class="tagline">View detailed reports on your performance.</p>
                         </div>
                     </div>
                     <button mat-icon-button color="primary">
@@ -29,7 +29,7 @@
                 </div>
             </mat-card>
 
-            <mat-card class="action-card" routerLink="/results">
+            <mat-card class="action-card" routerLink="/student/results">
                 <div class="action-card-content">
                     <div class="card-info">
                         <mat-icon color="accent">leaderboard</mat-icon>
@@ -44,7 +44,7 @@
                 </div>
             </mat-card>
 
-            <mat-card class="action-card" routerLink="/feedback">
+            <mat-card class="action-card" routerLink="student/feedback">
                 <div class="action-card-content">
                     <div class="card-info">
                         <mat-icon color="accent">rate_review</mat-icon>
@@ -63,11 +63,10 @@
         <!-- Right column: total questions with animation -->
         <div class="questions-summary-row" style="display: flex; gap: 16px;">
             <mat-card class="questions-summary-card" style="flex: 1;">
-            <h3>Questions Encountered</h3>
-            <div class="circle-progress" style="position: relative; display: inline-block;">
-                <!-- Outer outline -->
-                <div 
-                style="
+                <h3>Questions Encountered</h3>
+                <div class="circle-progress" style="position: relative; display: inline-block;">
+                    <!-- Outer outline -->
+                    <div style="
                     position: absolute;
                     top: 0; left: 0; 
                     width: 100px; height: 100px;
@@ -76,18 +75,13 @@
                     box-sizing: border-box;
                     z-index: 1;
                 ">
-                </div>
-                <!-- Spinner -->
-                <mat-progress-spinner 
-                [value]="percentageAnalytics.questionsEncounteredPercent" 
-                mode="determinate" 
-                diameter="100"
-                color="primary"
-                style="position: relative; z-index: 2;">
-                </mat-progress-spinner>
-                <!-- Inner outline -->
-                <div 
-                style="
+                    </div>
+                    <!-- Spinner -->
+                    <mat-progress-spinner [value]="percentageAnalytics.questionsEncounteredPercent" mode="determinate"
+                        diameter="100" color="primary" style="position: relative; z-index: 2;">
+                    </mat-progress-spinner>
+                    <!-- Inner outline -->
+                    <div style="
                     position: absolute;
                     top: 15px; left: 15px; 
                     width: 70px; height: 70px;
@@ -96,18 +90,18 @@
                     box-sizing: border-box;
                     z-index: 3;
                 ">
+                    </div>
+                    <div class="percentage-text"
+                        style="position: absolute; top: 35px; left: 0; width: 100px; text-align: center; z-index: 4;">
+                        {{ percentageAnalytics.questionsEncounteredPercent }}%
+                    </div>
                 </div>
-                <div class="percentage-text" style="position: absolute; top: 35px; left: 0; width: 100px; text-align: center; z-index: 4;">
-                {{ percentageAnalytics.questionsEncounteredPercent }}%
-                </div>
-            </div>
-            </mat-card> 
+            </mat-card>
             <mat-card class="questions-summary-card" style="flex: 1;">
-            <h3>Exams Attempted</h3>
-            <div class="circle-progress" style="position: relative; display: inline-block;">
-                <!-- Outer outline -->
-                <div 
-                style="
+                <h3>Exams Attempted</h3>
+                <div class="circle-progress" style="position: relative; display: inline-block;">
+                    <!-- Outer outline -->
+                    <div style="
                     position: absolute;
                     top: 0; left: 0; 
                     width: 100px; height: 100px;
@@ -116,18 +110,13 @@
                     box-sizing: border-box;
                     z-index: 1;
                 ">
-                </div>
-                <!-- Spinner -->
-                <mat-progress-spinner 
-                [value]="percentageAnalytics.examsAttemptedPercent" 
-                mode="determinate" 
-                diameter="100"
-                color="accent"
-                style="position: relative; z-index: 2;">
-                </mat-progress-spinner>
-                <!-- Inner outline -->
-                <div 
-                style="
+                    </div>
+                    <!-- Spinner -->
+                    <mat-progress-spinner [value]="percentageAnalytics.examsAttemptedPercent" mode="determinate"
+                        diameter="100" color="accent" style="position: relative; z-index: 2;">
+                    </mat-progress-spinner>
+                    <!-- Inner outline -->
+                    <div style="
                     position: absolute;
                     top: 15px; left: 15px; 
                     width: 70px; height: 70px;
@@ -136,11 +125,12 @@
                     box-sizing: border-box;
                     z-index: 3;
                 ">
+                    </div>
+                    <div class="percentage-text"
+                        style="position: absolute; top: 35px; left: 0; width: 100px; text-align: center; z-index: 4;">
+                        {{ percentageAnalytics.examsAttemptedPercent }}%
+                    </div>
                 </div>
-                <div class="percentage-text" style="position: absolute; top: 35px; left: 0; width: 100px; text-align: center; z-index: 4;">
-                {{ percentageAnalytics.examsAttemptedPercent }}%
-                </div>
-            </div>
             </mat-card>
         </div>
 
@@ -162,18 +152,16 @@
 
 
         <mat-card class="analytics-card">
-            <h3>Performance Analytics</h3>
-            <canvas baseChart [data]="chartData" [options]="chartOptions" chartType="line">
-            </canvas>
+            <h3>Exam Attempts Distribution</h3><br/>
+            <div style="height: 300px;">
+                <canvas baseChart [data]="attemptsChartData" [options]="attemptsChartOptions" type="pie">
+                </canvas>
+            </div>
         </mat-card>
 
         <mat-card class="topic-exams-graph-card">
-            <h3>Exams Appeared by Topic</h3>
-            <canvas 
-            baseChart
-            [data]="topicExamsChartData"
-            [options]="topicExamsChartOptions"
-            chartType="pie">
+            <h3>Exams Appeared by Topic</h3><br />
+            <canvas baseChart [data]="topicExamsChartData" [options]="topicExamsChartOptions" chartType="bar">
             </canvas>
         </mat-card>
 
@@ -188,7 +176,7 @@
                     <span class="exam-date">{{ e.takenOn | date: 'mediumDate' }}</span>
                 </div>
             </div>
-            <button mat-button class="view-all-btn">Full History</button>
+            <button mat-button class="view-all-btn" routerLink="/student/results">Full History</button>
         </mat-card>
 
     </div>
