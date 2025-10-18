@@ -36,6 +36,7 @@ export const routes: Routes = [
     loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
   },
   
+  
   {
     path: 'profile-update',
     loadComponent: () => import('./shared/profile-update/profile-update').then(m => m.ProfileUpdateComponent)

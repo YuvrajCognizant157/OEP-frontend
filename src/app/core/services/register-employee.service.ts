@@ -5,11 +5,11 @@ import { RegisterEmployeeRequest } from '../../register/register-employee/regist
 
 @Injectable({ providedIn: 'root' })
 export class RegisterEmployeeService {
-  private apiUrl = 'https://localhost:44395/api/Auth';
+  private apiUrl = 'https://localhost:44395/api/Auth/internal/register';
 
   constructor(private http: HttpClient) {}
 
   registerExaminer(data: RegisterEmployeeRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register-examiner`, data);
+    return this.http.post(this.apiUrl, data);
   }
 }
