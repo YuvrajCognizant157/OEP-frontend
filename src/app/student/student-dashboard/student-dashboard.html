@@ -152,14 +152,14 @@
 
 
         <mat-card class="analytics-card">
-            <h3>Performance Analytics</h3>
+            <h3>Performance Analytics</h3><br/>
             <canvas baseChart [data]="chartData" [options]="chartOptions" chartType="line">
             </canvas>
         </mat-card>
 
         <mat-card class="topic-exams-graph-card">
-            <h3>Exams Appeared by Topic</h3>
-            <canvas baseChart [data]="topicExamsChartData" [options]="topicExamsChartOptions" chartType="pie">
+            <h3>Exams Appeared by Topic</h3><br/>
+            <canvas baseChart [data]="topicExamsChartData" [options]="topicExamsChartOptions" chartType="bar">
             </canvas>
         </mat-card>
 
@@ -174,7 +174,7 @@
                     <span class="exam-date">{{ e.takenOn | date: 'mediumDate' }}</span>
                 </div>
             </div>
-            <button mat-button class="view-all-btn">Full History</button>
+            <button mat-button class="view-all-btn" routerLink="/student/results">Full History</button>
         </mat-card>
 
     </div>

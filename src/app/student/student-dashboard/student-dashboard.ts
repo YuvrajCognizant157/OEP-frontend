@@ -15,6 +15,7 @@ import { forkJoin, map, Observable } from 'rxjs';
 import { SimplifiedExam, GetExamDataDTO } from '../../shared/models/exam.model';
 import { SimplifiedResult, RawResultDTO } from '../../shared/models/result.model';
 import { RouterLink } from '@angular/router';
+import { OverallAverageScoreTopicWise } from './student-dashboard.model';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -115,6 +116,7 @@ export class StudentDashboardComponent implements OnInit {
           this.questionsEncounteredTotal = studentData.value.totalQuestionsEncountered || 0;
           this.examsAppearedTotal = studentData.value.totalExamsTaken || 0;
           this.student.examsAppeared = this.examsAppearedTotal;
+          this.updateTopicChart(studentData.value.overallAverageScoreTopicWise);
         }
 
         // 2. Process Total Counts
@@ -132,6 +134,30 @@ export class StudentDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private updateTopicChart(topicData: OverallAverageScoreTopicWise[]): void {
+      // 1. Take only the first four elements
+      const limitedData = topicData.slice(0, 4);
+
+      // 2. Extract Labels (Topic names) and Data (Average Scores)
+      const labels = limitedData.map(item => item.topic);
+      const scores = limitedData.map(item => item.averageScore);
+
+      // 3. Update the chart data structure
+      this.topicExamsChartData = {
+          labels: labels,
+          datasets: [
+              {
+                  // The data property of the first dataset is updated with the scores
+                  data: scores, 
+                  label: 'Average Score', // Changed label to reflect the data
+                  backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc'],
+                  borderColor: '#fff',
+                  borderWidth: 2
+              }
+          ]
+      };
   }
 
   private processResultsData(resultObservable: Observable<RawResultDTO[]>): Observable<SimplifiedResult[]> {
@@ -211,10 +237,10 @@ export class StudentDashboardComponent implements OnInit {
   };
 
   topicExamsChartData: ChartConfiguration<'pie'>['data'] = {
-    labels: ['Angular', 'Node.js', 'C#', 'Database'],
+    labels: [],
     datasets: [
       {
-        data: [5, 3, 2, 2],
+        data: [],
         label: 'Exams Appeared',
         backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc'],
         borderColor: '#fff',
