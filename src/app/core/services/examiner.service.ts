@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class ExaminerService {
-  private apiUrl = 'https://localhost:44395/api/Exams'; // Replace with your actual API base URL
+  private apiUrl = 'https://localhost:44395/api/Exams';
 
   constructor(private http: HttpClient) { }
 
@@ -28,6 +28,10 @@ export class ExaminerService {
   deleteExam(examId: number): Observable<any> {
     // Implement the API call for deleting an exam
     return this.http.delete(`${this.apiUrl}/delete-exam/${examId}`);
+  }
+
+  sendExamForApproval(examId: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/approval-exam/${examId}`, {});
   }
   
 }

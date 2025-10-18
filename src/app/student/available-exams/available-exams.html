@@ -1,0 +1,67 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1>Available Exams</h1>
+  </header>
+
+  @if (isLoading()) {
+    <div class="spinner-container"><mat-spinner></mat-spinner></div>
+  } @else if (availableExams().length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">school</mat-icon>
+      <h2>No Exams Available</h2>
+      <p>Please check back later for new exams.</p>
+    </div>
+  } @else {
+    <div class="exams-grid">
+      @for (exam of availableExams(); track exam.eid) {
+        <mat-card class="exam-card" (click)="openExamDetailsModal(exam.eid)">
+          <mat-card-header>
+            <mat-card-title>{{ exam.name }}</mat-card-title>
+            <mat-card-subtitle>Your Attempts: {{ exam.attemptNo }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ exam.description }}</p>
+            <div class="exam-details">
+              <div class="detail-item">
+                <mat-icon>timer</mat-icon>
+                <span>{{ exam.duration }} mins</span>
+              </div>
+              <div class="detail-item">
+                <mat-icon>check_circle_outline</mat-icon>
+                <span>{{ exam.totalMarks }} Marks</span>
+              </div>
+              <div class="detail-item">
+                <mat-icon>help_outline</mat-icon>
+                <span>{{ exam.displayedQuestions }} Questions</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
+
+@if (isModalOpen() && selectedExamDetails()) {
+  <div class="modal-overlay" (click)="onModalClick($event)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>{{ selectedExamDetails()?.name }}</h3>
+        <button class="close-button" (click)="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Description:</strong> {{ selectedExamDetails()?.description }}</p>
+        <p><strong>Duration:</strong> {{ selectedExamDetails()?.duration }} minutes</p>
+        <p><strong>Questions to Answer:</strong> {{ selectedExamDetails()?.displayedQuestions }}</p>
+        <p class="instructions">
+          This is your opportunity to demonstrate your knowledge. Please read all instructions carefully before you begin.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button mat-flat-button color="primary" (click)="startExam()">
+          Start Exam
+        </button>
+      </div>
+    </div>
+  </div>
+}

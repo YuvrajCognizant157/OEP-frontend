@@ -1,97 +1,85 @@
-/* body {
-  background-color: #121212;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
-}
-
-.login-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-}
-
-mat-card {
-  background-color: #1e1e1e;
-  color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
-
-mat-card-title {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-}
-
-mat-form-field {
-  width: 100%;
-  margin-top: 15px;
-}
-
-.error-message {
-  color: #ff4d4d;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-button[mat-raised-button] {
-  width: 100%;
-  margin-top: 20px;
-  background-color: #007bff;
-  color: white;
-}
-
-button[mat-raised-button]:hover {
-  background-color: #0056b3;
-} */
-
 body {
-  background-color: #121212;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #1a002a;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e0e0e0;
 }
 
-.login-container {
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1a002a;
+}
+
+.login-card {
+  background-color: #1a002a; /* Dark purple card */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  width: 100%;
   max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
+  color: #e0e0e0;
 }
 
-mat-card {
-  background-color: #1e1e1e;
-  color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
-
-mat-card-title {
-  font-size: 24px;
-  font-weight: bold;
+.portal-title {
   text-align: center;
+  font-size: 24px;
+  color: #c792ea;
+  margin-bottom: 20px;
 }
 
-mat-form-field {
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #bdbdbd;
+}
+
+input {
   width: 100%;
-  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3a005a; 
+  color: #ffffff;
 }
 
+input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #c792ea;
+}
+
+/* Error message */
 .error-message {
-  color: #ff4d4d;
-  margin-top: 10px;
+  color: #ff6b6b;
   font-size: 14px;
+  margin-bottom: 10px;
 }
 
-button[mat-raised-button] {
+/* Login button */
+.login-btn {
   width: 100%;
-  margin-top: 20px;
-  background-color: #007bff;
-  color: white;
+  padding: 12px;
+  background-color: #6a5acd;
+  color: #1a002a;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button[mat-raised-button]:hover {
-  background-color: #0056b3;
+.login-btn:hover {
+  background-color: #a678d1;
 }
 
+/* Divider */
 .divider {
   text-align: center;
   margin: 20px 0;
@@ -99,10 +87,11 @@ button[mat-raised-button]:hover {
 }
 
 .divider span {
-  background-color: #1e1e1e;
+  background-color: #2b0040;
   padding: 0 10px;
   position: relative;
   z-index: 1;
+  color: #aaa;
 }
 
 .divider::before {
@@ -112,18 +101,31 @@ button[mat-raised-button]:hover {
   left: 0;
   width: 100%;
   height: 1px;
-  background-color: #444;
+  background-color: #555;
   z-index: 0;
 }
 
+/* Action buttons */
 .action-btn {
   width: 100%;
+  padding: 10px;
   margin-top: 10px;
+  background-color: transparent;
+  border: 2px solid #6a5acd;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
+  color: #6a5acd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.action-btn mat-icon {
+.action-btn:hover {
+  background-color: #3a005a;
+}
+
+.action-btn .material-icons {
   margin-right: 8px;
 }

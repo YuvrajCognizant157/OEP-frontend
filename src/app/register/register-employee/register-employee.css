@@ -1,9 +1,9 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #121212;
+  background-color: #1a002a;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #ffffff;
+  color: #e0e0e0;
 }
 
 .register-container {
@@ -12,43 +12,75 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-  background-color: #121212;
+  background-color: #1a002a;
 }
 
-mat-card {
+.register-card {
+  background-color: #1a002a;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
   width: 100%;
-  max-width: 500px;
-  background-color: #f5f5f5;
-  color: #000;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  color: #e0e0e0;
 }
 
-mat-card-title {
-  font-size: 24px;
-  font-weight: 600;
+.portal-title {
   text-align: center;
-  margin-bottom: 10px;
+  font-size: 24px;
+  color: #c792ea;
+  margin-bottom: 20px;
 }
 
-.full-width {
-  width: 100%;
+.form-group {
+  margin-bottom: 15px;
 }
 
-button {
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #bdbdbd;
+}
+
+input {
   width: 100%;
-  margin-top: 20px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3a005a;
+  color: #ffffff;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #c792ea;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #6a5acd;
+  color: #1a002a;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+  background-color: #a678d1;
 }
 
 .error-message {
-  color: red;
+  color: #ff6b6b;
   font-size: 14px;
   margin-top: 10px;
   text-align: center;
 }
 
 .success-message {
-  color: green;
+  color: #4caf50;
   font-size: 14px;
   margin-top: 10px;
   text-align: center;

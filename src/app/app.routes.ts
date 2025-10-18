@@ -2,9 +2,6 @@ import { Routes } from '@angular/router';
 import { StudentAuthGuard } from './auth/student-auth.guard';
 import {  examinerAuthGuardFn } from './auth/examiner-auth.guard';
 import { Home } from './home/home';
-// Make sure the file exists at './admin/admin.component.ts' and exports AdminComponent.
-// If the file is named differently, update the path accordingly, for example:
- // <-- Ensure this file exists and exports AdminComponent
 import { DashboardComponent } from './admin/dashboard/dashboard';
 import { BlockUserComponent } from './admin/block-user/block-user';
 import {ApproveTopicComponent} from './admin/approve-topic/approve-topic';
@@ -30,6 +27,7 @@ export const routes: Routes = [
     path: 'student/results',
     loadComponent: () =>
       import('./student/results/results.component').then((m) => m.ResultsComponent),
+  
     canActivate: [StudentAuthGuard],
   },
   {
@@ -38,9 +36,14 @@ export const routes: Routes = [
       import('./student/s-analytics/s-analytics').then((m) => m.SAnalytics),
     canActivate: [StudentAuthGuard],
   },
-  
    {
-    path: 'student/start-exam',
+    path: 'student/available-exams',
+    loadComponent: () =>
+      import('./student/available-exams/available-exams').then((m) => m.AvailableExams),
+    canActivate: [StudentAuthGuard]
+  },
+   {
+    path: 'student/start-exam/:examId',
     loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
     canActivate: [StudentAuthGuard],
   },

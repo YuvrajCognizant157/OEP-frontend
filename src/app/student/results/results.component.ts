@@ -47,7 +47,7 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.authService.getUserRole()?.id!;
-    this.examService.getExams().subscribe({
+    this.examService.getAvailableExams(this.userId).subscribe({
       next: (data) => (this.exams = data),
       error: (err) => console.error('Failed to load exams', err),
     });
@@ -66,7 +66,7 @@ export class ResultsComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Could not view result, triggering creation...', err);
+        // console.error('Could not view result, triggering creation...', err);
         dialogRef.close();
         this.triggerCreateResult(examId);
       },
