@@ -45,15 +45,14 @@ export class RegisterEmployeeComponent {
       phoneNo: this.phoneNo,
       role: this.role,
       token: this.token
-    };
-
+    };    
     this.registerService.registerExaminer(registerData).subscribe({
-      next: () => {
-        this.successMessage = 'Registration successful!';
-        this.router.navigate(['/login']);
+      next: (response) => {
+      this.successMessage = response.message;
+      this.router.navigate(['/login']); // or redirect based on role
       },
       error: (err) => {
-        this.errorMessage = 'Registration failed. Please try again.';
+        this.errorMessage = err.error?.error || 'Registration failed. Please try again.';
         console.error(err);
       }
     });
