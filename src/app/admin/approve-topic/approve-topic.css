@@ -1,0 +1,13 @@
+.approve-topic-container {
+ padding: 20px;
+}
+.input-section {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ margin-bottom: 15px;
+}
+.loading {
+ text-align: center;
+ margin-top: 20px;
+}
