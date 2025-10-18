@@ -7,7 +7,7 @@ import { Home } from './home/home';
  // <-- Ensure this file exists and exports AdminComponent
 import { DashboardComponent } from './admin/dashboard/dashboard';
 import { BlockUserComponent } from './admin/block-user/block-user';
-import {ApproveTopic} from './admin/approve-topic/approve-topic';
+import {ApproveTopicComponent} from './admin/approve-topic/approve-topic';
 import {ApproveExam} from './admin/approve-exam/approve-exam';
 import {ApproveQuestion} from './admin/approve-question/approve-question';
 import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
@@ -111,7 +111,7 @@ export const routes: Routes = [
       },
       {
         path: 'approve-topic',
-        component: ApproveTopic
+        component: ApproveTopicComponent
       },
       {
         path: 'block-users',
