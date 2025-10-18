@@ -50,7 +50,7 @@ export class StartExam implements OnInit {
       }
     });
 
-    this.examId = 7;
+    this.examId = Number(this.route.snapshot.paramMap.get('examId')) || 7;
     this.startExam();
   }
 
@@ -77,7 +77,7 @@ export class StartExam implements OnInit {
           this.examData = res.examData;
           this.currentQuestion = this.examData.questions[0];
           this.timeLeft = res.examData.duration * 60;
-          // this.startTimer();
+          this.startTimer();
           this.examStarted = true;
         } else {
           alert('Exam not available or attempt limit reached.');
