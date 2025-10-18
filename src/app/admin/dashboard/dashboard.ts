@@ -14,6 +14,10 @@ import { AdminService } from '../../core/services/admin.service';
 
 import { AdminAnalytics } from '../../shared/models/admin-analytics.model';
 
+import { AnalyticsService } from '../../core/services/analytics.service';
+
+import { Router } from '@angular/router';
+
 @Component({
 
   selector: 'app-dashboard',
@@ -34,11 +38,11 @@ export class DashboardComponent implements OnInit {
 
   loading = true;
 
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService,private analyticservice: AnalyticsService,public router:Router) {}
 
   ngOnInit(): void {
 
-    this.adminService.getAdminAnalytics().subscribe({
+    this.analyticservice.getAdminAnalytics().subscribe({
 
       next: (data) => {
 

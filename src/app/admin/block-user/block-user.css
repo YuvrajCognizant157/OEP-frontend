@@ -1,0 +1,72 @@
+.block-container {
+
+  background: #1e1e2f;
+
+  color: white;
+
+  padding: 2rem;
+
+  border-radius: 10px;
+
+  width: 400px;
+
+  margin: 3rem auto;
+
+  text-align: center;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+}
+
+.input-section {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-bottom: 1.5rem;
+
+}
+
+.uid-input {
+
+  padding: 10px;
+
+  border-radius: 5px;
+
+  border: none;
+
+  width: 200px;
+
+  text-align: center;
+
+  outline: none;
+
+}
+
+button {
+
+  font-weight: 600;
+
+}
+
+.message {
+
+  margin-top: 1rem;
+
+  font-weight: bold;
+
+  color: #00ffcc;
+
+}
+
+.loading {
+
+  color: yellow;
+
+  font-style: italic;
+
+}
+ 

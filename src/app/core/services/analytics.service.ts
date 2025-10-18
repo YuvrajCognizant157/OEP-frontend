@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AdminAnalytics } from '../../shared/models/admin-analytics.model';
 
 @Injectable({providedIn: 'root'})
 export class AnalyticsService {
@@ -11,4 +12,7 @@ export class AnalyticsService {
   getExaminerAnalytics(examinerId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/examiner/${examinerId}`);
   }
+    getAdminAnalytics(): Observable<AdminAnalytics> {
+ return this.http.get<AdminAnalytics>(`${this.apiUrl}/admin`);
+}
 }

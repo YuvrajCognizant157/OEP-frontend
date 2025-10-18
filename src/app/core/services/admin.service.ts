@@ -8,13 +8,13 @@ import { ExamApprovalStatus } from '../../shared/models/exam-approval.model';
 
 import { QuestionReview } from '../../shared/models/question-review.model';
 
-import { BlockUser } from '../../shared/models/block-user.model';
 
 import { ExamFeedback } from '../../shared/models/exam-feedback.model';
 
 import { ApproveTopic } from '../../shared/models/approve-topic.model';
 
-import { AdminAnalytics } from '../../shared/models/admin-analytics.model';
+import{BlockUserComponent}from'../../admin/block-user/block-user'
+
 
 
 @Injectable({
@@ -30,6 +30,10 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   /** ✅ Get list of exams pending approval */
+toggleBlockUser(uid: number): Observable<any> {
+ return this.http.post('https://localhost:44395/api/Admin/block-users', { uid }, { responseType: 'text' });
+}
+
 
   getExamsForApproval(): Observable<any[]> {
 
@@ -45,9 +49,7 @@ export class AdminService {
 
   }
 
-  getAdminAnalytics(): Observable<AdminAnalytics> {
- return this.http.get<AdminAnalytics>(`${this.apiUrl}analytics`);
-}
+
 
   /** ✅ Get all reported questions */
 
@@ -67,11 +69,11 @@ export class AdminService {
 
   /** ✅ Block user */
 
-  blockUser(dto: BlockUser): Observable<string> {
+  // blockUser(dto: BlockUser): Observable<string> {
 
-    return this.http.post(`${this.apiUrl}/block-users`, dto, { responseType: 'text' });
+  //   return this.http.post(`${this.apiUrl}/block-users`, dto, { responseType: 'text' });
 
-  }
+  // }
 
   /** ✅ Fetch all feedback for an exam */
 
@@ -94,6 +96,8 @@ export class AdminService {
     });
 
   }
+ 
+
 
   /** ✅ Get topics pending approval */
 

@@ -1,1 +1,30 @@
-<p>block-user works!</p>
+<div class="block-container">
+<h2>Block User</h2>
+<div class="input-section">
+<input
+
+      type="number"
+
+      [(ngModel)]="uid"
+
+      placeholder="Enter User ID"
+
+      class="uid-input"
+
+    />
+<button mat-raised-button color="warn" (click)="blockUser()">
+
+      Block User
+</button>
+</div>
+<div class="message" *ngIf="message">
+
+    {{ message }}
+</div>
+<div *ngIf="loading" class="loading">
+
+    Processing...
+</div>
+</div>
+
+ 
