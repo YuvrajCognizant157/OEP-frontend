@@ -5,20 +5,37 @@
     <h2>Examiner Analytics</h2>
   </div>
 
-  <div class="analytics-data">
-    <h3>Total Exams Created: {{ analyticsData.totalExamsCreated }}</h3>
-    <h3>Average Scores Per Exam</h3>
-    <ul>
-      <li *ngFor="let exam of analyticsData.averageScoresPerExam">
-        {{ exam.examTitle }}: {{ exam.averageScore | number : '1.2-2' }}
-      </li>
-    </ul>
-    <h3>Question Approval Status</h3>
-    <ul>
-      <li *ngFor="let status of analyticsData.questionApprovalStats">
-        {{ status.isApproved ? 'Approved' : 'Pending/Rejected' }}: {{ status.count }}
-      </li>
-    </ul>
+  <div class="analytics-dashboard">
+    <div class="stat-card chart-container">
+      <h2>Total Exams Created</h2>
+      <p class="stat-number">{{ analyticsData.totalExamsCreated }}</p>
+    </div>
+
+    <div class="chart-container">
+      <canvas
+        class="charts"
+        baseChart
+        [data]="doughnutChartData"
+        [options]="doughnutChartOptions"
+        [type]="'doughnut'"
+      >
+      </canvas>
+    </div>
+
+    <div class="chart-container large">
+      <canvas class="charts" baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'"> </canvas>
+    </div>
+
+    <div class="chart-container large">
+      <canvas
+        class="charts"
+        baseChart
+        [data]="participationChartData"
+        [options]="participationChartOptions"
+        [type]="'bar'"
+      >
+      </canvas>
+    </div>
   </div>
 </div>
 }@else {
