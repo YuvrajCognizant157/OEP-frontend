@@ -107,3 +107,10 @@ button.submit-btn {
   }
 }
 
+
+.correct-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #e0e0e0;
+}

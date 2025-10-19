@@ -30,15 +30,30 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field">
-                <mat-label>Options (comma-separated)</mat-label>
-                <textarea matInput formControlName="options" rows="2"></textarea>
+                <mat-label>Option 1</mat-label>
+                <input matInput formControlName="option1" />
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-field">
-                <mat-label>Correct Options (comma-separated)</mat-label>
-                <input matInput formControlName="correctOptions" placeholder="e.g., A, C" />
+                <mat-label>Option 2</mat-label>
+                <input matInput formControlName="option2" />
             </mat-form-field>
 
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Option 3</mat-label>
+                <input matInput formControlName="option3" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Option 4</mat-label>
+                <input matInput formControlName="option4" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Correct Options</mat-label>
+                <input matInput placeholder="Enter correct option numbers (e.g., 1,2)"
+                    formControlName="correctOptions" />
+            </mat-form-field>
             <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Topic</mat-label>
                 <mat-select formControlName="tid">
@@ -73,7 +88,7 @@
                     <mat-divider></mat-divider>
                     <div class="question-header">
                         <h4>Question {{ i + 1 }}</h4>
-                        <button mat-icon-button color="warn" (click)="removeQuestion(i)">
+                        <button mat-icon-button color="warn" type="button" (click)="removeQuestion(i)">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>
@@ -89,23 +104,39 @@
 
                     <mat-form-field appearance="outline" class="form-field">
                         <mat-label>Question</mat-label>
-                        <textarea matInput formControlName="question" rows="2"></textarea>
+                        <textarea matInput formControlName="question" rows="3"></textarea>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="form-field">
-                        <mat-label>Options</mat-label>
-                        <textarea matInput formControlName="options" rows="2"></textarea>
+                        <mat-label>Option 1</mat-label>
+                        <input matInput formControlName="option1" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Option 2</mat-label>
+                        <input matInput formControlName="option2" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Option 3</mat-label>
+                        <input matInput formControlName="option3" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Option 4</mat-label>
+                        <input matInput formControlName="option4" />
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="form-field">
                         <mat-label>Correct Options</mat-label>
-                        <input matInput formControlName="correctOptions" placeholder="A, B" />
+                        <input matInput placeholder="Enter correct option numbers (e.g., 1,2)"
+                            formControlName="correctOptions" />
                     </mat-form-field>
                 </div>
             </div>
 
             <div class="buttons-row">
-                <button mat-stroked-button color="accent" (click)="addNewQuestion()">
+                <button mat-stroked-button color="accent" type="button" (click)="addNewQuestion()">
                     <mat-icon>add_circle</mat-icon> Add Question
                 </button>
                 <button mat-raised-button color="primary" type="submit">
