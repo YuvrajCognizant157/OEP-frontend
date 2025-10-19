@@ -1,0 +1,17 @@
+<div class="review-container">
+<h2>🔍 Review Reported Question</h2>
+<div *ngIf="loading" class="loading">Loading question details...</div>
+<div *ngIf="!loading && message" class="message-box">
+
+    {{ message }}
+</div>
+<div *ngIf="!loading && question" class="question-card">
+<p><strong>Question ID:</strong> {{ question.qid }}</p>
+<p><strong>Feedback:</strong> {{ question.feedback || 'No feedback provided' }}</p>
+<div class="btn-container">
+<button class="btn-approve" (click)="review(1)">Approve</button>
+<button class="btn-reject" (click)="review(0)">Reject</button>
+</div>
+</div>
+</div>
+ 

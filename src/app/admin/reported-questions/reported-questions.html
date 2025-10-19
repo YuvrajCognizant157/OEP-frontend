@@ -1,0 +1,32 @@
+<div class="reported-container">
+<h2>📝 Reported Questions</h2>
+<div *ngIf="loading" class="loading">Loading reported questions...</div>
+<div *ngIf="!loading && message" class="message-box">
+
+    {{ message }}
+</div>
+<div *ngIf="!loading && questions.length > 0" class="table-wrapper">
+<table class="styled-table">
+<thead>
+<tr>
+<th>Question ID</th>
+<th>Feedback</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let q of questions">
+<td>{{ q.qid }}</td>
+<td>{{ q.feedback || 'No feedback provided' }}</td>
+<td>
+<button class="btn-view" (click)="viewQuestion(q.qid)">
+
+              Review
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+ 
