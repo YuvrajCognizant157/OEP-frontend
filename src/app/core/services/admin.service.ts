@@ -14,6 +14,7 @@ import { ExamFeedback } from '../../shared/models/exam-feedback.model';
 import { ApproveTopic } from '../../shared/models/approve-topic.model';
 
 import{BlockUserComponent}from'../../admin/block-user/block-user'
+import { AdminExam } from '../../shared/models/admin-exam.model';
 
 
 
@@ -35,17 +36,17 @@ toggleBlockUser(uid: number): Observable<any> {
 }
 
 
- getAssignedExams(adminId: number): Observable<any> {
+ getAssignedExams(adminId: number): Observable<{ExamList:AdminExam[]}> {
 
-  return this.http.get(`${this.apiUrl}/approve-exam-list?userId=${adminId}`);
-
-}
-
-getExamQuestions(examId: number): Observable<any> {
-
-  return this.http.get(`${this.apiUrl}/api/Exam/${examId}/questions`);
+  return this.http.get<{ExamList:AdminExam[]}>(`${this.apiUrl}/approve-exam-list?userId=${adminId}`);
 
 }
+
+// getExamQuestions(examId: number): Observable<any> {
+
+//   return this.http.get(`${this.apiUrl}/api/Exam/${examId}/questions`);
+
+// }
 
 approveOrRejectExam(eid: number, userId: number, action: string): Observable<any> {
 
@@ -60,15 +61,18 @@ approveOrRejectExam(eid: number, userId: number, action: string): Observable<any
 
   getReportedQuestions(): Observable<any[]> {
 
-    return this.http.get<any[]>(`${this.apiUrl}/reported-questions`);
+    return this.http.get<any[]>(`${this.apiUrl}/reported-questions`,{responseType:'text'as'json'});
 
   }
 
   /** ✅ Review a reported question */
+  getReportedQuestionById(qid: number): Observable<any> {
 
-  reviewReportedQuestion(dto: QuestionReview): Observable<string> {
+    return this.http.get(`${this.apiUrl}/review-questions/${qid}`);}
 
-    return this.http.post(`${this.apiUrl}/review-questions`, dto, { responseType: 'text' });
+  reviewReportedQuestion(dto: any): Observable<any> {
+
+    return this.http.post(`${this.apiUrl}/review-questions`, dto);
 
   }
 
@@ -106,13 +110,9 @@ approveOrRejectExam(eid: number, userId: number, action: string): Observable<any
 
   /** ✅ Get topics pending approval */
 
-  getTopicsForApproval(userId: number): Observable<ApproveTopic[]> {
-
-    const params = new HttpParams().set('userId', userId.toString());
-
-    return this.http.get<ApproveTopic[]>(`${this.apiUrl}/topic-list`, { params });
-
-  }
+  getTopicsForApproval(adminId: number): Observable<any> {
+ return this.http.get(`${this.apiUrl}/topic-List?userId=${adminId}`);
+}
 
   /** ✅ Approve or reject topic */
 

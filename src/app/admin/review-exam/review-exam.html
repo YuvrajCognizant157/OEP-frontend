@@ -1,19 +1,56 @@
-<div class="review-container" *ngIf="questions.length > 0">
-<h2>{{ examName }}</h2>
+<div class="review-container" *ngIf="exam && questions.length > 0">
+<h2>Reviewing: {{ exam.name }}</h2>
+<h4>Question {{ currentIndex + 1 }} / {{ questions.length }}</h4>
 <div class="question-card">
-<h3>Question {{ currentIndex + 1 }} / {{ questions.length }}</h3>
-<p>{{ questions[currentIndex].questionText }}</p>
+<p class="question">{{ questions[currentIndex].question }}</p>
 <ul>
-<li *ngFor="let opt of questions[currentIndex].options">{{ opt }}</li>
+<li *ngFor="let opt of (questions[currentIndex].options | keyvalue)">
+
+        {{ opt.key }}. {{ opt.value }}
+</li>
 </ul>
 </div>
-<div class="navigation">
-<button class="nav-btn" (click)="prevQuestion()" [disabled]="currentIndex === 0">Previous</button>
-<button class="nav-btn" (click)="nextQuestion()" [disabled]="currentIndex === questions.length - 1">Next</button>
+<div class="nav-buttons">
+<button
+
+      mat-raised-button
+
+      color="primary"
+
+      (click)="previous()"
+
+      [disabled]="currentIndex === 0"
+>
+
+      Previous
+</button>
+<button
+
+      mat-raised-button
+
+      color="primary"
+
+      (click)="next()"
+
+      [disabled]="currentIndex === questions.length - 1"
+>
+
+      Next
+</button>
 </div>
-<div class="decision" *ngIf="currentIndex === questions.length - 1">
-<button class="approve-btn" (click)="approveExam()">Approve</button>
-<button class="reject-btn" (click)="rejectExam()">Reject</button>
+<div *ngIf="currentIndex === questions.length - 1" class="final-actions">
+<button mat-raised-button color="accent" (click)="approveOrReject('approve')">
+
+      Approve Exam
+</button>
+<button mat-raised-button color="warn" (click)="approveOrReject('reject')">
+
+      Reject Exam
+</button>
 </div>
+</div>
+<div *ngIf="questions.length === 0" class="no-questions">
+
+  No questions found for this exam.
 </div>
  

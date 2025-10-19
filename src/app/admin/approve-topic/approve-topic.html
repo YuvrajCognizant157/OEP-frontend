@@ -1,14 +1,15 @@
-<div class="approve-page">
-<h2 class="page-title">Approve / Reject Topics</h2>
+<div class="approve-container">
+<h2>Approve / Reject Topics</h2>
 <button class="load-btn" (click)="loadTopics()" [disabled]="loading">
 
     {{ loading ? 'Loading...' : 'Load Topics' }}
 </button>
-<div class="table-wrapper" *ngIf="topics.length > 0; else noTopics">
+<p class="debug-text">Debug: {{ topics?.length }} topics found.</p>
+<div *ngIf="topics && topics.length > 0; else noTopics" class="table-wrapper">
 <table class="topic-table">
 <thead>
 <tr>
-<th>Topic ID</th>
+<th>ID</th>
 <th>Subject</th>
 <th>Actions</th>
 </tr>
@@ -17,7 +18,7 @@
 <tr *ngFor="let topic of topics">
 <td>{{ topic.id }}</td>
 <td>{{ topic.topicName }}</td>
-<td class="actions">
+<td>
 <button class="approve-btn" (click)="approveTopic(topic.id)">Approve</button>
 <button class="reject-btn" (click)="rejectTopic(topic.id)">Reject</button>
 </td>

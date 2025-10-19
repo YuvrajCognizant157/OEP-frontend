@@ -6,9 +6,12 @@ import { DashboardComponent } from './admin/dashboard/dashboard';
 import { BlockUserComponent } from './admin/block-user/block-user';
 import {ApproveTopicComponent} from './admin/approve-topic/approve-topic';
 import {ApproveExamComponent} from './admin/approve-exam/approve-exam';
-import {ApproveQuestion} from './admin/approve-question/approve-question';
+//import {ApproveQuestion} from './admin/Reported-Questions/approve-question';
 import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
 //import { AdminComponent } from './admin/admin.component';
+import { ReviewExamComponent } from './admin/review-exam/review-exam';
+import { ReportedQuestionsComponent } from './admin/reported-questions/reported-questions';
+import { ReviewQuestionComponent } from './admin/review-question/review-question';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -116,13 +119,14 @@ export const routes: Routes = [
         path: 'approve-exam',
         component: ApproveExamComponent
       },
-      {
-        path: 'approve-question',
-        component: ApproveQuestion
-      },
+      
       {
         path: 'approve-topic',
         component: ApproveTopicComponent
+      },
+      {
+      path:'review-exam',
+      component:ReviewExamComponent
       },
       {
         path: 'block-users',
@@ -131,6 +135,14 @@ export const routes: Routes = [
       {
         path: 'exam-feedback',
         component: ExamFeedbackComponent
+      },
+      {
+        path: 'reported-questions',
+        component:ReportedQuestionsComponent
+      },
+      {
+        path:'review-question',
+        component:ReviewQuestionComponent
       }
     ]
   },

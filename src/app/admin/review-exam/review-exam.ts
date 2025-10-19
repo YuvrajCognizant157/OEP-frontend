@@ -1,98 +1,121 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AdminService } from '../../core/services/admin.service';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { AdminExam } from '../../shared/models/admin-exam.model';
+
+import { AdminQuestion } from '../../shared/models/admin-question.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
 
   selector: 'app-review-exam',
-
-  standalone: true,
+  standalone:true,
+imports:[CommonModule,FormsModule],
 
   templateUrl: './review-exam.html',
 
-  styleUrls: ['./review-exam.css']
+  styleUrls: ['./review-exam.css'],
 
 })
 
 export class ReviewExamComponent implements OnInit {
 
-  examId!: number;
+  exam!: AdminExam;
 
-  examName = '';
-
-  questions: any[] = [];
+  questions: AdminQuestion[] = [];
 
   currentIndex = 0;
 
-  userId!: number;
+  userId = Number(localStorage.getItem('userId'));
 
-  constructor(private route: ActivatedRoute, private adminService: AdminService, private snack: MatSnackBar, private router: Router) {}
+  constructor(
 
-  ngOnInit() {
+    private router: Router,
 
-    this.examId = Number(this.route.snapshot.paramMap.get('id'));
+    private snack: MatSnackBar,
 
-    this.userId = Number(localStorage.getItem('userId'));
+    private adminService: AdminService
 
-    this.loadExamQuestions();
+  ) {}
+
+  ngOnInit(): void {
+
+    const nav = history.state;
+
+    if (nav.exam) {
+
+      this.exam = nav.exam;
+
+      this.questions = this.exam.questions.map((q: AdminQuestion) => {
+      try {
+   if (typeof q.options === 'string') {
+     q.options = JSON.parse(q.options);
+   }
+     } catch {
+   q.options = {};
+    }
+ return q;
+});
+
+    } else {
+
+      this.snack.open('No exam data found', 'Close', { duration: 3000 });
+
+      this.router.navigate(['/admin/dashboard/approve-exam']);
+
+    }
 
   }
 
-  loadExamQuestions() {
-
-    this.adminService.getExamQuestions(this.examId).subscribe({
-
-      next: (res) => {
-
-        this.questions = res.questions;
-
-        this.examName = res.name;
-
-      },
-
-      error: () => this.snack.open('Error loading questions', 'Close', { duration: 3000 })
-
-    });
-
-  }
-
-  nextQuestion() {
+  next(): void {
 
     if (this.currentIndex < this.questions.length - 1) this.currentIndex++;
 
   }
 
-  prevQuestion() {
+  previous(): void {
 
     if (this.currentIndex > 0) this.currentIndex--;
 
   }
 
-  approveExam() {
+  approveOrReject(action: string): void {
 
-    this.adminService.approveOrRejectExam(this.examId, this.userId, 'approve').subscribe(() => {
+    this.adminService
 
-      this.snack.open('Exam approved', 'Close', { duration: 3000 });
+      .approveOrRejectExam(this.exam.eid, this.userId, action)
 
-      this.router.navigate(['/admin/dashboard/approve-exam']);
+      .subscribe({
 
-    });
+        next: (res) => {
 
-  }
+          const msg = res?.message || `Exam ${action}ed successfully.`;
 
-  rejectExam() {
+          this.snack.open(msg, 'Close', { duration: 3000 });
 
-    this.adminService.approveOrRejectExam(this.examId, this.userId, 'reject').subscribe(() => {
+          this.router.navigate(['/admin/dashboard/approve-exam']);
 
-      this.snack.open('Exam rejected', 'Close', { duration: 3000 });
+        },
 
-      this.router.navigate(['/admin/dashboard/approve-exam']);
+        error: (err) => {
 
-    });
+          console.error(err);
+
+          this.snack.open(`Failed to ${action} exam`, 'Close', {
+
+            duration: 3000,
+
+          });
+
+        },
+
+      });
 
   }
 

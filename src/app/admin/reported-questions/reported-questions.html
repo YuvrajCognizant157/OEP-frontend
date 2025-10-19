@@ -1,0 +1,28 @@
+<div class="container mt-4">
+<h2>Reported Questions</h2>
+<button class="btn btn-primary mb-3" (click)="loadQuestions()">Reload</button>
+<div *ngIf="message" class="alert alert-info">{{ message }}</div>
+<table *ngIf="questions.length" class="table table-bordered table-striped">
+<thead class="table-dark">
+<tr>
+<th>Question ID</th>
+<th>Question</th>
+<th>Reason</th>
+<th>Reported By</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let q of questions">
+<td>{{ q.qid }}</td>
+<td>{{ q.question?.text || 'No text available' }}</td>
+<td>{{ q.reason || '—' }}</td>
+<td>{{ q.reportedBy || 'Anonymous' }}</td>
+<td>
+<button class="btn btn-outline-primary btn-sm" (click)="viewQuestion(q.qid)">View</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+ 

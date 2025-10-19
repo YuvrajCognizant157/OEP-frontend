@@ -1,25 +1,59 @@
-<div class="exam-list-container">
-<h2>Assigned Exams for Review</h2>
-<button class="load-btn" (click)="loadAssignedExams()" [disabled]="loading">
-   {{ loading ? 'Loading...' : 'Load Exams' }}
+<div class="approve-exam-container">
+<h2 class="page-title">Assigned Exams for Review</h2>
+<button
+
+    class="load-button"
+
+    mat-raised-button
+
+    color="primary"
+
+    (click)="loadAssignedExams()"
+
+    [disabled]="loading"
+>
+
+    {{ loading ? 'Loading...' : 'Load Exams' }}
 </button>
-<table *ngIf="exams.length > 0" class="exam-table">
+<div *ngIf="!loading && exams.length === 0" class="no-exams">
+
+    No exams assigned for review.
+</div>
+<div *ngIf="exams.length > 0" class="exam-list">
+<table class="exam-table">
 <thead>
 <tr>
 <th>Exam ID</th>
 <th>Exam Name</th>
-<th>Actions</th>
+<th>Description</th>
+<th>Total Marks</th>
+<th>Duration</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr *ngFor="let exam of exams">
 <td>{{ exam.eid }}</td>
 <td>{{ exam.name }}</td>
+<td>{{ exam.description || 'N/A' }}</td>
+<td>{{ exam.totalMarks || 'N/A' }}</td>
+<td>{{ exam.duration || 'N/A' }}</td>
 <td>
-<button class="review-btn" (click)="openExam(exam.eid)">Review</button>
+<button
+
+              mat-raised-button
+
+              color="accent"
+
+              (click)="openExam(exam)"
+>
+
+              Review
+</button>
 </td>
 </tr>
 </tbody>
 </table>
-<p *ngIf="!loading && exams.length === 0">No exams assigned for review.</p>
 </div>
+</div>
+ 

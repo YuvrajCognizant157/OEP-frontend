@@ -1,67 +1,100 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Router } from '@angular/router';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { AdminService } from '../../core/services/admin.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { AdminExam } from '../../shared/models/admin-exam.model';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 @Component({
- selector: 'app-approve-exam',
- standalone: true,
- imports:[CommonModule,MatSnackBarModule],
- templateUrl: './approve-exam.html',
- styleUrls: ['./approve-exam.css']
+
+  selector: 'app-approve-exam',
+
+  standalone:true,
+
+  imports:[CommonModule,FormsModule],
+
+  templateUrl: './approve-exam.html',
+
+  styleUrls: ['./approve-exam.css'],
+
 })
+
 export class ApproveExamComponent implements OnInit {
- exams: any[] = [];
- userId!: number;
- loading = false;
- constructor(private adminService: AdminService, private snack: MatSnackBar, private router: Router) {}
- ngOnInit(): void {
-   const storedId = localStorage.getItem('userId');
-   if (storedId) this.userId = Number(storedId);
- }
- loadAssignedExams(): void {
 
-  if (!this.userId) {
+  exams: AdminExam[] = [];
 
-    this.snack.open('Admin ID missing. Please log in again.', 'Close', { duration: 3000 });
+  loading = false;
 
-    return;
+  userId = Number(localStorage.getItem('userId'));
+
+  constructor(
+
+    private adminService: AdminService,
+
+    private snack: MatSnackBar,
+
+    private router: Router
+
+  ) {}
+
+  ngOnInit(): void {}
+
+  /** ✅ Load all exams assigned to current admin */
+
+  loadAssignedExams(): void {
+
+    this.loading = true;
+
+    this.adminService.getAssignedExams(this.userId).subscribe({
+
+      next: (res) => {
+
+        this.loading = false;
+
+        if (res?.ExamList?.length > 0) {
+
+          this.exams = res.ExamList;
+
+        } else {
+
+          this.snack.open('No exams assigned for review', 'Close', {
+
+            duration: 3000,
+
+          });
+
+          this.exams = [];
+
+        }
+
+      },
+
+      error: (err) => {
+
+        console.error(err);
+
+        this.loading = false;
+
+        this.snack.open('Failed to load exams', 'Close', { duration: 3000 });
+
+      },
+
+    });
 
   }
 
-  this.loading = true;
+  /** ✅ Open selected exam for detailed review */
 
-  this.adminService.getAssignedExams(this.userId).subscribe({
+  openExam(exam: AdminExam): void {
 
-    next: (res) => {
+    this.router.navigate(['/admin/dashboard/review-exam'], { state: { exam } });
 
-      this.exams = Array.isArray(res) ? res : res.ExamList || [];
-
-      this.loading = false;
-
-      if (!this.exams.length) {
-
-        this.snack.open('No exams to be approved', 'Close', { duration: 2500 });
-
-      }
-
-    },
-
-    error: (err) => {
-
-      console.error(err);
-
-      this.loading = false;
-
-      this.snack.open('Error loading exams', 'Close', { duration: 3000 });
-
-    }
-
-  });
+  }
 
 }
  
- openExam(examId: number) {
-   this.router.navigate(['/admin/dashboard/review-exam', examId]);
- }
-}
