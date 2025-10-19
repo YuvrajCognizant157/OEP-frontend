@@ -1,34 +1,32 @@
-<div class="approve-topic-container">
-<h2>Approve / Reject Topics</h2>
-<div class="input-section">
-<mat-form-field appearance="outline">
-<mat-label>Enter Admin ID</mat-label>
-<input matInput type="number" [(ngModel)]="adminId" />
-</mat-form-field>
-<button mat-raised-button color="primary" (click)="loadTopics()">Load Topics</button>
-</div>
-<div *ngIf="loading" class="loading">
-<mat-spinner diameter="40"></mat-spinner>
-<p>Loading topics...</p>
-</div>
-<table mat-table [dataSource]="topics" *ngIf="!loading && topics.length > 0" class="mat-elevation-z8">
-<ng-container matColumnDef="id">
-<th mat-header-cell *matHeaderCellDef>Topic ID</th>
-<td mat-cell *matCellDef="let topic">{{ topic.id }}</td>
-</ng-container>
-<ng-container matColumnDef="topicName">
-<th mat-header-cell *matHeaderCellDef>Topic Name</th>
-<td mat-cell *matCellDef="let topic">{{ topic.topicName }}</td>
-</ng-container>
-<ng-container matColumnDef="actions">
-<th mat-header-cell *matHeaderCellDef>Actions</th>
-<td mat-cell *matCellDef="let topic">
-<button mat-stroked-button color="primary" (click)="approve(topic.id)">Approve</button>
-<button mat-stroked-button color="warn" (click)="reject(topic.id)">Reject</button>
+<div class="approve-page">
+<h2 class="page-title">Approve / Reject Topics</h2>
+<button class="load-btn" (click)="loadTopics()" [disabled]="loading">
+
+    {{ loading ? 'Loading...' : 'Load Topics' }}
+</button>
+<div class="table-wrapper" *ngIf="topics.length > 0; else noTopics">
+<table class="topic-table">
+<thead>
+<tr>
+<th>Topic ID</th>
+<th>Subject</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let topic of topics">
+<td>{{ topic.id }}</td>
+<td>{{ topic.topicName }}</td>
+<td class="actions">
+<button class="approve-btn" (click)="approveTopic(topic.id)">Approve</button>
+<button class="reject-btn" (click)="rejectTopic(topic.id)">Reject</button>
 </td>
-</ng-container>
-<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</tr>
+</tbody>
 </table>
+</div>
+<ng-template #noTopics>
+<p class="no-topics">No topics available for approval.</p>
+</ng-template>
 </div>
  
