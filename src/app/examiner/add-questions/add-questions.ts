@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { TopicsService } from '../../core/services/topics.service';
 
 @Component({
@@ -16,13 +17,15 @@ import { TopicsService } from '../../core/services/topics.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     MatCardModule,
     MatSelectModule,
     MatButtonModule,
     MatInputModule,
     MatTabsModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatButtonToggleModule
   ],
   templateUrl: './add-questions.html',
   styleUrl: './add-questions.css'
@@ -31,9 +34,14 @@ export class AddQuestions implements OnInit {
 
   topics: any[] = [];
   selectedMode: 'single' | 'multiple' = 'single';
-
+  mode:string='single';
   singleQuestionForm!: FormGroup;
   multipleQuestionForm!: FormGroup;
+
+  questionTypes = [
+    { value: 'MCQ', viewValue: 'MCQ (Single Correct)' },
+    { value: 'MSQ', viewValue: 'MSQ (Multiple Correct)' }
+  ];
 
   constructor(private fb: FormBuilder, private topicsService: TopicsService) {}
 
@@ -81,6 +89,8 @@ export class AddQuestions implements OnInit {
   fetchTopics(): void {
     this.topicsService.getTopics().subscribe({
       next: (res) => {
+        console.log('Fetched topics:', res);
+        
         this.topics = res;
       },
       error: (err) => console.error('Error fetching topics:', err)
