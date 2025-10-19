@@ -1,0 +1,202 @@
+/* ================================
+
+   APPROVE EXAM LIST PAGE (ADMIN)
+
+   ================================ */
+
+.exam-list-container {
+
+  min-height: 100vh;
+
+  background: radial-gradient(circle at top left, #0b0b0b, #121212 80%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 60px 0;
+
+  color: #eaeaea;
+
+  font-family: 'Poppins', sans-serif;
+
+}
+
+/* Title */
+
+.exam-list-container h2 {
+
+  font-size: 34px;
+
+  font-weight: 600;
+
+  background: linear-gradient(90deg, #b38bff, #8e44ad);
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  margin-bottom: 25px;
+
+}
+
+/* Load Button */
+
+.load-btn {
+
+  background: linear-gradient(90deg, #5a33ff, #8e44ad);
+
+  border: none;
+
+  color: #fff;
+
+  font-weight: 600;
+
+  font-size: 16px;
+
+  padding: 12px 32px;
+
+  border-radius: 10px;
+
+  box-shadow: 0 0 18px rgba(130, 78, 255, 0.5);
+
+  cursor: pointer;
+
+  margin-bottom: 40px;
+
+  transition: all 0.3s ease;
+
+}
+
+.load-btn:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 0 30px rgba(150, 80, 255, 0.8);
+
+}
+
+/* Table */
+
+.exam-table {
+
+  width: 80%;
+
+  max-width: 950px;
+
+  background: #181818;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  box-shadow: 0 0 25px rgba(100, 100, 255, 0.2);
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+
+}
+
+.exam-table th {
+
+  background: linear-gradient(90deg, #2c165a, #41206f);
+
+  color: #cdb3ff;
+
+  padding: 16px 0;
+
+  font-size: 16px;
+
+  letter-spacing: 0.5px;
+
+  text-align: center;
+
+}
+
+.exam-table td {
+
+  text-align: center;
+
+  padding: 18px 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: #e6e6e6;
+
+  font-size: 15px;
+
+}
+
+.exam-table tr:hover {
+
+  background-color: rgba(140, 100, 255, 0.08);
+
+  transition: 0.2s ease;
+
+}
+
+/* Review Button */
+
+.review-btn {
+
+  background-color: #6a5acd;
+
+  border: none;
+
+  color: white;
+
+  font-weight: 500;
+
+  padding: 8px 22px;
+
+  border-radius: 8px;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 0 10px rgba(108, 85, 255, 0.3);
+
+}
+
+.review-btn:hover {
+
+  background-color: #7b68ee;
+
+  transform: scale(1.07);
+
+  box-shadow: 0 0 20px rgba(125, 95, 255, 0.6);
+
+}
+
+.exam-list-container p {
+
+  margin-top: 20px;
+
+  color: #aaa;
+
+  font-size: 16px;
+
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  .exam-table {
+
+    width: 95%;
+
+  }
+
+  .load-btn {
+
+    font-size: 14px;
+
+    padding: 10px 25px;
+
+  }
+
+}
+ 

@@ -5,7 +5,7 @@ import { Home } from './home/home';
 import { DashboardComponent } from './admin/dashboard/dashboard';
 import { BlockUserComponent } from './admin/block-user/block-user';
 import {ApproveTopicComponent} from './admin/approve-topic/approve-topic';
-import {ApproveExam} from './admin/approve-exam/approve-exam';
+import {ApproveExamComponent} from './admin/approve-exam/approve-exam';
 import {ApproveQuestion} from './admin/approve-question/approve-question';
 import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
 //import { AdminComponent } from './admin/admin.component';
@@ -99,6 +99,10 @@ export const routes: Routes = [
         path: 'manage-topic',
         loadComponent: () => import('./examiner/manage-topic/manage-topic').then((m) => m.ManageTopic),
       },
+      {
+        path: 'add-questions',
+        loadComponent: () => import('./examiner/add-questions/add-questions').then((m) => m.AddQuestions),
+      },
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
     ],
   },
@@ -114,7 +118,7 @@ export const routes: Routes = [
       },
       {
         path: 'approve-exam',
-        component: ApproveExam
+        component: ApproveExamComponent
       },
       {
         path: 'approve-question',

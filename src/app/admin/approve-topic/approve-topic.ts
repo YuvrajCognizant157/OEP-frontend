@@ -1,149 +1,74 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminService } from '../../core/services/admin.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
 import { ApproveTopic } from '../../shared/models/approve-topic.model';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
 @Component({
-
-  selector: 'app-approve-topic',
-imports: [MatFormFieldModule,
-
-MatInputModule,
-
-MatButtonModule,
-
-MatSnackBarModule,
-
-MatProgressSpinnerModule,
-
-MatTableModule,
-
-CommonModule,
-
-FormsModule
- ],
-
-  templateUrl: './approve-topic.html',
-
-  styleUrls: ['./approve-topic.css']
-
+ selector: 'app-approve-topic',
+ standalone: true,
+ imports: [CommonModule, FormsModule, MatSnackBarModule, MatButtonModule, MatTableModule, MatCardModule],
+ templateUrl: './approve-topic.html',
+ styleUrls: ['./approve-topic.css']
 })
-
-export class ApproveTopicComponent {
-
-  adminId: number | null = null;
-
-  topics: ApproveTopic[] = [];
-
-  displayedColumns = ['id', 'topicName', 'actions'];
-
-  loading = false;
-
-  constructor(private adminService: AdminService, private snack: MatSnackBar) {}
-
-  loadTopics() {
-
-    if (!this.adminId) {
-
-      this.snack.open('Please enter Admin ID', 'OK', { duration: 2000 });
-
-      return;
-
-    }
-
-    this.loading = true;
-
-    this.adminService.getTopicsForApproval(this.adminId).subscribe({
-
-      next: (res) => {
-
-        this.topics = res;
-
-        this.loading = false;
-
-        if (this.topics.length === 0) {
-
-          this.snack.open('No topics found for this admin.', 'OK', { duration: 2000 });
-
-        }
-
-      },
-
-      error: (err) => {
-
-        this.loading = false;
-
-        this.snack.open('Error loading topics.', 'OK', { duration: 2000 });
-
-        console.error(err);
-
-      }
-
-    });
-
-  }
-
-  approve(topicId: number) {
-
-    if (!this.adminId) return;
-
-    this.adminService.approveOrRejectTopic(topicId, this.adminId).subscribe({
-
-      next: () => {
-
-        this.snack.open('Topic approved successfully!', 'OK', { duration: 2000 });
-
-        this.loadTopics();
-
-      },
-
-      error: (err) => {
-
-        this.snack.open('Error approving topic.', 'OK', { duration: 2000 });
-
-        console.error(err);
-
-      }
-
-    });
-
-  }
-
-  reject(topicId: number) {
-
-    if (!this.adminId) return;
-
-    this.adminService.approveOrRejectTopic(topicId, this.adminId).subscribe({
-
-      next: () => {
-
-        this.snack.open('Topic rejected successfully!', 'OK', { duration: 2000 });
-
-        this.loadTopics();
-
-      },
-
-      error: (err) => {
-
-        this.snack.open('Error rejecting topic.', 'OK', { duration: 2000 });
-
-        console.error(err);
-
-      }
-
-    });
-
-  }
-
+export class ApproveTopicComponent implements OnInit {
+ topics: any[] = [];
+ loading = false;
+ userId!: number;
+ displayedColumns: string[] = ['tid', 'subject', 'actions'];
+ constructor(private adminService: AdminService, private snack: MatSnackBar) {}
+ ngOnInit(): void {
+   const storedId = localStorage.getItem('userId');
+   if (storedId) {
+     this.userId = Number(storedId);
+     console.log('Admin ID from localStorage:', this.userId);
+   } else {
+     this.snack.open('User ID not found in localStorage', 'close', { duration: 3000 });
+   }
+ }
+ loadTopics(): void {
+   if (!this.userId) {
+     this.snack.open('User ID missing. Please log in again.', 'close', { duration: 3000 });
+     return;
+   }
+   this.loading = true;
+   this.adminService.getTopicsForApproval(this.userId).subscribe({
+     next: (res: any) => {
+       console.log('Topics received:', res);
+       // adjust based on API structure
+       this.topics = res.topics || res;
+       this.loading = false;
+     },
+     error: (err) => {
+       console.error('Error loading topics:', err);
+       this.loading = false;
+       this.snack.open('Error loading topics', 'close', { duration: 3000 });
+     }
+   });
+ }
+ approveTopic(topicId: number): void {
+   this.adminService.approveOrRejectTopic(topicId, this.userId).subscribe({
+     next: () => {
+       this.snack.open('Topic approved successfully!', 'close', { duration: 3000 });
+       this.loadTopics();
+     },
+     error: () => {
+       this.snack.open('Error while approving topic', 'close', { duration: 3000 });
+     }
+   });
+ }
+ rejectTopic(topicId: number): void {
+   this.adminService.approveOrRejectTopic(topicId, this.userId).subscribe({
+     next: () => {
+       this.snack.open('Topic rejected successfully!', 'close', { duration: 3000 });
+       this.loadTopics();
+     },
+     error: () => {
+       this.snack.open('Error while rejecting topic', 'close', { duration: 3000 });
+     }
+   });
+ }
 }
- 
