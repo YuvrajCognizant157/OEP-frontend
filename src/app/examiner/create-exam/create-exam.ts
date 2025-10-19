@@ -82,11 +82,11 @@ export class CreateExam implements OnInit {
       };
 
       this.examinerService.addExam(examData).subscribe({
-        next:(response) => {
+        next:(response :{msg:string;examId:number}) => {
           console.log('Exam metadata saved. You can now add questions:', response);
           alert('Exam metadata saved successfully.');
           
-          this.router.navigate(['/examiner/dashboard/add-questions'], { queryParams: { examId: response.examId } });
+          this.router.navigate(['/examiner/dashboard/add-questions',response.examId]);
         },
         error:(error) => {
           console.error('Failed to create exam:', error);
