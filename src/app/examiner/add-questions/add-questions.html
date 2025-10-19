@@ -1,0 +1,117 @@
+<div class="add-questions-container dark-theme">
+    <mat-card class="switch-card">
+        <div class="switch-header">
+            <h2>Add Questions</h2>
+            <mat-button-toggle-group [(ngModel)]="selectedMode" appearance="legacy" class="mode-toggle">
+                <mat-button-toggle value="single">Single Question</mat-button-toggle>
+                <mat-button-toggle value="multiple">Multiple Questions</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </mat-card>
+
+    <mat-divider></mat-divider>
+
+    <!-- Single Question Mode -->
+    <mat-card *ngIf="selectedMode === 'single'" class="form-card fade-in">
+        <h3>Add a Single Question</h3><br />
+        <form [formGroup]="singleQuestionForm" (ngSubmit)="submitSingleQuestion()">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Question Type</mat-label>
+                <mat-select formControlName="type">
+                    <mat-option *ngFor="let qtype of questionTypes" [value]="qtype.value">
+                        {{ qtype.viewValue }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Question</mat-label>
+                <textarea matInput formControlName="question" rows="3"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Options (comma-separated)</mat-label>
+                <textarea matInput formControlName="options" rows="2"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Correct Options (comma-separated)</mat-label>
+                <input matInput formControlName="correctOptions" placeholder="e.g., A, C" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Topic</mat-label>
+                <mat-select formControlName="tid">
+                    <mat-option *ngFor="let topic of topics" [value]="topic.tid">
+                        {{ topic.subject }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" class="submit-btn" type="submit">
+                Submit Question
+            </button>
+        </form>
+    </mat-card>
+
+    <!-- Multiple Question Mode -->
+    <mat-card *ngIf="selectedMode === 'multiple'" class="form-card fade-in">
+        <h3>Add Multiple Questions</h3><br />
+        <form [formGroup]="multipleQuestionForm" (ngSubmit)="submitMultipleQuestions()">
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Select Topic</mat-label>
+                <mat-select formControlName="tid">
+                    <mat-option *ngFor="let topic of topics" [value]="topic.tid">
+                        {{ topic.subject }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div formArrayName="questions">
+                <div *ngFor="let q of questionsArray.controls; let i = index" [formGroupName]="i"
+                    class="multi-question-card">
+                    <mat-divider></mat-divider>
+                    <div class="question-header">
+                        <h4>Question {{ i + 1 }}</h4>
+                        <button mat-icon-button color="warn" (click)="removeQuestion(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Question Type</mat-label>
+                        <mat-select formControlName="type">
+                            <mat-option *ngFor="let qtype of questionTypes" [value]="qtype.value">
+                                {{ qtype.viewValue }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Question</mat-label>
+                        <textarea matInput formControlName="question" rows="2"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Options</mat-label>
+                        <textarea matInput formControlName="options" rows="2"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Correct Options</mat-label>
+                        <input matInput formControlName="correctOptions" placeholder="A, B" />
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="buttons-row">
+                <button mat-stroked-button color="accent" (click)="addNewQuestion()">
+                    <mat-icon>add_circle</mat-icon> Add Question
+                </button>
+                <button mat-raised-button color="primary" type="submit">
+                    Submit All
+                </button>
+            </div>
+        </form>
+    </mat-card>
+</div>
