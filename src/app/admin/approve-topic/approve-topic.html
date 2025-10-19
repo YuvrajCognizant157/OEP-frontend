@@ -1,32 +1,19 @@
-<div class="approve-page">
-<h2 class="page-title">Approve / Reject Topics</h2>
-<button class="load-btn" (click)="loadTopics()" [disabled]="loading">
+<div class="topic-container">
+<h2>Topics Pending Approval</h2>
+<button class="load-btn" (click)="loadTopics()">Load Topics</button>
+<div *ngIf="loading" class="loading">Loading topics...</div>
+<div *ngIf="!loading && message" class="message">
 
-    {{ loading ? 'Loading...' : 'Load Topics' }}
-</button>
-<div class="table-wrapper" *ngIf="topics.length > 0; else noTopics">
-<table class="topic-table">
-<thead>
-<tr>
-<th>Topic ID</th>
-<th>Subject</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody>
-<tr *ngFor="let topic of topics">
-<td>{{ topic.id }}</td>
-<td>{{ topic.topicName }}</td>
-<td class="actions">
+    {{ message }}
+</div>
+<div *ngIf="!loading && topics.length > 0" class="topic-list">
+<div *ngFor="let topic of topics" class="topic-card">
+<h3>{{ topic.topicName }}</h3>
+<div class="actions">
 <button class="approve-btn" (click)="approveTopic(topic.id)">Approve</button>
 <button class="reject-btn" (click)="rejectTopic(topic.id)">Reject</button>
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-<ng-template #noTopics>
-<p class="no-topics">No topics available for approval.</p>
-</ng-template>
+</div>
+</div>
 </div>
  

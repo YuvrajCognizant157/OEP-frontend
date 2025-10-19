@@ -6,8 +6,9 @@ import { DashboardComponent } from './admin/dashboard/dashboard';
 import { BlockUserComponent } from './admin/block-user/block-user';
 import {ApproveTopicComponent} from './admin/approve-topic/approve-topic';
 import {ApproveExamComponent} from './admin/approve-exam/approve-exam';
-import {ApproveQuestion} from './admin/approve-question/approve-question';
 import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
+import { ReportedQuestionsComponent } from './admin/reported-questions/reported-questions';
+import { ReviewQuestionComponent } from './admin/review-question/review-question';
 //import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
@@ -120,13 +121,15 @@ export const routes: Routes = [
         path: 'approve-exam',
         component: ApproveExamComponent
       },
+      
       {
-        path: 'approve-question',
-        component: ApproveQuestion
+        path:'approve-topic',
+        component:ApproveTopicComponent
       },
+   
       {
-        path: 'approve-topic',
-        component: ApproveTopicComponent
+        path: 'reported-questions',
+        component: ReportedQuestionsComponent
       },
       {
         path: 'block-users',
@@ -135,6 +138,10 @@ export const routes: Routes = [
       {
         path: 'exam-feedback',
         component: ExamFeedbackComponent
+      },
+      {
+        path:'review-questions',
+        component:ReviewQuestionComponent
       }
     ]
   },
