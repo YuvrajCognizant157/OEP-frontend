@@ -100,7 +100,7 @@ export const routes: Routes = [
         loadComponent: () => import('./examiner/manage-topic/manage-topic').then((m) => m.ManageTopic),
       },
       {
-        path: 'add-questions',
+        path: 'add-questions/:examId',
         loadComponent: () => import('./examiner/add-questions/add-questions').then((m) => m.AddQuestions),
       },
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
