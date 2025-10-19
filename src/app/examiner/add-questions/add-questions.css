@@ -1,0 +1,40 @@
+.add-questions-card {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  margin: 1rem auto;
+  max-width: 900px;
+  width: 90%;
+  padding: 1rem;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.question-block {
+  background: #2a2a2a;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .add-questions-card {
+    width: 95%;
+  }
+}

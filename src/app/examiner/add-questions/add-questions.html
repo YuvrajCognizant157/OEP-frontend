@@ -1,0 +1,81 @@
+<mat-card class="add-questions-card">
+  <mat-card-header>
+    <mat-card-title>Add Questions</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="mode-toggle">
+      <button mat-raised-button color="primary" [disabled]="selectedMode === 'single'" (click)="selectedMode = 'single'">
+        Single Question
+      </button>
+      <button mat-raised-button color="accent" [disabled]="selectedMode === 'multiple'" (click)="selectedMode = 'multiple'">
+        Multiple Questions
+      </button>
+    </div>
+
+    <!-- SINGLE QUESTION MODE -->
+    <form *ngIf="selectedMode === 'single'" [formGroup]="singleQuestionForm" (ngSubmit)="submitSingleQuestion()" class="form-container">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Select Topic</mat-label>
+        <mat-select formControlName="tid">
+          <mat-option *ngFor="let topic of topics" [value]="topic.id">{{ topic.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Question</mat-label>
+        <textarea matInput formControlName="question"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Options (comma separated)</mat-label>
+        <input matInput formControlName="options" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Correct Option</mat-label>
+        <input matInput formControlName="correctOptions" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </form>
+
+    <!-- MULTIPLE QUESTION MODE -->
+    <form *ngIf="selectedMode === 'multiple'" [formGroup]="multipleQuestionForm" (ngSubmit)="submitMultipleQuestions()" class="form-container">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Select Topic</mat-label>
+        <mat-select formControlName="tid">
+          <mat-option *ngFor="let topic of topics" [value]="topic.id">{{ topic.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div formArrayName="questions">
+        <div *ngFor="let q of questionsArray.controls; let i = index" [formGroupName]="i" class="question-block">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Question</mat-label>
+            <textarea matInput formControlName="question"></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Options (comma separated)</mat-label>
+            <input matInput formControlName="options" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Correct Option</mat-label>
+            <input matInput formControlName="correctOptions" />
+          </mat-form-field>
+
+          <button mat-icon-button color="warn" type="button" (click)="removeQuestion(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+          <mat-divider></mat-divider>
+        </div>
+      </div>
+
+      <button mat-raised-button color="accent" type="button" (click)="addNewQuestion()">Add Another Question</button>
+      <button mat-raised-button color="primary" type="submit">Submit All</button>
+    </form>
+  </mat-card-content>
+</mat-card>
