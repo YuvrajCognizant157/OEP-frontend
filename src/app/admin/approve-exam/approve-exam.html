@@ -1,1 +1,25 @@
-<p>approve-exam works!</p>
+<div class="exam-list-container">
+<h2>Assigned Exams for Review</h2>
+<button class="load-btn" (click)="loadAssignedExams()" [disabled]="loading">
+   {{ loading ? 'Loading...' : 'Load Exams' }}
+</button>
+<table *ngIf="exams.length > 0" class="exam-table">
+<thead>
+<tr>
+<th>Exam ID</th>
+<th>Exam Name</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let exam of exams">
+<td>{{ exam.eid }}</td>
+<td>{{ exam.name }}</td>
+<td>
+<button class="review-btn" (click)="openExam(exam.eid)">Review</button>
+</td>
+</tr>
+</tbody>
+</table>
+<p *ngIf="!loading && exams.length === 0">No exams assigned for review.</p>
+</div>
