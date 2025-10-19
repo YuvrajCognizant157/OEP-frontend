@@ -45,8 +45,11 @@ export class DashboardComponent implements OnInit {
     this.analyticservice.getAdminAnalytics().subscribe({
 
       next: (data) => {
-
+        console.log('Admin analytics data:', data);      
+        
         this.analytics = data;
+        console.log('Admin analytics set to:', this.analytics);
+        
 
         this.loading = false;
 
