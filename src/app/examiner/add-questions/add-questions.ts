@@ -17,10 +17,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { TopicsService } from '../../core/services/topics.service';
-
 import { QuestionService } from '../../core/services/question.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-add-questions',
@@ -36,7 +36,7 @@ import { AuthService } from '../../core/services/auth.service';
     MatTabsModule,
     MatIconModule,
     MatDividerModule,
-    MatButtonToggleModule,
+    MatButtonToggleModule
   ],
   templateUrl: './add-questions.html',
   styleUrl: './add-questions.css',
@@ -62,7 +62,7 @@ export class AddQuestions implements OnInit {
     private questionService: QuestionService,
     private route: ActivatedRoute,
     private authS: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -75,32 +75,44 @@ export class AddQuestions implements OnInit {
   }
 
   initializeForms(): void {
+    // ✅ REPLACED: Single question form now has 4 separate option fields
     this.singleQuestionForm = this.fb.group({
       tid: ['', Validators.required],
       type: ['MCQ', Validators.required],
       question: ['', Validators.required],
-      options: ['', Validators.required],
-      correctOptions: ['', Validators.required],
+      option1: ['', Validators.required],
+      option2: ['', Validators.required],
+      option3: ['', Validators.required],
+      option4: ['', Validators.required],
+      correctOptions: ['', Validators.required], // single input, comma-separated
     });
 
+    // ✅ REPLACED: Multiple question form question groups now have 4 option fields
     this.multipleQuestionForm = this.fb.group({
       tid: ['', Validators.required],
       questions: this.fb.array([this.createQuestionGroup()]),
     });
   }
 
+
+
   get questionsArray(): FormArray {
     return this.multipleQuestionForm.get('questions') as FormArray;
   }
+
 
   createQuestionGroup(): FormGroup {
     return this.fb.group({
       type: ['MCQ', Validators.required],
       question: ['', Validators.required],
-      options: ['', Validators.required],
-      correctOptions: ['', Validators.required],
+      option1: ['', Validators.required],
+      option2: ['', Validators.required],
+      option3: ['', Validators.required],
+      option4: ['', Validators.required],
+      correctOptions: ['', Validators.required], // single input, comma-separated
     });
   }
+
 
   addNewQuestion(): void {
     this.questionsArray.push(this.createQuestionGroup());
@@ -114,7 +126,6 @@ export class AddQuestions implements OnInit {
     this.topicsService.getTopics().subscribe({
       next: (res) => {
         console.log('Fetched topics:', res);
-
         this.topics = res;
       },
       error: (err) => console.error('Error fetching topics:', err),
@@ -122,29 +133,40 @@ export class AddQuestions implements OnInit {
   }
 
   submitSingleQuestion(): void {
+    console.log('submitting single');
+
     if (this.singleQuestionForm.invalid) {
+      console.log('All fields are required.');
+
       alert('Please fill out all required fields.');
       return;
     }
     const formValue = this.singleQuestionForm.value;
 
-    const optionsArray = formValue.options.split(',').map((s: string) => s.trim());
-    const correctOptionsArray = formValue.correctOptions.split(',').map((s: string) => s.trim());
+    // ✅ REPLACED: Options object from 4 separate fields
+    const optionsObject: Record<string, string> = {
+      '1': formValue.option1,
+      '2': formValue.option2,
+      '3': formValue.option3,
+      '4': formValue.option4,
+    };
 
-    const optionsObject: { [key: string]: string } = {};
-    optionsArray.forEach((option: string, index: number) => {
-      optionsObject[(index + 1).toString()] = option;
-    });
+    console.log('correct options array: ', formValue.correctOptionsArray);
 
-    const correctOptionKeys = correctOptionsArray
-      .map((correctOpt: any) => {
-        const key = Object.keys(optionsObject).find(
-          (k) => optionsObject[k].toLowerCase() === correctOpt.toLowerCase()
-        );
-        return key || null;
-      })
-      .filter((key: string | null): key is string => key !== null);
+    const correctOptionKeys = formValue.correctOptions
+      .split(',')
+      .map((opt: string) => opt.trim())
+      .filter((opt: string) => opt !== '');
 
+    const validKeys = ['1', '2', '3', '4'];
+
+    // 2. Validate that EVERY key is a number between 1 and 4
+    const isValid = correctOptionKeys.every((key: any) => validKeys.includes(key));
+
+    if (!isValid) {
+      alert('Invalid option number detected. Please enter option numbers (1, 2, 3, or 4) separated by commas.');
+      return; // Stop submission
+    }
     const payload = {
       ...formValue,
       options: JSON.stringify(optionsObject),
@@ -155,9 +177,9 @@ export class AddQuestions implements OnInit {
 
     this.questionService.addSingleQuestion(payload, this.examId, this.userId).subscribe({
       next: (response) => {
-        alert(response); // e.g., "Question added successfully"
+        alert(response);
         this.singleQuestionForm.reset();
-        this.singleQuestionForm.patchValue({ type: 'MCQ' }); // Reset type to default
+        this.singleQuestionForm.patchValue({ type: 'MCQ' });
       },
       error: (err) => {
         console.error('Error adding question:', err);
@@ -177,35 +199,39 @@ export class AddQuestions implements OnInit {
     const payload = {
       tid: formValue.tid,
       questions: formValue.questions.map((q: any) => {
-        // --- NEW TRANSFORMATION LOGIC (repeated for each question) ---
-        const optionsArray = q.options.split(',').map((s: string) => s.trim());
-        const correctOptionsArray = q.correctOptions.split(',').map((s: string) => s.trim());
+        // ✅ REPLACED: Options object from 4 separate fields for each question
+        const optionsObject: Record<string, string> = {
+          '1': q.option1,
+          '2': q.option2,
+          '3': q.option3,
+          '4': q.option4,
+        };
 
-        const optionsObject: { [key: string]: string } = {};
-        optionsArray.forEach((option: string, index: number) => {
-          optionsObject[(index + 1).toString()] = option;
-        });
+        const correctOptionKeys = q.correctOptions
+          .split(',')
+          .map((opt: string) => opt.trim())
+          .filter((opt: string) => opt !== '');
 
-        const correctOptionKeys = correctOptionsArray
-          .map((correctOpt: string) => {
-            const key = Object.keys(optionsObject).find(
-              (k) => optionsObject[k].toLowerCase() === correctOpt.toLowerCase()
-            );
-            return key || null;
-          })
-          .filter((key: string | null): key is string => key !== null);
-        // --- END NEW LOGIC ---
+        const validKeys = ['1', '2', '3', '4'];
+
+        // 2. Validate that EVERY key is a number between 1 and 4
+        const isValid = correctOptionKeys.every((key: any) => validKeys.includes(key));
+
+        if (!isValid) {
+          alert('Invalid option number detected. Please enter option numbers (1, 2, 3, or 4) separated by commas.');
+          return; // Stop submission
+        }
 
         return {
           Type: q.type,
           Question: q.question,
-          Options: JSON.stringify(optionsObject), // Format to JSON string
-          CorrectOptions: correctOptionKeys, // Send the numeric keys
+          Options: JSON.stringify(optionsObject),
+          CorrectOptions: correctOptionKeys,
           ApprovalStatus: 1,
         };
       }),
     };
-    console.log('Multiple Questions Payload:', payload," checking if examid: ",this.examId);
+    console.log('Multiple Questions Payload:', payload, 'checking examId:', this.examId);
 
     this.questionService.addMultipleQuestions(payload, this.examId, this.userId).subscribe({
       next: (response) => {
