@@ -1,61 +1,73 @@
-/* Dark background for the whole page */
-.profile-update {
-  background-color: #1e1e1e;
-  min-height: 100vh;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1a002a;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e0e0e0;
+}
+
+.profile-update-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
   padding: 20px;
+  background-color: #1a002a;
 }
 
-/* Light container for the form */
-.form-container {
-  background-color: #f9f9f9;
+.profile-card {
+  background-color: #2b0040;
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
   width: 100%;
   max-width: 400px;
+  color: #e0e0e0;
 }
 
-/* Heading */
-h2 {
+.portal-title {
   text-align: center;
-  margin-bottom: 25px;
-  color: #333;
+  font-size: 24px;
+  color: #c792ea;
+  margin-bottom: 20px;
 }
 
-/* Labels */
+.form-group {
+  margin-bottom: 15px;
+}
+
 label {
   display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #333;
+  margin-bottom: 5px;
+  color: #bdbdbd;
 }
 
-/* Inputs */
 input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 18px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-/* Submit Button */
-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: white;
   border: none;
   border-radius: 6px;
-  font-size: 16px;
+  background-color: #3a005a;
+  color: #ffffff;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #c792ea;
+}
+
+.update-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #6a5acd;
+  color: #1a002a;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+.update-btn:hover {
+  background-color: #a678d1;
 }

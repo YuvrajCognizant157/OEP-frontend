@@ -14,6 +14,8 @@ import { ExamService } from '../../core/services/exam.service';
 import { forkJoin, map, Observable } from 'rxjs';
 import { SimplifiedExam, GetExamDataDTO } from '../../shared/models/exam.model';
 import { SimplifiedResult, RawResultDTO } from '../../shared/models/result.model';
+import { RouterLink } from '@angular/router';
+import { OverallAverageScoreTopicWise } from './student-dashboard.model';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -25,7 +27,8 @@ import { SimplifiedResult, RawResultDTO } from '../../shared/models/result.model
     MatTableModule,
     BaseChartDirective,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RouterLink
   ],
   templateUrl: './student-dashboard.html',
   styleUrl: './student-dashboard.css'
@@ -98,21 +101,29 @@ export class StudentDashboardComponent implements OnInit {
   private loadAllAnalytics(userId: number): void {
     this.isLoading = true;
 
+    console.log('Loading dashboard data for user ID:', userId);
+    
+
     // Use forkJoin to wait for all three necessary async calls to complete
     forkJoin({
       studentAnalytics: this.analyticsService.getStudentAnalytics(userId),
       totalExams: this.analyticsService.getTotalActiveExams(),
       totalQuestions: this.analyticsService.getTotalActiveQuestions(),
-      examData: this.processExamData(this.examService.getExams()),
+      examData: this.processExamData(this.examService.getAvailableExams(userId)),
       resultData: this.processResultsData(this.resultService.viewResultsByUserId(userId) as Observable<RawResultDTO[]>)
     }).subscribe({
       next: (results) => {
+
+        console.log('Dashboard data loaded:', results);
+        
         // 1. Process Student Analytics
         const studentData = results.studentAnalytics;
         if (studentData && studentData.value) {
           this.questionsEncounteredTotal = studentData.value.totalQuestionsEncountered || 0;
           this.examsAppearedTotal = studentData.value.totalExamsTaken || 0;
           this.student.examsAppeared = this.examsAppearedTotal;
+          this.updateTopicChart(studentData.value.overallAverageScoreTopicWise);
+          this.updateAttemptsChart(studentData.value.examAttemptsRecords);
         }
 
         // 2. Process Total Counts
@@ -130,6 +141,46 @@ export class StudentDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private updateAttemptsChart(records: { singleAttempts: number, doubleAttempts: number, trippleAttempts: number }): void {
+    this.attemptsChartData = {
+      ...this.attemptsChartData, // Keep existing labels and colors
+      datasets: [
+        {
+          ...this.attemptsChartData.datasets[0],
+          data: [
+            records.singleAttempts,
+            records.doubleAttempts,
+            records.trippleAttempts
+          ],
+        }
+      ]
+    };
+  }
+
+  private updateTopicChart(topicData: OverallAverageScoreTopicWise[]): void {
+      // 1. Take only the first four elements
+      const limitedData = topicData.slice(0, 4);
+
+      // 2. Extract Labels (Topic names) and Data (Average Scores)
+      const labels = limitedData.map(item => item.topic);
+      const scores = limitedData.map(item => item.averageScore);
+
+      // 3. Update the chart data structure
+      this.topicExamsChartData = {
+          labels: labels,
+          datasets: [
+              {
+                  // The data property of the first dataset is updated with the scores
+                  data: scores, 
+                  label: 'Average Score', // Changed label to reflect the data
+                  backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc'],
+                  borderColor: '#fff',
+                  borderWidth: 2
+              }
+          ]
+      };
   }
 
   private processResultsData(resultObservable: Observable<RawResultDTO[]>): Observable<SimplifiedResult[]> {
@@ -153,8 +204,13 @@ export class StudentDashboardComponent implements OnInit {
   }
 
   private processExamData(examObservable: Observable<GetExamDataDTO[]>): Observable<SimplifiedExam[]> {
+
+    //console.log('Processing exam data observable:', examObservable);
+    
     return examObservable.pipe(
       map((exams: GetExamDataDTO[]) => {
+        console.log('Raw exam data received:', exams);
+        
         // Map the array of GetExamDataDTO to the array of SimplifiedExam
         return exams.map(exam => ({
           eid: exam.eid,
@@ -208,11 +264,34 @@ export class StudentDashboardComponent implements OnInit {
     ]
   };
 
-  topicExamsChartData: ChartConfiguration<'pie'>['data'] = {
-    labels: ['Angular', 'Node.js', 'C#', 'Database'],
+  public attemptsChartData: ChartConfiguration<'pie'>['data'] = {
+    labels: ['Single Attempts', 'Double Attempts', 'Triple Attempts'],
     datasets: [
       {
-        data: [5, 3, 2, 2],
+        data: [0, 0, 0], // Placeholder data
+        label: 'Exam Attempts Distribution',
+        backgroundColor: ['#29b6f6', '#ffb74d', '#ef5350'], // Blue, Orange, Red
+        borderColor: '#fff',
+        borderWidth: 2
+      }
+    ]
+  };
+
+  // ⬅️ NEW Property for Attempts Chart Options (can reuse existing pie options)
+  public attemptsChartOptions: ChartConfiguration<'pie'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    
+    plugins: {
+      legend: { labels: { color: '#fff' } }
+    }
+  };
+
+  public topicExamsChartData: ChartConfiguration<'pie'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
         label: 'Exams Appeared',
         backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc'],
         borderColor: '#fff',
@@ -221,7 +300,7 @@ export class StudentDashboardComponent implements OnInit {
     ]
   };
 
-  topicExamsChartOptions: ChartConfiguration<'pie'>['options'] = {
+  public topicExamsChartOptions: ChartConfiguration<'pie'>['options'] = {
     responsive: true,
     plugins: {
       legend: { labels: { color: '#fff' } }

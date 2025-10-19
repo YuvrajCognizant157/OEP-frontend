@@ -31,21 +31,10 @@ interface AnalyticsData {
 })
 export class EAnalytics implements OnInit {
   analyticsData: AnalyticsData = {
-    totalExamsCreated: 5,
-    averageScoresPerExam: [
-      { examId: 1, examTitle: 'C++', averageScore: 0.67 },
-      { examId: 2, examTitle: 'Java Basics', averageScore: 0.82 },
-      { examId: 3, examTitle: 'Python DSA', averageScore: 0.75 },
-    ],
-    questionApprovalStats: [
-      { count: 152, isApproved: true },
-      { count: 34, isApproved: false },
-    ],
-    studentParticipation: [
-      { examId: 1, examTitle: 'C++', studentCount: 45 },
-      { examId: 2, examTitle: 'Java Basics', studentCount: 62 },
-      { examId: 3, examTitle: 'Python DSA', studentCount: 51 },
-    ],
+    totalExamsCreated: 0,
+    averageScoresPerExam: [],
+    questionApprovalStats: [],
+    studentParticipation: [],
   };
   // A property to hold the subscription so we can unsubscribe later
   private analyticsSubscription!: Subscription;
@@ -108,10 +97,8 @@ export class EAnalytics implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          // CORRECT: Assign the new data, don't use +=
           this.analyticsData = data.value;
 
-          // You'll need to re-process the data for your charts here
           this.processAnalyticsData();
 
           console.log('Fetched new analytics data:', this.analyticsData);
@@ -120,7 +107,6 @@ export class EAnalytics implements OnInit {
           console.error('Error fetching analytics:', err);
         },
       });
-    console.log('running next');
   }
 
   private processAnalyticsData(): void {

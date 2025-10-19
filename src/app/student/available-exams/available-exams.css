@@ -1,0 +1,153 @@
+/* General Page Layout */
+:host{
+  --page-bg: #1c2333;
+  --card-bg: #2a3447;
+  --text-main: #ffffff;
+  --text-light: #c1c8d6;
+  --accent-purple: #675ee3;
+  --border-color: #404a5e;
+  --warn-color: #f44336; /* Default Material warn color */
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
+  padding: 2rem;
+}
+.page-container {
+  background-color: #1a222f;
+  min-height: 100vh;
+  min-width: 70%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px 48px;
+  min-height: 100vh;
+
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #f7f7f7;
+}
+
+/* Grid for Exam Cards */
+.exams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Exam Card Styling */
+.exam-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.exam-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.exam-card mat-card-title {
+  color: #f0f0f0;
+  font-size: 1.25rem;
+}
+
+.exam-card mat-card-content p {
+  margin-bottom: 16px;
+  color: #f0f0f0;
+}
+
+.exam-details {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #bebdbd;
+}
+
+/* Spinner and Empty State */
+.spinner-container, .empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  color: #dbd9d9;
+}
+
+.empty-state .empty-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background:#1a222f ;
+  padding: 24px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.modal-body .instructions {
+  margin-top: 16px;
+  font-style: italic;
+  color: #cbc7c7;
+}
+
+.modal-footer {
+  text-align: right;
+  margin-top: 24px;
+}

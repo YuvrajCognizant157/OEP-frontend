@@ -1,20 +1,57 @@
-<div class="profile-update">
-  <div class="form-container">
-    <h2>Update Profile</h2>
+<div class="profile-update-container">
+  <div class="profile-card">
+    <h2 class="portal-title">Update Profile</h2>
+
     <form (ngSubmit)="updateUser()" #form="ngForm">
-      <label for="fullName">Full Name:</label>
-      <input id="fullName" name="fullName" [(ngModel)]="user.fullName" required />
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          [(ngModel)]="user.fullName"
+          required
+          ngModel
+        />
+      </div>
 
-      <label for="dob">Date of Birth:</label>
-      <input id="dob" name="dob" type="date" [(ngModel)]="user.dob" required />
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input
+          type="date"
+          id="dob"
+          name="dob"
+          [(ngModel)]="user.dob"
+          required
+          ngModel
+        />
+      </div>
 
-      <label for="phoneNo">Phone Number:</label>
-      <input id="phoneNo" name="phoneNo" [(ngModel)]="user.phoneNo" required />
+      <div class="form-group">
+        <label for="phoneNo">Phone Number</label>
+        <input
+          type="text"
+          id="phoneNo"
+          name="phoneNo"
+          [(ngModel)]="user.phoneNo"
+          required
+          ngModel
+        />
+      </div>
 
-      <label for="email">Email:</label>
-      <input id="email" name="email" type="email" [(ngModel)]="user.email" required />
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="user.email"
+          required
+          ngModel
+        />
+      </div>
 
-      <button type="submit">Update</button>
+      <button type="submit" class="update-btn">Update</button>
     </form>
   </div>
 </div>

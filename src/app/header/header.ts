@@ -10,7 +10,7 @@ import { ProfileService } from '../core/services/profile.service';
 
 @Component({
   selector: 'app-header',
-  imports: [MatIconModule, MatButtonModule, MatExpansionModule, CommonModule, RouterLink, MatCardAvatar],
+  imports: [MatIconModule, MatButtonModule, MatExpansionModule, CommonModule, RouterLink],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })

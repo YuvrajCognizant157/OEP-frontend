@@ -44,14 +44,19 @@ export class RegisterStudentComponent {
     };
 
     this.registerService.registerStudent(registerData).subscribe({
-      next: () => {
-        this.successMessage = 'Registration successful!';
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        this.errorMessage = 'Registration failed. Please try again.';
-        console.error(err);
+    next: (response) => {
+      this.successMessage = response.message;
+
+      if (response.role === 'Student') {
+        this.router.navigate(['/student/dashboard']); 
+      } else {
+        this.router.navigate(['/login']); // fallback
       }
+    },
+    error: (err) => {
+      this.errorMessage = err.error?.error || 'Registration failed. Please try again.';
+      console.error(err);
+    }
     });
   }
 }
