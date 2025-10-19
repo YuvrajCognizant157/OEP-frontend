@@ -227,14 +227,14 @@ export class StudentDashboardComponent implements OnInit {
 
     if (this.basicAnalytics.totalExams > 0) {
       this.percentageAnalytics.examsAttemptedPercent =
-        (this.examsAppearedTotal / this.basicAnalytics.totalExams) * 100;
+        +((this.examsAppearedTotal / this.basicAnalytics.totalExams) * 100).toFixed(1);
     } else {
       this.percentageAnalytics.examsAttemptedPercent = 0;
     }
 
     if (this.basicAnalytics.totalQuestions > 0) {
       this.percentageAnalytics.questionsEncounteredPercent =
-        (this.questionsEncounteredTotal / this.basicAnalytics.totalQuestions) * 100;
+        +((this.questionsEncounteredTotal / this.basicAnalytics.totalQuestions) * 100).toFixed(1);
     } else {
       this.percentageAnalytics.questionsEncounteredPercent = 0;
     }
