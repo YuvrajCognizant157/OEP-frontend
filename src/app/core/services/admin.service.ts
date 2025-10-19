@@ -35,19 +35,24 @@ toggleBlockUser(uid: number): Observable<any> {
 }
 
 
-  getExamsForApproval(): Observable<any[]> {
+ getAssignedExams(adminId: number): Observable<any> {
 
-    return this.http.post<any[]>(`${this.apiUrl}/approve-exam-list`, {});
+  return this.http.get(`${this.apiUrl}/approve-exam-list?userId=${adminId}`);
 
-  }
+}
 
-  /** ✅ Approve or reject an exam */
+getExamQuestions(examId: number): Observable<any> {
 
-  approveOrRejectExam(dto: ExamApprovalStatus): Observable<string> {
+  return this.http.get(`${this.apiUrl}/api/Exam/${examId}/questions`);
 
-    return this.http.post(`${this.apiUrl}/approve-exam`, dto, { responseType: 'text' });
+}
 
-  }
+approveOrRejectExam(eid: number, userId: number, action: string): Observable<any> {
+
+  return this.http.post(`${this.apiUrl}/approve-exam`, { eid, userId, action });
+
+}
+ 
 
 
 

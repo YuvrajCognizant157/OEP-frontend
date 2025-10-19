@@ -1,13 +1,274 @@
-.approve-topic-container {
- padding: 20px;
+/* ===========================
+
+   CLEAN DARK ADMIN THEME
+
+   =========================== */
+
+.approve-page {
+
+  background: radial-gradient(circle at top left, #0b0b0b, #131313 70%);
+
+  color: #f2f2f2;
+
+  min-height: 100vh;
+
+  padding: 60px 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  font-family: "Poppins", sans-serif;
+
 }
-.input-section {
- display: flex;
- align-items: center;
- gap: 10px;
- margin-bottom: 15px;
+
+/* Title */
+
+.page-title {
+
+  font-size: 34px;
+
+  font-weight: 600;
+
+  background: linear-gradient(90deg, #b794f6, #9b59b6);
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  margin-bottom: 30px;
+
+  letter-spacing: 1px;
+
 }
-.loading {
- text-align: center;
- margin-top: 20px;
+
+/* Load Button */
+
+.load-btn {
+
+  margin-bottom: 40px;
+
+  padding: 12px 35px;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  color: #fff;
+
+  background: linear-gradient(90deg, #5a33ff, #8e44ad);
+
+  border: none;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 0 15px rgba(138, 84, 255, 0.4);
+
 }
+
+.load-btn:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 0 25px rgba(138, 84, 255, 0.7);
+
+}
+
+/* Table Container */
+
+.table-wrapper {
+
+  width: 80%;
+
+  max-width: 1000px;
+
+  background: #181818;
+
+  border-radius: 14px;
+
+  box-shadow: 0 0 30px rgba(60, 60, 60, 0.4);
+
+  overflow: hidden;
+
+}
+
+/* Table Base */
+
+.topic-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+
+}
+
+/* Header Row */
+
+.topic-table thead tr {
+
+  background: linear-gradient(90deg, #2a185a, #3e2373);
+
+  color: #d8caff;
+
+}
+
+.topic-table th {
+
+  font-size: 16px;
+
+  padding: 16px 0;
+
+  font-weight: 600;
+
+  letter-spacing: 0.5px;
+
+  text-align: center;
+
+}
+
+/* Table Cells */
+
+.topic-table td {
+
+  padding: 18px 0;
+
+  text-align: center;
+
+  color: #eaeaea;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  font-size: 15px;
+
+}
+
+/* Row Hover */
+
+.topic-table tbody tr:hover {
+
+  background-color: rgba(140, 100, 255, 0.08);
+
+  transition: 0.2s ease;
+
+}
+
+/* Action Buttons */
+
+.actions {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 15px;
+
+}
+
+/* Approve Button */
+
+.approve-btn {
+
+  background-color: #6a5acd;
+
+  border: none;
+
+  color: #fff;
+
+  font-weight: 500;
+
+  padding: 8px 20px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+}
+
+.approve-btn:hover {
+
+  background-color: #7b68ee;
+
+  transform: scale(1.05);
+
+}
+
+/* Reject Button */
+
+.reject-btn {
+
+  background-color: #c0392b;
+
+  border: none;
+
+  color: #fff;
+
+  font-weight: 500;
+
+  padding: 8px 20px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+}
+
+.reject-btn:hover {
+
+  background-color: #e74c3c;
+
+  transform: scale(1.05);
+
+}
+
+/* No Topics Text */
+
+.no-topics {
+
+  color: #aaa;
+
+  font-size: 18px;
+
+  margin-top: 40px;
+
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  .table-wrapper {
+
+    width: 95%;
+
+  }
+
+  .page-title {
+
+    font-size: 28px;
+
+  }
+
+  .approve-btn,
+
+  .reject-btn {
+
+    padding: 6px 12px;
+
+    font-size: 13px;
+
+  }
+
+}
+ 
