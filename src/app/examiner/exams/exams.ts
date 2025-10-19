@@ -22,7 +22,7 @@ export interface Exam {
   approvalStatus: number;
   submittedForApproval: boolean;
   adminRemarks: string | null;
-  tids: string;
+  tids: number[];
   userId: number;
   reviewerId: number | null;
   questions: any[];
@@ -81,7 +81,6 @@ export class Exams implements OnInit {
     this.examinerService.getExamById(examId).subscribe({
       next: (data:Exam) => {
         this.selectedExam = data;
-        this.selectedExam!.tids = JSON.parse(this.selectedExam!.tids).map(Number);
         this.isModalOpen = true;
       },
       error: (error) => {

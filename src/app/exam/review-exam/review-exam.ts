@@ -5,6 +5,10 @@ import { SubmittedExamDTO } from '../../shared/models/exam.model';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from "@angular/material/card";
 
+interface SubmitResponse {
+  msg:string;
+}
+
 @Component({
   selector: 'app-review-exam',
   imports: [CommonModule, MatCardModule],
@@ -41,8 +45,12 @@ export class ReviewExam implements OnInit {
   };
 
     this.examService.submitExam(payload).subscribe({
-      next: (res) => {this.router.navigate(['/student/exam-feedback']);alert(res);},
-      error: err => {console.log(err.error.errors);console.error('Submit failed', err);}
+      next: (res: any) => {
+        this.router.navigate(['/student/exam-feedback']);
+        // show message if available, otherwise stringify the whole response
+        alert((res as SubmitResponse)?.msg ?? JSON.stringify(res));
+      },
+      error: err => {console.log(err?.error?.errors);console.error('Submit failed', err);}
     });
   }
 

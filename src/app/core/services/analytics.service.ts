@@ -12,7 +12,7 @@ export class AnalyticsService {
   getExaminerAnalytics(examinerId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/examiner/${examinerId}`);
   }
-    getAdminAnalytics(): Observable<AdminAnalytics> {
+    getAdminAnalytics(): Observable<any> {
  return this.http.get<AdminAnalytics>(`${this.apiUrl}/admin`);
 }
 

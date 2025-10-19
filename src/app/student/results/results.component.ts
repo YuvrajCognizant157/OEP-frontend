@@ -82,8 +82,8 @@ export class ResultsComponent implements OnInit {
     });
 
     this.resultService.createResult(examId, this.userId).subscribe({
-      next: (res) => {
-        this.createResultResponse = res;
+      next: (res:{status:number,msg:string}) => {
+        this.createResultResponse = res.msg;
         this.createResultLoader = false;
       },
       error: (err) => {
