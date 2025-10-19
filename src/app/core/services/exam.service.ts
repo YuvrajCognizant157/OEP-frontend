@@ -10,8 +10,8 @@ export class ExamService {
 
   constructor(private http: HttpClient) {}
 
-  getExams(): Observable<GetExamDataDTO[]> {
-    return this.http.get<GetExamDataDTO[]>(`${this.baseUrl}/get-exams`);
+  getExams(studentId: number): Observable<GetExamDataDTO[]> {
+    return this.http.get<GetExamDataDTO[]>(`${this.baseUrl}/get-exams/${studentId}`);
   }
 
   getAvailableExams(studentId:number): Observable<AvailableExam[]> {
