@@ -17,6 +17,11 @@ export class TopicsService {
   getTopics(): Observable<any> {
     return this.http.get(`${this.apiUrl}/get-topic`);
   }
+
+  getExamTopics(examId:number) : Observable<any>{
+    return this.http.get(`${this.apiUrl}/get-exam-topics/${examId}`)
+  }
+
   getTopicById(topicId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/get-topic/${topicId}`);
   }

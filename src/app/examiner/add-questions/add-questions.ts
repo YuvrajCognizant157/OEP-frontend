@@ -71,7 +71,7 @@ export class AddQuestions implements OnInit {
     this.userId = this.authS.getUserId()!;
     console.log(this.examId);
     this.initializeForms();
-    this.fetchTopics();
+    this.fetchTopics(this.examId);
   }
 
   initializeForms(): void {
@@ -122,8 +122,8 @@ export class AddQuestions implements OnInit {
     this.questionsArray.removeAt(index);
   }
 
-  fetchTopics(): void {
-    this.topicsService.getTopics().subscribe({
+  fetchTopics(examId:number): void {
+    this.topicsService.getExamTopics(examId).subscribe({
       next: (res) => {
         console.log('Fetched topics:', res);
         this.topics = res;
