@@ -98,7 +98,8 @@ approveOrRejectExam(eid: number, userId: number, action: string): Observable<any
 
   addAdminRemarks(examId: number, remarks: string): Observable<string> {
 
-    return this.http.post(`${this.apiUrl}/add-adminremarks/${examId}`, remarks, {
+    const body={remarks};
+    return this.http.post(`${this.apiUrl}/add-adminremarks/${examId}`, body, {
 
       headers: { 'Content-Type': 'application/json' },
 

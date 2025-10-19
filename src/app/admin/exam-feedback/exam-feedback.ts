@@ -1,54 +1,16 @@
 import { Component } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-
-import { MatInputModule } from '@angular/material/input';
-
-import { MatTableModule } from '@angular/material/table';
-
-import { MatButtonModule } from '@angular/material/button';
-
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-
-import { FormsModule } from '@angular/forms';
-
 import { AdminService } from '../../core/services/admin.service';
 
-import { AddRemarkDialog } from '../add-remark-dialog/add-remark-dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MatSpinner } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
+
+import { AddRemarkDialog } from '../add-remark-dialog/add-remark-dialog.component';
 
 @Component({
 
   selector: 'app-exam-feedback',
-
-  standalone: true,
-
-  imports: [
-
-    CommonModule,
-
-    MatFormFieldModule,
-
-    MatInputModule,
-
-    MatTableModule,
-
-    MatButtonModule,
-
-    MatSnackBarModule,
-
-    MatDialogModule,
-
-     MatSpinner,
-
-    FormsModule
-
-  ],
 
   templateUrl: './exam-feedback.html',
 
@@ -66,9 +28,19 @@ export class ExamFeedbackComponent {
 
   loading = false;
 
-  constructor(private adminService: AdminService, private snackBar: MatSnackBar, private dialog: MatDialog) {}
+  constructor(
 
-  loadFeedbacks() {
+    private adminService: AdminService,
+
+    private snackBar: MatSnackBar,
+
+    private dialog: MatDialog
+
+  ) {}
+
+  /** ✅ Load feedbacks */
+
+  loadFeedbacks(): void {
 
     if (!this.examId) {
 
@@ -82,19 +54,39 @@ export class ExamFeedbackComponent {
 
     this.adminService.getExamFeedback(this.examId).subscribe({
 
-      next: (res) => {
-
-        this.feedbacks = res;
+      next: (res: any) => {
 
         this.loading = false;
+
+        if (!res || res.length === 0) {
+
+          this.feedbacks = [];
+
+          this.snackBar.open('No feedbacks found for this exam.', 'Close', { duration: 3000 });
+
+          return;
+
+        }
+
+        // ✅ Filter to show only feedbacks with approvalStatus != 0
+
+        this.feedbacks = res.filter((f: any) => f.approvalStatus !== 0);
+
+        if (this.feedbacks.length === 0) {
+
+          this.snackBar.open('No pending feedbacks for approval.', 'Close', { duration: 3000 });
+
+        }
 
       },
 
-      error: () => {
-
-        this.snackBar.open('No feedbacks found for this exam ❌', 'Close', { duration: 3000 });
+      error: (err) => {
 
         this.loading = false;
+
+        console.error('Error loading feedbacks:', err);
+
+        this.snackBar.open('Error loading feedbacks.', 'Close', { duration: 3000 });
 
       }
 
@@ -102,7 +94,9 @@ export class ExamFeedbackComponent {
 
   }
 
-  openRemarkDialog(feedback: any) {
+  /** ✅ Open remark dialog and refresh after adding */
+
+  openRemarkDialog(feedback: any): void {
 
     const dialogRef = this.dialog.open(AddRemarkDialog, {
 
@@ -122,7 +116,7 @@ export class ExamFeedbackComponent {
 
             this.snackBar.open('Remark added successfully ✅', 'Close', { duration: 3000 });
 
-            this.loadFeedbacks();
+            this.loadFeedbacks(); // ✅ auto refresh after remark
 
           },
 
