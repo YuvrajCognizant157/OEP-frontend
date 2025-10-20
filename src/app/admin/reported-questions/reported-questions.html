@@ -1,32 +1,71 @@
 <div class="reported-container">
-<h2>📝 Reported Questions</h2>
-<div *ngIf="loading" class="loading">Loading reported questions...</div>
-<div *ngIf="!loading && message" class="message-box">
+  <h2>📝 Reported Questions Review</h2>
 
+  <div *ngIf="loading" class="loading-spinner">Loading reports...</div>
+
+  <div *ngIf="!loading && message" class="message-box">
     {{ message }}
-</div>
-<div *ngIf="!loading && questions.length > 0" class="table-wrapper">
-<table class="styled-table">
-<thead>
-<tr>
-<th>Question ID</th>
-<th>Feedback</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr *ngFor="let q of questions">
-<td>{{ q.qid }}</td>
-<td>{{ q.feedback || 'No feedback provided' }}</td>
-<td>
-<button class="btn-view" (click)="viewQuestion(q.qid)">
+  </div>
 
+  <div *ngIf="!loading && reports.length > 0" class="table-wrapper">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Question ID</th>
+          <th>Feedback Provided</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of reports">
+          <td>#{{ report.qid }}</td>
+          <td>{{ report.feedback || 'No feedback provided' }}</td>
+          <td>
+            <button class="btn-review" (click)="viewQuestion(report.qid)">
               Review
-</button>
-</td>
-</tr>
-</tbody>
-</table>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+<div *ngIf="isModalVisible" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Question Details (ID: #{{ selectedQuestion?.qid }})</h3>
+      <button class="close-button" (click)="closeModal()">&times;</button>
+    </div>
+
+    <div *ngIf="modalLoading" class="loading-spinner">Loading question...</div>
+    
+    <div *ngIf="!modalLoading && selectedQuestion">
+      <div class="question-detail">
+        <strong>Question:</strong>
+        <p class="question-text">{{ selectedQuestion.question1 }}</p>
+      </div>
+      <div class="question-detail">
+        <strong>Options:</strong>
+        <ul class="options-list">
+          <li *ngFor="let option of parsedOptions" 
+              [class.option-item]="true" 
+              [class.correct]="isCorrectOption(option.key)"
+              [class.wrong]="!isCorrectOption(option.key)">
+            <strong>{{ option.key }}:</strong> {{ option.value }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-reject" (click)="submitReview(selectedQuestion.qid, 0)">
+          ❌ Reject Question
+        </button>
+        <button class="btn-approve" (click)="submitReview(selectedQuestion.qid, 1)">
+          ✅ Approve Question
+        </button>
+      </div>
+
+    </div>
+  </div>
 </div>
- 

@@ -1,82 +1,54 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpParams } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
-
 import { ExamApprovalStatus } from '../../shared/models/exam-approval.model';
-
 import { QuestionReview } from '../../shared/models/question-review.model';
-
-
 import { ExamFeedback } from '../../shared/models/exam-feedback.model';
-
 import { ApproveTopic } from '../../shared/models/approve-topic.model';
-
-import{BlockUserComponent}from'../../admin/block-user/block-user'
+import { BlockUserComponent } from '../../admin/block-user/block-user';
+import { QuestionDetail, QuestionReport, QuestionReviewDTO } from '../../shared/models/admin.model';
 
 
 
 @Injectable({
-
-  providedIn: 'root'
-
+  providedIn: 'root',
 })
-
 export class AdminService {
-
   private readonly apiUrl = 'https://localhost:44395/api/Admin';
 
   constructor(private http: HttpClient) {}
 
   /** ✅ Get list of exams pending approval */
-toggleBlockUser(uid: number): Observable<any> {
- return this.http.post('https://localhost:44395/api/Admin/block-users', { uid }, { responseType: 'text' });
-}
+  toggleBlockUser(uid: number): Observable<any> {
+    return this.http.post(
+      'https://localhost:44395/api/Admin/block-users',
+      { uid },
+      { responseType: 'text' }
+    );
+  }
 
+  getAssignedExams(adminId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/approve-exam-list?userId=${adminId}`);
+  }
 
- getAssignedExams(adminId: number): Observable<any> {
+  getExamQuestions(examId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/api/Exam/${examId}/questions`);
+  }
 
-  return this.http.get(`${this.apiUrl}/approve-exam-list?userId=${adminId}`);
-
-}
-
-getExamQuestions(examId: number): Observable<any> {
-
-  return this.http.get(`${this.apiUrl}/api/Exam/${examId}/questions`);
-
-}
-
-approveOrRejectExam(eid: number, userId: number, action: string): Observable<any> {
-
-  return this.http.post(`${this.apiUrl}/approve-exam`, { eid, userId, action });
-
-}
- 
-
-
+  approveOrRejectExam(eid: number, userId: number, action: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/approve-exam`, { eid, userId, action });
+  }
 
   /** ✅ Get all reported questions */
-
-  getReportedQuestions(adminId:number): Observable<any[]> {
-
-    return this.http.get<any[]>(`${this.apiUrl}/reported-questions/${adminId}`);
-
+  getReportedQuestions(adminId: number): Observable<QuestionReport[] | string> {
+    return this.http.get<QuestionReport[] | string>(`${this.apiUrl}/reported-questions?adminId=${adminId}`);
   }
-
-  /** ✅ Review a reported question */
-
-  getReportedQuestionById(qid:number): Observable<any> {
-
-    return this.http.get(`${this.apiUrl}/review-questions/${qid}`);
-
+  getQuestionDetailsById(qid: number): Observable<QuestionDetail> {
+    return this.http.get<QuestionDetail>(`${this.apiUrl}/review-questions/${qid}`);
   }
-  reviewReportedQuestion(qid:number,status:number):Observable<any>
-  {
-    const body={qid,status};
-    return this.http.post(`${this.apiUrl}/review-questions`,body);
+  reviewQuestion(payload: QuestionReviewDTO): Observable<string> {
+    return this.http.post(`${this.apiUrl}/review-questions`, payload, { responseType: 'text' });
   }
-
 
   /** ✅ Block user */
 
@@ -89,9 +61,7 @@ approveOrRejectExam(eid: number, userId: number, action: string): Observable<any
   /** ✅ Fetch all feedback for an exam */
 
   getExamFeedback(examId: number): Observable<ExamFeedback[]> {
-
     return this.http.get<ExamFeedback[]>(`${this.apiUrl}/exam-feedback-review/${examId}`);
-
   }
 
   /** ✅ Add remarks */
@@ -103,31 +73,20 @@ approveOrRejectExam(eid: number, userId: number, action: string): Observable<any
 
       headers: { 'Content-Type': 'application/json' },
 
-      responseType: 'text'
-
+      responseType: 'text',
     });
-
   }
- 
-
 
   /** ✅ Get topics pending approval */
 
   getTopicsForApproval(userId: number): Observable<any> {
-
-   
-
     return this.http.get<ApproveTopic[]>(`${this.apiUrl}/topic-list?userId=${userId}`);
-
   }
 
   /** ✅ Approve or reject topic */
 
-  approveOrRejectTopic(topicId: number, userId: number,action:string): Observable<any> {
-
-    return this.http.patch(`${this.apiUrl}/approve-topic`,{topicId,userId,action})
-
+  approveOrRejectTopic(topicId: number, userId: number, action: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/approve-topic`, { topicId, userId, action });
   }
-
 }
- 
+
