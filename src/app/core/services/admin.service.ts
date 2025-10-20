@@ -66,12 +66,11 @@ export class AdminService {
 
   /** ✅ Add remarks */
 
-  addAdminRemarks(examId: number, remarks: string): Observable<string> {
-    return this.http.post(`${this.apiUrl}/add-adminremarks/${examId}`, remarks, {
-      headers: { 'Content-Type': 'application/json' },
+  addAdminRemarks(examId: number, remark: string){
 
-      responseType: 'text',
-    });
+    const body={remarks:remark};
+    return this.http.post(`${this.apiUrl}/add-adminremarks/${examId}`,body);
+
   }
 
   /** ✅ Get topics pending approval */

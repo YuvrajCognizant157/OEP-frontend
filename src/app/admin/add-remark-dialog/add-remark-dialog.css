@@ -1,12 +1,74 @@
-.full-width {
+.dialog-container {
+
+  background-color: #1e1e1e;
+
+  color: #e0e0e0;
+
+  padding: 15px;
+
+  border-radius: 10px;
+
+  width: 100%;
+
+  max-width: 500px;
+
+}
+
+h2 {
+
+  color: #bb86fc;
+
+  text-align: center;
+
+  margin-bottom: 10px;
+
+  font-weight: 600;
+
+}
+
+mat-form-field {
 
   width: 100%;
 
 }
 
-.remark-form {
+textarea {
 
-  min-width: 300px;
+  color: #fff;
+
+}
+
+mat-dialog-content {
+
+  margin-top: 10px;
+
+}
+
+mat-dialog-actions {
+
+  margin-top: 10px;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+}
+
+button[mat-stroked-button],
+
+button[mat-raised-button] {
+
+  font-weight: 500;
+
+}
+
+button[mat-raised-button]:disabled {
+
+  opacity: 0.5;
+
+  cursor: not-allowed;
 
 }
  

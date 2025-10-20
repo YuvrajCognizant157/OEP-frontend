@@ -1,48 +1,67 @@
 <div class="exam-feedback-container">
+<div class="feedback-box">
 <h2>Exam Feedbacks</h2>
-<div class="exam-selector">
-<mat-form-field appearance="outline">
-<mat-label>Enter Exam ID</mat-label>
-<input matInput type="number" [(ngModel)]="examId" placeholder="e.g. 10" />
-</mat-form-field>
-<button mat-raised-button color="primary" (click)="loadFeedbacks()">Load Feedbacks</button>
-</div>
-<div *ngIf="!loading; else loadingTpl">
-<table mat-table [dataSource]="feedbacks" class="mat-elevation-z8 full-width-table" *ngIf="feedbacks.length > 0">
-<ng-container matColumnDef="eid">
-<th mat-header-cell *matHeaderCellDef> Exam ID </th>
-<td mat-cell *matCellDef="let f"> {{ f.eid }} </td>
-</ng-container>
-<ng-container matColumnDef="studentId">
-<th mat-header-cell *matHeaderCellDef> Student ID </th>
-<td mat-cell *matCellDef="let f"> {{ f.studentId }} </td>
-</ng-container>
-<ng-container matColumnDef="feedback">
-<th mat-header-cell *matHeaderCellDef> Feedback </th>
-<td mat-cell *matCellDef="let f"> {{ f.feedback }} </td>
-</ng-container>
-<ng-container matColumnDef="actions">
-<th mat-header-cell *matHeaderCellDef> Actions </th>
-<td mat-cell *matCellDef="let f">
-<button mat-stroked-button color="accent" (click)="openRemarkDialog(f)">
+<div class="input-section">
+<input
 
-            Add Remark
+        type="number"
+
+        [(ngModel)]="examId"
+
+        placeholder="Enter Exam ID"
+
+        class="exam-input"
+
+      />
+<button mat-raised-button color="primary" (click)="loadFeedbacks()">
+
+        Load Feedbacks
 </button>
-</td>
-</ng-container>
-<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-<div *ngIf="feedbacks.length === 0" class="no-feedbacks">
+</div>
+<mat-progress-spinner
+
+      *ngIf="loading"
+
+      mode="indeterminate"
+
+      diameter="40"
+
+      color="accent"
+></mat-progress-spinner>
+<div *ngIf="!loading && feedbacks.length === 0" class="no-feedback">
 
       No feedbacks found for this exam.
 </div>
+<div class="feedback-list" *ngIf="!loading && feedbacks.length > 0">
+<mat-card
+
+        *ngFor="let fb of feedbacks"
+
+        class="feedback-card"
+
+        appearance="outlined"
+>
+<mat-card-header>
+<mat-card-title>Student ID: {{ fb.studentId }}</mat-card-title>
+</mat-card-header>
+<mat-card-content>
+<p class="feedback-text">“{{ fb.feedback }}”</p>
+</mat-card-content>
+<mat-card-actions>
+<button
+
+            mat-raised-button
+
+            color="accent"
+
+            (click)="openRemarkDialog(fb)"
+>
+
+            Add Remark
+</button>
+</mat-card-actions>
+</mat-card>
 </div>
-<ng-template #loadingTpl>
-<div class="loading-spinner">
-<mat-spinner diameter="40"></mat-spinner>
-<p>Loading feedbacks...</p>
 </div>
-</ng-template>
 </div>
  
