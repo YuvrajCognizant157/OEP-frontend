@@ -8,7 +8,7 @@ import {ApproveTopicComponent} from './admin/approve-topic/approve-topic';
 import {ApproveExamComponent} from './admin/approve-exam/approve-exam';
 import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
 import { ReportedQuestionsComponent } from './admin/reported-questions/reported-questions';
-import { ReviewQuestionComponent } from './admin/review-question/review-question';
+// import { ReviewQuestionComponent } from './admin/review-question/review-question';
 //import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
@@ -139,10 +139,10 @@ export const routes: Routes = [
         path: 'exam-feedback',
         component: ExamFeedbackComponent
       },
-      {
-        path:'review-questions',
-        component:ReviewQuestionComponent
-      }
+      // {
+      //   path:'review-questions',
+      //   component:ReviewQuestionComponent
+      // }
     ]
   },
 
