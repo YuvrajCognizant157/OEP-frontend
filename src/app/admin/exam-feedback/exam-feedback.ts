@@ -1,30 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { AdminService } from '../../core/services/admin.service';
+import { MatCardModule } from '@angular/material/card';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
-
-import { MatDialog } from '@angular/material/dialog';
-
-import { AddRemarkDialog } from '../add-remark-dialog/add-remark-dialog.component';
+import { AddRemarkDialogComponent } from '../add-remark-dialog/add-remark-dialog';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
 
   selector: 'app-exam-feedback',
 
+  standalone:true,
+
+  imports:[MatSnackBarModule,MatDialogModule,CommonModule,FormsModule,MatProgressSpinnerModule,MatCardModule],
+
   templateUrl: './exam-feedback.html',
 
-  styleUrls: ['./exam-feedback.css']
+  styleUrls: ['./exam-feedback.css'],
 
 })
 
-export class ExamFeedbackComponent {
+export class ExamFeedbackComponent implements OnInit {
 
   examId: number | null = null;
 
   feedbacks: any[] = [];
-
-  displayedColumns = ['eid', 'feedback', 'studentId', 'actions'];
 
   loading = false;
 
@@ -38,13 +44,19 @@ export class ExamFeedbackComponent {
 
   ) {}
 
-  /** ✅ Load feedbacks */
+  ngOnInit(): void {}
+
+  // ✅ Load feedbacks based on Exam ID
 
   loadFeedbacks(): void {
 
     if (!this.examId) {
 
-      this.snackBar.open('Please enter an exam ID first!', 'Close', { duration: 3000 });
+      this.snackBar.open('⚠️ Please enter an Exam ID first!', 'Close', {
+
+        duration: 3000,
+
+      });
 
       return;
 
@@ -54,27 +66,23 @@ export class ExamFeedbackComponent {
 
     this.adminService.getExamFeedback(this.examId).subscribe({
 
-      next: (res: any) => {
+      next: (res) => {
 
         this.loading = false;
 
-        if (!res || res.length === 0) {
+        if (res && res.length > 0) {
+
+          this.feedbacks = res;
+
+        } else {
 
           this.feedbacks = [];
 
-          this.snackBar.open('No feedbacks found for this exam.', 'Close', { duration: 3000 });
+          this.snackBar.open('No feedbacks found for this exam.', 'Close', {
 
-          return;
+            duration: 3000,
 
-        }
-
-        // ✅ Filter to show only feedbacks with approvalStatus != 0
-
-        this.feedbacks = res.filter((f: any) => f.approvalStatus !== 0);
-
-        if (this.feedbacks.length === 0) {
-
-          this.snackBar.open('No pending feedbacks for approval.', 'Close', { duration: 3000 });
+          });
 
         }
 
@@ -84,51 +92,65 @@ export class ExamFeedbackComponent {
 
         this.loading = false;
 
-        console.error('Error loading feedbacks:', err);
+        console.error(err);
 
-        this.snackBar.open('Error loading feedbacks.', 'Close', { duration: 3000 });
+        this.snackBar.open('Error loading feedbacks!', 'Close', {
 
-      }
+          duration: 3000,
+
+        });
+
+      },
 
     });
 
   }
 
-  /** ✅ Open remark dialog and refresh after adding */
+  // ✅ Add Admin Remark
 
   openRemarkDialog(feedback: any): void {
 
-    const dialogRef = this.dialog.open(AddRemarkDialog, {
+    const dialogRef = this.dialog.open(AddRemarkDialogComponent, {
 
       width: '400px',
 
-      data: { examId: feedback.eid }
+      disableClose: true,
+
+      data: feedback,
 
     });
 
     dialogRef.afterClosed().subscribe((remark) => {
 
-      if (remark) {
+      if (!remark) return;
 
-        this.adminService.addAdminRemarks(feedback.eid, remark).subscribe({
+      this.adminService.addAdminRemarks(feedback.eid, remark).subscribe({
 
-          next: () => {
+        next: (res) => {
 
-            this.snackBar.open('Remark added successfully ✅', 'Close', { duration: 3000 });
+          this.snackBar.open('✅ Remark added successfully!', 'Close', {
 
-            this.loadFeedbacks(); // ✅ auto refresh after remark
+            duration: 3000,
 
-          },
+          });
 
-          error: () => {
+          this.loadFeedbacks();
 
-            this.snackBar.open('Failed to add remark ❌', 'Close', { duration: 3000 });
+        },
 
-          }
+        error: (err) => {
 
-        });
+          console.error(err);
 
-      }
+          this.snackBar.open('Failed to add remark!', 'Close', {
+
+            duration: 3000,
+
+          });
+
+        },
+
+      });
 
     });
 
