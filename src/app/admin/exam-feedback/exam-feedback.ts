@@ -1,78 +1,62 @@
-import { Component } from '@angular/core';
-
-import { CommonModule } from '@angular/common';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-
-import { MatInputModule } from '@angular/material/input';
-
-import { MatTableModule } from '@angular/material/table';
-
-import { MatButtonModule } from '@angular/material/button';
+import { Component, OnInit } from '@angular/core';
 
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
-import { FormsModule } from '@angular/forms';
-
 import { AdminService } from '../../core/services/admin.service';
+import { MatCardModule } from '@angular/material/card';
 
-import { AddRemarkDialog } from '../add-remark-dialog/add-remark-dialog';
-
-import { MatSpinner } from '@angular/material/progress-spinner';
+import { AddRemarkDialogComponent } from '../add-remark-dialog/add-remark-dialog';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
 
   selector: 'app-exam-feedback',
 
-  standalone: true,
+  standalone:true,
 
-  imports: [
-
-    CommonModule,
-
-    MatFormFieldModule,
-
-    MatInputModule,
-
-    MatTableModule,
-
-    MatButtonModule,
-
-    MatSnackBarModule,
-
-    MatDialogModule,
-
-     MatSpinner,
-
-    FormsModule
-
-  ],
+  imports:[MatSnackBarModule,MatDialogModule,CommonModule,FormsModule,MatProgressSpinnerModule,MatCardModule],
 
   templateUrl: './exam-feedback.html',
 
-  styleUrls: ['./exam-feedback.css']
+  styleUrls: ['./exam-feedback.css'],
 
 })
 
-export class ExamFeedbackComponent {
+export class ExamFeedbackComponent implements OnInit {
 
   examId: number | null = null;
 
   feedbacks: any[] = [];
 
-  displayedColumns = ['eid', 'feedback', 'studentId', 'actions'];
-
   loading = false;
 
-  constructor(private adminService: AdminService, private snackBar: MatSnackBar, private dialog: MatDialog) {}
+  constructor(
 
-  loadFeedbacks() {
+    private adminService: AdminService,
+
+    private snackBar: MatSnackBar,
+
+    private dialog: MatDialog
+
+  ) {}
+
+  ngOnInit(): void {}
+
+  // ✅ Load feedbacks based on Exam ID
+
+  loadFeedbacks(): void {
 
     if (!this.examId) {
 
-      this.snackBar.open('Please enter an exam ID first!', 'Close', { duration: 3000 });
+      this.snackBar.open('⚠️ Please enter an Exam ID first!', 'Close', {
+
+        duration: 3000,
+
+      });
 
       return;
 
@@ -84,57 +68,89 @@ export class ExamFeedbackComponent {
 
       next: (res) => {
 
-        this.feedbacks = res;
-
         this.loading = false;
+
+        if (res && res.length > 0) {
+
+          this.feedbacks = res;
+
+        } else {
+
+          this.feedbacks = [];
+
+          this.snackBar.open('No feedbacks found for this exam.', 'Close', {
+
+            duration: 3000,
+
+          });
+
+        }
 
       },
 
-      error: () => {
-
-        this.snackBar.open('No feedbacks found for this exam ❌', 'Close', { duration: 3000 });
+      error: (err) => {
 
         this.loading = false;
 
-      }
+        console.error(err);
+
+        this.snackBar.open('Error loading feedbacks!', 'Close', {
+
+          duration: 3000,
+
+        });
+
+      },
 
     });
 
   }
 
-  openRemarkDialog(feedback: any) {
+  // ✅ Add Admin Remark
 
-    const dialogRef = this.dialog.open(AddRemarkDialog, {
+  openRemarkDialog(feedback: any): void {
+
+    const dialogRef = this.dialog.open(AddRemarkDialogComponent, {
 
       width: '400px',
 
-      data: { examId: feedback.eid }
+      disableClose: true,
+
+      data: feedback,
 
     });
 
     dialogRef.afterClosed().subscribe((remark) => {
 
-      if (remark) {
+      if (!remark) return;
 
-        this.adminService.addAdminRemarks(feedback.eid, remark).subscribe({
+      this.adminService.addAdminRemarks(feedback.eid, remark).subscribe({
 
-          next: () => {
+        next: (res) => {
 
-            this.snackBar.open('Remark added successfully ✅', 'Close', { duration: 3000 });
+          this.snackBar.open('✅ Remark added successfully!', 'Close', {
 
-            this.loadFeedbacks();
+            duration: 3000,
 
-          },
+          });
 
-          error: () => {
+          this.loadFeedbacks();
 
-            this.snackBar.open('Failed to add remark ❌', 'Close', { duration: 3000 });
+        },
 
-          }
+        error: (err) => {
 
-        });
+          console.error(err);
 
-      }
+          this.snackBar.open('Failed to add remark!', 'Close', {
+
+            duration: 3000,
+
+          });
+
+        },
+
+      });
 
     });
 
