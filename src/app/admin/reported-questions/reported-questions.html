@@ -21,7 +21,7 @@
           <td>#{{ report.qid }}</td>
           <td>{{ report.feedback || 'No feedback provided' }}</td>
           <td>
-            <button class="btn-review" (click)="viewQuestion(report.qid)">
+            <button class="btn-review" (click)="viewQuestion(report)">
               Review
             </button>
           </td>
@@ -58,10 +58,10 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn-reject" (click)="submitReview(selectedQuestion.qid, 0)">
+        <button class="btn-reject" (click)="submitReview(selectedQuestion.qid, 0)"  [disabled]="!isReviewPossible()">
           ❌ Reject Question
         </button>
-        <button class="btn-approve" (click)="submitReview(selectedQuestion.qid, 1)">
+        <button class="btn-approve" (click)="submitReview(selectedQuestion.qid, 1)" [disabled]="!isReviewPossible()">
           ✅ Approve Question
         </button>
       </div>
