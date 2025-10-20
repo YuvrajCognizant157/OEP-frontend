@@ -233,11 +233,15 @@ h2 {
 .btn-approve:hover {
   background-color: #2ea043;
 }
-
+.btn-approve:disabled{
+  background-color: #739479 !important;
+}
 .btn-reject {
   background-color: var(--danger-color);
 }
-
 .btn-reject:hover {
   background-color: #da3633;
+}
+.btn-reject:disabled{
+  background-color: #8d6767 !important;
 }

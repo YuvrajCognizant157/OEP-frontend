@@ -2,6 +2,7 @@
 export interface QuestionReviewDTO {
   qid: number;
   status: number;
+  studentId:number;
 }
 export interface QuestionReport {
   qid: number;

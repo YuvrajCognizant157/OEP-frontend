@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../core/services/admin.service';
@@ -23,6 +23,8 @@ export class ReportedQuestionsComponent implements OnInit {
   selectedQuestion: QuestionDetail | null = null;
   parsedOptions: { key: string; value: string }[] = [];
   correctOptionKeys: string[] = [];
+  selectedReportStudentId = signal<number | null>(null);
+  isReviewPossible = computed(() => this.selectedReportStudentId() !== null);
 
   constructor(private adminService: AdminService, private authS: AuthService) {}
 
@@ -51,19 +53,21 @@ export class ReportedQuestionsComponent implements OnInit {
     });
   }
 
-  viewQuestion(qid: number): void {
+  viewQuestion(report: QuestionReport): void {
     this.isModalVisible = true;
     this.modalLoading = true;
     this.selectedQuestion = null; // Clear previous data
 
-    this.adminService.getQuestionDetailsById(qid).subscribe({
+    this.selectedReportStudentId.set(report.userId);
+
+    this.adminService.getQuestionDetailsById(report.qid).subscribe({
       next: (questionDetails) => {
         this.selectedQuestion = questionDetails;
         this.parseQuestionData();
         this.modalLoading = false;
       },
       error: (err) => {
-        console.error(`Error fetching details for QID ${qid}`, err);
+        console.error(`Error fetching details for QID ${report.qid}`, err);
         this.modalLoading = false;
         this.closeModal();
         alert('Could not load question details. Please check the console.');
@@ -72,7 +76,13 @@ export class ReportedQuestionsComponent implements OnInit {
   }
 
   submitReview(qid: number, status: number): void {
-    const payload: QuestionReviewDTO = { qid, status };
+    const studentId = this.selectedReportStudentId(); 
+    if (studentId === null) {
+      alert('Error: The reporting student\'s ID is missing.');
+      return;
+    }
+    
+    const payload: QuestionReviewDTO = { qid, status, studentId };
 
     // Disable buttons to prevent double-clicks
     this.modalLoading = true;
@@ -100,9 +110,8 @@ export class ReportedQuestionsComponent implements OnInit {
     this.selectedQuestion = null;
     this.parsedOptions = [];
     this.correctOptionKeys = [];
+    this.selectedReportStudentId.set(null);
   }
-
-  // in reported-questions.ts
 
   private parseQuestionData(): void {
     // First, check if the question and its options string exist and are not empty.
