@@ -42,7 +42,7 @@ export class ManageQuestions implements OnInit {
     private authS: AuthService,
     private dialog: MatDialog,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userId = this.authS.getUserId()!;
@@ -54,7 +54,7 @@ export class ManageQuestions implements OnInit {
     this.questionService.getQuestionsByExaminer(this.userId, page, this.pageSize).subscribe({
       next: (res: any) => {
         console.log('Fetched questions:', res);
-        
+
         this.questions = res.results || [];
         this.totalQuestions = res.totalCount || 0;
         this.isLoading = false;
@@ -79,8 +79,12 @@ export class ManageQuestions implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((examId) => {
+      console.log('Selected exam ID:', examId);
+      
       if (examId) {
-        this.router.navigate([`/add-questions/${examId}`]);
+        console.log('Navigating to add questions for exam ID:', examId);
+        
+        this.router.navigate([`/examiner/dashboard/add-questions/${examId}`]);
       }
     });
   }
@@ -112,8 +116,10 @@ export class ManageQuestions implements OnInit {
     <mat-dialog-content>
       <ng-container *ngIf="!isLoading; else loading">
         <mat-list *ngIf="unapprovedExams.length > 0; else noExams">
-          <mat-list-item *ngFor="let exam of unapprovedExams" (click)="selectExam(exam.id)">
-            {{ exam.name }}
+          <mat-list-item *ngFor="let exam of unapprovedExams" (click)="selectExam(exam.eid)"
+          class="select-item"
+          style="background-color: #333; color: #fff; border-radius: 4px; margin-bottom: 5px; cursor: pointer;">
+            {{ exam.name }} (ID: {{ exam.eid }})
           </mat-list-item>
         </mat-list>
       </ng-container>
@@ -130,6 +136,20 @@ export class ManageQuestions implements OnInit {
       <button mat-button mat-dialog-close>Cancel</button>
     </mat-dialog-actions>
   `,
+  styles: [`
+        .select-item {
+            transition: background-color 0.15s ease-in-out;
+            padding: 10px; /* Add internal padding */
+        }
+        .select-item:hover {
+            background-color: #4a4a4a !important; /* Slightly lighter gray on hover */
+        }
+        .spinner {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+    `],
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatListModule, MatButtonModule, MatProgressSpinnerModule],
 })
@@ -143,7 +163,7 @@ export class SelectExamDialog implements OnInit {
     private questionService: QuestionService,
     private examService: ExamService,
     private authS: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userId = this.authS.getUserId()!;
