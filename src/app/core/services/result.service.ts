@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import {ResultCalculationResponseDTO} from '../../shared/models/result.model';
 
 @Injectable({ providedIn: 'root' })
 export class ResultService {
@@ -18,5 +19,9 @@ export class ResultService {
 
   viewResultsByUserId(userId: number) {
     return this.http.get(`${this.baseUrl}/all-results/${userId}`);
+  }
+
+  createAndViewResult(examId: number,userId:number){
+    return this.http.get<ResultCalculationResponseDTO>(`${this.baseUrl}/calculate/${examId}/${userId}`);
   }
 }
