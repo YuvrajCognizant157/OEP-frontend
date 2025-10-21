@@ -187,4 +187,8 @@ export class UpdateQuestion implements OnInit {
       },
     });
   }
+
+  cancelUpdate(): void {
+    this.router.navigate(['/examiner/dashboard/manage-questions']);
+  }
 }

@@ -1,6 +1,6 @@
 <div class="update-container" *ngIf="!isLoading; else loading">
   <mat-card class="update-card">
-    <mat-card-title>Update Question</mat-card-title>
+    <mat-card-title>Update Question</mat-card-title><br/>
     <mat-divider></mat-divider>
 
     <form [formGroup]="questionForm" class="update-form">
@@ -60,7 +60,7 @@
         >
           Update Question
         </button>
-        <button mat-button color="warn" routerLink="/manage-questions">
+        <button mat-button color="warn" (click)="cancelUpdate()">
           Cancel
         </button>
       </div>
