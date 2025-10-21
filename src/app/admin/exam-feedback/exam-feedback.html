@@ -1,67 +1,20 @@
 <div class="exam-feedback-container">
-<div class="feedback-box">
+<div class="header">
 <h2>Exam Feedbacks</h2>
-<div class="input-section">
-<input
-
-        type="number"
-
-        [(ngModel)]="examId"
-
-        placeholder="Enter Exam ID"
-
-        class="exam-input"
-
-      />
-<button mat-raised-button color="primary" (click)="loadFeedbacks()">
-
-        Load Feedbacks
-</button>
+<p class="subtitle">Feedbacks from students for your assigned exams</p>
 </div>
-<mat-progress-spinner
-
-      *ngIf="loading"
-
-      mode="indeterminate"
-
-      diameter="40"
-
-      color="accent"
-></mat-progress-spinner>
-<div *ngIf="!loading && feedbacks.length === 0" class="no-feedback">
-
-      No feedbacks found for this exam.
+<div *ngIf="loading" class="loader">
+<mat-progress-spinner mode="indeterminate" diameter="50" color="accent"></mat-progress-spinner>
 </div>
-<div class="feedback-list" *ngIf="!loading && feedbacks.length > 0">
-<mat-card
-
-        *ngFor="let fb of feedbacks"
-
-        class="feedback-card"
-
-        appearance="outlined"
->
-<mat-card-header>
-<mat-card-title>Student ID: {{ fb.studentId }}</mat-card-title>
-</mat-card-header>
-<mat-card-content>
+<div *ngIf="!loading && feedbacks.length > 0" class="feedback-grid">
+<div *ngFor="let fb of feedbacks" class="feedback-card">
+<h3>Student ID: {{ fb.studentId }}</h3>
 <p class="feedback-text">“{{ fb.feedback }}”</p>
-</mat-card-content>
-<mat-card-actions>
-<button
-
-            mat-raised-button
-
-            color="accent"
-
-            (click)="openRemarkDialog(fb)"
->
-
-            Add Remark
-</button>
-</mat-card-actions>
-</mat-card>
+<button class="remark-btn" (click)="openRemarkDialog(fb)">Add Remark</button>
 </div>
+</div>
+<div *ngIf="!loading && feedbacks.length === 0" class="no-feedback">
+<p>✨ No feedbacks found for your assigned exams ✨</p>
 </div>
 </div>
  
