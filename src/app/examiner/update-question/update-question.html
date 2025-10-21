@@ -1,0 +1,75 @@
+<div class="update-container" *ngIf="!isLoading; else loading">
+  <mat-card class="update-card">
+    <mat-card-title>Update Question</mat-card-title>
+    <mat-divider></mat-divider>
+
+    <form [formGroup]="questionForm" class="update-form">
+      <div class="field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Question Type</mat-label>
+          <mat-select formControlName="type">
+            <mat-option *ngFor="let t of questionTypes" [value]="t.value">
+              {{ t.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Question</mat-label>
+          <input matInput formControlName="question" />
+        </mat-form-field>
+      </div>
+
+      <div class="options">
+        <mat-form-field appearance="outline">
+          <mat-label>Option 1</mat-label>
+          <input matInput formControlName="option1" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Option 2</mat-label>
+          <input matInput formControlName="option2" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Option 3</mat-label>
+          <input matInput formControlName="option3" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Option 4</mat-label>
+          <input matInput formControlName="option4" />
+        </mat-form-field>
+      </div>
+
+      <div class="field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Correct Options (comma separated)</mat-label>
+          <input matInput formControlName="correctOptions" />
+        </mat-form-field>
+      </div>
+
+      <div class="actions">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="submitUpdatedQuestion()"
+          [disabled]="questionForm.invalid"
+        >
+          Update Question
+        </button>
+        <button mat-button color="warn" routerLink="/manage-questions">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+</ng-template>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ListQuestionsByExaminerId } from '../../shared/models/questions.model';
 
 export interface AddQuestionPayload {
   type: string;
@@ -18,6 +19,7 @@ export interface QuestionItem {
   CorrectOptions: string[];
   ApprovalStatus: number;
 }
+
 
 export interface AddQuestionsByBatchPayload {
   tid: number;
@@ -48,4 +50,29 @@ export class QuestionService {
 
     return this.http.post<string>(`${this.apiUrl}/add-questions-by-tid-batch`, batch, { params, responseType: 'text' as 'json' });
   }
+
+  getQuestionsByExaminer(examinerId: number, page: number, pageSize: number): Observable<{ results: ListQuestionsByExaminerId[]; count: number }> {
+    const params = new HttpParams()
+        .set('page', page.toString())
+        .set('pageSize', pageSize.toString());
+
+    return this.http.get<{ results: ListQuestionsByExaminerId[]; count: number }>(
+        `${this.apiUrl}/get-questions-by-uid/${examinerId}`, // <- Use examinerId in the URL path
+        { params }
+    );
+  }
+
+  deleteQuestion(questionId: number): Observable<string> {
+    return this.http.delete<string>(`${this.apiUrl}/delete-a-question/${questionId}`, { responseType: 'text' as 'json' });
+  }
+
+  getQuestionById(questionId: number): Observable<ListQuestionsByExaminerId> {
+    return this.http.get<ListQuestionsByExaminerId>(`${this.apiUrl}/get-question-by-id/${questionId}`);
+  }
+
+  updateQuestion(questionId: number, questionData: AddQuestionPayload): Observable<string> {
+    return this.http.put<string>(`${this.apiUrl}/update-question/${questionId}`, questionData, { responseType: 'text' as 'json' });
+  }
+
+  
 }

@@ -109,6 +109,14 @@ export const routes: Routes = [
         path: 'add-questions/:examId',
         loadComponent: () => import('./examiner/add-questions/add-questions').then((m) => m.AddQuestions),
       },
+      {
+        path: 'manage-questions',
+        loadComponent: () => import('./examiner/manage-questions/manage-questions').then((m) => m.ManageQuestions),
+      },
+      {
+        path: 'update-question/:questionId',
+        loadComponent: () => import('./examiner/update-question/update-question').then((m) => m.UpdateQuestion),
+      },
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
     ],
   },
