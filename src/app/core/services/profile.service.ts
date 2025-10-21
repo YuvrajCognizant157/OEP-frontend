@@ -37,8 +37,7 @@ export class ProfileService {
             return null;
         }
 
-        const authUser = this.authService.getUserRole();
-        const id = authUser?.id;
+        const id = Number(localStorage.getItem("userId"));
         if (id === undefined || id === null) {
             return null;
         }
@@ -46,7 +45,7 @@ export class ProfileService {
         return this.http.get<userDetails>(this.userUrl(id))
             .pipe(
                 map(user => ({ ...user, id }))
-            );
+            ); 
     }
 }
 

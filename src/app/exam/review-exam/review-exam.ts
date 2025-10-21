@@ -1,57 +1,68 @@
 import { Component, OnInit } from '@angular/core';
 import { ExamService } from '../../core/services/exam.service';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SubmittedExamDTO } from '../../shared/models/exam.model';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from "@angular/material/card";
+import { MatCardModule } from '@angular/material/card';
+import { ExamStateService } from '../../core/services/exam-state.service';
 
 interface SubmitResponse {
-  msg:string;
+  msg: string;
 }
 
 @Component({
   selector: 'app-review-exam',
   imports: [CommonModule, MatCardModule],
   templateUrl: './review-exam.html',
-  styleUrl: './review-exam.css'
+  styleUrl: './review-exam.css',
 })
-
 export class ReviewExam implements OnInit {
   selectedAnswers: { qid: number; Resp: string[] }[] = [];
   examId!: number;
   userId!: number;
+  timeLeft!: number;
 
-  constructor(private router: Router,private examService: ExamService) {
-    const nav = this.router.getCurrentNavigation();
-    const state = nav?.extras?.state as any;
-    this.selectedAnswers = state?.selectedAnswers || [];
-    this.examId = state?.examId;
-    this.userId = state?.userId;
-  }
+  constructor(private router: Router, private examService: ExamService,private examStateService: ExamStateService) {}
+
   ngOnInit(): void {
-    // You can perform any initialization logic here if needed.
-    // For example, you might want to validate that examId and userId are present.
-    if (!this.examId || !this.userId) {
-      console.warn('Missing examId or userId in navigation state.');
+    
+const data = this.examStateService.examData();
+
+    if (!data) {
+      console.warn('Missing exam data');
+      return;
+    }
+
+    this.selectedAnswers = data.selectedAnswers;
+    this.examId = data.examId;
+    this.userId = data.userId;
+    this.timeLeft = data.timeLeft;
+
+    if (this.timeLeft > 0) {
+      setTimeout(() => {
+        this.submitExam();
+      }, this.timeLeft * 1000);
     }
   }
 
   submitExam() {
-
-  const payload: SubmittedExamDTO = {
-    EID: this.examId,
-    UserId: this.userId,
-    Responses: this.selectedAnswers
-  };
+    const payload: SubmittedExamDTO = {
+      EID: this.examId,
+      UserId: this.userId,
+      Responses: this.selectedAnswers,
+    };
 
     this.examService.submitExam(payload).subscribe({
       next: (res: any) => {
-        this.router.navigate(['/student/exam-feedback']);
+        this.examStateService.clearExamData();
+        this.router.navigate([`/student/exam-feedback/${this.examId}`]);
         // show message if available, otherwise stringify the whole response
         alert((res as SubmitResponse)?.msg ?? JSON.stringify(res));
       },
-      error: err => {console.log(err?.error?.errors);console.error('Submit failed', err);}
+      error: (err) => {
+        console.log(err?.error?.errors);
+        console.error('Submit failed', err);
+      },
     });
   }
-
 }

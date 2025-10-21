@@ -1,0 +1,46 @@
+<div class="manage-container">
+  <div class="header">
+    <h2>Manage Your Questions</h2>
+    <button mat-raised-button color="primary" (click)="openAddQuestionDialog()">
+      <mat-icon>add_circle</mat-icon> Add Question to Exam
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div *ngIf="isLoading" class="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <div *ngIf="!isLoading && questions.length === 0" class="no-data">
+    No questions found.
+  </div>
+
+  <div *ngIf="!isLoading && questions.length > 0" class="question-grid">
+    <mat-card *ngFor="let q of questions" class="question-card">
+      <mat-card-title>
+      {{ (q.questionName | slice:0:35) + (q.questionName.length > 25 ? '....?' : '') }}
+    </mat-card-title>
+      <mat-card-content>
+      <p><b>ID:</b> {{ q.questionId || "" }}</p>
+      
+      <p><b>Type:</b> {{ q.questionType ? (q.questionType | uppercase) : "" }}</p>
+    </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-button color="accent" (click)="updateQuestion(q.questionId)">
+          <mat-icon>edit</mat-icon> Update
+        </button>
+        <button mat-button color="warn" (click)="deleteQuestion(q.questionId)">
+          <mat-icon>delete</mat-icon> Delete
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <mat-paginator
+    [length]="totalQuestions"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

@@ -1,12 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { GetExamDataDTO, SubmittedExamDTO } from '../../shared/models/exam.model';
 import { AvailableExam, ExamDetails } from '../../shared/models/exam.model';
 
 @Injectable({ providedIn: 'root' })
 export class ExamService {
   private baseUrl = 'https://localhost:44395/api/Exams';
+  private feebackBaseUrl = 'https://localhost:44395/api/ExamFeedback';
 
   constructor(private http: HttpClient) {}
 
@@ -26,9 +27,20 @@ export class ExamService {
     return this.http.post(`${this.baseUrl}/start-exam/${examId}?userId=${userId}`, {});
   }
 
-  
+  getUnapprovedExams(examinerId: number): Observable<any[]> {
+    
+    const params = new HttpParams().set('userid', examinerId.toString());
+    return this.http.get<any[]>(`${this.baseUrl}/get-exams/e`, { params }).pipe(
+      
+      map(exams => exams.filter(exam => exam.approvalStatus === 0))
+    );
+  }
+
   submitExam(examData: SubmittedExamDTO) {
     return this.http.post(`${this.baseUrl}/submit-exam`, examData);
+  }
+  submitExamFeedback(examId: number, dto: { Feedback: string; Userid: number }) {
+    return this.http.post<any>(`${this.feebackBaseUrl}/${examId}`, dto);
   }
 
 }
