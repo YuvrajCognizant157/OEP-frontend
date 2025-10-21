@@ -119,7 +119,7 @@ export class StartExam implements OnInit {
     this.examService.startExam(this.examId, this.userId).subscribe({
       next: (res: any) => {
         if (res.success) {
-          console.log(res);
+         
           if (res.examData.questions) {
             for (let q of res.examData.questions) {
               const parsedOptions = JSON.parse(q.options);

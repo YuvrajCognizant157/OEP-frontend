@@ -10,7 +10,7 @@ body {
   display: flex;
   justify-content: center;
   background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
-
+  color: #fff;
 }
 h1{
   font-size: 2.0rem !important;
