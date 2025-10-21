@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FeedbackService, AddQuestionFeedbackDTO } from '../../core/services/feedback.service';
+import { ExamStateService } from '../../core/services/exam-state.service';
 
 @Component({
   selector: 'app-start-exam',
@@ -51,12 +52,12 @@ export class StartExam implements OnInit {
   questionFeedback: string = '';
   feedbackSubmitted: boolean = false;
 
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private examService: ExamService,
-    private feedbackService: FeedbackService
+    private feedbackService: FeedbackService,
+    private examStateService: ExamStateService
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +98,7 @@ export class StartExam implements OnInit {
     const payload: AddQuestionFeedbackDTO = {
       feedback: this.questionFeedback,
       qid: this.currentQuestion.qid,
-      studentId: this.userId
+      studentId: this.userId,
     };
 
     this.feedbackService.addQuestionFeedback(payload).subscribe({
@@ -105,13 +106,13 @@ export class StartExam implements OnInit {
         this.feedbackSubmitted = true;
         // Close the modal after a short delay to show the success message
         setTimeout(() => {
-            this.closeReportModal();
+          this.closeReportModal();
         }, 2000);
       },
       error: (err) => {
         console.error('Error submitting question report:', err);
         alert('Could not submit your report. Please try again.');
-      }
+      },
     });
   }
 
@@ -119,7 +120,6 @@ export class StartExam implements OnInit {
     this.examService.startExam(this.examId, this.userId).subscribe({
       next: (res: any) => {
         if (res.success) {
-          console.log(res);
           if (res.examData.questions) {
             for (let q of res.examData.questions) {
               const parsedOptions = JSON.parse(q.options);
@@ -142,6 +142,7 @@ export class StartExam implements OnInit {
           this.examStarted = true;
         } else {
           alert('Exam not available or attempt limit reached.');
+          this.router.navigate(['/student/dashboard']);
         }
       },
       error: (err) => {
@@ -180,16 +181,27 @@ export class StartExam implements OnInit {
   }
 
   onFinishExam() {
-    this.router.navigate(['/student/review-exam'], {
-      state: {
+    const allQuestionIds = this.examData.questions.map((q: any) => q.qid);
+
+    const answeredQids = this.selectedAnswers.map((a) => a.qid);
+    const unansweredQids = allQuestionIds.filter((qid) => !answeredQids.includes(qid));
+
+    unansweredQids.forEach((qid) => {
+      this.selectedAnswers.push({ qid, Resp: [] });
+    });
+
+    
+    this.examStateService.setExamData({
         selectedAnswers: this.selectedAnswers,
         examId: this.examData.eid,
         userId: this.userId,
-      },
-    });
+        timeLeft: this.timeLeft
+      });
+
+
+    this.router.navigate(['/student/review-exam']);
   }
 
- 
   isOptionSelected(qid: number, optionId: number): boolean {
     const answer = this.selectedAnswers.find((a) => a.qid === qid);
     return answer ? answer.Resp.includes(String(optionId)) : false;

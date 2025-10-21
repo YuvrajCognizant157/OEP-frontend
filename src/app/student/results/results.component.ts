@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExamService } from '../../core/services/exam.service';
 import { ResultService } from '../../core/services/result.service';
@@ -10,6 +10,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from '@angular/material/button';
+import { ResultCalculationResponseDTO } from '../../shared/models/result.model';
+import { Result } from './results.model';
 
 @Component({
   selector: 'app-results',
@@ -30,13 +32,10 @@ export class ResultsComponent implements OnInit {
 
   // State variables for dialogs
   isLoading = false;
-  resultData: any = [];
-  createResultLoader = false;
-  createResultResponse: any;
+  resultData = signal<Result[] >([]);
 
   // References to the <ng-template> blocks in the HTML
   @ViewChild('resultDialog') resultDialog!: TemplateRef<any>;
-  @ViewChild('createResultDialog') createResultDialog!: TemplateRef<any>;
 
   constructor(
     private examService: ExamService,
@@ -55,43 +54,22 @@ export class ResultsComponent implements OnInit {
 
   viewResult(examId: number): void {
     this.isLoading = true;
-    this.resultData = []; // Clear previous data
+    this.resultData.set( []); // Clear previous data
     const dialogRef = this.dialog.open(this.resultDialog, {
       panelClass: 'custom-dialog' // Apply our custom theme
     });
 
-    this.resultService.viewResult(examId, this.userId).subscribe({
-      next: (res) => {
-        this.resultData = res;
+    this.resultService.createAndViewResult(examId,this.userId).subscribe({
+      next: (res:ResultCalculationResponseDTO) =>{
+        this.resultData.set(res.results);        
         this.isLoading = false;
       },
       error: (err) => {
-        // console.error('Could not view result, triggering creation...', err);
+        console.error('Could not create and view result, triggering creation...', err);
         dialogRef.close();
-        this.triggerCreateResult(examId);
-      },
-    });
-  }
+      }
+    })
 
-  triggerCreateResult(examId: number): void {
-    this.createResultLoader = true;
-    this.createResultResponse = null; // Reset state
-    this.dialog.open(this.createResultDialog, {
-      disableClose: true,
-      panelClass: 'custom-dialog' // Apply our custom theme
-    });
-
-    this.resultService.createResult(examId, this.userId).subscribe({
-      next: (res:{status:number,msg:string}) => {
-        this.createResultResponse = res.msg;
-        this.createResultLoader = false;
-      },
-      error: (err) => {
-        console.error('Error creating result', err.error);
-        this.createResultResponse = null;
-        this.createResultLoader = false;
-      },
-    });
   }
 
   onCloseCreateResultModal(): void {

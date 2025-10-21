@@ -19,6 +19,13 @@
   box-sizing: border-box;
 }
 
+.loading-component{
+  max-width: 900px;
+  width: 100%;
+  height: auto;
+  color: #fff;
+}
+
 .exam-container {
   background-color: #121212;
   color: #fff;

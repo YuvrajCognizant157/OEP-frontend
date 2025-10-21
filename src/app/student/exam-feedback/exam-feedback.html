@@ -1,0 +1,14 @@
+<mat-card>
+  <h2>Exam Feedback</h2>
+  <p>You can share your thoughts about the exam. This helps us improve future exams.</p>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Your Feedback</mat-label>
+    <textarea matInput [formControl]="feedbackControl" rows="5" placeholder="Write your feedback here..."></textarea>
+  </mat-form-field>
+
+  <div class="button-group">
+    <button mat-raised-button color="primary" (click)="submitFeedback()">Submit Feedback</button>
+    <button mat-button color="warn" (click)="submitFeedback(true)">Skip Feedback</button>
+  </div>
+</mat-card>
