@@ -1,7 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #1c2333;}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: #1c2333;
+}
+h1{
+  font-size: 2.25rem !important;
+}
+h2{
+  font-size: 1.75rem !important;
+}
+h3{
+  font-size: 1.5rem !important;
+}
 
 .custom-dialog .mat-mdc-dialog-title {
   color: rgba(153, 151, 151, 0.87);
