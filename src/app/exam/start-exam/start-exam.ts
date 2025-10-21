@@ -142,6 +142,7 @@ export class StartExam implements OnInit {
           this.examStarted = true;
         } else {
           alert('Exam not available or attempt limit reached.');
+          this.router.navigate(['/student/dashboard']);
         }
       },
       error: (err) => {
