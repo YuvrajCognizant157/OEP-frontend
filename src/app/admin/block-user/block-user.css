@@ -1,72 +1,162 @@
+/* Page background */
+
 .block-container {
 
-  background: #1e1e2f;
+  background-color: #0b0b0b;
 
-  color: white;
-
-  padding: 2rem;
-
-  border-radius: 10px;
-
-  width: 400px;
-
-  margin: 3rem auto;
-
-  text-align: center;
-
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-
-}
-
-.input-section {
+  min-height: 100vh;
 
   display: flex;
 
   justify-content: center;
 
-  gap: 10px;
+  align-items: flex-start;
 
-  margin-bottom: 1.5rem;
+  padding-top: 80px; /* ⬅ reduced from 120px to 80px */
+
+  font-family: 'Poppins', sans-serif;
+
+  color: white;
 
 }
+ 
+/* Card container */
 
-.uid-input {
+.block-card {
 
-  padding: 10px;
+  background-color: #1a1a1a;
 
-  border-radius: 5px;
+  border: 1.5px solid #6a0dad;
 
-  border: none;
+  border-radius: 12px;
 
-  width: 200px;
+  box-shadow: 0 0 25px rgba(138, 43, 226, 0.35);
+
+  padding: 40px 60px;
 
   text-align: center;
 
+  width: 400px;
+
+  transition: all 0.3s ease;
+
+}
+
+.block-card:hover {
+
+  box-shadow: 0 0 35px rgba(138, 43, 226, 0.6);
+
+  transform: translateY(-4px);
+
+}
+
+/* Title */
+
+.block-title {
+
+  font-size: 26px;
+
+  color: #b3c7ff;
+
+  margin-bottom: 25px;
+
+  text-shadow: 0 0 12px rgba(179, 199, 255, 0.6);
+
+}
+
+/* Input box centered */
+
+.input-section {
+
+  margin-bottom: 20px;
+
+}
+
+.input-section input {
+
+  width: 100%;
+
+  padding: 10px 14px;
+
+  border: 2px solid #333;
+
+  border-radius: 8px;
+
+  background-color: #121212;
+
+  color: #fff;
+
+  font-size: 15px;
+
   outline: none;
 
-}
-
-button {
-
-  font-weight: 600;
+  transition: all 0.3s ease;
 
 }
+
+.input-section input:focus {
+
+  border-color: #8a2be2;
+
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.6);
+
+}
+
+/* Button on next line - center aligned */
+
+.button-section {
+
+  display: flex;
+
+  justify-content: center;
+
+}
+
+.button-section button {
+
+  background-color: #8a2be2;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  padding: 10px 22px;
+
+  cursor: pointer;
+
+  font-weight: 500;
+
+  font-size: 15px;
+
+  box-shadow: 0 0 10px #a05cff;
+
+  transition: all 0.3s ease;
+
+}
+
+.button-section button:hover {
+
+  background-color: #7a1dd6;
+
+  box-shadow: 0 0 20px #b266ff;
+
+  transform: scale(1.05);
+
+}
+
+/* Message */
 
 .message {
 
-  margin-top: 1rem;
+  color: #b3b3b3;
 
-  font-weight: bold;
+  font-size: 14px;
 
-  color: #00ffcc;
+  margin-top: 15px;
 
-}
-
-.loading {
-
-  color: yellow;
-
-  font-style: italic;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 
 }
  

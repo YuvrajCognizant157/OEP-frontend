@@ -5,30 +5,48 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { AdminService } from '../../core/services/admin.service';
-import { MatCardModule } from '@angular/material/card';
 
 import { AddRemarkDialogComponent } from '../add-remark-dialog/add-remark-dialog';
+
 import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
 
   selector: 'app-exam-feedback',
 
-  standalone:true,
+  standalone: true,
 
-  imports:[MatSnackBarModule,MatDialogModule,CommonModule,FormsModule,MatProgressSpinnerModule,MatCardModule],
+  imports: [
+
+    MatSnackBarModule,
+
+    MatDialogModule,
+
+    CommonModule,
+
+    FormsModule,
+
+    MatProgressSpinnerModule,
+
+    MatCardModule
+
+  ],
 
   templateUrl: './exam-feedback.html',
 
-  styleUrls: ['./exam-feedback.css'],
+  styleUrls: ['./exam-feedback.css']
 
 })
 
-export class ExamFeedbackComponent implements OnInit {
 
-  examId: number | null = null;
+export class ExamFeedbackComponent implements OnInit {
+  
 
   feedbacks: any[] = [];
 
@@ -44,29 +62,78 @@ export class ExamFeedbackComponent implements OnInit {
 
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
 
-  // ✅ Load feedbacks based on Exam ID
+  // 🧠 Step 1: Get local storage values
 
-  loadFeedbacks(): void {
+  const storedUserId = localStorage.getItem('userId');
 
-    if (!this.examId) {
+  const storedUserRole = localStorage.getItem('userRole');
 
-      this.snackBar.open('⚠️ Please enter an Exam ID first!', 'Close', {
+  console.log('LocalStorage values:', { storedUserId, storedUserRole });
 
-        duration: 3000,
+  // 🧩 Step 2: Validate
 
-      });
+  if (!storedUserId || !storedUserRole) {
 
-      return;
+    this.snackBar.open('⚠️ Unable to find logged-in user info', 'Close', {
 
-    }
+      duration: 3000,
+
+    });
+
+    return;
+
+  }
+
+  // 🧩 Step 3: Confirm admin role (case-insensitive)
+
+  if (storedUserRole.toLowerCase() !== 'admin') {
+
+    this.snackBar.open('⚠️ Access denied! Only Admins can view feedbacks.', 'Close', {
+
+      duration: 3000,
+
+    });
+
+    return;
+
+  }
+
+  // 🧩 Step 4: Convert userId string to number
+
+  const userId = Number(storedUserId);
+
+  if (isNaN(userId) || userId <= 0) {
+
+    this.snackBar.open('⚠️ Invalid user ID detected.', 'Close', {
+
+      duration: 3000,
+
+    });
+
+    return;
+
+  }
+
+  // ✅ Step 5: Load exam feedbacks
+
+  console.log('✅ Logged-in Admin ID:', userId);
+
+  this.loadFeedbacks(userId);
+
+}
+ 
+
+  // Load feedbacks based on logged-in admin userId
+
+  loadFeedbacks(userId: number): void {
 
     this.loading = true;
 
-    this.adminService.getExamFeedback(this.examId).subscribe({
+    this.adminService.getExamFeedback(userId).subscribe({
 
-      next: (res) => {
+      next: (res: any) => {
 
         this.loading = false;
 
@@ -78,9 +145,9 @@ export class ExamFeedbackComponent implements OnInit {
 
           this.feedbacks = [];
 
-          this.snackBar.open('No feedbacks found for this exam.', 'Close', {
+          this.snackBar.open('No feedbacks found for your assigned exams.', 'Close', {
 
-            duration: 3000,
+            duration: 3000
 
           });
 
@@ -96,17 +163,17 @@ export class ExamFeedbackComponent implements OnInit {
 
         this.snackBar.open('Error loading feedbacks!', 'Close', {
 
-          duration: 3000,
+          duration: 3000
 
         });
 
-      },
+      }
 
     });
 
   }
 
-  // ✅ Add Admin Remark
+  // Add Admin Remark Dialog
 
   openRemarkDialog(feedback: any): void {
 
@@ -116,7 +183,7 @@ export class ExamFeedbackComponent implements OnInit {
 
       disableClose: true,
 
-      data: feedback,
+      data: feedback
 
     });
 
@@ -130,11 +197,23 @@ export class ExamFeedbackComponent implements OnInit {
 
           this.snackBar.open('✅ Remark added successfully!', 'Close', {
 
-            duration: 3000,
+            duration: 3000
 
           });
 
-          this.loadFeedbacks();
+          // Reload feedbacks
+
+          const storedUser = localStorage.getItem('userId');
+
+          if (storedUser) {
+
+            const userId = Number(storedUser);
+
+        
+
+            this.loadFeedbacks(userId);
+
+          }
 
         },
 
@@ -142,13 +221,13 @@ export class ExamFeedbackComponent implements OnInit {
 
           console.error(err);
 
-          this.snackBar.open('Failed to add remark!', 'Close', {
+          this.snackBar.open('❌ Failed to add remark!', 'Close', {
 
-            duration: 3000,
+            duration: 3000
 
           });
 
-        },
+        }
 
       });
 

@@ -31,12 +31,12 @@ export class AdminService {
     return this.http.get(`${this.apiUrl}/approve-exam-list?userId=${adminId}`);
   }
 
-  getExamQuestions(examId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/api/Exam/${examId}/questions`);
-  }
-
-  approveOrRejectExam(eid: number, userId: number, action: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/approve-exam`, { eid, userId, action });
+ getExamQuestions(examId: number): Observable<any> {
+ return this.http.get(`${this.apiUrl}/exam/${examId}/review`);
+}
+  approveOrRejectExam(ExamId: number, userId: number,Status: string): Observable<any> {
+    const body={ExamId, userId, Status};
+    return this.http.post(`${this.apiUrl}/approve-exam`, body);
   }
 
   /** ✅ Get all reported questions */
@@ -60,8 +60,8 @@ export class AdminService {
 
   /** ✅ Fetch all feedback for an exam */
 
-  getExamFeedback(examId: number): Observable<ExamFeedback[]> {
-    return this.http.get<ExamFeedback[]>(`${this.apiUrl}/exam-feedback-review/${examId}`);
+  getExamFeedback(userId: number){
+    return this.http.get(`${this.apiUrl}/exam-feedback-review?userId=${userId}`);
   }
 
   /** ✅ Add remarks */

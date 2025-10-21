@@ -10,6 +10,7 @@ import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
 import { ReportedQuestionsComponent } from './admin/reported-questions/reported-questions';
 // import { ReviewQuestionComponent } from './admin/review-question/review-question';
 //import { AdminComponent } from './admin/admin.component';
+import { ReviewExamComponent } from './admin/review-exam/review-exam';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -130,6 +131,10 @@ export const routes: Routes = [
       {
         path: 'reported-questions',
         component: ReportedQuestionsComponent
+      },
+      {
+        path:'review-exam/:examId',
+        component:ReviewExamComponent
       },
       {
         path: 'block-users',

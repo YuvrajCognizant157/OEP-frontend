@@ -1,92 +1,168 @@
+/* General page styling */
+
 .exam-feedback-container {
 
-  display: flex;
+  min-height: 100vh;
 
-  justify-content: center;
-
-  align-items: flex-start;
-
-  min-height: 90vh;
-
-  background-color: #121212;
+  background-color: #0f0f0f;
 
   color: #e0e0e0;
 
-  padding: 30px 10px;
+  padding: 60px 80px;
+
+  font-family: 'Poppins', sans-serif;
 
 }
 
-.feedback-box {
+/* Header */
 
-  background-color: #1e1e1e;
-
-  padding: 30px;
-
-  border-radius: 12px;
-
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-
-  width: 90%;
-
-  max-width: 800px;
+.header {
 
   text-align: center;
 
+  margin-bottom: 40px;
+
 }
 
-.feedback-box h2 {
+.header h2 {
 
-  color: #bb86fc;
-
-  margin-bottom: 20px;
+  font-size: 28px;
 
   font-weight: 600;
 
+  color: #ffffff;
+
+  margin-bottom: 8px;
+
 }
 
-.input-section {
+.subtitle {
+
+  font-size: 15px;
+
+  color: #a0a0a0;
+
+}
+
+/* Loader styling */
+
+.loader {
 
   display: flex;
 
   justify-content: center;
 
-  gap: 10px;
-
-  margin-bottom: 25px;
+  margin-top: 80px;
 
 }
 
-.exam-input {
+/* Feedback grid layout */
 
-  width: 200px;
+.feedback-grid {
 
-  padding: 10px;
+  display: grid;
 
-  border: none;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 
-  border-radius: 6px;
+  gap: 25px;
 
-  outline: none;
-
-  background-color: #2a2a2a;
-
-  color: #fff;
-
-  font-size: 16px;
+  margin-top: 30px;
 
 }
 
-button[mat-raised-button] {
+/* Each feedback card */
+
+.feedback-card {
+
+  background-color: #1b1b1b;
+
+  border-radius: 12px;
+
+  padding: 25px 30px;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+}
+
+.feedback-card:hover {
+
+  transform: translateY(-5px);
+
+  box-shadow: 0 8px 20px rgba(80, 80, 255, 0.2);
+
+}
+
+/* Card content */
+
+.feedback-card h3 {
+
+  font-size: 18px;
 
   font-weight: 500;
 
-  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+
+  color: #c6c6ff;
 
 }
 
+.feedback-text {
+
+  font-size: 15px;
+
+  color: #ccc;
+
+  font-style: italic;
+
+  margin-bottom: 15px;
+
+  line-height: 1.5;
+
+}
+
+/* Add Remark button */
+
+.remark-btn {
+
+  background-color: #3d3dff;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  padding: 8px 16px;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+
+}
+
+.remark-btn:hover {
+
+  background-color: #5b5bff;
+
+  box-shadow: 0 0 10px rgba(93, 93, 255, 0.5);
+
+}
+
+/* No feedback section */
+
 .no-feedback {
 
-  margin-top: 30px;
+  text-align: center;
+
+  margin-top: 100px;
+
+  font-size: 18px;
 
   color: #aaa;
 
@@ -94,65 +170,21 @@ button[mat-raised-button] {
 
 }
 
-.feedback-list {
+/* Responsive adjustments */
 
-  display: flex;
+@media (max-width: 768px) {
 
-  flex-direction: column;
+  .exam-feedback-container {
 
-  gap: 20px;
+    padding: 40px 20px;
 
-  margin-top: 20px;
+  }
 
-}
+  .feedback-card {
 
-.feedback-card {
+    padding: 20px;
 
-  background-color: #252525;
-
-  color: #fff;
-
-  border: 1px solid #333;
-
-  border-radius: 8px;
-
-  transition: all 0.3s ease;
-
-}
-
-.feedback-card:hover {
-
-  transform: translateY(-3px);
-
-  box-shadow: 0 0 10px rgba(187, 134, 252, 0.4);
-
-}
-
-.feedback-text {
-
-  font-size: 16px;
-
-  margin: 10px 0;
-
-  color: #ddd;
-
-}
-
-mat-card-title {
-
-  color: #bb86fc;
-
-  font-weight: 600;
-
-}
-
-mat-card-actions {
-
-  display: flex;
-
-  justify-content: flex-end;
-
-  padding: 10px 15px;
+  }
 
 }
  

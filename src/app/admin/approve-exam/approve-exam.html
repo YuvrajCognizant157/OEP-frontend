@@ -1,8 +1,5 @@
 <div class="exam-list-container">
 <h2>Assigned Exams for Review</h2>
-<button class="load-btn" (click)="loadAssignedExams()" [disabled]="loading">
-   {{ loading ? 'Loading...' : 'Load Exams' }}
-</button>
 <table *ngIf="exams.length > 0" class="exam-table">
 <thead>
 <tr>
