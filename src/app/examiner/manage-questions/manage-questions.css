@@ -1,0 +1,87 @@
+.manage-container {
+    background-color: #121212;
+  padding: 30px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  font-family: 'Roboto', 'Arial', sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  color: #E0E0E0; /* Light gray for better contrast than aliceblue */
+    padding-bottom: 15px; /* Add padding below the header content */
+    border-bottom: 1px solid #333333; /* Subtle separator */
+}
+
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.question-card {
+    background-color: #1E1E1E;
+  border-radius: 12px;
+  color: #F0F0F0; /* Off-white text */
+    /* Improved, softer shadow for a dark theme */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); 
+    padding: 20px; /* Standard card internal padding */
+    transition: transform 0.2s;
+}
+
+.question-card:hover {
+    transform: translateY(-2px); /* Slight lift effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+.question-card mat-card-title {
+    font-size: 1.15rem; /* Reduced from default h6/h5 size */
+    font-weight: 600;
+    color: #BB86FC; /* Light purple for emphasis */
+    margin-bottom: 10px; /* Add space below the title */
+    padding: 0; /* Remove default padding if any */
+}
+
+.question-card mat-card-content {
+    padding: 0; /* Remove default angular material padding */
+    margin-top: 15px;
+}
+
+.question-card mat-card-content p {
+    font-size: 0.9rem; /* Significantly reduced font size */
+    color: #A0A0A0; /* Muted text color for details */
+    line-height: 1.4;
+    margin: 5px 0; /* Tighten up spacing between details */
+}
+
+.question-card mat-card-content p b {
+    font-weight: 700;
+    color: #E0E0E0; /* Slightly brighter for labels */
+    margin-right: 5px;
+}
+
+.question-card mat-card-actions {
+    padding: 15px 0 0 0; /* Padding at the bottom of the card content */
+    margin-top: 10px; /* Space between content and actions */
+}
+
+.loading, .no-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height:200px;
+  color: #A0A0A0;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}

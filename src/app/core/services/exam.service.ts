@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { GetExamDataDTO, SubmittedExamDTO } from '../../shared/models/exam.model';
 import { AvailableExam, ExamDetails } from '../../shared/models/exam.model';
 
@@ -26,7 +26,15 @@ export class ExamService {
     return this.http.post(`${this.baseUrl}/start-exam/${examId}?userId=${userId}`, {});
   }
 
-  
+  getUnapprovedExams(examinerId: number): Observable<any[]> {
+    
+    const params = new HttpParams().set('userid', examinerId.toString());
+    return this.http.get<any[]>(`${this.baseUrl}/get-exams/e`, { params }).pipe(
+      
+      map(exams => exams.filter(exam => exam.approvalStatus === 0))
+    );
+  }
+
   submitExam(examData: SubmittedExamDTO) {
     return this.http.post(`${this.baseUrl}/submit-exam`, examData);
   }
