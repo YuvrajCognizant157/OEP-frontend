@@ -8,7 +8,6 @@ import {ApproveTopicComponent} from './admin/approve-topic/approve-topic';
 import {ApproveExamComponent} from './admin/approve-exam/approve-exam';
 import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
 import { ReportedQuestionsComponent } from './admin/reported-questions/reported-questions';
-import { ManageQuestions } from './examiner/manage-questions/manage-questions';
 // import { ReviewQuestionComponent } from './admin/review-question/review-question';
 //import { AdminComponent } from './admin/admin.component';
 
@@ -108,6 +107,10 @@ export const routes: Routes = [
       {
         path: 'manage-questions',
         loadComponent: () => import('./examiner/manage-questions/manage-questions').then((m) => m.ManageQuestions),
+      },
+      {
+        path: 'update-question/:questionId',
+        loadComponent: () => import('./examiner/update-question/update-question').then((m) => m.UpdateQuestion),
       },
       { path: '', redirectTo: 'exams', pathMatch: 'full' },
     ],

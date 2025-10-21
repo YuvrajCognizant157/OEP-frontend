@@ -90,7 +90,7 @@ export class ManageQuestions implements OnInit {
   }
 
   updateQuestion(questionId: number): void {
-    this.router.navigate([`/update-question/${questionId}`]);
+    this.router.navigate([`/examiner/dashboard/update-question/${questionId}`]);
   }
 
   deleteQuestion(questionId: number): void {
