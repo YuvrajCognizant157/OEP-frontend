@@ -65,4 +65,14 @@ export class QuestionService {
   deleteQuestion(questionId: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/delete-a-question/${questionId}`, { responseType: 'text' as 'json' });
   }
+
+  getQuestionById(questionId: number): Observable<ListQuestionsByExaminerId> {
+    return this.http.get<ListQuestionsByExaminerId>(`${this.apiUrl}/get-question-by-id/${questionId}`);
+  }
+
+  updateQuestion(questionId: number, questionData: AddQuestionPayload): Observable<string> {
+    return this.http.put<string>(`${this.apiUrl}/update-question/${questionId}`, questionData, { responseType: 'text' as 'json' });
+  }
+
+  
 }

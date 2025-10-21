@@ -90,7 +90,7 @@ export class ManageQuestions implements OnInit {
   }
 
   updateQuestion(questionId: number): void {
-    this.router.navigate([`/update-question/${questionId}`]);
+    this.router.navigate([`/examiner/dashboard/update-question/${questionId}`]);
   }
 
   deleteQuestion(questionId: number): void {
@@ -119,7 +119,7 @@ export class ManageQuestions implements OnInit {
           <mat-list-item *ngFor="let exam of unapprovedExams" (click)="selectExam(exam.eid)"
           class="select-item"
           style="background-color: #333; color: #fff; border-radius: 4px; margin-bottom: 5px; cursor: pointer;">
-            {{ exam.name }} (ID: {{ exam.eid }})
+            {{ exam.name }}
           </mat-list-item>
         </mat-list>
       </ng-container>
