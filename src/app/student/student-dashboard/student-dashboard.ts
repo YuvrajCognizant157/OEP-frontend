@@ -14,7 +14,7 @@ import { ExamService } from '../../core/services/exam.service';
 import { forkJoin, map, Observable } from 'rxjs';
 import { SimplifiedExam, GetExamDataDTO } from '../../shared/models/exam.model';
 import { SimplifiedResult, RawResultDTO } from '../../shared/models/result.model';
-import { RouterLink } from '@angular/router';
+import {  Router, RouterLink } from '@angular/router';
 import { OverallAverageScoreTopicWise } from './student-dashboard.model';
 
 @Component({
@@ -67,7 +67,8 @@ export class StudentDashboardComponent implements OnInit {
   constructor(private profileService: ProfileService,
     private resultService: ResultService,
     private analyticsService: AnalyticsService,
-    private examService: ExamService
+    private examService: ExamService,
+    private router : Router
 
   ) { }
 
@@ -327,6 +328,11 @@ export class StudentDashboardComponent implements OnInit {
   };
 
   startExam(id: number) {
-    console.log('Starting exam', id);
+    if (id) {
+      this.router.navigate(['/student/start-exam', id]);
+    }
+    else{
+      alert("Couldn't get access to the examId");
+    }
   }
 }
