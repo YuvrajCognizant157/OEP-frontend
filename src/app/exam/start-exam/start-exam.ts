@@ -9,21 +9,31 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthService } from '../../core/services/auth.service';
-
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { FeedbackService, AddQuestionFeedbackDTO } from '../../core/services/feedback.service';
 
 @Component({
   selector: 'app-start-exam',
-  imports: [CommonModule, MatCardModule, MatRadioModule, MatCheckboxModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   templateUrl: './start-exam.html',
   styleUrl: './start-exam.css',
 })
 export class StartExam implements OnInit {
-
   private authS = inject(AuthService);
   examId!: number;
-  userId = this.authS.getUserRole()?.id! || 5; 
+  userId = this.authS.getUserRole()?.id! || 5;
   examData!: StartExamResponseDTO;
   backendError = false;
   timeLeft!: number;
@@ -37,10 +47,16 @@ export class StartExam implements OnInit {
   DisplayOptions: optionDisplayType[] = [];
   selectedAnswers: { qid: number; Resp: string[] }[] = [];
 
+  isReportModalVisible: boolean = false;
+  questionFeedback: string = '';
+  feedbackSubmitted: boolean = false;
+
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private examService: ExamService
+    private examService: ExamService,
+    private feedbackService: FeedbackService
   ) {}
 
   ngOnInit(): void {
@@ -54,11 +70,56 @@ export class StartExam implements OnInit {
     this.startExam();
   }
 
+  openReportModal(): void {
+    this.isReportModalVisible = true;
+  }
+
+  closeReportModal(): void {
+    this.isReportModalVisible = false;
+    this.questionFeedback = ''; // Reset feedback text on close
+    this.feedbackSubmitted = false; // Reset submission status
+  }
+
+  markAndNext() {
+    this.closeReportModal(); // Ensure modal is closed when moving to next question
+    if (this.currentIndex < this.examData.questions.length - 1) {
+      this.currentIndex++;
+      this.currentQuestion = this.examData.questions[this.currentIndex];
+    } else {
+      this.timeUp = true;
+      clearInterval(this.timerInterval);
+      this.onFinishExam();
+    }
+  }
+
+  submitQuestionReport() {
+    if (!this.currentQuestion) return;
+    const payload: AddQuestionFeedbackDTO = {
+      feedback: this.questionFeedback,
+      qid: this.currentQuestion.qid,
+      studentId: this.userId
+    };
+
+    this.feedbackService.addQuestionFeedback(payload).subscribe({
+      next: () => {
+        this.feedbackSubmitted = true;
+        // Close the modal after a short delay to show the success message
+        setTimeout(() => {
+            this.closeReportModal();
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Error submitting question report:', err);
+        alert('Could not submit your report. Please try again.');
+      }
+    });
+  }
+
   startExam() {
     this.examService.startExam(this.examId, this.userId).subscribe({
       next: (res: any) => {
         if (res.success) {
-
+          console.log(res);
           if (res.examData.questions) {
             for (let q of res.examData.questions) {
               const parsedOptions = JSON.parse(q.options);
@@ -108,7 +169,7 @@ export class StartExam implements OnInit {
     const seconds = this.timeLeft % 60;
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
-  
+
   onOptionSelected(qid: number, selectedOptionId: number) {
     const index = this.selectedAnswers.findIndex((a) => a.qid === qid);
     if (index !== -1) {
@@ -128,34 +189,23 @@ export class StartExam implements OnInit {
     });
   }
 
-  markAndNext() {
-    if (this.currentIndex < this.examData.questions.length - 1) {
-      this.currentIndex++;
-      this.currentQuestion = this.examData.questions[this.currentIndex];
-    } else {
-      this.timeUp = true;
-      clearInterval(this.timerInterval);
-      this.onFinishExam();
-    }
-  }
+ 
   isOptionSelected(qid: number, optionId: number): boolean {
-  const answer = this.selectedAnswers.find(a => a.qid === qid);
-  return answer ? answer.Resp.includes(String(optionId)) : false;
-}
-onOptionToggled(qid: number, optionId: number, checked: boolean) {
-  const answer = this.selectedAnswers.find(a => a.qid === qid);
-  if (answer) {
-    if (checked) {
-      if (!answer.Resp.includes(String(optionId))) {
-        answer.Resp.push(String(optionId));
+    const answer = this.selectedAnswers.find((a) => a.qid === qid);
+    return answer ? answer.Resp.includes(String(optionId)) : false;
+  }
+  onOptionToggled(qid: number, optionId: number, checked: boolean) {
+    const answer = this.selectedAnswers.find((a) => a.qid === qid);
+    if (answer) {
+      if (checked) {
+        if (!answer.Resp.includes(String(optionId))) {
+          answer.Resp.push(String(optionId));
+        }
+      } else {
+        answer.Resp = answer.Resp.filter((id) => id !== String(optionId));
       }
     } else {
-      answer.Resp = answer.Resp.filter(id => id !== String(optionId));
+      this.selectedAnswers.push({ qid, Resp: [String(optionId)] });
     }
-  } else {
-    this.selectedAnswers.push({ qid, Resp: [String(optionId)] });
   }
-}
-
-  
 }

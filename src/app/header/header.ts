@@ -5,7 +5,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { MatCardAvatar } from '@angular/material/card';
 import { ProfileService } from '../core/services/profile.service';
 
 @Component({
