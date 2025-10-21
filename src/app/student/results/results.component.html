@@ -1,6 +1,6 @@
 <!-- Main Component View -->
 <div class="results-page-container">
-  <h2>Available Exams</h2>
+  <h2>Exams</h2>
   @if (exams.length > 0) {
   <div class="exam-grid">
     @for (exam of exams; track exam.eid) {
@@ -31,14 +31,14 @@
       <mat-spinner diameter="50"></mat-spinner>
       <p>Loading result...</p>
     </div>
-    } @else if (resultData && resultData.length > 0) { @for (result of resultData; track
+    } @else if (resultData() && resultData().length! > 0) { @for (result of resultData(); track
     result.attempts) {
     <div class="result-row">
       <span
         >Attempt No: <strong>{{ result.attempts }}</strong></span
       >
       <span class="score-display"
-        >Score: <strong>{{ result.score }}</strong></span
+        >Score: <strong>{{ result.score || 0}}</strong></span
       >
     </div>
     } } @else {
@@ -50,23 +50,3 @@
   </mat-dialog-actions>
 </ng-template>
 
-<ng-template #createResultDialog>
-  <h2 mat-dialog-title>Result Creation</h2>
-  <mat-dialog-content class="dialog-content-area">
-    @if (createResultLoader) {
-    <div class="dialog-loader">
-      <mat-spinner diameter="50"></mat-spinner>
-      <p>Creating result, please wait...</p>
-    </div>
-    } @else { @if(createResultResponse) {
-    <p class="dialog-text-success">Result created successfully!</p>
-    } @else {
-    <p class="dialog-text-error">
-      Could not create the result. All attempts may be recorded or an internal error occurred.
-    </p>
-    } }
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-flat-button color="warn" (click)="onCloseCreateResultModal()">Close</button>
-  </mat-dialog-actions>
-</ng-template>

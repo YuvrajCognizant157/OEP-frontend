@@ -54,6 +54,11 @@ export const routes: Routes = [
     canActivate: [StudentAuthGuard],
   },
   {
+    path: 'student/exam-feedback/:examId',
+    loadComponent: () => import('./student/exam-feedback/exam-feedback').then((m) => m.ExamFeedback),
+    canActivate: [StudentAuthGuard],
+  },
+  {
     path: 'student/view-reported-questions',
     loadComponent: () =>
       import('./question/question-feedback/question-feedback').then((m) => m.QuestionFeedback),

@@ -1,4 +1,4 @@
-<div *ngIf="!examData">
+<div class="loading-component" *ngIf="!examData">
   <div *ngIf="!backendError">
     <p>Please wait, loading exam...</p>
   </div>
@@ -59,7 +59,7 @@
   </ng-template>
 </div>
 
-REPORT ISSUE MODAL
+<!-- REPORT ISSUE MODAL -->
 <div *ngIf="isReportModalVisible" class="modal-overlay" (click)="closeReportModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <div class="modal-header">
