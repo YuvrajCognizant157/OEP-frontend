@@ -93,7 +93,7 @@ export class EAnalytics implements OnInit {
     this.analyticsSubscription = timer(0, 10000) // timer(initialDelay, period)
       .pipe(
         // Use switchMap to call the service on each timer tick
-        switchMap(() => this.anService.getExaminerAnalytics(1))
+        switchMap(() => this.anService.getExaminerAnalytics(this.examinerId))
       )
       .subscribe({
         next: (data) => {

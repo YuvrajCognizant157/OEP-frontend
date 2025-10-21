@@ -1,10 +1,13 @@
 .update-container {
+  background-color: #121212;
+  color:aquamarine;
   display: flex;
   justify-content: center;
   padding: 2rem;
 }
 
 .update-card {
+  background-color: #1E1E1E;
   width: 100%;
   max-width: 700px;
   padding: 1.5rem;
