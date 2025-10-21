@@ -1,5 +1,5 @@
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,8 +14,13 @@ import { ExamService } from '../../core/services/exam.service';
 import { forkJoin, map, Observable } from 'rxjs';
 import { SimplifiedExam, GetExamDataDTO } from '../../shared/models/exam.model';
 import { SimplifiedResult, RawResultDTO } from '../../shared/models/result.model';
-import {  Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { OverallAverageScoreTopicWise } from './student-dashboard.model';
+
+interface IPercentageAnalytics {
+  questionsEncounteredPercent: number;
+  examsAttemptedPercent: number;
+}
 
 @Component({
   selector: 'app-student-dashboard',
@@ -28,49 +33,46 @@ import { OverallAverageScoreTopicWise } from './student-dashboard.model';
     BaseChartDirective,
     MatIconModule,
     MatProgressSpinnerModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './student-dashboard.html',
-  styleUrl: './student-dashboard.css'
+  styleUrl: './student-dashboard.css',
 })
 export class StudentDashboardComponent implements OnInit {
-
   public userFullName: string = 'Student';
   public isLoading: boolean = true;
 
-
   // ⬇️ Properties updated from analytics service
   public questionsEncounteredTotal: number = 0;
-  public examsAppearedTotal: number = 0;
+  public examsAppearedTotal = signal<number>(0);
 
   public availableExamsList: SimplifiedExam[] = [];
   public examResultsHistory: SimplifiedResult[] = [];
-
 
   student = {
     id: 0,
     name: 'John Doe',
     email: 'johndoe@example.com',
-    examsAppeared: 12
+    examsAppeared: 12,
   };
 
-  percentageAnalytics = {
+  public percentageAnalytics = signal<IPercentageAnalytics>({
     questionsEncounteredPercent: 0,
-    examsAttemptedPercent: 0
-  }
+    examsAttemptedPercent: 0,
+  });
 
   basicAnalytics = {
     totalQuestions: 0,
-    totalExams: 0
+    totalExams: 0,
   };
 
-  constructor(private profileService: ProfileService,
+  constructor(
+    private profileService: ProfileService,
     private resultService: ResultService,
     private analyticsService: AnalyticsService,
     private examService: ExamService,
-    private router : Router
-
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     // 1. Fetch Profile Data
@@ -83,7 +85,7 @@ export class StudentDashboardComponent implements OnInit {
           this.student.id = profileData.id ?? this.student.id;
 
           if (this.student.id) {
-            this.loadAllAnalytics(this.student.id); // ⬅️ Call the new chaining method
+            this.loadAllAnalytics(this.student.id);
           } else {
             this.isLoading = false;
           }
@@ -95,7 +97,7 @@ export class StudentDashboardComponent implements OnInit {
         console.error('Failed to load user profile:', err);
         this.userFullName = 'Guest User';
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -103,7 +105,6 @@ export class StudentDashboardComponent implements OnInit {
     this.isLoading = true;
 
     console.log('Loading dashboard data for user ID:', userId);
-    
 
     // Use forkJoin to wait for all three necessary async calls to complete
     forkJoin({
@@ -111,18 +112,19 @@ export class StudentDashboardComponent implements OnInit {
       totalExams: this.analyticsService.getTotalActiveExams(),
       totalQuestions: this.analyticsService.getTotalActiveQuestions(),
       examData: this.processExamData(this.examService.getAvailableExams(userId)),
-      resultData: this.processResultsData(this.resultService.viewResultsByUserId(userId) as Observable<RawResultDTO[]>)
+      resultData: this.processResultsData(
+        this.resultService.viewResultsByUserId(userId) as Observable<RawResultDTO[]>
+      ),
     }).subscribe({
       next: (results) => {
-
         console.log('Dashboard data loaded:', results);
-        
+
         // 1. Process Student Analytics
         const studentData = results.studentAnalytics;
         if (studentData && studentData.value) {
           this.questionsEncounteredTotal = studentData.value.totalQuestionsEncountered || 0;
-          this.examsAppearedTotal = studentData.value.totalExamsTaken || 0;
-          this.student.examsAppeared = this.examsAppearedTotal;
+          this.examsAppearedTotal.set(studentData.value.totalExamsTaken || 0);
+          this.student.examsAppeared = this.examsAppearedTotal();
           this.updateTopicChart(studentData.value.overallAverageScoreTopicWise);
           this.updateAttemptsChart(studentData.value.examAttemptsRecords);
         }
@@ -140,55 +142,57 @@ export class StudentDashboardComponent implements OnInit {
       error: (err) => {
         console.error('Error loading dashboard data:', err);
         this.isLoading = false;
-      }
+      },
     });
   }
 
-  private updateAttemptsChart(records: { singleAttempts: number, doubleAttempts: number, trippleAttempts: number }): void {
+  private updateAttemptsChart(records: {
+    singleAttempts: number;
+    doubleAttempts: number;
+    trippleAttempts: number;
+  }): void {
     this.attemptsChartData = {
       ...this.attemptsChartData, // Keep existing labels and colors
       datasets: [
         {
           ...this.attemptsChartData.datasets[0],
-          data: [
-            records.singleAttempts,
-            records.doubleAttempts,
-            records.trippleAttempts
-          ],
-        }
-      ]
+          data: [records.singleAttempts, records.doubleAttempts, records.trippleAttempts],
+        },
+      ],
     };
   }
 
   private updateTopicChart(topicData: OverallAverageScoreTopicWise[]): void {
-      // 1. Take only the first four elements
-      const limitedData = topicData.slice(0, 4);
+    // 1. Take only the first four elements
+    const limitedData = topicData.slice(0, 4);
 
-      // 2. Extract Labels (Topic names) and Data (Average Scores)
-      const labels = limitedData.map(item => item.topic);
-      const scores = limitedData.map(item => item.averageScore);
+    // 2. Extract Labels (Topic names) and Data (Average Scores)
+    const labels = limitedData.map((item) => item.topic);
+    const scores = limitedData.map((item) => item.averageScore);
 
-      // 3. Update the chart data structure
-      this.topicExamsChartData = {
-          labels: labels,
-          datasets: [
-              {
-                  // The data property of the first dataset is updated with the scores
-                  data: scores, 
-                  label: 'Average Score', // Changed label to reflect the data
-                  backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc'],
-                  borderColor: '#fff',
-                  borderWidth: 2
-              }
-          ]
-      };
+    // 3. Update the chart data structure
+    this.topicExamsChartData = {
+      labels: labels,
+      datasets: [
+        {
+          // The data property of the first dataset is updated with the scores
+          data: scores,
+          label: 'Average Score', // Changed label to reflect the data
+          backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc'],
+          borderColor: '#fff',
+          borderWidth: 2,
+        },
+      ],
+    };
   }
 
-  private processResultsData(resultObservable: Observable<RawResultDTO[]>): Observable<SimplifiedResult[]> {
+  private processResultsData(
+    resultObservable: Observable<RawResultDTO[]>
+  ): Observable<SimplifiedResult[]> {
     return resultObservable.pipe(
       map((results: RawResultDTO[]) => {
         // Map the array of RawResultDTO to the array of SimplifiedResult
-        return results.map(result => ({
+        return results.map((result) => ({
           eid: result.eid,
           examName: result.examName,
           attempts: result.attempts,
@@ -196,7 +200,7 @@ export class StudentDashboardComponent implements OnInit {
           takenOn: new Date(result.takenOn).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
-            day: '2-digit'
+            day: '2-digit',
           }),
           totalMarks: result.totalMarks,
         })) as SimplifiedResult[];
@@ -204,52 +208,57 @@ export class StudentDashboardComponent implements OnInit {
     );
   }
 
-  private processExamData(examObservable: Observable<GetExamDataDTO[]>): Observable<SimplifiedExam[]> {
-
+  private processExamData(
+    examObservable: Observable<GetExamDataDTO[]>
+  ): Observable<SimplifiedExam[]> {
     //console.log('Processing exam data observable:', examObservable);
-    
+
     return examObservable.pipe(
       map((exams: GetExamDataDTO[]) => {
         console.log('Raw exam data received:', exams);
-        
+
         // Map the array of GetExamDataDTO to the array of SimplifiedExam
-        return exams.map(exam => ({
+        return exams.map((exam) => ({
           eid: exam.eid,
           examName: exam.name,
           duration: exam.duration,
-          totalMarks: exam.totalMarks
+          totalMarks: exam.totalMarks,
         }));
       })
     );
   }
 
-
   calcBasicAnalyticsPercent() {
+    let examsAttemptedPercent = 0;
+    let questionsEncounteredPercent = 0;
 
     if (this.basicAnalytics.totalExams > 0) {
-      this.percentageAnalytics.examsAttemptedPercent =
-        +((this.examsAppearedTotal / this.basicAnalytics.totalExams) * 100).toFixed(1);
-    } else {
-      this.percentageAnalytics.examsAttemptedPercent = 0;
+      examsAttemptedPercent = +(
+        (this.examsAppearedTotal() / this.basicAnalytics.totalExams) *
+        100
+      ).toFixed(1);
     }
 
     if (this.basicAnalytics.totalQuestions > 0) {
-      this.percentageAnalytics.questionsEncounteredPercent =
-        +((this.questionsEncounteredTotal / this.basicAnalytics.totalQuestions) * 100).toFixed(1);
-    } else {
-      this.percentageAnalytics.questionsEncounteredPercent = 0;
+      questionsEncounteredPercent = +(
+        (this.questionsEncounteredTotal / this.basicAnalytics.totalQuestions) *
+        100
+      ).toFixed(1);
     }
-    console.log('Calculation complete. Percentage Analytics:', this.percentageAnalytics);
+
+    this.percentageAnalytics.set({
+      examsAttemptedPercent,
+      questionsEncounteredPercent,
+    });
+
+    console.log('Calculation complete. Percentage Analytics:', this.percentageAnalytics());
   }
 
-
-  availableExams = [
-
-  ];
+  availableExams = [];
 
   examHistory = [
     { title: 'Node.js Fundamentals', score: 42, total: 50, date: '2025-08-12', passed: true },
-    { title: 'Database Design', score: 65, total: 100, date: '2025-09-10', passed: false }
+    { title: 'Database Design', score: 65, total: 100, date: '2025-09-10', passed: false },
   ];
 
   chartData: ChartConfiguration<'bar'>['data'] = {
@@ -261,8 +270,8 @@ export class StudentDashboardComponent implements OnInit {
         backgroundColor: '#90caf9',
         borderColor: '#90caf9',
         borderWidth: 1,
-      }
-    ]
+      },
+    ],
   };
 
   public attemptsChartData: ChartConfiguration<'pie'>['data'] = {
@@ -273,19 +282,19 @@ export class StudentDashboardComponent implements OnInit {
         label: 'Exam Attempts Distribution',
         backgroundColor: ['#29b6f6', '#ffb74d', '#ef5350'], // Blue, Orange, Red
         borderColor: '#fff',
-        borderWidth: 2
-      }
-    ]
+        borderWidth: 2,
+      },
+    ],
   };
 
   // ⬅️ NEW Property for Attempts Chart Options (can reuse existing pie options)
   public attemptsChartOptions: ChartConfiguration<'pie'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
-    
+
     plugins: {
-      legend: { labels: { color: '#fff' } }
-    }
+      legend: { labels: { color: '#fff' } },
+    },
   };
 
   public topicExamsChartData: ChartConfiguration<'pie'>['data'] = {
@@ -296,42 +305,40 @@ export class StudentDashboardComponent implements OnInit {
         label: 'Exams Appeared',
         backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ab47bc'],
         borderColor: '#fff',
-        borderWidth: 2
-      }
-    ]
+        borderWidth: 2,
+      },
+    ],
   };
 
   public topicExamsChartOptions: ChartConfiguration<'pie'>['options'] = {
     responsive: true,
     plugins: {
-      legend: { labels: { color: '#fff' } }
-    }
+      legend: { labels: { color: '#fff' } },
+    },
   };
-
 
   chartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
     indexAxis: 'x',
     plugins: {
-      legend: { labels: { color: '#fff' } }
+      legend: { labels: { color: '#fff' } },
     },
     scales: {
       x: {
         ticks: { color: '#bbb' },
-        grid: { color: 'rgba(255, 255, 255, 0.1)' } // Dark theme grid
+        grid: { color: 'rgba(255, 255, 255, 0.1)' }, // Dark theme grid
       },
       y: {
         ticks: { color: '#bbb' },
-        grid: { color: 'rgba(255, 255, 255, 0.1)' } // Dark theme grid
-      }
-    }
+        grid: { color: 'rgba(255, 255, 255, 0.1)' }, // Dark theme grid
+      },
+    },
   };
 
   startExam(id: number) {
     if (id) {
       this.router.navigate(['/student/start-exam', id]);
-    }
-    else{
+    } else {
       alert("Couldn't get access to the examId");
     }
   }
