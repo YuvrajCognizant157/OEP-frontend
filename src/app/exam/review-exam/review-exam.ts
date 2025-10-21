@@ -55,7 +55,7 @@ const data = this.examStateService.examData();
     this.examService.submitExam(payload).subscribe({
       next: (res: any) => {
         this.examStateService.clearExamData();
-        this.router.navigate(['/student/exam-feedback']);
+        this.router.navigate([`/student/exam-feedback/${this.examId}`]);
         // show message if available, otherwise stringify the whole response
         alert((res as SubmitResponse)?.msg ?? JSON.stringify(res));
       },

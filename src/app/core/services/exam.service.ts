@@ -7,6 +7,7 @@ import { AvailableExam, ExamDetails } from '../../shared/models/exam.model';
 @Injectable({ providedIn: 'root' })
 export class ExamService {
   private baseUrl = 'https://localhost:44395/api/Exams';
+  private feebackBaseUrl = 'https://localhost:44395/api/ExamFeedback';
 
   constructor(private http: HttpClient) {}
 
@@ -29,6 +30,9 @@ export class ExamService {
   
   submitExam(examData: SubmittedExamDTO) {
     return this.http.post(`${this.baseUrl}/submit-exam`, examData);
+  }
+  submitExamFeedback(examId: number, dto: { Feedback: string; Userid: number }) {
+    return this.http.post<any>(`${this.feebackBaseUrl}/${examId}`, dto);
   }
 
 }
