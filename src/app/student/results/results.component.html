@@ -1,16 +1,16 @@
 <!-- Main Component View -->
 <div class="results-page-container">
   <h2>Exams</h2>
-  @if (exams.length > 0) {
+  @if (results.length > 0) {
   <div class="exam-grid">
-    @for (exam of exams; track exam.eid) {
+    @for (result of results; track result.eid) {
     <mat-card class="exam-card">
       <mat-card-header>
-        <mat-card-title>{{ exam.name }}</mat-card-title>
-        <mat-card-subtitle> description: {{ exam.description }}</mat-card-subtitle>
+        <mat-card-title>{{ result.examName }}</mat-card-title>
+        <mat-card-subtitle> Total Marks: {{ result.totalMarks }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-actions align="end">
-        <button mat-raised-button color="primary" (click)="viewResult(exam.eid)">
+        <button mat-raised-button color="primary" (click)="viewResult(result.eid)">
           View Result
         </button>
       </mat-card-actions>

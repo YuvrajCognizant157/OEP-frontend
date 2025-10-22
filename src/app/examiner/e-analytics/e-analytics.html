@@ -36,6 +36,29 @@
       >
       </canvas>
     </div>
+
+    <div class="chart-container large">
+      <canvas
+        class="charts"
+        baseChart
+        [data]="topicQuestionCountsChartData"
+        [options]="topicQuestionCountsChartOptions"
+        [type]="'bar'"
+      >
+      </canvas>
+    </div>
+
+    <div class="chart-container large">
+      <canvas
+        class="charts"
+        baseChart
+        [data]="AvgTopicScoresChartData"
+        [options]="AvgTopicScoresChartOptions"
+        [type]="'bar'"
+      >
+      </canvas>
+    </div>
+
   </div>
 </div>
 }@else {
