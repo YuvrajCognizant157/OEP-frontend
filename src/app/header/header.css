@@ -146,7 +146,7 @@ nav {
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) { 
+@media (max-width: 900px) { 
     /* The 900px breakpoint is more appropriate for hiding the main nav links */
     
     /* 1. Show the menu toggle button */
