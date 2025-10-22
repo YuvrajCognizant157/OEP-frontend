@@ -152,7 +152,7 @@
 
 
         <mat-card class="analytics-card">
-            <h3>Exam Attempts Distribution</h3><br/>
+            <h3>Exam Attempts Distribution</h3><br />
             <div style="height: 300px;">
                 <canvas baseChart [data]="attemptsChartData" [options]="attemptsChartOptions" type="pie">
                 </canvas>
@@ -168,12 +168,26 @@
         <mat-card class="history-card">
             <h3>Exam History</h3><br />
             <div class="history-list">
-                <div class="history-item" *ngFor="let e of examResultsHistory | slice:0:2">
-                    <div class="history-title-score">
-                        <span class="exam-title">{{ e.examName }}</span>
-                        <span class="exam-score">{{ e.score }}/{{ e.totalMarks }}</span>
+                <div class="history-item" *ngFor="let exam of examResultsHistory | slice:0:3">
+
+                    <ng-container *ngIf="exam.attemptsData && exam.attemptsData.length > 0">
+                        <ng-container *ngFor="let attempt of exam.attemptsData | slice:-1">
+                            <div class="history-title-score">
+                                <span class="exam-title">
+                                    {{ exam.examName }}
+                                    (Attempt {{ attempt.attempt }})
+                                </span>
+                                <span class="exam-score">{{ attempt.score }}/{{ exam.totalMarks }}</span>
+                            </div>
+                            <span class="exam-date">{{ attempt.takenOn | date: 'mediumDate' }}</span>
+                        </ng-container>
+                    </ng-container>
+
+                    <div *ngIf="!exam.attemptsData || exam.attemptsData.length === 0">
+                        <span class="exam-title">{{ exam.examName }}</span>
+                        <span class="exam-date">No attempts recorded.</span>
                     </div>
-                    <span class="exam-date">{{ e.takenOn | date: 'mediumDate' }}</span>
+
                 </div>
             </div>
             <button mat-button class="view-all-btn" routerLink="/student/results">Full History</button>

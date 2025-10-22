@@ -17,7 +17,7 @@ export class ResultService {
     return this.http.post(`${this.baseUrl}/create-results/${examId}?userid=${userId}`, {});
   }
 
-  viewResultsByUserId(userId: number) {
+  viewResultsByUserId(userId: number) :Observable<any> {
     return this.http.get(`${this.baseUrl}/all-results/${userId}`);
   }
 
