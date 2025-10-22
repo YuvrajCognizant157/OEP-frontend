@@ -1,3 +1,8 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Use min-height to ensure it fills at least the screen */
+}
 html, body {
   height: 100%;
   margin: 0;
@@ -5,4 +10,9 @@ html, body {
 
   background: linear-gradient(to bottom, #111827, #080a0e);
   font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+main {
+  flex-grow: 1;
+  display: flex; /* This makes the router-outlet's content fill the <main> tag */
+  flex-direction: column;
 }
