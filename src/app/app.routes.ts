@@ -8,9 +8,8 @@ import {ApproveTopicComponent} from './admin/approve-topic/approve-topic';
 import {ApproveExamComponent} from './admin/approve-exam/approve-exam';
 import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
 import { ReportedQuestionsComponent } from './admin/reported-questions/reported-questions';
-// import { ReviewQuestionComponent } from './admin/review-question/review-question';
-//import { AdminComponent } from './admin/admin.component';
 import { ReviewExamComponent } from './admin/review-exam/review-exam';
+import { profileAuthGuardfn } from './auth/profile-auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -19,7 +18,6 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent)
   },
-
   {
     path: 'register-employee',
     loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent)
@@ -28,7 +26,11 @@ export const routes: Routes = [
     path: 'register-student',
     loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
   },
-  
+  {
+    path: 'view-profile',
+    loadComponent: () => import('./shared/profile/profile').then(m => m.Profile),
+    canActivate:[profileAuthGuardfn]
+  },
   {
     path: 'profile-update',
     loadComponent: () => import('./shared/profile-update/profile-update').then(m => m.ProfileUpdateComponent)

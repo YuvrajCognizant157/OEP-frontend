@@ -14,7 +14,7 @@ import { ExamService } from '../../core/services/exam.service';
 import { forkJoin, map, Observable } from 'rxjs';
 import { SimplifiedExam, GetExamDataDTO } from '../../shared/models/exam.model';
 import { SimplifiedResult, RawResultDTO, ExamResultSummary } from '../../shared/models/result.model';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { OverallAverageScoreTopicWise } from './student-dashboard.model';
 
 interface IPercentageAnalytics {
@@ -34,7 +34,8 @@ interface IPercentageAnalytics {
     MatIconModule,
     MatProgressSpinnerModule,
     RouterLink,
-  ],
+    RouterLinkActive
+],
   templateUrl: './student-dashboard.html',
   styleUrl: './student-dashboard.css',
 })
