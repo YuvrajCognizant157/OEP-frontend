@@ -82,6 +82,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           return;
         }
 
+        this.loginService.loginStatus.set(true);
+
         switch (userDetails.role) {
           case 'Examiner':
             this.router.navigate(['/examiner/dashboard']);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -6,45 +6,46 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { ProfileService } from '../core/services/profile.service';
+import { LoginService } from '../core/services/login.service';
 
 @Component({
   selector: 'app-header',
   imports: [MatIconModule, MatButtonModule, MatExpansionModule, CommonModule, RouterLink],
   templateUrl: './header.html',
-  styleUrls: ['./header.css']
+  styleUrls: ['./header.css'],
 })
-export class Header implements OnInit {
-
-  public userFullName: string | null = null;
+export class Header{
+  public userFullName =  signal<string | null>(null);
 
   get isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }  
+    return this.loginService.loginStatus() ? true : false;
+  }
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private profileService: ProfileService
-  ) { }
+    private profileService: ProfileService,
+    private loginService: LoginService
+  ) {
 
-  ngOnInit(): void {
-    // 2. Fetch full name when the component loads and the user is logged in
-    if (this.isLoggedIn) {
-      this.profileService.getUserProfile()?.subscribe({
-        next: (profileData) => {
-          // Assuming the service returns an object with a 'fullName' property
-          if (profileData && profileData.fullName) {
-            this.userFullName = profileData.fullName;
-            }
+    effect(() => {
+      if (this.loginService.loginStatus()) {
+        
+        this.profileService.getUserProfile()?.subscribe({
+          next: (profileData) => {
+            this.userFullName.set(profileData?.fullName ?? 'User');
           },
           error: (err) => {
-            console.error('Failed to load user profile:', err);
-            // Optionally handle error, e.g., set name to null or 'User'
-            this.userFullName = 'User'; 
-          }
+            this.userFullName.set('User_Error');
+            alert('some error occured fetching user details ' + err);
+          },
         });
-    }
+      } else {
+        this.userFullName.set('User');
+      }
+    });
   }
+
 
   getRole(): string | null {
     if (!this.isLoggedIn) return null;
@@ -55,11 +56,9 @@ export class Header implements OnInit {
 
   handleAuthAction() {
     if (this.isLoggedIn) {
-
       this.authService.logout();
-
+      this.loginService.loginStatus.set(false);
     } else {
-
       this.router.navigate(['/login']);
     }
   }
