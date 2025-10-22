@@ -61,10 +61,19 @@
         />
       </div>
 
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-      <div *ngIf="successMessage" class="success-message">{{ successMessage() }}</div>
+      <div *ngIf="isLoading" class="loader-container">
+        <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      </div>
 
-      <button type="submit" class="register-btn">Register</button>
+      <div *ngIf="!isLoading && errorMessage" class="error-message">{{ errorMessage }}</div>
+      <div *ngIf="!isLoading && successMessage()" class="success-message">{{ successMessage() }}</div>
+
+      <button 
+        type="submit" 
+        class="register-btn" 
+        [disabled]="registerForm.invalid || isLoading">
+        {{ isLoading ? 'Registering...' : 'Register' }}
+      </button>
     </form>
   </div>
 </div>
