@@ -66,6 +66,7 @@ export class StartExam implements OnInit {
         // alert('Window switching is not allowed during the exam!');
       }
     });
+    document.documentElement.requestFullscreen();
 
     this.examId = Number(this.route.snapshot.paramMap.get('examId')) || 7;
     this.startExam();
@@ -198,7 +199,7 @@ export class StartExam implements OnInit {
         timeLeft: this.timeLeft
       });
 
-
+      document.exitFullscreen();
     this.router.navigate(['/student/review-exam']);
   }
 
