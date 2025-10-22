@@ -1,10 +1,27 @@
 <mat-toolbar class="custom-navbar">
-  <div class="nav-links-container">
-    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/analytics">Analytics</a>
-    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/exams">Exams</a>
-    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/topics">Topics</a>
-    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/create-exam">Create Exam</a>
-    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/manage-topic">Manage Topics</a>
-    <a mat-button routerLinkActive="active-link" routerLink="/examiner/dashboard/manage-questions">Manage Questions</a>
-  </div>
+<span class="brand">Examiner Panel</span>
+<!-- Normal Navbar Links -->
+<div class="nav-links">
+<a mat-button routerLink="/examiner/dashboard/analytics" routerLinkActive="active-link">Analytics</a>
+<a mat-button routerLink="/examiner/dashboard/exams" routerLinkActive="active-link">Exams</a>
+<a mat-button routerLink="/examiner/dashboard/topics" routerLinkActive="active-link">Topics</a>
+<a mat-button routerLink="/examiner/dashboard/create-exam" routerLinkActive="active-link">Create Exam</a>
+<a mat-button routerLink="/examiner/dashboard/manage-topic" routerLinkActive="active-link">Manage Topics</a>
+<a mat-button routerLink="/examiner/dashboard/manage-questions" routerLinkActive="active-link">Manage Questions</a>
+</div>
+<!-- Hamburger Icon -->
+<button class="menu-toggle" (click)="toggleMenu()">☰</button>
+<!-- Responsive Drawer -->
+<div class="overlay" [ngClass]="{ show: isMenuOpen }">
+<button class="close-btn" (click)="closeMenu()">×</button>
+<div class="overlay-content">
+<a mat-button routerLink="/examiner/dashboard/analytics" (click)="closeMenu()">Analytics</a>
+<a mat-button routerLink="/examiner/dashboard/exams" (click)="closeMenu()">Exams</a>
+<a mat-button routerLink="/examiner/dashboard/topics" (click)="closeMenu()">Topics</a>
+<a mat-button routerLink="/examiner/dashboard/create-exam" (click)="closeMenu()">Create Exam</a>
+<a mat-button routerLink="/examiner/dashboard/manage-topic" (click)="closeMenu()">Manage Topics</a>
+<a mat-button routerLink="/examiner/dashboard/manage-questions" (click)="closeMenu()">Manage Questions</a>
+</div>
+</div>
 </mat-toolbar>
+ 
