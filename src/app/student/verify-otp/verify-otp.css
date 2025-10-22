@@ -1,0 +1,135 @@
+.verify-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+form {
+  background-color: #2e2e4d;
+  color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(108, 99, 255, 0.3);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #e0e0e0;
+}
+
+p {
+  font-size: 0.9rem;
+  color: #cccccc;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2rem;
+  border: 1px solid #6c63ff;
+  border-radius: 5px;
+  background-color: #1a1a2e;
+  color: #ffffff;
+  box-sizing: border-box;
+  text-align: center;
+  letter-spacing: 0.5em;
+}
+
+.form-group input.invalid {
+  border-color: #ff6b6b;
+  background-color: #4d2e2e;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  margin-top: 5px;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.message.success {
+  background-color: #28a745;
+  color: white;
+}
+
+.message.error {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-verify {
+  background-color: #6c63ff;
+  color: #ffffff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-verify:hover:not(:disabled) {
+  background-color: #5548d9;
+}
+
+.btn-verify:disabled {
+  background-color: #4a4a6a;
+  cursor: not-allowed;
+}
+
+.resend-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-resend {
+  background-color: transparent;
+  color: #a39eff;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-resend:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.btn-resend:disabled {
+  color: #6a6a8a;
+  cursor: not-allowed;
+}
+
+.timer {
+  font-size: 0.85rem;
+  color: #888;
+}

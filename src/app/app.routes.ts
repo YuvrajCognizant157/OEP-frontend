@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { StudentAuthGuard } from './auth/student-auth.guard';
-import {  examinerAuthGuardFn } from './auth/examiner-auth.guard';
+import { StudentAuthGuard } from './core/auth-guards/student-auth.guard';
+import {  examinerAuthGuardFn } from './core/auth-guards/examiner-auth.guard';
 import { Home } from './home/home';
 import { DashboardComponent } from './admin/dashboard/dashboard';
 import { BlockUserComponent } from './admin/block-user/block-user';
@@ -9,7 +9,7 @@ import {ApproveExamComponent} from './admin/approve-exam/approve-exam';
 import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
 import { ReportedQuestionsComponent } from './admin/reported-questions/reported-questions';
 import { ReviewExamComponent } from './admin/review-exam/review-exam';
-import { profileAuthGuardfn } from './auth/profile-auth.guard';
+import { profileAuthGuardfn } from './core/auth-guards/profile-auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -25,6 +25,10 @@ export const routes: Routes = [
   {
     path: 'register-student',
     loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
+  },
+  {
+    path: 'verify-otp/:userId',
+    loadComponent: () => import('./student/verify-otp/verify-otp').then(m => m.VerifyOtpComponent)
   },
   {
     path: 'view-profile',
