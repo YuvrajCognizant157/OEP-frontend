@@ -1,15 +1,15 @@
 import { Router } from '@angular/router';
-import { AuthService } from '../core/services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 
 
-export const profileAuthGuardfn: CanActivateFn = () => {
+export const examinerAuthGuardFn: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   const user = authService.getUserRole();
-  if (authService.isLoggedIn() && !!localStorage.getItem("token")) {
+  if (authService.isLoggedIn() && user?.role === 'Examiner') {
     return true;
   }
 

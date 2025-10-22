@@ -1,35 +1,33 @@
-<div class="login-page">
-  <div class="login-card">
-    <h2 class="portal-title">Online Exam Portal</h2>
+<div class="login-card">
+  <h2 class="portal-title">Online Exam Portal</h2>
 
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-      <div class="form-group">
-        <label for="username">Email</label>
-        <input type="email" id="username" name="username" [(ngModel)]="username" required />
-      </div>
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="form-group">
+      <label for="username">Email</label>
+      <input type="email" id="username" name="username" [(ngModel)]="username" required [disabled]="loading" />
+    </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" [(ngModel)]="password" required />
-      </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" [(ngModel)]="password" required [disabled]="loading" />
+    </div>
 
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
 
-      <button type="submit" class="login-btn" [disabled]="loading">
-        {{ loading ? 'Logging in...' : 'Login' }}
-      </button>
-    </form>
-
-    <div class="divider"><span>OR</span></div>
-
-    <button class="action-btn employee" (click)="registerAsEmployee()">
-      <span class="material-icons">person</span> Register as Employee
+    <button type="submit" class="login-btn" [disabled]="loading || loginForm.invalid">
+      {{ loading ? 'Logging in...' : 'Login' }}
     </button>
+  </form>
 
-    <button class="action-btn student" (click)="registerAsStudent()">
-      <span class="material-icons">school</span> Register as Student
-    </button>
-  </div>
+  <div class="divider"><span>OR</span></div>
+
+  <button class="action-btn employee" (click)="registerAsEmployee()" [disabled]="loading">
+    <span class="material-icons">person</span> Register as Employee
+  </button>
+
+  <button class="action-btn student" (click)="registerAsStudent()" [disabled]="loading">
+    <span class="material-icons">school</span> Register as Student
+  </button>
 </div>

@@ -86,3 +86,47 @@ input:focus {
   margin-top: 10px;
   text-align: center;
 }
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+/* ADDED: Style to show the button is disabled */
+.register-btn:disabled {
+  background-color: #5a5a7a; /* Or your preferred disabled color */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ADDED: Styles for field-level errors */
+.field-error {
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+/* ADDED: Styles to show invalid fields */
+input.ng-invalid.ng-touched {
+  border-color: #ff6b6b;
+}
+
+/* Styles for error and success messages */
+.error-message {
+  color: #ff6b6b;
+  background-color: #4d2e2e;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.success-message {
+  color: #90ee90;
+  background-color: #2e4d2e;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 15px;
+}

@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Import spinner module
 
 import { RegisterStudentRequest } from './register-student.model';
 import { RegisterStudentService } from '../../core/services/register-student.service';
+import { AuthService } from '../../core/services/auth.service';
+
+interface RegisterResponse {
+  msg :string;
+  userId : number;
+}
 
 @Component({
   selector: 'app-register-student',
@@ -18,7 +25,8 @@ import { RegisterStudentService } from '../../core/services/register-student.ser
     FormsModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './register-student.html',
   styleUrls: ['./register-student.css']
@@ -30,11 +38,17 @@ export class RegisterStudentComponent {
   phoneNo = '';
   dob: string = '';
   errorMessage = '';
-  successMessage = '';
+  successMessage = signal<string>("");
+  isLoading = false;
 
-  constructor(private registerService: RegisterStudentService, private router: Router) {}
+  constructor(private registerService: RegisterStudentService, private router: Router,private authService : AuthService) {}
 
   onSubmit(): void {
+
+   this.isLoading = true;
+    this.errorMessage = '';
+    this.successMessage.set('');
+
     const registerData: RegisterStudentRequest = {
       fullName: this.fullName,
       email: this.email,
@@ -44,16 +58,22 @@ export class RegisterStudentComponent {
     };
 
     this.registerService.registerStudent(registerData).subscribe({
-    next: (response) => {
-      this.successMessage = response.message;
+    next: (response:RegisterResponse) => {
+      this.isLoading = false; 
+      this.successMessage.set(response.msg);
 
-      if (response.role === 'Student') {
-        this.router.navigate(['/student/dashboard']); 
-      } else {
-        this.router.navigate(['/login']); // fallback
-      }
+      const newUserId = response.userId; 
+      if (newUserId) { 
+          this.authService.pendingVerificationUserId.set(newUserId);
+          this.router.navigate([`/verify-otp/${newUserId}`]);
+        } else {
+          // Handle case where API succeeds but doesn't return a valid ID
+          this.errorMessage = "Registration successful, but an error occurred. Please try logging in.";
+          this.router.navigate(['/login']);
+        }
     },
     error: (err) => {
+      this.isLoading = false; 
       this.errorMessage = err.error?.error || 'Registration failed. Please try again.';
       console.error(err);
     }
