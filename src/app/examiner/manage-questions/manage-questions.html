@@ -1,8 +1,8 @@
 <div class="manage-container">
   <div class="header">
     <h2>Manage Your Questions</h2>
-    <button mat-raised-button color="primary" (click)="openAddQuestionDialog()">
-      <mat-icon>add_circle</mat-icon> Add Question to Exam
+    <button mat-raised-button color="primary" (click)="openAddQuestionDialog()" class="add-question-btn">
+      <mat-icon>add_circle_outline</mat-icon> Add New Question
     </button>
   </div>
 
@@ -13,24 +13,37 @@
   </div>
 
   <div *ngIf="!isLoading && questions.length === 0" class="no-data">
-    No questions found.
+    <mat-icon class="no-data-icon">lightbulb_outline</mat-icon>
+    <p>No questions found. Click 'Add New Question' to get started!</p>
   </div>
 
   <div *ngIf="!isLoading && questions.length > 0" class="question-grid">
     <mat-card *ngFor="let q of questions" class="question-card">
-      <mat-card-title>
-      {{ (q.questionName | slice:0:35) + (q.questionName.length > 25 ? '....?' : '') }}
-    </mat-card-title>
-      <mat-card-content>
-      <p><b>ID:</b> {{ q.questionId || "" }}</p>
       
-      <p><b>Type:</b> {{ q.questionType ? (q.questionType | uppercase) : "" }}</p>
-    </mat-card-content>
-      <mat-card-actions align="end">
-        <button mat-button color="accent" (click)="updateQuestion(q.questionId)">
+      <div class="card-header-content">
+        <mat-card-title>
+          <span class="question-title-text">
+            {{ (q.questionName | slice:0:70) + (q.questionName.length > 70 ? '....' : '') }}
+          </span>
+        </mat-card-title>
+        
+        <div class="card-metadata">
+          <span class="metadata-item question-type">
+            <mat-icon>category</mat-icon> {{ q.questionType ? (q.questionType | uppercase) : "N/A" }}
+          </span>
+          <span class="metadata-item question-id">
+            <mat-icon>vpn_key</mat-icon> {{ q.questionId || "N/A" }}
+          </span>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-actions align="end" class="card-actions-group">
+        <button mat-button color="primary" (click)="updateQuestion(q.questionId)" class="action-btn update-btn">
           <mat-icon>edit</mat-icon> Update
         </button>
-        <button mat-button color="warn" (click)="deleteQuestion(q.questionId)">
+        <button mat-button color="warn" (click)="deleteQuestion(q.questionId)" class="action-btn delete-btn">
           <mat-icon>delete</mat-icon> Delete
         </button>
       </mat-card-actions>
