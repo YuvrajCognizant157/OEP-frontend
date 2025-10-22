@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AvailableExam, ExamDetails } from '../../shared/models/exam.model';
 import { ExamService } from '../../core/services/exam.service';
 import { AuthService } from '../../core/services/auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-available-exams',
@@ -17,7 +18,8 @@ import { AuthService } from '../../core/services/auth.service';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RouterLink
   ],
   templateUrl: './available-exams.html',
   styleUrls: ['./available-exams.css']

@@ -12,6 +12,8 @@ import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from '@angular/material/button';
 import { ExamResultSummary, RawResultDTO, ResultCalculationResponseDTO } from '../../shared/models/result.model';
 import { Result } from './results.model';
+import { MatIcon } from "@angular/material/icon";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-results',
@@ -23,8 +25,10 @@ import { Result } from './results.model';
     MatDialogModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    MatButtonModule
-  ],
+    MatButtonModule,
+    MatIcon,
+    RouterLink
+],
 })
 export class ResultsComponent implements OnInit {
   results: ExamResultSummary[] = [];
@@ -61,7 +65,12 @@ export class ResultsComponent implements OnInit {
 
     this.resultService.createAndViewResult(examId,this.userId).subscribe({
       next: (res:ResultCalculationResponseDTO) =>{
-        this.resultData.set(res.results);        
+        // convert shared Result.createdAt (Date) to local Result.createdAt (string)
+        const mappedResults: Result[] = res.results.map(r => ({
+          ...r,
+          createdAt: r.createdAt instanceof Date ? r.createdAt.toISOString() : String(r.createdAt)
+        }));
+        this.resultData.set(mappedResults);
         this.isLoading = false;
       },
       error: (err) => {

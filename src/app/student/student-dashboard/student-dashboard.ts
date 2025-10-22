@@ -185,27 +185,6 @@ export class StudentDashboardComponent implements OnInit {
     };
   }
 
-  private processResultsData(
-    resultObservable: Observable<RawResultDTO[]>
-  ): Observable<SimplifiedResult[]> {
-    return resultObservable.pipe(
-      map((results: RawResultDTO[]) => {
-        // Map the array of RawResultDTO to the array of SimplifiedResult
-        return results.map((result) => ({
-          eid: result.eid,
-          examName: result.examName,
-          attempts: result.attempts,
-          score: result.score,
-          takenOn: new Date(result.takenOn).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-          }),
-          totalMarks: result.totalMarks,
-        })) as SimplifiedResult[];
-      })
-    );
-  }
 
   private processExamData(
     examObservable: Observable<GetExamDataDTO[]>
