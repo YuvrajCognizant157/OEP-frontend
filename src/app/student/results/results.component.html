@@ -1,52 +1,79 @@
-<!-- Main Component View -->
 <div class="results-page-container">
-  <h2>Exams</h2>
-  @if (results.length > 0) {
-  <div class="exam-grid">
-    @for (result of results; track result.eid) {
-    <mat-card class="exam-card">
-      <mat-card-header>
-        <mat-card-title>{{ result.examName }}</mat-card-title>
-        <mat-card-subtitle> Total Marks: {{ result.totalMarks }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-actions align="end">
-        <button mat-raised-button color="primary" (click)="viewResult(result.eid)">
-          View Result
+    <header class="page-header">
+        <h1>Exam History</h1>
+        <button mat-flat-button color="accent" class="back-link" routerLink="/student/dashboard">
+            <mat-icon>arrow_back</mat-icon>
+            Back to Dashboard
         </button>
-      </mat-card-actions>
-    </mat-card>
-    }
-  </div>
+    </header>
 
-  } @else {
-  <p class="empty-state-message">No exams are available at the moment.</p>
-  }
+    @if (results.length > 0) {
+        <div class="exam-grid">
+            @for (examSummary of results; track examSummary.eid) {
+                <mat-card class="exam-card" (click)="viewResult(examSummary.eid)">
+                    <mat-card-header>
+                        <mat-card-title>{{ examSummary.examName }}</mat-card-title>
+                        <mat-card-subtitle>
+                            Attempts Recorded: {{ examSummary.attemptsData.length }} | Total Marks: {{ examSummary.totalMarks }}
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    
+                    <mat-card-content class="card-summary">
+                        @if (examSummary.attemptsData.length > 0) {
+                            <div class="latest-attempt">
+                                <span>Last Score: 
+                                    <strong>{{ examSummary.attemptsData[examSummary.attemptsData.length - 1].score || 0 }} / {{ examSummary.totalMarks }}</strong>
+                                </span>
+                                <span class="last-taken-date">
+                                    Taken On: {{ examSummary.attemptsData[examSummary.attemptsData.length - 1].takenOn | date: 'mediumDate' }}
+                                </span>
+                            </div>
+                        } @else {
+                            <p class="no-attempts">No attempts recorded yet.</p>
+                        }
+                    </mat-card-content>
+                    
+                    <mat-card-actions align="end" class="card-actions">
+                        <button mat-flat-button color="primary">
+                            View All Attempts
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            }
+        </div>
+
+    } @else {
+        <p class="empty-state-message">No exam history available yet.</p>
+    }
 </div>
 
 <ng-template #resultDialog>
-  <h2 mat-dialog-title>Exam Result</h2>
-  <mat-dialog-content class="dialog-content-area">
-    @if (isLoading) {
-    <div class="dialog-loader">
-      <mat-spinner diameter="50"></mat-spinner>
-      <p>Loading result...</p>
-    </div>
-    } @else if (resultData() && resultData().length! > 0) { @for (result of resultData(); track
-    result.attempts) {
-    <div class="result-row">
-      <span
-        >Attempt No: <strong>{{ result.attempts }}</strong></span
-      >
-      <span class="score-display"
-        >Score: <strong>{{ result.score || 0}}</strong></span
-      >
-    </div>
-    } } @else {
-    <p>No result data was found for this exam.</p>
-    }
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-flat-button color="warn" [mat-dialog-close]="true">Close</button>
-  </mat-dialog-actions>
+    <h2 mat-dialog-title>Exam Attempts History</h2>
+    <mat-dialog-content class="dialog-content-area">
+        @if (isLoading) {
+            <div class="dialog-loader">
+                <mat-spinner diameter="50"></mat-spinner>
+                <p>Loading attempts...</p>
+            </div>
+        } @else if (resultData() && resultData().length > 0) {
+            <div class="attempt-list">
+                @for (attempt of resultData(); track attempt.attempts) {
+                    <div class="attempt-row">
+                        <div class="attempt-info">
+                            <span class="attempt-number">Attempt {{ attempt.attempts }}</span>
+                            <span class="taken-on">Taken On: {{ attempt.createdAt | date: 'mediumDate' }}</span>
+                        </div>
+                        <div class="score-info">
+                            Score: <strong class="score-value">{{ attempt.score || 0 }} / Total Marks</strong>
+                        </div>
+                    </div>
+                }
+            </div>
+        } @else {
+            <p class="empty-state-message">No result data was found for this exam.</p>
+        }
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-flat-button color="warn" [mat-dialog-close]="true">Close</button>
+    </mat-dialog-actions>
 </ng-template>
-
