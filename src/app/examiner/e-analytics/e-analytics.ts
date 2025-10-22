@@ -10,7 +10,7 @@ import { Subscription, switchMap, timer } from 'rxjs';
 Chart.register(...registerables);
 Chart.defaults.color = '#FFFFFF';
 Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.2)';
-Chart.defaults.font.size = 14;
+Chart.defaults.font.size = 12;
 
 interface AnalyticsData {
   totalExamsCreated: number;
@@ -101,7 +101,7 @@ export class EAnalytics implements OnInit {
 
           this.processAnalyticsData();
 
-          console.log('Fetched new analytics data:', this.analyticsData);
+          console.log('Fetched new analytics data:');
         },
         error: (err) => {
           console.error('Error fetching analytics:', err);

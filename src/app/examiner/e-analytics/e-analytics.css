@@ -36,11 +36,25 @@
 
 .chart-container {
   color: aliceblue;
-  padding: 20px;
+  padding: 10px;
   background-color: #2c3b57;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  display: block;
+  align-content: center;
+  width: 250px;
+  height: 250px;
+  max-width: 700px; /* Example: A maximum pixel width */
+  margin: 20px auto; /* Optional: Adds space and centers the chart */
+}
+
+/* For the doughnut chart */
+.chart-container-doughnut {
+  display: block;
+  width: 60%;
+  max-width: 400px; /* Doughnut charts are often smaller */
+  margin: 10px auto;
 }
 
 .chart-container.large {
@@ -52,7 +66,7 @@
 }
 
 .stat-card h2 {
-  font-size: 1.2rem;
+  font-size: 12;
   color: #dedbdb;
   margin-bottom: 10px;
 }
