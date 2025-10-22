@@ -1,6 +1,6 @@
-<div class="exam-list-container">
-<h2>Assigned Exams for Review</h2>
-<table *ngIf="exams.length > 0" class="exam-table">
+<div class="review-container">
+<h2 class="page-title">Assigned Exams for Review</h2>
+<table class="exam-table" *ngIf="exams && exams.length > 0; else noExams">
 <thead>
 <tr>
 <th>Exam ID</th>
@@ -18,5 +18,8 @@
 </tr>
 </tbody>
 </table>
-<p *ngIf="!loading && exams.length === 0">No exams assigned for review.</p>
+<ng-template #noExams>
+<p class="no-exams">No exams assigned for review</p>
+</ng-template>
 </div>
+ 

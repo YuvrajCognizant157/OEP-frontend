@@ -1,19 +1,62 @@
-<div class="review-container" *ngIf="questions.length > 0">
-<h2>{{ examName }}</h2>
+<div class="review-container" *ngIf="questions.length > 0; else loading">
+<h2 class="exam-title">{{ examName }}</h2>
 <div class="question-card">
-<h3>Question {{ currentIndex + 1 }} / {{ questions.length }}</h3>
-<p>{{ questions[currentIndex]?.question1}}</p>
-<ul>
-<li *ngFor="let opt of questions[currentIndex]?.options">{{ opt }}</li>
+<h3 class="question-number">
+
+      Question {{ questions[currentIndex]?.number }} / {{ questions.length }}
+</h3>
+<p class="question-text">
+
+      {{ questions[currentIndex]?.question }}
+</p>
+<ul class="options-list" *ngIf="questions[currentIndex]?.options?.length > 0">
+<li
+
+        *ngFor="let opt of questions[currentIndex]?.options; let i = index"
+
+        class="option-item"
+>
+<span class="opt-number">{{ i + 1 }}.</span>
+<span class="opt-text">{{ opt }}</span>
+</li>
 </ul>
 </div>
 <div class="navigation">
-<button class="nav-btn" (click)="prevQuestion()" [disabled]="currentIndex === 0">Previous</button>
-<button class="nav-btn" (click)="nextQuestion()" [disabled]="currentIndex === questions.length - 1">Next</button>
+<button
+
+      class="nav-btn prev"
+
+      (click)="prevQuestion()"
+
+      [disabled]="currentIndex === 0"
+>
+
+      ⬅ Previous
+</button>
+<button
+
+      class="nav-btn next"
+
+      (click)="nextQuestion()"
+
+      [disabled]="currentIndex === questions.length - 1"
+>
+
+      Next ➡
+</button>
 </div>
-<div class="decision" *ngIf="currentIndex === questions.length - 1">
-<button class="approve-btn" (click)="approveExam()">Approve</button>
-<button class="reject-btn" (click)="rejectExam()">Reject</button>
+<!-- ✅ Show Approve/Reject only on last question -->
+<div
+
+    class="decision"
+
+    *ngIf="questions.length > 0 && currentIndex === questions.length - 1"
+>
+<button class="approve-btn" (click)="approveExam()">✅ Approve</button>
+<button class="reject-btn" (click)="rejectExam()">❌ Reject</button>
 </div>
 </div>
+<ng-template #loading>
+<p class="loading-text">Loading questions...</p>
+</ng-template>
  
