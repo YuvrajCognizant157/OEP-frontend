@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../core/services/auth.service'; // Adjust path if needed
+import { AuthService } from '../services/auth.service'; // Adjust path if needed
 
 // Export a constant function, not a class
 export const StudentAuthGuard: CanActivateFn = () => {
