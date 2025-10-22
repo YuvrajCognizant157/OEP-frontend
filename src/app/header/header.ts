@@ -16,6 +16,7 @@ import { LoginService } from '../core/services/login.service';
 })
 export class Header{
   public userFullName =  signal<string | null>(null);
+  public isMenuOpen = signal<boolean>(true);
 
   get isLoggedIn(): boolean {
     return this.loginService.loginStatus() ? true : false;
@@ -66,6 +67,10 @@ export class Header{
   }
   login() {
     this.router.navigate(['/login']);
+  }
+
+  toggleMenu() {
+    this.isMenuOpen.set(!this.isMenuOpen()); // Toggle menu state
   }
 
 }

@@ -1,4 +1,19 @@
 
+header {
+  background-color: #575485;
+  padding: 1rem 3rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .nav-logo {
   display: flex;
   align-items: center;
@@ -8,27 +23,6 @@
   color: #f1f1f1;
 }
 
-.nav-actions{
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.avatar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    font-size: 0.85rem;
-    color: #f1f1f1;
-}   
-.icon-avatar {
-    font-size: 40px;
-    width: 40px;
-    height: 40px;
-    color: #d842cc; /* Blue color */
-    margin-bottom: 5px;
-}
 .nav-logo svg path {
   stroke: #f1f1f1;
 }
@@ -41,7 +35,6 @@
 .nav-links a {
   display: inline-flex;
   align-items: center;
-
   text-decoration: none;
   color: #FFFFFF;
   font-weight: 900;
@@ -49,15 +42,31 @@
   transition: color 0.2s ease;
 }
 
-.nav-links a mat-icon {
-  
-  font-size: 1.4rem; 
-  height: 1.4rem;
-  width: 1.4rem;
+.nav-links a:hover,
+.nav-links a.active-link {
+  color: var(--header-accent);
 }
 
-.nav-links a:hover {
-  color: #E0E0E0;
+.nav-links a.active-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; 
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--header-accent);
+    border-radius: 2px;
+}
+
+/* Ensure the hover effect doesn't create a double line when active */
+.nav-links a.active-link:hover::after {
+    background-color: var(--header-accent);
+}
+
+.nav-links a mat-icon {
+  font-size: 1.4rem;
+  height: 1.4rem;
+  width: 1.4rem;
 }
 
 .nav-links .arrow {
@@ -66,20 +75,30 @@
   vertical-align: middle;
 }
 
-
-header {
-  background-color: #575485;
-  padding: 1rem 3rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-nav {
+.nav-actions {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
-.signup-btn {
+
+.avatar-container {
+  display: flex;
+  flex-direction: row; /* Changed to row for horizontal alignment */
+  align-items: center;
+  gap: 0.5rem; /* Space between icon and name */
+  text-align: center;
+  font-size: 0.85rem;
+  color: #f1f1f1;
+}
+
+.icon-avatar {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #d842cc;
+}
+
+.signin-btn, .signup-btn {
   background-color: #5d5fef;
   color: white;
   border: none;
@@ -91,33 +110,12 @@ nav {
   transition: background-color 0.2s ease;
 }
 
-.signup-btn:hover {
+.signin-btn:hover, .signup-btn:hover {
   background-color: #4a4cc7;
 }
 
-
-/* ... existing styles for nav-logo, nav-links, header, nav ... */
-
-/* Sign In Button (original style) */
-.signin-btn {
-  background-color: #5d5fef;
-  color: white;
-  border: none;
-  padding: 0.8rem 1.8rem;
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: 2rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.signin-btn:hover {
-  background-color: #4a4cc7;
-}
-
-/* Log Out Button (Red background) */
 .logout-btn {
-  background-color: #dc3545; /* Red color */
+  background-color: #dc3545;
   color: white;
   border: none;
   padding: 0.8rem 1.8rem;
@@ -129,5 +127,112 @@ nav {
 }
 
 .logout-btn:hover {
-  background-color: #c82333; /* Darker red on hover */
+  background-color: #c82333;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #f1f1f1;
+  font-size: 1.5rem;
+}
+
+.menu-toggle mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) { 
+    /* The 900px breakpoint is more appropriate for hiding the main nav links */
+    
+    /* 1. Show the menu toggle button */
+    .menu-toggle {
+        display: block; 
+    }
+    
+    /* 2. Style the Navigation Links for Mobile (Dropdown) */
+    .nav-links {
+        /* Reset desktop styles */
+        display: none; 
+        flex-direction: column;
+
+        /* Positioning for a detached dropdown */
+        position: absolute;
+        top: 64px; /* Position right below the header */
+        right: 1.5rem; /* Detach from the right edge, matching header padding */
+        left: auto; /* Ensure it sticks to the right */
+        width: 250px; /* Smaller, fixed width for dropdown feel */
+        
+        /* Dropdown Appearance */
+        /* --- TRANSPARENCY ADDED HERE --- */
+        /* Using rgba for transparency (e.g., 0.9 opacity) */
+        background-color: rgba(74, 70, 112, 0.9); /* #4A4670 with 90% opacity */
+        
+        border-radius: 8px; /* Rounded corners for a softer look */
+        padding: 0.5rem 0; /* Adjusted vertical padding */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); 
+        
+        /* Initial state: Slide up and fade out */
+        transform: translateY(-10px); 
+        opacity: 0;
+        pointer-events: none; 
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 999; 
+    }
+
+    /* 3. Dropdown Open State */
+    .nav-links.open {
+        display: flex;
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* 4. Style the Links inside the Dropdown */
+    .nav-links a {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #e0e0e0;
+        /* --- PADDING ADDED HERE to prevent sticking to the left --- */
+        padding: 10px 1.5rem; /* Horizontal padding for alignment */
+        width: 100%;
+        box-sizing: border-box;
+        border-bottom: none; 
+        position: relative;
+    }
+    
+    .nav-links a:hover {
+        background-color: rgba(87, 84, 133, 0.8); /* Slightly darker hover for contrast */
+        color: #ffffff;
+    }
+
+    .nav-links a.active-link {
+        color: var(--header-accent);
+        background-color: rgba(154, 119, 255, 0.1);
+        font-weight: 600; 
+    }
+    
+    .nav-links a.active-link::after {
+        content: none;
+    }
+    
+    .nav-actions {
+        display: flex;
+    }
+}
+
+@media (max-width: 550px) {
+    
+    .signin-btn, .logout-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .avatar-name {
+        display: none;
+    }
 }
