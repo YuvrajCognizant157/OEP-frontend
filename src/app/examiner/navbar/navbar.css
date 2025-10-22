@@ -1,37 +1,237 @@
+
+/* ====== NAVBAR ====== */
 .custom-navbar {
-  /* Matching the dark gradient theme */
-  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
+
+  background: #000 !important;
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  flex-wrap: nowrap;
+  width:100%;
+
+  overflow-y: hidden; /* ✅ removes the horizontal scrollbar */
+
+  white-space: nowrap;
+
+  padding: 1rem 1.5rem; /* ✅ increase height/spacing */
+
+  gap: 1.5rem;
+
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0 2rem;
-  display: flex;
-  justify-content: center; /* Center the links container */
+
+  height: 70px; /* ✅ consistent navbar height */
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); /* ✅ subtle depth */
+
+}
+ 
+
+.brand {
+
+  font-weight: bold;
+
+  font-size: 1.2rem;
+
+  color: #03a9f4;
+
+  margin-right: 1rem;
+
 }
 
-.nav-links-container {
+/* Desktop Links */
+
+.nav-links {
+
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap; /* Allows links to wrap on smaller screens */
-  width: 100%;
+
+  align-items: center;
+
+  gap: 1.3rem;
+
 }
 
-a[mat-button] {
-  color: #e0e7ff;
-  font-weight: 500;
+.nav-links a {
+
+  color: white;
+
+  text-decoration: none;
+
+  font-weight: 600; /* ✅ thicker font */
+
   font-size: 1rem;
-  margin: 0 0.5rem;
-  padding: 0 1rem;
-  border-radius: 6px;
-  transition: background-color 0.2s ease-in-out;
+
+  letter-spacing: 0.3px; /* ✅ clean spacing between letters */
+
+  transition: color 0.3s ease;
+
 }
 
-a[mat-button]:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
+.nav-links a:hover {
 
-/* Style for the currently active link */
+  color: #03a9f4;
+
+  transform: scale(1.05); /* ✅ slight zoom on hover */
+
+}
+ 
+
 .active-link {
-  background: linear-gradient(45deg, #7b5aff 0%, #5a40c0 100%);
-  color: white !important; /* Use !important to override default color */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+  color: #03a9f4 !important;
+
 }
+
+/* Hamburger Icon */
+
+.menu-toggle {
+
+  display: none;
+
+  font-size: 1.8rem;
+
+  background: none;
+
+  border: none;
+
+  color: white;
+
+  cursor: pointer;
+
+  margin-left: auto;
+
+}
+
+/* Responsive Drawer */
+
+.overlay {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  height: 100%;
+
+  width: 0;
+
+  background-color: #000;
+
+  overflow-x: hidden;
+
+  transition: width 0.4s ease;
+
+  z-index: 3000;
+
+}
+
+.overlay.show {
+
+  width: 75%;
+
+  max-width: 300px;
+
+  animation: slideIn 0.3s ease forwards;
+
+}
+
+@keyframes slideIn {
+
+  from {
+
+    transform: translateX(-100%);
+
+    opacity: 0.3;
+
+  }
+
+  to {
+
+    transform: translateX(0);
+
+    opacity: 1;
+
+  }
+
+}
+
+.overlay-content {
+
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 60px 25px;
+
+  gap: 1.2rem;
+
+}
+
+.overlay a {
+
+  color: white;
+
+  font-size: 1.1rem;
+
+  text-decoration: none;
+
+  font-weight: 500;
+
+}
+
+.overlay a:hover {
+
+  color: #03a9f4;
+
+}
+
+.close-btn {
+
+  position: absolute;
+
+  top: 15px;
+
+  right: 25px;
+
+  font-size: 2rem;
+
+  background: none;
+
+  border: none;
+
+  color: white;
+
+  cursor: pointer;
+
+}
+
+.close-btn:hover {
+
+  color: #03a9f4;
+
+}
+
+/* Responsive */
+
+@media (max-width: 950px) {
+
+  .nav-links {
+
+    display: none;
+
+  }
+
+  .menu-toggle {
+
+    display: block;
+
+  }
+
+}
+ 
