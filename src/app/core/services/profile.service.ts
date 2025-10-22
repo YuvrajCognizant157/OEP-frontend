@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UserDetails } from '../../shared/profile/user.model';
 
 export interface userDetails {
     id?: number;
@@ -47,5 +48,15 @@ export class ProfileService {
                 map(user => ({ ...user, id }))
             ); 
     }
+
+    
+    getUserById(id: number) {
+        return this.http.get<UserDetails>(`${this.baseUrl}/${id}`);
+    }
+
+    updateUser(id: number, data: Partial<UserDetails>) {
+        return this.http.patch(`${this.baseUrl}/${id}`, data);
+    }
+
 }
 

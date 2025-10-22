@@ -6,7 +6,7 @@
                 <h2>Welcome back, {{ student.name }} 👋</h2>
                 <p class="subtitle">You’ve appeared in {{ examsAppearedTotal() }} exams so far.</p>
             </div>
-            <button mat-flat-button color="primary">View Profile</button>
+            <button mat-flat-button color="primary" routerLink="/view-profile" routerLinkActive="active">View Profile</button>
         </div>
     </mat-card>
 
