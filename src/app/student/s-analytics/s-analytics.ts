@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AnalyticsService } from '../../core/services/analytics.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-s-analytics',
@@ -26,11 +27,14 @@ import { AnalyticsService } from '../../core/services/analytics.service';
 })
 export class SAnalytics implements OnInit {
 
-  constructor(private analyticsService: AnalyticsService) { }
+  constructor(private analyticsService: AnalyticsService, private authService: AuthService) { }
+
+  userId!: number; 
 
 
   ngOnInit(): void {
-    this.analyticsService.getStudentAnalytics(9).subscribe({
+    this.userId = this.authService.getUserId()!;
+    this.analyticsService.getStudentAnalytics(this.userId).subscribe({
       next: (res) => {
         const data = res.value;
         if (!data) return;
