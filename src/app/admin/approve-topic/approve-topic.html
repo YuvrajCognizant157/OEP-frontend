@@ -1,15 +1,15 @@
-<div class="topic-container">
-<h2>Topics Pending Approval</h2>
-
+<div class="approve-topic-container">
+<h2 class="page-title">Pending Topics for Approval</h2>
 <div *ngIf="loading" class="loading">Loading topics...</div>
-<div *ngIf="!loading && message" class="message">
-
-    {{ message }}
-</div>
-<div *ngIf="!loading && topics.length > 0" class="topic-list">
+<div *ngIf="message" class="message">{{ message }}</div>
+<div class="topic-list" *ngIf="!loading && topics.length > 0">
 <div *ngFor="let topic of topics" class="topic-card">
-<h3>{{ topic.topicName }}</h3>
-<div class="actions">
+<div class="topic-info">
+<h3 class="topic-name">Topic Name: {{ topic.topicName }}</h3>
+<p class="topic-id">Topic ID: {{ topic.id }}</p>
+<p class="topic-status">Waiting for admin approval</p>
+</div>
+<div class="topic-actions">
 <button class="approve-btn" (click)="approveTopic(topic.id)">Approve</button>
 <button class="reject-btn" (click)="rejectTopic(topic.id)">Reject</button>
 </div>

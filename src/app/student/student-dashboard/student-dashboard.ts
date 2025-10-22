@@ -13,7 +13,7 @@ import { AnalyticsService } from '../../core/services/analytics.service';
 import { ExamService } from '../../core/services/exam.service';
 import { forkJoin, map, Observable } from 'rxjs';
 import { SimplifiedExam, GetExamDataDTO } from '../../shared/models/exam.model';
-import { SimplifiedResult, RawResultDTO } from '../../shared/models/result.model';
+import { SimplifiedResult, RawResultDTO, ExamResultSummary } from '../../shared/models/result.model';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { OverallAverageScoreTopicWise } from './student-dashboard.model';
 
@@ -48,7 +48,7 @@ export class StudentDashboardComponent implements OnInit {
   public examsAppearedTotal = signal<number>(0);
 
   public availableExamsList: SimplifiedExam[] = [];
-  public examResultsHistory: SimplifiedResult[] = [];
+  public examResultsHistory: ExamResultSummary[] = [];
 
   student = {
     id: 0,
@@ -113,9 +113,7 @@ export class StudentDashboardComponent implements OnInit {
       totalExams: this.analyticsService.getTotalActiveExams(),
       totalQuestions: this.analyticsService.getTotalActiveQuestions(),
       examData: this.processExamData(this.examService.getAvailableExams(userId)),
-      resultData: this.processResultsData(
-        this.resultService.viewResultsByUserId(userId) as Observable<RawResultDTO[]>
-      ),
+      resultData: this.resultService.viewResultsByUserId(userId) as Observable<ExamResultSummary[]>,
     }).subscribe({
       next: (results) => {
         console.log('Dashboard data loaded:', results);

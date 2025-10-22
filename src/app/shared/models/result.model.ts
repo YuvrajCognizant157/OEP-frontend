@@ -8,6 +8,20 @@ export interface SimplifiedResult {
   totalMarks: number;
 }
 
+export interface AttemptData {
+  attempt: number; 
+  score: number;
+  takenOn: string; 
+}
+
+
+export interface ExamResultSummary {
+  eid: number;
+  examName: string;
+  totalMarks: number;
+  attemptsData: AttemptData[]; 
+}
+
 export interface RawResultDTO {
   userId: number;
   eid: number;

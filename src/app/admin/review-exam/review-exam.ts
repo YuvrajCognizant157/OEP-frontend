@@ -4,8 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AdminService } from '../../core/services/admin.service';
 
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { CommonModule } from '@angular/common';
+
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
 
@@ -13,7 +16,7 @@ import { CommonModule } from '@angular/common';
 
   standalone: true,
 
-  imports:[CommonModule,MatSnackBarModule],
+  imports: [CommonModule, MatSnackBarModule],
 
   templateUrl: './review-exam.html',
 
@@ -25,17 +28,29 @@ export class ReviewExamComponent implements OnInit {
 
   examId!: number;
 
+  userId!: number;
+
   examName = '';
 
   questions: any[] = [];
 
   currentIndex = 0;
 
-  userId!: number;
+  constructor(
 
-  constructor(private route: ActivatedRoute, private adminService: AdminService, private snack: MatSnackBar, private router: Router) {}
+    private route: ActivatedRoute,
 
-  ngOnInit() {
+    private adminService: AdminService,
+
+    private snack: MatSnackBar,
+
+    private router: Router
+
+  ) {}
+
+  ngOnInit(): void {
+
+    // ✅ get examId from URL and userId from localStorage
 
     this.examId = Number(this.route.snapshot.paramMap.get('examId'));
 
@@ -45,101 +60,163 @@ export class ReviewExamComponent implements OnInit {
 
   }
 
- loadExamQuestions(): void {
+  /** ✅ Load exam questions from API */
 
-  this.adminService.getExamQuestions(this.examId).subscribe({
+  loadExamQuestions(): void {
 
-    next: (res: any) => {
+    this.adminService.getExamQuestions(this.examId).subscribe({
 
-      console.log('API Response:', res);
+      next: (res: any) => {
 
-      this.questions = res.questions || [];
+        console.log('✅ Raw API Response:', res);
 
-      this.examName = res.examName || 'Exam';
+        this.examName = res.name || res.examName || 'Exam';
 
-      // ✅ Fix: convert string options into arrays
+        const rawQuestions = res.questions || [];
 
-      this.questions = this.questions.map((q: any) => {
+        this.questions = rawQuestions.map((q: any, i: number) => {
 
-        if (typeof q.options === 'string') {
+          let optionsArray: string[] = [];
 
           try {
 
-            // remove brackets or quotes if stored as plain string
+            // ✅ Parse options (backend sends JSON string or object)
 
-            q.options = q.options
+            if (typeof q.options === 'string') {
 
-              .replace(/[\[\]']+/g, '')
+              const parsed = JSON.parse(q.options);
 
-              .split(',')
+              optionsArray = Object.values(parsed);
 
-              .map((opt: string) => opt.trim());
+            } else if (typeof q.options === 'object') {
 
-          } catch {
+              optionsArray = Object.values(q.options);
 
-            q.options = [];
+            }
+
+          } catch (err) {
+
+            console.error('❌ Error parsing options for QID:', q.qid, err);
 
           }
 
+          // ✅ Parse correct options safely
+
+          let correctOptions: string[] = [];
+
+          try {
+
+            if (typeof q.correctOptions === 'string') {
+
+              const parsed = JSON.parse(q.correctOptions);
+
+              correctOptions = Array.isArray(parsed)
+
+                ? parsed
+
+                : Object.values(parsed);
+
+            } else if (typeof q.correctOptions === 'object') {
+
+              correctOptions = Object.values(q.correctOptions);
+
+            }
+
+          } catch {}
+
+          return {
+
+            number: i + 1,
+
+            qid: q.qid,
+
+            // ✅ FIXED: question1 or question key support
+
+            question: q.question1 || q.question || 'Untitled Question',
+
+            options: optionsArray,
+
+            correctOptions: correctOptions,
+
+            marks: q.marks
+
+          };
+
+        });
+
+        console.log('✅ Parsed questions:', this.questions);
+
+        if (!this.questions.length) {
+
+          this.snack.open('No questions found for this exam', 'Close', {
+
+            duration: 3000
+
+          });
+
         }
 
-        return q;
+      },
 
-      });
+      error: (err) => {
 
-      if (!this.questions.length) {
+        console.error('❌ API Error:', err);
 
-        this.snack.open('No questions found for this exam', 'Close', { duration: 3000 });
+        this.snack.open('Error loading questions', 'Close', { duration: 3000 });
 
       }
 
-    },
+    });
 
-    error: (err) => {
+  }
 
-      console.error('Error loading questions:', err);
+  /** ✅ Navigation */
 
-      this.snack.open('Error loading questions', 'Close', { duration: 3000 });
-
-    }
-
-  });
-
-}
- 
-  nextQuestion() {
+  nextQuestion(): void {
 
     if (this.currentIndex < this.questions.length - 1) this.currentIndex++;
 
   }
 
-  prevQuestion() {
+  prevQuestion(): void {
 
     if (this.currentIndex > 0) this.currentIndex--;
 
   }
 
-  approveExam() {
+  /** ✅ Approve Exam */
 
-    this.adminService.approveOrRejectExam(this.examId, this.userId, 'approve').subscribe(() => {
+  approveExam(): void {
 
-      this.snack.open('Exam approved', 'Close', { duration: 3000 });
+    this.adminService
 
-      this.router.navigate(['/admin/dashboard/approve-exam']);
+      .approveOrRejectExam(this.examId, this.userId, 'approve')
 
-    });
+      .subscribe(() => {
+
+        this.snack.open('✅ Exam Approved', 'Close', { duration: 3000 });
+
+        this.router.navigate(['/admin/dashboard/approve-exam']);
+
+      });
 
   }
 
-  rejectExam() {
+  /** ✅ Reject Exam */
 
-    this.adminService.approveOrRejectExam(this.examId, this.userId, 'reject').subscribe(() => {
+  rejectExam(): void {
 
-      this.snack.open('Exam rejected', 'Close', { duration: 3000 });
+    this.adminService
 
-      this.router.navigate(['/admin/dashboard/approve-exam']);
+      .approveOrRejectExam(this.examId, this.userId, 'reject')
 
-    });
+      .subscribe(() => {
+
+        this.snack.open('❌ Exam Rejected', 'Close', { duration: 3000 });
+
+        this.router.navigate(['/admin/dashboard/approve-exam']);
+
+      });
 
   }
 

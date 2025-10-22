@@ -10,7 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from '@angular/material/button';
-import { ResultCalculationResponseDTO } from '../../shared/models/result.model';
+import { ExamResultSummary, RawResultDTO, ResultCalculationResponseDTO } from '../../shared/models/result.model';
 import { Result } from './results.model';
 
 @Component({
@@ -27,7 +27,7 @@ import { Result } from './results.model';
   ],
 })
 export class ResultsComponent implements OnInit {
-  exams: GetExamDataDTO[] = [];
+  results: ExamResultSummary[] = [];
   userId!: number;
 
   // State variables for dialogs
@@ -46,8 +46,8 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.authService.getUserRole()?.id!;
-    this.examService.getAvailableExams(this.userId).subscribe({
-      next: (data) => (this.exams = data),
+    this.resultService.viewResultsByUserId(this.userId).subscribe({
+      next: (data) => (this.results = data),
       error: (err) => console.error('Failed to load exams', err),
     });
   }
