@@ -1,10 +1,6 @@
-/* Page background */
-
 .block-container {
 
-  background-color: #0b0b0b;
-
-  min-height: 100vh;
+  height: 100vh;
 
   display: flex;
 
@@ -12,63 +8,55 @@
 
   align-items: flex-start;
 
-  padding-top: 80px; /* ⬅ reduced from 120px to 80px */
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
 
   font-family: 'Poppins', sans-serif;
 
-  color: white;
+  padding-top: 100px; /* Thoda upar card */
 
 }
- 
-/* Card container */
+
+/* Main card */
 
 .block-card {
 
-  background-color: #1a1a1a;
+  background: linear-gradient(145deg, #1e1b4b, #1e293b);
 
-  border: 1.5px solid #6a0dad;
+  border-radius: 15px;
 
-  border-radius: 12px;
+  width: 420px;
 
-  box-shadow: 0 0 25px rgba(138, 43, 226, 0.35);
-
-  padding: 40px 60px;
+  padding: 35px 45px;
 
   text-align: center;
 
-  width: 400px;
+  color: white;
 
-  transition: all 0.3s ease;
-
-}
-
-.block-card:hover {
-
-  box-shadow: 0 0 35px rgba(138, 43, 226, 0.6);
-
-  transform: translateY(-4px);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
 
 }
 
 /* Title */
 
-.block-title {
+.block-card h2 {
+
+  color: #a78bfa;
 
   font-size: 26px;
 
-  color: #b3c7ff;
+  font-weight: 600;
 
   margin-bottom: 25px;
 
-  text-shadow: 0 0 12px rgba(179, 199, 255, 0.6);
+  letter-spacing: 0.5px;
 
 }
 
-/* Input box centered */
+/* Input Section */
 
 .input-section {
 
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 
 }
 
@@ -76,33 +64,49 @@
 
   width: 100%;
 
-  padding: 10px 14px;
-
-  border: 2px solid #333;
-
-  border-radius: 8px;
-
-  background-color: #121212;
-
-  color: #fff;
+  padding: 12px 15px;
 
   font-size: 15px;
 
+  border-radius: 8px;
+
+  border: none;
+
+  background-color: rgba(255, 255, 255, 0.1);
+
+  color: white;
+
   outline: none;
 
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
+
+}
+
+.input-section input::placeholder {
+
+  color: #cbd5e1;
 
 }
 
 .input-section input:focus {
 
-  border-color: #8a2be2;
-
-  box-shadow: 0 0 10px rgba(138, 43, 226, 0.6);
+  background-color: rgba(255, 255, 255, 0.15);
 
 }
 
-/* Button on next line - center aligned */
+/* Message */
+
+.message {
+
+  color: #60a5fa;
+
+  font-size: 15px;
+
+  margin-bottom: 15px;
+
+}
+
+/* Button */
 
 .button-section {
 
@@ -114,49 +118,53 @@
 
 .button-section button {
 
-  background-color: #8a2be2;
-
-  color: white;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
 
   border: none;
 
+  color: white;
+
+  padding: 12px 28px;
+
   border-radius: 8px;
 
-  padding: 10px 22px;
+  font-size: 16px;
+
+  font-weight: 600;
 
   cursor: pointer;
 
-  font-weight: 500;
-
-  font-size: 15px;
-
-  box-shadow: 0 0 10px #a05cff;
-
-  transition: all 0.3s ease;
+  transition: 0.3s;
 
 }
 
 .button-section button:hover {
 
-  background-color: #7a1dd6;
-
-  box-shadow: 0 0 20px #b266ff;
-
   transform: scale(1.05);
+
+  background: linear-gradient(135deg, #6366f1, #7c3aed);
 
 }
 
-/* Message */
+.button-section button:disabled {
 
-.message {
+  background-color: #475569;
 
-  color: #b3b3b3;
+  cursor: not-allowed;
 
-  font-size: 14px;
+}
 
-  margin-top: 15px;
+/* Responsive */
 
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+@media (max-width: 768px) {
+
+  .block-card {
+
+    width: 90%;
+
+    padding: 25px 20px;
+
+  }
 
 }
  

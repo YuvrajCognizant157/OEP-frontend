@@ -8,7 +8,24 @@
 <a mat-button routerLink="/admin/dashboard/block-users" routerLinkActive="active-link">Block Users</a>
 <a mat-button routerLink="/admin/dashboard/exam-feedback" routerLinkActive="active-link">Exam Feedback</a>
 </div>
+<!-- Hamburger icon for mobile -->
+<button class="menu-toggle" (click)="toggleMenu()">☰</button>
+<!-- Drawer overlay for small screens -->
+<div class="overlay" [ngClass]="{ show: isMenuOpen }">
+<button class="close-btn" (click)="closeMenu()">×</button>
+<div class="overlay-content">
+<a mat-button routerLink="/admin/dashboard" (click)="closeMenu()">Dashboard</a>
+<a mat-button routerLink="/admin/dashboard/approve-exam" (click)="closeMenu()">Approve Exams</a>
+<a mat-button routerLink="/admin/dashboard/reported-questions" (click)="closeMenu()">Reported Questions</a>
+<a mat-button routerLink="/admin/dashboard/approve-topic" (click)="closeMenu()">Approve Topics</a>
+<a mat-button routerLink="/admin/dashboard/block-users" (click)="closeMenu()">Block Users</a>
+<a mat-button routerLink="/admin/dashboard/exam-feedback" (click)="closeMenu()">Exam Feedback</a>
+</div>
+</div>
 </mat-toolbar>
+ 
+ 
+ 
 <!-- ✅ Show analytics cards ONLY on the main dashboard route -->
 <div *ngIf="router.url === '/admin/dashboard'; else showChild">
 <div class="dashboard-container" *ngIf="!loading && analytics; else loadingTpl">

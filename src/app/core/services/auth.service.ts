@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-
-interface JwtTokenData {
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';interface JwtTokenData {
   sub: string;
   'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
   exp: number;
@@ -15,6 +15,10 @@ export interface userDetails {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private http = inject(HttpClient);
+  private apiUrl = 'https://localhost:44395/api/Auth';
+  
+  public pendingVerificationUserId = signal<number | null>(null);
   constructor(private router: Router) {}
 
   getToken(): string | null {
@@ -70,5 +74,18 @@ export class AuthService {
     localStorage.removeItem('userRole');
     localStorage.removeItem('userId');
     this.router.navigate(['/login']);
+  }
+
+  verifyOTP(userId: number, otp: number): Observable<string> {
+    // The OTP is sent as the request body
+    return this.http.post(`${this.apiUrl}/student/verifyotp/${userId}`, otp, { 
+      responseType: 'text' // Backend returns a simple string
+    });
+  }
+
+  resendOTP(userId: number): Observable<string> {
+    return this.http.get(`${this.apiUrl}/student/resendotp/${userId}`, { 
+      responseType: 'text' // Backend returns a simple string
+    });
   }
 }

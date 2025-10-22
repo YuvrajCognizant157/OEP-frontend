@@ -1,0 +1,47 @@
+<div class="verify-container">
+  <form [formGroup]="otpForm" (ngSubmit)="onVerify()">
+    <h3>Verify Your Email</h3>
+    <p>An OTP has been sent to your email. Please enter it below.</p>
+    
+    <div class="form-group">
+      <label for="otp">Enter OTP:</label>
+      <input 
+        id="otp" 
+        type="text" 
+        formControlName="otp"
+        maxlength="6"
+        placeholder="123456"
+        [class.invalid]="otpForm.get('otp')?.invalid && otpForm.get('otp')?.touched"
+      />
+      <div *ngIf="otpForm.get('otp')?.invalid && otpForm.get('otp')?.touched" class="error-message">
+        <span *ngIf="otpForm.get('otp')?.errors?.['required']">OTP is required.</span>
+        <span *ngIf="otpForm.get('otp')?.errors?.['pattern']">Must be a 6-digit number.</span>
+      </div>
+    </div>
+
+    <div *ngIf="successMessage" class="message success">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="message error">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit" class="btn-verify" [disabled]="otpForm.invalid || isLoading">
+      {{ isLoading ? 'Verifying...' : 'Verify' }}
+    </button>
+
+    <div class="resend-container">
+      <button 
+        type="button" 
+        class="btn-resend" 
+        (click)="onResend()" 
+        [disabled]="!canResend || isLoading">
+        Resend OTP
+      </button>
+      <span *ngIf="!canResend" class="timer">
+        Resend in {{ resendCooldown }}s
+      </span>
+    </div>
+
+  </form>
+</div>

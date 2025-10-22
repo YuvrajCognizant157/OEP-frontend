@@ -1,17 +1,9 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #1a002a;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #e0e0e0;
-}
-
-.login-page {
+:host {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #1a002a;
+  height: 100%; /* Make the component take full viewport height */
+  background-color: #1a002a; /* This was on .login-page */
 }
 
 .login-card {
@@ -77,6 +69,12 @@ input:focus {
 
 .login-btn:hover {
   background-color: #a678d1;
+}
+
+.login-btn:disabled {
+  background-color: #5a5a7a;
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 /* Divider */

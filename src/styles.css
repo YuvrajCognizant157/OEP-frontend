@@ -3,6 +3,8 @@
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 body {
   margin: 0;
@@ -22,4 +24,7 @@ h3{
 
 .custom-dialog .mat-mdc-dialog-title {
   color: rgba(153, 151, 151, 0.87);
+}
+* {
+  box-sizing: border-box;
 }

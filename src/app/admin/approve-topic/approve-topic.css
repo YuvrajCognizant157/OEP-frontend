@@ -1,90 +1,8 @@
-/* Full Page Dark Background */
-
-.topic-container {
-
-  background-color: #0b0b0b;
+.approve-topic-container {
 
   min-height: 100vh;
 
-  color: #fff;
-
-  text-align: center;
-
-  padding: 40px 20px;
-
-  font-family: 'Poppins', sans-serif;
-
-}
-
-/* Heading */
-
-.page-title {
-
-  font-size: 28px;
-
-  color: #b3c7ff;
-
-  margin-bottom: 30px;
-
-  text-transform: uppercase;
-
-  letter-spacing: 1px;
-
-}
-
-/* Load Button */
-
-.load-btn-container {
-
-  margin-bottom: 30px;
-
-}
-
-.load-btn {
-
-  background-color: #8a2be2;
-
-  color: white;
-
-  padding: 12px 30px;
-
-  font-size: 16px;
-
-  border: none;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-
-  box-shadow: 0 0 10px #9b30ff;
-
-  transition: all 0.3s ease;
-
-}
-
-.load-btn:hover {
-
-  background-color: #0056b3;
-
-  box-shadow: 0 0 15px #0056b3;
-
-}
-
-/* Message */
-
-.message {
-
-  color: #ff4444;
-
-  font-weight: bold;
-
-  margin-top: 15px;
-
-}
-
-/* Topic List Layout */
-
-.topic-list {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
 
   display: flex;
 
@@ -92,75 +10,139 @@
 
   align-items: center;
 
-  gap: 20px;
+  padding: 80px 20px;
+
+  font-family: "Poppins", sans-serif;
 
 }
 
-/* Each Topic Card */
+/* Title */
 
-.topic-card {
+.page-title {
 
-  background-color: #141414;
+  color: #c7d2fe;
 
-  border: 1px solid #333;
+  font-size: 26px;
 
-  border-radius: 10px;
+  font-weight: 600;
 
-  width: 60%;
-
-  padding: 20px;
+  margin-bottom: 30px;
 
   text-align: center;
 
-  box-shadow: 0 0 10px #1e1e1e;
+}
 
-  transition: all 0.3s ease;
+/* Loading and message text */
+
+.loading,
+
+.message {
+
+  font-size: 16px;
+
+  color: #93c5fd;
+
+  margin-bottom: 20px;
+
+}
+
+/* Cards Grid */
+
+.topic-list {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 25px;
+
+}
+
+/* Individual topic card */
+
+.topic-card {
+
+  background: #1e1b4b;
+
+  border-radius: 12px;
+
+  width: 300px;
+
+  padding: 22px;
+
+  text-align: center;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  transition: transform 0.2s ease;
 
 }
 
 .topic-card:hover {
 
-  transform: scale(1.03);
+  transform: translateY(-5px);
 
-  box-shadow: 0 0 20px #0048ff;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
 
 }
 
-/* Topic Name */
+/* Topic details */
 
 .topic-name {
 
-  font-size: 20px;
+  color: #f1f5f9;
 
-  color: #b3c7ff;
+  font-size: 18px;
 
-  margin-bottom: 15px;
+  font-weight: 600;
 
-  font-weight: 500;
+  margin-bottom: 8px;
 
 }
 
-/* Approve / Reject Buttons */
+.topic-id {
 
-.actions {
+  color: #a5b4fc;
+
+  font-size: 14px;
+
+  margin-bottom: 6px;
+
+}
+
+.topic-status {
+
+  color: #93c5fd;
+
+  font-size: 13px;
+
+}
+
+/* Buttons (flat style like My Exams) */
+
+.topic-actions {
 
   display: flex;
 
   justify-content: center;
 
-  gap: 15px;
+  gap: 12px;
 
-  margin-top: 10px;
+  margin-top: 15px;
 
 }
 
-.actions button {
+.topic-actions button {
 
-  padding: 10px 20px;
+  padding: 6px 16px;
 
   border-radius: 6px;
 
   border: none;
+
+  outline: none;
 
   cursor: pointer;
 
@@ -168,43 +150,47 @@
 
   color: white;
 
-  transition: all 0.3s ease;
+  transition: all 0.25s ease-in-out;
 
 }
 
-/* Approve Button */
+/* Approve button */
 
 .approve-btn {
 
-  background-color: #28a745;
-
-  box-shadow: 0 0 8px #28a745;
+  background-color: #3b82f6;
 
 }
 
 .approve-btn:hover {
 
-  background-color: #1e8b3e;
-
-  box-shadow: 0 0 15px #1e8b3e;
+  background-color: #2563eb;
 
 }
 
-/* Reject Button */
+/* Reject button */
 
 .reject-btn {
 
-  background-color: #dc3545;
-
-  box-shadow: 0 0 8px #dc3545;
+  background-color: #dc2626;
 
 }
 
 .reject-btn:hover {
 
-  background-color: #a71d2a;
+  background-color: #b91c1c;
 
-  box-shadow: 0 0 15px #a71d2a;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  .topic-card {
+
+    width: 90%;
+
+  }
 
 }
  

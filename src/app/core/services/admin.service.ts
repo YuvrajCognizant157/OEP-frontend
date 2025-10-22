@@ -19,13 +19,9 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   /** ✅ Get list of exams pending approval */
-  toggleBlockUser(uid: number): Observable<any> {
-    return this.http.post(
-      'https://localhost:44395/api/Admin/block-users',
-      { uid },
-      { responseType: 'text' }
-    );
-  }
+  toggleBlockUser(userId: number): Observable<any> {
+   const url = `${this.apiUrl}/blockuser/${userId}`;
+   return this.http.put(url, null, { responseType: 'text' });}
 
   getAssignedExams(adminId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/approve-exam-list?userId=${adminId}`);

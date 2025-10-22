@@ -54,6 +54,8 @@ export class BlockUserComponent {
         if (err.status === 404) this.message = 'User not found.';
 
         else if (err.status === 401) this.message = 'You are not allowed to block Admins.';
+        else if (err.status===400)
+          this.message='User already blocked';
 
         else this.message = 'Something went wrong.';
 
