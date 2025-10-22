@@ -1,30 +1,13 @@
 <div class="block-container">
-<h2>Block User</h2>
+<div class="block-card">
+<h2 class="block-title">Block User</h2>
 <div class="input-section">
-<input
-
-      type="number"
-
-      [(ngModel)]="uid"
-
-      placeholder="Enter User ID"
-
-      class="uid-input"
-
-    />
-<button mat-raised-button color="warn" (click)="blockUser()">
-
-      Block User
-</button>
+<input type="number" placeholder="Enter User ID" [(ngModel)]="uid" />
 </div>
-<div class="message" *ngIf="message">
-
-    {{ message }}
+<div class="button-section">
+<button (click)="blockUser()">Block User</button>
 </div>
-<div *ngIf="loading" class="loading">
-
-    Processing...
+<div class="message" *ngIf="message">{{ message }}</div>
 </div>
 </div>
-
  

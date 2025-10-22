@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AdminService } from '../../core/services/admin.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
+import { ReviewExamComponent } from '../review-exam/review-exam';
 @Component({
  selector: 'app-approve-exam',
  standalone: true,
@@ -18,8 +19,9 @@ export class ApproveExamComponent implements OnInit {
  ngOnInit(): void {
    const storedId = localStorage.getItem('userId');
    if (storedId) this.userId = Number(storedId);
+   this.loadAssignedExams(this.userId);
  }
- loadAssignedExams(): void {
+ loadAssignedExams(adminId:number): void {
 
   if (!this.userId) {
 
@@ -31,11 +33,11 @@ export class ApproveExamComponent implements OnInit {
 
   this.loading = true;
 
-  this.adminService.getAssignedExams(this.userId).subscribe({
+  this.adminService.getAssignedExams(adminId).subscribe({
 
     next: (res) => {
 
-      this.exams = Array.isArray(res) ? res : res.ExamList || [];
+      this.exams = Array.isArray(res) ? res : res.ExamList || res.examList || [];
 
       this.loading = false;
 
@@ -62,6 +64,7 @@ export class ApproveExamComponent implements OnInit {
 }
  
  openExam(examId: number) {
+  console.log('Clicked exam id',examId);
    this.router.navigate(['/admin/dashboard/review-exam', examId]);
  }
 }

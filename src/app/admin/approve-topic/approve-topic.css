@@ -1,36 +1,64 @@
+/* Full Page Dark Background */
+
 .topic-container {
 
-  background-color: #111;
+  background-color: #0b0b0b;
+
+  min-height: 100vh;
 
   color: #fff;
 
   text-align: center;
 
-  padding: 20px;
+  padding: 40px 20px;
 
-  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
 
-  margin: 20px auto;
+}
 
-  width: 60%;
+/* Heading */
+
+.page-title {
+
+  font-size: 28px;
+
+  color: #b3c7ff;
+
+  margin-bottom: 30px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+}
+
+/* Load Button */
+
+.load-btn-container {
+
+  margin-bottom: 30px;
 
 }
 
 .load-btn {
 
-  background-color: #007bff;
+  background-color: #8a2be2;
 
   color: white;
 
+  padding: 12px 30px;
+
+  font-size: 16px;
+
   border: none;
 
-  padding: 10px 16px;
-
-  border-radius: 5px;
+  border-radius: 8px;
 
   cursor: pointer;
 
-  margin-bottom: 15px;
+  box-shadow: 0 0 10px #9b30ff;
+
+  transition: all 0.3s ease;
 
 }
 
@@ -38,13 +66,11 @@
 
   background-color: #0056b3;
 
-}
-
-.loading {
-
-  color: #ffcc00;
+  box-shadow: 0 0 15px #0056b3;
 
 }
+
+/* Message */
 
 .message {
 
@@ -52,67 +78,133 @@
 
   font-weight: bold;
 
+  margin-top: 15px;
+
 }
+
+/* Topic List Layout */
 
 .topic-list {
 
-  margin-top: 20px;
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 20px;
 
 }
 
+/* Each Topic Card */
+
 .topic-card {
 
-  background: #1e1e1e;
+  background-color: #141414;
 
   border: 1px solid #333;
 
-  border-radius: 8px;
+  border-radius: 10px;
 
-  padding: 15px;
+  width: 60%;
+
+  padding: 20px;
+
+  text-align: center;
+
+  box-shadow: 0 0 10px #1e1e1e;
+
+  transition: all 0.3s ease;
+
+}
+
+.topic-card:hover {
+
+  transform: scale(1.03);
+
+  box-shadow: 0 0 20px #0048ff;
+
+}
+
+/* Topic Name */
+
+.topic-name {
+
+  font-size: 20px;
+
+  color: #b3c7ff;
 
   margin-bottom: 15px;
+
+  font-weight: 500;
+
+}
+
+/* Approve / Reject Buttons */
+
+.actions {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 15px;
+
+  margin-top: 10px;
 
 }
 
 .actions button {
 
-  margin: 5px;
+  padding: 10px 20px;
 
-  padding: 8px 12px;
+  border-radius: 6px;
 
   border: none;
 
-  border-radius: 5px;
-
   cursor: pointer;
 
+  font-weight: 500;
+
+  color: white;
+
+  transition: all 0.3s ease;
+
 }
+
+/* Approve Button */
 
 .approve-btn {
 
   background-color: #28a745;
 
-  color: white;
-
-}
-
-.reject-btn {
-
-  background-color: #dc3545;
-
-  color: white;
+  box-shadow: 0 0 8px #28a745;
 
 }
 
 .approve-btn:hover {
 
-  background-color: #218838;
+  background-color: #1e8b3e;
+
+  box-shadow: 0 0 15px #1e8b3e;
+
+}
+
+/* Reject Button */
+
+.reject-btn {
+
+  background-color: #dc3545;
+
+  box-shadow: 0 0 8px #dc3545;
 
 }
 
 .reject-btn:hover {
 
-  background-color: #c82333;
+  background-color: #a71d2a;
+
+  box-shadow: 0 0 15px #a71d2a;
 
 }
  

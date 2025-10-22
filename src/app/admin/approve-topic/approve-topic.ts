@@ -25,7 +25,7 @@ export class ApproveTopicComponent implements OnInit {
 
   constructor(private adminService: AdminService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {this.loadTopics();}
 
   loadTopics(): void {
 

@@ -2,9 +2,9 @@
 <h2>{{ examName }}</h2>
 <div class="question-card">
 <h3>Question {{ currentIndex + 1 }} / {{ questions.length }}</h3>
-<p>{{ questions[currentIndex].questionText }}</p>
+<p>{{ questions[currentIndex]?.question1}}</p>
 <ul>
-<li *ngFor="let opt of questions[currentIndex].options">{{ opt }}</li>
+<li *ngFor="let opt of questions[currentIndex]?.options">{{ opt }}</li>
 </ul>
 </div>
 <div class="navigation">
