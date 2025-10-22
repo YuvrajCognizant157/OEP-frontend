@@ -37,6 +37,13 @@ export class DashboardComponent implements OnInit {
   analytics?: AdminAnalytics;
 
   loading = true;
+isMenuOpen = false;
+toggleMenu() {
+ this.isMenuOpen = !this.isMenuOpen;
+}
+closeMenu() {
+ this.isMenuOpen = false;
+}
 
   constructor(private adminService: AdminService,private analyticservice: AnalyticsService,public router:Router) {}
 
@@ -64,6 +71,11 @@ export class DashboardComponent implements OnInit {
       }
 
     });
+    window.addEventListener('resize', () => {
+   if (window.innerWidth > 950 && this.isMenuOpen) {
+     this.isMenuOpen = false;
+   }
+ });
 
   }
 
