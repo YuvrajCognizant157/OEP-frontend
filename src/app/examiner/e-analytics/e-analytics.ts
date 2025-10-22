@@ -21,6 +21,23 @@ interface AnalyticsData {
   }[];
   questionApprovalStats: { count: number; isApproved: boolean }[];
   studentParticipation: { examId: number; examTitle: string; studentCount: number }[];
+  topicApprovalStats :{
+    topicId:number;
+    subject: string;
+    isApproved: boolean;
+    count: number;
+  }[];
+  avgTopicScores :{
+    topicId:number;
+    subject : string;
+    averageScore : number;
+  }[];
+  topicQuestionCounts : {
+    topicId:number;
+    subject : string;
+    questionCount : number;
+  }[];
+
 }
 
 @Component({
@@ -35,6 +52,9 @@ export class EAnalytics implements OnInit {
     averageScoresPerExam: [],
     questionApprovalStats: [],
     studentParticipation: [],
+    topicApprovalStats:[],
+    avgTopicScores :[],
+    topicQuestionCounts : [],
   };
   // A property to hold the subscription so we can unsubscribe later
   private analyticsSubscription!: Subscription;
@@ -84,13 +104,39 @@ export class EAnalytics implements OnInit {
     datasets: [{ data: [], label: 'Number of Students', backgroundColor: '#56D798' }],
   };
 
+   public topicQuestionCountsChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    scales: { y: { beginAtZero: true } },
+    plugins: {
+      legend: { display: true, position: 'top' },
+      title: { display: true, text: 'Question Count on Topics' },
+    },
+  };
+  public topicQuestionCountsChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [{ data: [], label: 'Number of Questions', backgroundColor: '#d756b5ff' }],
+  };
+
+  public AvgTopicScoresChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    scales: { y: { beginAtZero: true } },
+    plugins: {
+      legend: { display: true, position: 'top' },
+      title: { display: true, text: 'Average of Topic Scores' },
+    },
+  };
+  public AvgTopicScoresChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [{ data: [], label: 'Average Score', backgroundColor: '#d7565aff' }],
+  };
+
   // Common properties
   public chartType: ChartType = 'bar';
   public chartPlugins = [DataLabelsPlugin];
 
   ngOnInit(): void {
     this.processAnalyticsData();
-    this.analyticsSubscription = timer(0, 10000) // timer(initialDelay, period)
+    this.analyticsSubscription = timer(0, 30000) // timer(initialDelay, period)
       .pipe(
         // Use switchMap to call the service on each timer tick
         switchMap(() => this.anService.getExaminerAnalytics(this.examinerId))
@@ -101,7 +147,7 @@ export class EAnalytics implements OnInit {
 
           this.processAnalyticsData();
 
-          console.log('Fetched new analytics data:');
+          console.log('Fetched new analytics data:',this.analyticsData);
         },
         error: (err) => {
           console.error('Error fetching analytics:', err);
@@ -131,10 +177,26 @@ export class EAnalytics implements OnInit {
     this.participationChartData.datasets[0].data = this.analyticsData.studentParticipation.map(
       (p) => p.studentCount
     );
+
+    //4. Topic Avg Scores
+    this.AvgTopicScoresChartData.labels = this.analyticsData.avgTopicScores.map(
+      (p) => p.subject
+    );
+    this.AvgTopicScoresChartData.datasets[0].data = this.analyticsData.avgTopicScores.map(
+      (p) => p.averageScore
+    )
+
+    //5. Topic Questions Count
+    this.topicQuestionCountsChartData.labels  = this.analyticsData.topicQuestionCounts.map(
+      (p) => p.subject
+    )
+    this.topicQuestionCountsChartData.datasets[0].data  = this.analyticsData.topicQuestionCounts.map(
+      (p) => p.questionCount
+    )
   }
 
   ngOnDestroy(): void {
-    // IMPORTANT: Unsubscribe when the component is destroyed to prevent memory leaks
+    
     if (this.analyticsSubscription) {
       this.analyticsSubscription.unsubscribe();
     }
