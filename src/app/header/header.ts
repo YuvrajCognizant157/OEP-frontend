@@ -27,6 +27,8 @@ export class Header{
     private profileService: ProfileService,
     private loginService: LoginService
   ) {
+    
+    this.loginService.loginStatus.set( !!localStorage.getItem("token"));
 
     effect(() => {
       if (this.loginService.loginStatus()) {
