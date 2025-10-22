@@ -19,52 +19,6 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent)
   },
-  {
-    path: 'student/dashboard',
-    loadComponent: () =>
-      import('./student/student-dashboard/student-dashboard').then((m) => m.StudentDashboardComponent),
-    canActivate: [StudentAuthGuard],
-  },
-   {
-    path: 'student/results',
-    loadComponent: () =>
-      import('./student/results/results.component').then((m) => m.ResultsComponent),
-  
-    canActivate: [StudentAuthGuard],
-  },
-  {
-    path: 'student/analytics',
-    loadComponent: () =>
-      import('./student/s-analytics/s-analytics').then((m) => m.SAnalytics),
-    canActivate: [StudentAuthGuard],
-  },
-   {
-    path: 'student/available-exams',
-    loadComponent: () =>
-      import('./student/available-exams/available-exams').then((m) => m.AvailableExams),
-    canActivate: [StudentAuthGuard]
-  },
-   {
-    path: 'student/start-exam/:examId',
-    loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
-    canActivate: [StudentAuthGuard],
-  },
-  {
-    path: 'student/review-exam',
-    loadComponent: () => import('./exam/review-exam/review-exam').then((m) => m.ReviewExam),
-    canActivate: [StudentAuthGuard],
-  },
-  {
-    path: 'student/exam-feedback/:examId',
-    loadComponent: () => import('./student/exam-feedback/exam-feedback').then((m) => m.ExamFeedback),
-    canActivate: [StudentAuthGuard],
-  },
-  {
-    path: 'student/view-reported-questions',
-    loadComponent: () =>
-      import('./question/question-feedback/question-feedback').then((m) => m.QuestionFeedback),
-    canActivate: [StudentAuthGuard],
-  },
 
   {
     path: 'register-employee',
@@ -78,6 +32,49 @@ export const routes: Routes = [
   {
     path: 'profile-update',
     loadComponent: () => import('./shared/profile-update/profile-update').then(m => m.ProfileUpdateComponent)
+  },
+  {
+    path: 'student',
+    loadComponent: () => import('./student/routing/routing').then((m) => m.Routing),
+    canActivate: [StudentAuthGuard],
+    canActivateChild: [StudentAuthGuard],
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./student/student-dashboard/student-dashboard').then((m) => m.StudentDashboardComponent),
+      },
+      {
+        path: 'analytics',
+        loadComponent: () => import('./student/s-analytics/s-analytics').then((m) => m.SAnalytics),
+      },
+      {
+        path: 'available-exams',
+        loadComponent: () => import('./student/available-exams/available-exams').then((m) => m.AvailableExams),
+      },
+      {
+        path: 'results',
+        loadComponent: () => import('./student/results/results.component').then((m) => m.ResultsComponent),
+      },
+      {
+        path:'start-exam/:examId',
+        loadComponent: () => import('./exam/start-exam/start-exam').then((m) => m.StartExam),
+      },
+      {
+        path:'review-exam',
+        loadComponent: () => import('./exam/review-exam/review-exam').then((m) => m.ReviewExam),
+      },
+      {
+        path:'exam-feedback/:examId',
+        loadComponent: () => import('./student/exam-feedback/exam-feedback').then((m) => m.ExamFeedback),
+      },
+      {
+        path:'view-reported-questions',
+        loadComponent: () => import('./question/question-feedback/question-feedback').then((m) => m.QuestionFeedback),
+      },
+      {
+        path:'', redirectTo: 'dashboard', pathMatch: 'full'
+      }
+    ]
   },
  
   {
