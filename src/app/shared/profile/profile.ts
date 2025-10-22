@@ -8,8 +8,8 @@ import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [ReactiveFormsModule, CommonModule, DatePipe], // DatePipe must be in imports
-  providers: [DatePipe], // ...and providers (if not providedIn: 'root')
+  imports: [ReactiveFormsModule, CommonModule],
+  providers: [DatePipe], 
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })
@@ -26,16 +26,13 @@ export class Profile implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: ProfileService,
-    private datePipe: DatePipe // Inject DatePipe
+    private datePipe: DatePipe
   ) {}
 
   
   ngOnInit(): void {
-    // Just fetch profile once. Polling logic removed.
     this.fetchProfile();
   }
-
-  // ngOnDestroy removed as subscription is gone
 
   fetchProfile() {
     this.userService.getUserById(this.userId).subscribe(user => {
