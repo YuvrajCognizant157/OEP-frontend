@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExamService } from '../../core/services/exam.service';
 import {
@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FeedbackService, AddQuestionFeedbackDTO } from '../../core/services/feedback.service';
 import { ExamStateService } from '../../core/services/exam-state.service';
+import { LayoutService } from '../../core/services/layout.service';
 
 @Component({
   selector: 'app-start-exam',
@@ -31,8 +32,10 @@ import { ExamStateService } from '../../core/services/exam-state.service';
   templateUrl: './start-exam.html',
   styleUrl: './start-exam.css',
 })
-export class StartExam implements OnInit {
+export class StartExam implements OnInit, OnDestroy {
   private authS = inject(AuthService);
+  private layoutService = inject(LayoutService);
+
   examId!: number;
   userId = this.authS.getUserRole()?.id! || 5;
   examData!: StartExamResponseDTO;
@@ -61,6 +64,7 @@ export class StartExam implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.layoutService.hideLayout();
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         // alert('Window switching is not allowed during the exam!');
@@ -191,15 +195,15 @@ export class StartExam implements OnInit {
       this.selectedAnswers.push({ qid, Resp: [] });
     });
 
-    
     this.examStateService.setExamData({
-        selectedAnswers: this.selectedAnswers,
-        examId: this.examData.eid,
-        userId: this.userId,
-        timeLeft: this.timeLeft
-      });
+      selectedAnswers: this.selectedAnswers,
+      examId: this.examData.eid,
+      userId: this.userId,
+      timeLeft: this.timeLeft,
+    });
+    this.layoutService.showLayout();
 
-      document.exitFullscreen();
+    document.exitFullscreen();
     this.router.navigate(['/student/review-exam']);
   }
 
@@ -219,6 +223,17 @@ export class StartExam implements OnInit {
       }
     } else {
       this.selectedAnswers.push({ qid, Resp: [String(optionId)] });
+    }
+  }
+
+  ngOnDestroy(): void {
+    // This is a safety net in case the user navigates away
+    // (e.g., browser back button) before finishing the exam.
+    this.layoutService.showLayout(); // <-- SHOW LAYOUT
+
+    // Also good practice to exit fullscreen if component is destroyed
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
     }
   }
 }
