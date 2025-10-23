@@ -65,11 +65,6 @@ export class StartExam implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.layoutService.hideLayout();
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        // alert('Window switching is not allowed during the exam!');
-      }
-    });
     document.documentElement.requestFullscreen();
 
     this.examId = Number(this.route.snapshot.paramMap.get('examId')) || 7;
@@ -176,6 +171,15 @@ export class StartExam implements OnInit, OnDestroy {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
+  getSelectedRadioValue(qid: number): number | null {
+    const answer = this.selectedAnswers.find((a) => a.qid === qid);
+    if (answer && answer.Resp.length > 0) {
+      // Return the first (and only) selected answer as a number
+      return Number(answer.Resp[0]);
+    }
+    return null; // No selection
+  }
+
   onOptionSelected(qid: number, selectedOptionId: number) {
     const index = this.selectedAnswers.findIndex((a) => a.qid === qid);
     if (index !== -1) {
@@ -201,7 +205,7 @@ export class StartExam implements OnInit, OnDestroy {
       userId: this.userId,
       timeLeft: this.timeLeft,
     });
-    this.layoutService.showLayout();
+    this.layoutService.hideLayout();
 
     document.exitFullscreen();
     this.router.navigate(['/student/review-exam']);

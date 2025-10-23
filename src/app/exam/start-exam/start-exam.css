@@ -183,3 +183,14 @@ button {
 .feedback-success-message p {
   color: var(--text-muted-color);
 }
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Adds spacing between options */
+  margin-top: 15px;
+}
+
+.option-item {
+  display: block; /* Ensures each option takes its own line */
+}

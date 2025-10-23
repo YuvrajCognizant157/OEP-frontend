@@ -20,21 +20,32 @@
 
   <ng-container *ngIf="!timeUp; else timeUpTemplate">
     <mat-card *ngIf="currentQuestion">
-      <mat-card-title
-        ><strong>Question:</strong> {{ currentQuestion.questionName }}
-        <mat-card-subtitle
-          ><p><strong>Marks:</strong> {{ currentQuestion.marks }}</p></mat-card-subtitle
-        >
-      </mat-card-title>
       <mat-card-content>
-        <h4>Select the correct options:</h4>
-        <div *ngFor="let option of currentQuestion.ParsedOptions">
-          <mat-checkbox
-            [checked]="isOptionSelected(currentQuestion.qid, option.id)"
-            (change)="onOptionToggled(currentQuestion.qid, option.id, $event.checked)"
-          >
-            {{ option.value }}
-          </mat-checkbox>
+        <h4 *ngIf="currentQuestion.type === 'MCQ'">Select the correct option:</h4>
+        <h4 *ngIf="currentQuestion.type !== 'MCQ'">Select the correct options:</h4>
+
+        <mat-radio-group
+          *ngIf="currentQuestion.type === 'MCQ'"
+          class="options-container"
+          [value]="getSelectedRadioValue(currentQuestion.qid)"
+          (change)="onOptionSelected(currentQuestion.qid, $event.value)"
+        >
+          <div *ngFor="let option of currentQuestion.ParsedOptions" class="option-item">
+            <mat-radio-button [value]="option.id">
+              {{ option.value }}
+            </mat-radio-button>
+          </div>
+        </mat-radio-group>
+
+        <div *ngIf="currentQuestion.type !== 'MCQ'" class="options-container">
+          <div *ngFor="let option of currentQuestion.ParsedOptions" class="option-item">
+            <mat-checkbox
+              [checked]="isOptionSelected(currentQuestion.qid, option.id)"
+              (change)="onOptionToggled(currentQuestion.qid, option.id, $event.checked)"
+            >
+              {{ option.value }}
+            </mat-checkbox>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
@@ -46,9 +57,9 @@
     </div>
 
     <div class="navigation-buttons">
-        <button mat-raised-button color="primary" (click)="markAndNext()">
-            {{ currentIndex < examData.questions.length - 1 ? 'Save & Next' : 'Finish Exam' }}
-        </button>
+      <button mat-raised-button color="primary" (click)="markAndNext()">
+        {{ currentIndex < examData.questions.length - 1 ? 'Save & Next' : 'Finish Exam' }}
+      </button>
     </div>
   </ng-container>
 
@@ -73,9 +84,12 @@
         <mat-label>Optional Feedback</mat-label>
         <textarea matInput [(ngModel)]="questionFeedback" rows="3" cdkTextareaAutosize></textarea>
       </mat-form-field>
-      <button mat-flat-button class="submit-report-btn" 
-              (click)="submitQuestionReport()" 
-              [disabled]="feedbackSubmitted">
+      <button
+        mat-flat-button
+        class="submit-report-btn"
+        (click)="submitQuestionReport()"
+        [disabled]="feedbackSubmitted"
+      >
         Submit Report
       </button>
     </div>
@@ -88,4 +102,3 @@
     </ng-template>
   </div>
 </div>
-
