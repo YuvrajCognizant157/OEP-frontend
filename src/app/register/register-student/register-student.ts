@@ -1,21 +1,18 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule,NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Import spinner module
+import { MatRadioModule } from '@angular/material/radio';
 
 import { RegisterStudentRequest } from './register-student.model';
-import { RegisterStudentService } from '../../core/services/register-student.service';
+import { RegisterStudentService, RegisterResponse } from '../../core/services/register-student.service'; // Import new Response
 import { AuthService } from '../../core/services/auth.service';
 
-interface RegisterResponse {
-  msg :string;
-  userId : number;
-}
 
 @Component({
   selector: 'app-register-student',
@@ -26,10 +23,11 @@ interface RegisterResponse {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule,
   ],
   templateUrl: './register-student.html',
-  styleUrls: ['./register-student.css']
+  styleUrls: ['./register-student.css'],
 })
 export class RegisterStudentComponent {
   fullName = '';
@@ -37,15 +35,19 @@ export class RegisterStudentComponent {
   password = '';
   phoneNo = '';
   dob: string = '';
+  verifyEmail: boolean = false;
   errorMessage = '';
-  successMessage = signal<string>("");
+  successMessage = signal<string>('');
   isLoading = false;
 
-  constructor(private registerService: RegisterStudentService, private router: Router,private authService : AuthService) {}
+  constructor(
+    private registerService: RegisterStudentService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   onSubmit(): void {
-
-   this.isLoading = true;
+    this.isLoading = true;
     this.errorMessage = '';
     this.successMessage.set('');
 
@@ -54,29 +56,44 @@ export class RegisterStudentComponent {
       email: this.email,
       password: this.password,
       phoneNo: this.phoneNo,
-      dob: this.dob
+      dob: this.dob,
+      verifyEmail: this.verifyEmail,
     };
 
     this.registerService.registerStudent(registerData).subscribe({
-    next: (response:RegisterResponse) => {
-      this.isLoading = false; 
-      this.successMessage.set(response.msg);
+      next: (response: RegisterResponse) => {
+        this.isLoading = false;
+        this.successMessage.set(response.msg);
 
-      const newUserId = response.userId; 
-      if (newUserId) { 
-          this.authService.pendingVerificationUserId.set(newUserId);
-          this.router.navigate([`/verify-otp/${newUserId}`]);
+        const newUserId = response.userId;
+
+        if (registerData.verifyEmail) {
+          if (newUserId) {
+            this.authService.pendingVerificationUserId.set(newUserId);
+            this.router.navigate([`/verify-otp/${newUserId}`]);
+          } else {
+            // Handle case where API succeeds but doesn't return a valid ID
+            this.errorMessage =
+              'Registration successful, but an error occurred. Please try logging in.';
+            this.router.navigate(['/login']);
+          }
         } else {
-          // Handle case where API succeeds but doesn't return a valid ID
-          this.errorMessage = "Registration successful, but an error occurred. Please try logging in.";
-          this.router.navigate(['/login']);
+          if (response.otp && newUserId) {
+            console.log("OTP: ",response.otp);
+            this.router.navigate([`/verify-otp/${newUserId}`]);
+          } else {
+            // Handle case where API succeeds but doesn't return a valid ID
+            this.errorMessage =
+              'Registration successful, but an error occurred. Please try logging in.';
+            this.router.navigate(['/login']);
+          }
         }
-    },
-    error: (err) => {
-      this.isLoading = false; 
-      this.errorMessage = err.error?.error || 'Registration failed. Please try again.';
-      console.error(err);
-    }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.error || 'Registration failed. Please try again.';
+        console.error(err);
+      },
     });
   }
 }

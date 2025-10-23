@@ -2,12 +2,12 @@
   <form [formGroup]="otpForm" (ngSubmit)="onVerify()">
     <h3>Verify Your Email</h3>
     <p>An OTP has been sent to your email. Please enter it below.</p>
-    
+
     <div class="form-group">
       <label for="otp">Enter OTP:</label>
-      <input 
-        id="otp" 
-        type="text" 
+      <input
+        id="otp"
+        type="text"
         formControlName="otp"
         maxlength="6"
         placeholder="123456"
@@ -26,22 +26,32 @@
       {{ errorMessage }}
     </div>
 
+    <div class="form-group radio-group">
+      <label class="radio-group-label">Allow Verification Updates</label>
+      <mat-radio-group 
+        [(ngModel)]="allowSuccessMail" 
+        [ngModelOptions]="{standalone: true}" 
+        name="verifyEmail" 
+        class="radio-options">
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">Not Required</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
     <button type="submit" class="btn-verify" [disabled]="otpForm.invalid || isLoading">
       {{ isLoading ? 'Verifying...' : 'Verify' }}
     </button>
 
     <div class="resend-container">
-      <button 
-        type="button" 
-        class="btn-resend" 
-        (click)="onResend()" 
-        [disabled]="!canResend || isLoading">
+      <button
+        type="button"
+        class="btn-resend"
+        (click)="onResend()"
+        [disabled]="!canResend || isLoading"
+      >
         Resend OTP
       </button>
-      <span *ngIf="!canResend" class="timer">
-        Resend in {{ resendCooldown }}s
-      </span>
+      <span *ngIf="!canResend" class="timer"> Resend in {{ resendCooldown }}s </span>
     </div>
-
   </form>
 </div>
