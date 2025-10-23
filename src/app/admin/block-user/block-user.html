@@ -1,32 +1,59 @@
-<div class="block-container">
-<div class="block-card">
-<h2>Block User</h2>
-<div class="input-section">
+<div class="block-users-page">
+<h2 class="page-title">Manage Users</h2>
+<div class="search-bar">
 <input
 
-        type="text"
+      type="text"
 
-        placeholder="Enter User ID"
+      placeholder="Search by name, email, or role..."
 
-        [(ngModel)]="uid"
+      [(ngModel)]="search"
 
-      />
+      (input)="onSearch()"
+
+    />
+<button class="refresh-btn" (click)="loadUsers()">Refresh</button>
 </div>
-<div class="message" *ngIf="message">
+<div *ngIf="loading" class="loading">Loading users...</div>
+<div *ngIf="!loading && filteredUsers.length === 0" class="empty-message">No users found.</div>
+<table *ngIf="!loading && filteredUsers.length > 0" class="user-table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Role</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let user of filteredUsers">
+<td>{{ user.name }}</td>
+<td>{{ user.email }}</td>
+<td>{{ user.role }}</td>
+<td>
+<span class="status" [ngClass]="user.isBlocked ? 'blocked' : 'active'">
 
-      {{ message }}
-</div>
-<div class="button-section">
+            {{ user.isBlocked ? 'Blocked' : 'Active' }}
+</span>
+</td>
+<td>
 <button
 
-        [disabled]="loading"
+            class="action-btn"
 
-        (click)="blockUser()"
+            [ngClass]="user.isBlocked ? 'activate' : 'deactivate'"
+
+            (click)="toggleUser(user)"
+
+            [disabled]="user.pending"
 >
 
-        {{ loading ? 'Blocking...' : 'Block User' }}
+            {{ user.isBlocked ? 'Activate' : 'Deactivate' }}
 </button>
-</div>
-</div>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
  

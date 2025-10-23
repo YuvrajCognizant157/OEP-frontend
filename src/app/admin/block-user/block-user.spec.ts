@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BlockUser } from './block-user';
+import { BlockUserComponent } from './block-user';
 
 describe('BlockUser', () => {
-  let component: BlockUser;
-  let fixture: ComponentFixture<BlockUser>;
+  let component: BlockUserComponent;
+  let fixture: ComponentFixture<BlockUserComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BlockUser]
+      imports: [BlockUserComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BlockUser);
+    fixture = TestBed.createComponent(BlockUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
