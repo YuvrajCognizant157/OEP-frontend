@@ -42,7 +42,7 @@ export class CreateExam implements OnInit {
       totalQuestions: [null, [Validators.required, Validators.min(1)]],
       duration: [null, [Validators.required, Validators.min(0.5)]],
       tids: [[]],
-      displayedQuestions: [null],
+      displayedQuestions: [1,[Validators.required,Validators.min(1)]],
       marksPerQuestion: [null, [Validators.required, Validators.min(1)]],
     });
 

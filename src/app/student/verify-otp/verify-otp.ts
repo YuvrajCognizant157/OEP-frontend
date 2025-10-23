@@ -3,13 +3,15 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subscription, timer, Subject } from 'rxjs';
-import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
+import { MatRadioModule } from "@angular/material/radio";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-verify-otp',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatRadioModule,FormsModule],
   templateUrl: './verify-otp.html',
   styleUrl: './verify-otp.css'
 })
@@ -19,6 +21,7 @@ export class VerifyOtpComponent implements OnInit, OnDestroy {
   errorMessage: string | null = null;
   successMessage: string | null = null;
   isLoading = false;
+  allowSuccessMail : boolean =false;
 
   // Resend timer
   resendCooldown = 60; // Cooldown in seconds
@@ -82,7 +85,7 @@ export class VerifyOtpComponent implements OnInit, OnDestroy {
 
     const otpValue = this.otpForm.get('otp')?.value;
 
-    this.authService.verifyOTP(this.userId, Number(otpValue)).pipe(
+    this.authService.verifyOTP(this.userId, Number(otpValue),this.allowSuccessMail).pipe(
       takeUntil(this.destroy$)
     ).subscribe({
       next: (response) => {
@@ -115,7 +118,7 @@ export class VerifyOtpComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.successMessage = response; // "OTP Resent Successfully"
+        this.successMessage = response.msg; // "OTP Resent Successfully"
         this.startResendTimer(); // Restart the timer
       },
       error: (err) => {

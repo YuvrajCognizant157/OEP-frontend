@@ -7,10 +7,22 @@
       <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
     </div>
   } @else {
-    <mat-list role="list">
+    <!-- <mat-list role="list">
       @for (top of topics; track top.tid) {
         <mat-list-item role="listitem" (click)="openTopicDetails(top.tid)">
           {{top.tid}} : {{ top.subject }}
+        </mat-list-item>
+      }
+    </mat-list> -->
+    <mat-list role="list" class="topic-list-div">
+      @for (top of topics; track top.tid) {
+        <mat-list-item class="list-items" role="listitem" (click)="openTopicDetails(top.tid)">
+          <mat-icon matListItemIcon>article</mat-icon>
+
+          <span matListItemTitle>{{ top.subject }}</span>
+          <span matListItemLine>Topic ID: {{ top.tid }}</span>
+          
+          <mat-icon matListItemMeta>chevron_right</mat-icon>
         </mat-list-item>
       }
     </mat-list>

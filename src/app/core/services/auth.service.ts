@@ -13,6 +13,16 @@ export interface userDetails {
   role: string;
 }
 
+interface VerifyOtpRequest {
+  otp:number;
+  AllowSuccessMail :boolean;
+}
+
+interface ResendOtpResponse {
+  msg :string;
+  otp:number | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
@@ -76,16 +86,11 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  verifyOTP(userId: number, otp: number): Observable<string> {
-    // The OTP is sent as the request body
-    return this.http.post(`${this.apiUrl}/student/verifyotp/${userId}`, otp, { 
-      responseType: 'text' // Backend returns a simple string
-    });
+  verifyOTP(userId: number, otp: number,allowSuccessMail:boolean): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/student/verifyotp/${userId}`, {otp:otp,AllowSuccessMail:allowSuccessMail});
   }
 
-  resendOTP(userId: number): Observable<string> {
-    return this.http.get(`${this.apiUrl}/student/resendotp/${userId}`, { 
-      responseType: 'text' // Backend returns a simple string
-    });
+  resendOTP(userId: number): Observable<ResendOtpResponse> {
+    return this.http.get<ResendOtpResponse>(`${this.apiUrl}/student/resendotp/${userId}`);
   }
-}
+} 
