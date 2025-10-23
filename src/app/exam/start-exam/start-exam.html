@@ -21,6 +21,12 @@
   <ng-container *ngIf="!timeUp; else timeUpTemplate">
     <mat-card *ngIf="currentQuestion">
       <mat-card-content>
+        <mat-card-title>
+          <strong>Question:</strong> {{ currentQuestion.questionName }}
+          <mat-card-subtitle>
+            <p><strong>Marks:</strong> {{ currentQuestion.marks }}</p>
+          </mat-card-subtitle>
+        </mat-card-title>
         <h4 *ngIf="currentQuestion.type === 'MCQ'">Select the correct option:</h4>
         <h4 *ngIf="currentQuestion.type !== 'MCQ'">Select the correct options:</h4>
 
