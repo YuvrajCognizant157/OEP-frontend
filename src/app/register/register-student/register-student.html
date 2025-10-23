@@ -61,6 +61,14 @@
         />
       </div>
 
+      <div class="form-group radio-group">
+        <label class="radio-group-label">Verification Method</label>
+        <mat-radio-group [(ngModel)]="verifyEmail" name="verifyEmail" class="radio-options">
+          <mat-radio-button [value]="true">With Email Verification</mat-radio-button>
+          <mat-radio-button [value]="false">Without Email Verification (Log OTP)</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
       <div *ngIf="isLoading" class="loader-container">
         <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
       </div>
