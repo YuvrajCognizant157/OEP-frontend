@@ -8,7 +8,11 @@ import { ApproveTopic } from '../../shared/models/approve-topic.model';
 import { BlockUserComponent } from '../../admin/block-user/block-user';
 import { QuestionDetail, QuestionReport, QuestionReviewDTO } from '../../shared/models/admin.model';
 
-
+export interface ToggleUserStatusDto
+{
+  userId:number;
+  isActive:boolean;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +26,24 @@ export class AdminService {
   toggleBlockUser(userId: number): Observable<any> {
    const url = `${this.apiUrl}/blockuser/${userId}`;
    return this.http.put(url, null, { responseType: 'text' });}
+
+
+   /** Fetch all users */
+
+getAllUsers(): Observable<any[]> {
+
+  return this.http.get<any[]>(`${this.apiUrl}/all-users`);
+
+}
+
+/** Toggle user active/deactivate */
+
+toggleUserStatus(dto:ToggleUserStatusDto): Observable<any> {
+
+  return this.http.post(`${this.apiUrl}/toggle-user-status`,dto, { responseType: 'text' });
+
+}
+ 
 
   getAssignedExams(adminId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/approve-exam-list?userId=${adminId}`);

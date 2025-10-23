@@ -29,7 +29,7 @@
         <button
           mat-flat-button
           class="update-button"
-          [disabled]="exam.approvalStatus === -1"
+          [disabled]="exam.approvalStatus === 1||exam.submittedForApproval===true"
           (click)="onUpdateExam(exam.eid)"
         >
           <mat-icon>edit</mat-icon>
@@ -49,7 +49,7 @@
         <button
           mat-flat-button
           color="warn"
-          [disabled]="exam.approvalStatus === -1"
+          [disabled]="exam.approvalStatus === 1||exam.submittedForApproval===true"
           (click)="onDeleteExam(exam.eid)"
         >
           <mat-icon>delete</mat-icon>
