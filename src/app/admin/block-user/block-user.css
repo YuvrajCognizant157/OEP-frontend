@@ -1,170 +1,250 @@
-.block-container {
+.block-users-page {
 
-  height: 100vh;
+  padding: 25px;
+
+  color: #e2e8f0;
+
+  font-family: 'Poppins', sans-serif;
+
+}
+
+.page-title {
+
+  text-align: center;
+
+  font-size: 24px;
+
+  font-weight: 600;
+
+  color: #9f7aea; /* violet accent */
+
+  margin-bottom: 20px;
+
+}
+
+.search-bar {
 
   display: flex;
 
   justify-content: center;
 
-  align-items: flex-start;
+  align-items: center;
 
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+  gap: 10px;
 
-  font-family: 'Poppins', sans-serif;
-
-  padding-top: 100px; /* Thoda upar card */
+  margin-bottom: 20px;
 
 }
 
-/* Main card */
+.search-bar input {
 
-.block-card {
+  padding: 10px 14px;
 
-  background: linear-gradient(145deg, #1e1b4b, #1e293b);
+  width: 280px;
 
-  border-radius: 15px;
+  border-radius: 6px;
 
-  width: 420px;
+  border: 1px solid #4a5568;
 
-  padding: 35px 45px;
+  background-color: #2d3748;
 
-  text-align: center;
+  color: #f7fafc;
+
+  font-size: 14px;
+
+  outline: none;
+
+}
+
+.search-bar input:focus {
+
+  border-color: #805ad5;
+
+}
+
+.refresh-btn {
+
+  background: linear-gradient(135deg, #805ad5, #667eea);
 
   color: white;
-
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
-
-}
-
-/* Title */
-
-.block-card h2 {
-
-  color: #a78bfa;
-
-  font-size: 26px;
-
-  font-weight: 600;
-
-  margin-bottom: 25px;
-
-  letter-spacing: 0.5px;
-
-}
-
-/* Input Section */
-
-.input-section {
-
-  margin-bottom: 25px;
-
-}
-
-.input-section input {
-
-  width: 100%;
-
-  padding: 12px 15px;
-
-  font-size: 15px;
-
-  border-radius: 8px;
 
   border: none;
 
-  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
 
-  color: white;
+  padding: 9px 16px;
 
-  outline: none;
+  font-size: 14px;
+
+  font-weight: 500;
+
+  cursor: pointer;
 
   transition: 0.3s ease;
 
 }
 
-.input-section input::placeholder {
+.refresh-btn:hover {
 
-  color: #cbd5e1;
-
-}
-
-.input-section input:focus {
-
-  background-color: rgba(255, 255, 255, 0.15);
+  opacity: 0.85;
 
 }
 
-/* Message */
+.loading,
 
-.message {
+.empty-message {
 
-  color: #60a5fa;
+  text-align: center;
+
+  margin-top: 20px;
+
+  color: #a0aec0;
 
   font-size: 15px;
 
-  margin-bottom: 15px;
-
 }
 
-/* Button */
+/* Table layout */
 
-.button-section {
+.user-table {
 
-  display: flex;
+  width: 100%;
 
-  justify-content: center;
+  border-collapse: collapse;
 
-}
-
-.button-section button {
-
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
-
-  border: none;
-
-  color: white;
-
-  padding: 12px 28px;
+  background: #1a202c;
 
   border-radius: 8px;
 
-  font-size: 16px;
+  overflow: hidden;
+
+}
+
+.user-table th,
+
+.user-table td {
+
+  text-align: left;
+
+  padding: 12px 18px;
+
+  border-bottom: 1px solid #2d3748;
+
+}
+
+.user-table th {
+
+  background: #2d3748;
+
+  color: #cbd5e0;
 
   font-weight: 600;
 
+  text-transform: uppercase;
+
+  font-size: 13px;
+
+}
+
+.user-table tr:hover td {
+
+  background: rgba(128, 90, 213, 0.1); /* violet hover */
+
+}
+
+.status {
+
+  padding: 4px 10px;
+
+  border-radius: 12px;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  text-transform: capitalize;
+
+}
+
+.status.active {
+
+  background-color: rgba(72, 187, 120, 0.15);
+
+  color: #68d391;
+
+}
+
+.status.blocked {
+
+  background-color: rgba(229, 62, 62, 0.15);
+
+  color: #fc8181;
+
+}
+
+/* --- Action Buttons --- */
+
+.action-btn {
+
+  min-width: 110px;
+
+  padding: 8px 14px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-weight: 500;
+
+  font-size: 14px;
+
   cursor: pointer;
 
-  transition: 0.3s;
+  transition: all 0.25s ease;
+
+  color: #f8f9fa;
+
+  background: linear-gradient(135deg, #6366f1, #805ad5);
+
+  box-shadow: 0 0 8px rgba(128, 90, 213, 0.3);
 
 }
 
-.button-section button:hover {
+.action-btn:hover {
 
-  transform: scale(1.05);
+  transform: translateY(-2px);
 
-  background: linear-gradient(135deg, #6366f1, #7c3aed);
+  box-shadow: 0 0 12px rgba(128, 90, 213, 0.6);
+
+  opacity: 0.95;
 
 }
 
-.button-section button:disabled {
+/* Slightly darker when disabled */
 
-  background-color: #475569;
+.action-btn:disabled {
+
+  background: #4a5568;
+
+  color: #a0aec0;
 
   cursor: not-allowed;
 
+  box-shadow: none;
+
 }
 
-/* Responsive */
+/* Active vs Deactivate same size, just diff tone */
 
-@media (max-width: 768px) {
+.action-btn.activate {
 
-  .block-card {
+  background: linear-gradient(135deg, #6b46c1, #9f7aea);
 
-    width: 90%;
+}
 
-    padding: 25px 20px;
+.action-btn.deactivate {
 
-  }
+  background: linear-gradient(135deg, #553c9a, #7f56d9);
 
 }
  
