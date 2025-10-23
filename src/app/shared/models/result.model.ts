@@ -32,15 +32,16 @@ export interface RawResultDTO {
   totalMarks: number;
 }
 export interface Result {
-  rid : number;
-  userId : number;
-  eid: number;
-  attempts : number;
+ 
+  
+  attempt : number;
   score: number;
-  createdAt: Date;
-  updatedAt : Date;
+  takenOn: Date;
 }
 export interface  ResultCalculationResponseDTO{
+  eid: number;
+  examName : string;
+  totalMarks : number;
   success :boolean;
   message  : string;
   newResultCalculated : boolean;

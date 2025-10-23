@@ -12,6 +12,7 @@ body {
   background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
   color: #fff;
 }
+
 h1{
   font-size: 2.0rem !important;
 }
@@ -21,6 +22,7 @@ h2{
 h3{
   font-size: 1.5rem !important;
 }
+
 
 .custom-dialog .mat-mdc-dialog-title {
   color: rgba(153, 151, 151, 0.87);
