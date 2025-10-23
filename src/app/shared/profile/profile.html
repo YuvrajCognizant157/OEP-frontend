@@ -1,13 +1,15 @@
 <div class="profile-container" *ngIf="profileForm">
-  <h3>User Profile</h3>
-  <form [formGroup]="profileForm" class="form-element">
+  <div class="profile-header">
+    <h3>User Profile</h3>
+  </div>
 
+  <form [formGroup]="profileForm" class="profile-form">
     <div class="form-grid">
       
       <div class="form-group">
-        <label>Full Name:</label>
+        <label for="fullName">Full Name:</label>
         <div class="input-wrapper">
-          <input formControlName="fullName" [readonly]="!isEditing" />
+          <input id="fullName" formControlName="fullName" [readonly]="!isEditing" [class.is-editing]="isEditing" />
           <div *ngIf="profileForm.get('fullName')?.invalid && profileForm.get('fullName')?.touched" class="error-message">
             <span *ngIf="profileForm.get('fullName')?.errors?.['required']">Full Name is required.</span>
             <span *ngIf="profileForm.get('fullName')?.errors?.['minlength']">Must be at least 2 characters.</span>
@@ -16,9 +18,9 @@
       </div>
 
       <div class="form-group">
-        <label>Date of Birth:</label>
+        <label for="dob">Date of Birth:</label>
         <div class="input-wrapper">
-          <input type="date" formControlName="dob" [readonly]="!isEditing" />
+          <input id="dob" type="date" formControlName="dob" [readonly]="!isEditing" [class.is-editing]="isEditing" />
           <div *ngIf="profileForm.get('dob')?.invalid && profileForm.get('dob')?.touched" class="error-message">
             Date of Birth is required.
           </div>
@@ -26,16 +28,16 @@
       </div>
 
       <div class="form-group">
-        <label>Role:</label>
+        <label for="role">Role:</label>
         <div class="input-wrapper">
-            <input formControlName="role" readonly />
+          <input id="role" formControlName="role" readonly class="read-only-field" />
         </div>
       </div>
 
       <div class="form-group">
-        <label>Phone Number:</label>
+        <label for="phoneNo">Phone Number:</label>
         <div class="input-wrapper">
-          <input type="tel" formControlName="phoneNo" [readonly]="!isEditing" />
+          <input id="phoneNo" type="tel" formControlName="phoneNo" [readonly]="!isEditing" [class.is-editing]="isEditing" />
           <div *ngIf="profileForm.get('phoneNo')?.invalid && profileForm.get('phoneNo')?.touched" class="error-message">
             <span *ngIf="profileForm.get('phoneNo')?.errors?.['required']">Phone number is required.</span>
             <span *ngIf="profileForm.get('phoneNo')?.errors?.['pattern']">Must be a 10-digit number.</span>
@@ -45,20 +47,25 @@
 
       @if(registrationDate()){
         <div class="form-group">
-            <label>Registration Date:</label>
-            <input type="text" formControlName="registrationDate" readonly />
+          <label for="registrationDate">Registration Date:</label>
+          <input id="registrationDate" type="text" formControlName="registrationDate" readonly class="read-only-field" />
         </div>
       }
-      
-      
-      
-
     </div> 
 
     <div class="button-container">
-      <button type="button" *ngIf="!isEditing" (click)="enableEdit()">Edit</button>
-      <button type="button" *ngIf="isEditing" (click)="saveChanges()">Save</button>
+      <button type="button" *ngIf="!isEditing" (click)="enableEdit()" class="action-btn edit-btn">
+        <mat-icon>edit</mat-icon> Edit Profile
+      </button>
+      <ng-container *ngIf="isEditing">
+        <button type="button" (click)="cancelEdit()" class="action-btn cancel-btn">
+          <mat-icon>cancel</mat-icon> Cancel
+        </button>
+        
+        <button type="submit" (click)="saveChanges()" [disabled]="profileForm.invalid" class="action-btn save-btn">
+          <mat-icon>save</mat-icon> Save Changes
+        </button>
+      </ng-container>
     </div>
-
   </form>
 </div>
