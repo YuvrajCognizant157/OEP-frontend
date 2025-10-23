@@ -6,7 +6,8 @@
                 <h2>Welcome back, {{ student.name }} 👋</h2>
                 <p class="subtitle">You’ve appeared in {{ examsAppearedTotal() }} exams so far.</p>
             </div>
-            <button mat-flat-button color="primary" routerLink="/view-profile" routerLinkActive="active">View Profile</button>
+            <button mat-flat-button color="primary" routerLink="/view-profile" routerLinkActive="active">View
+                Profile</button>
         </div>
     </mat-card>
 
@@ -153,7 +154,14 @@
 
         <mat-card class="analytics-card">
             <h3>Exam Attempts Distribution</h3><br />
-            <div style="height: 300px;">
+
+            <div class="no-records-container" *ngIf="!hasAttemptsData">
+                <img src="assets/GIFs/pie-chart.gif" alt="No Attempts Data" class="no-data-gif" />
+                <p>No results found for attempts distribution.</p>
+                <p>Complete a few exams to see the breakdown!</p>
+            </div>
+
+            <div *ngIf="hasAttemptsData">
                 <canvas baseChart [data]="attemptsChartData" [options]="attemptsChartOptions" type="pie">
                 </canvas>
             </div>
@@ -161,13 +169,29 @@
 
         <mat-card class="topic-exams-graph-card">
             <h3>Exams Appeared by Topic</h3><br />
-            <canvas baseChart [data]="topicExamsChartData" [options]="topicExamsChartOptions" chartType="bar">
-            </canvas>
+
+            <div class="no-records-container" *ngIf="!hasTopicData">
+                <img src="assets/GIFs/bar-chart.gif" alt="No Topic Data" class="no-data-gif" />
+                <p>No topic scores available yet.</p>
+                <p>Your scores across different subjects will appear here.</p>
+            </div>
+
+            <div *ngIf="hasTopicData">
+                <canvas baseChart [data]="topicExamsChartData" [options]="topicExamsChartOptions" chartType="bar">
+                </canvas>
+            </div>
         </mat-card>
 
         <mat-card class="history-card">
             <h3>Exam History</h3><br />
-            <div class="history-list">
+
+            <div class="no-records-container" *ngIf="!examResultsHistory || examResultsHistory.length === 0">
+                <img src="assets/GIFs/no-data.gif" alt="No Records Found" class="no-data-gif" />
+                <p>No exams have been attempted yet.</p>
+                <p>Start an exam to see your history!</p>
+            </div>
+
+            <div class="history-list" *ngIf="examResultsHistory && examResultsHistory.length > 0">
                 <div class="history-item" *ngFor="let exam of examResultsHistory | slice:0:3">
 
                     <ng-container *ngIf="exam.attemptsData && exam.attemptsData.length > 0">
@@ -190,7 +214,11 @@
 
                 </div>
             </div>
-            <button mat-button class="view-all-btn" routerLink="/student/results">Full History</button>
+
+            <button mat-button class="view-all-btn" routerLink="/student/results"
+                *ngIf="examResultsHistory && examResultsHistory.length > 0">
+                Full History
+            </button>
         </mat-card>
 
     </div>
