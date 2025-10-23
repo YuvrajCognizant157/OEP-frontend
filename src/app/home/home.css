@@ -27,11 +27,11 @@
 }
 
 .hero-content h1 {
-  font-size: clamp(3rem, 10vw, 8rem); 
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: #d8d8ff;
+  font-size: clamp(3rem, 10vw, 8rem) !important; 
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.02em !important;
+  color: #d8d8ff !important;
 }
 
 .hero-content h1 span {
