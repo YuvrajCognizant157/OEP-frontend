@@ -1,87 +1,175 @@
+/* --- UI Variables --- */
+:host {
+    --color-primary-accent: #1e88e5;    /* Deep Blue Accent */
+    --color-warn: #e53935;              /* Deep Red */
+    --color-background: #0f0f0f;        /* Near Black Main Background */
+    --color-card-surface: #1e1e1e;      /* Card Surface */
+    --color-text-main: #e0e0e0;         /* Off-white text */
+    --color-text-secondary: #a0a0a0;    /* Muted detail text */
+    --color-border-subtle: #333333;     /* Dark border/divider */
+}
+
 .manage-container {
-    background-color: #121212;
-  padding: 30px 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  font-family: 'Roboto', 'Arial', sans-serif;
+    background-color: var(--color-background);
+    padding: 40px 30px; /* Increased padding */
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-family: 'Roboto', 'Arial', sans-serif;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
+/* --- Header Styling --- */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  color: #E0E0E0; /* Light gray for better contrast than aliceblue */
-    padding-bottom: 15px; /* Add padding below the header content */
-    border-bottom: 1px solid #333333; /* Subtle separator */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    color: var(--color-text-main);
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--color-border-subtle);
+    margin-bottom: 10px; 
 }
 
+.header h2 {
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin: 0;
+}
+
+.add-question-btn {
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 10px 20px;
+}
+
+/* --- Question Grid --- */
 .question-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
+    display: grid;
+    /* Responsive grid with minmax for better flow */
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 25px; 
 }
 
+/* --- Question Card Styling --- */
 .question-card {
-    background-color: #1E1E1E;
-  border-radius: 12px;
-  color: #F0F0F0; /* Off-white text */
-    /* Improved, softer shadow for a dark theme */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); 
-    padding: 20px; /* Standard card internal padding */
-    transition: transform 0.2s;
+    background-color: var(--color-card-surface);
+    border-radius: 8px; 
+    color: var(--color-text-main);
+    /* Prominent left border accent */
+    border-left: 5px solid var(--color-primary-accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 15px 20px; 
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .question-card:hover {
-    transform: translateY(-2px); /* Slight lift effect on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+    transform: translateY(-4px); /* Smoother lift effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    border-left-color: #3f9bff; /* Subtle color change on hover */
+}
+
+/* Card Content Structure */
+.card-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .question-card mat-card-title {
-    font-size: 1.15rem; /* Reduced from default h6/h5 size */
-    font-weight: 600;
-    color: #BB86FC; /* Light purple for emphasis */
-    margin-bottom: 10px; /* Add space below the title */
-    padding: 0; /* Remove default padding if any */
-}
-
-.question-card mat-card-content {
-    padding: 0; /* Remove default angular material padding */
-    margin-top: 15px;
-}
-
-.question-card mat-card-content p {
-    font-size: 0.9rem; /* Significantly reduced font size */
-    color: #A0A0A0; /* Muted text color for details */
-    line-height: 1.4;
-    margin: 5px 0; /* Tighten up spacing between details */
-}
-
-.question-card mat-card-content p b {
-    font-weight: 700;
-    color: #E0E0E0; /* Slightly brighter for labels */
-    margin-right: 5px;
-}
-
-.question-card mat-card-actions {
-    padding: 15px 0 0 0; /* Padding at the bottom of the card content */
-    margin-top: 10px; /* Space between content and actions */
-}
-
-.loading, .no-data {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height:200px;
-  color: #A0A0A0;
     font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-text-main);
+    padding: 0;
+    margin: 0;
+}
+
+/* Metadata (ID and Type) - The "Pill" Style */
+.card-metadata {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.metadata-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: #2a2a2a; /* Dark pill background */
     font-weight: 500;
 }
 
-.spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80px;
+.metadata-item mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: var(--color-primary-accent);
+}
+
+/* Differentiate the Type icon color */
+.question-type mat-icon {
+    color: #ffc107; /* Amber/Yellow for Type differentiation */
+}
+
+
+/* Actions */
+.question-card mat-divider {
+    margin: 15px 0;
+    border-top-color: var(--color-border-subtle);
+}
+
+.card-actions-group {
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.action-btn {
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 0 10px;
+    min-width: 90px;
+}
+
+.action-btn mat-icon {
+    margin-right: 4px;
+    font-size: 20px;
+}
+
+/* --- Empty/Loading States --- */
+.loading, .no-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px; 
+    color: var(--color-text-secondary);
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: center;
+    gap: 15px;
+}
+
+.no-data-icon {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    color: var(--color-primary-accent);
+}
+
+/* --- Paginator Styling --- */
+mat-paginator {
+    /* Match the paginator background to the card surface for consistency */
+    background-color: var(--color-card-surface) !important;
+    color: var(--color-text-main) !important;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

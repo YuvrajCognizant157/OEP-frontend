@@ -1,6 +1,10 @@
 <div class="page-container">
   <header class="page-header">
     <h1>Available Exams</h1>
+    <button mat-flat-button color="primary" class="dashboard-link" routerLink="/student/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        Back to Dashboard
+    </button>
   </header>
 
   @if (isLoading()) {
@@ -15,27 +19,35 @@
     <div class="exams-grid">
       @for (exam of availableExams(); track exam.eid) {
         <mat-card class="exam-card" (click)="openExamDetailsModal(exam.eid)">
-          <mat-card-header>
+          <mat-card-header class="exam-card-header">
             <mat-card-title>{{ exam.name }}</mat-card-title>
-            <mat-card-subtitle>Your Attempts: {{ exam.attemptNo }}</mat-card-subtitle>
+            <span class="attempt-status">
+              Attempted: {{ exam.attemptNo || 0 }} time(s)
+            </span>
           </mat-card-header>
-          <mat-card-content>
+
+          <mat-card-content class="exam-card-content">
             <p class="exam-description">{{ exam.description }}</p>
-            <div class="exam-details">
+            
+            <div class="exam-details-list">
               <div class="detail-item">
-                <mat-icon>timer</mat-icon>
+                <mat-icon class="icon-timer">schedule</mat-icon>
                 <span>{{ exam.duration }} mins</span>
               </div>
               <div class="detail-item">
-                <mat-icon>check_circle_outline</mat-icon>
+                <mat-icon class="icon-marks">grading</mat-icon>
                 <span>{{ exam.totalMarks }} Marks</span>
               </div>
               <div class="detail-item">
-                <mat-icon>help_outline</mat-icon>
+                <mat-icon class="icon-questions">quiz</mat-icon>
                 <span>{{ exam.displayedQuestions }} Questions</span>
               </div>
             </div>
           </mat-card-content>
+
+          <mat-card-actions class="card-actions">
+            <button mat-flat-button color="primary">View Details</button>
+          </mat-card-actions>
         </mat-card>
       }
     </div>
@@ -50,12 +62,23 @@
         <button class="close-button" (click)="closeModal()">&times;</button>
       </div>
       <div class="modal-body">
-        <p><strong>Description:</strong> {{ selectedExamDetails()?.description }}</p>
-        <p><strong>Duration:</strong> {{ selectedExamDetails()?.duration }} minutes</p>
-        <p><strong>Questions to Answer:</strong> {{ selectedExamDetails()?.displayedQuestions }}</p>
-        <p class="instructions">
-          This is your opportunity to demonstrate your knowledge. Please read all instructions carefully before you begin.
-        </p>
+        <div class="detail-section">
+          <h4>Overview</h4>
+          <p>{{ selectedExamDetails()?.description }}</p>
+        </div>
+        
+        <div class="detail-section detail-row">
+          <p><strong>Duration:</strong> &nbsp; <span>{{ selectedExamDetails()?.duration }} minutes</span></p>
+          <p><strong>Questions:</strong> &nbsp; <span>{{ selectedExamDetails()?.displayedQuestions }}</span></p>
+        </div>
+
+        <div class="detail-section">
+          <h4>Instructions</h4>
+          <p class="instructions">
+            This is your opportunity to demonstrate your knowledge. Please read all instructions carefully before you begin.
+            Ensure you have a stable internet connection. Once started, the timer cannot be paused.
+          </p>
+        </div>
       </div>
       <div class="modal-footer">
         <button mat-flat-button color="primary" (click)="startExam()">
