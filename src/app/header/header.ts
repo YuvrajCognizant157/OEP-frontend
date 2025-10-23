@@ -16,7 +16,7 @@ import { LoginService } from '../core/services/login.service';
 })
 export class Header{
   public userFullName =  signal<string | null>(null);
-  public isMenuOpen = signal<boolean>(true);
+  public isMenuOpen = signal<boolean>(false);
 
   get isLoggedIn(): boolean {
     return this.loginService.loginStatus() ? true : false;
