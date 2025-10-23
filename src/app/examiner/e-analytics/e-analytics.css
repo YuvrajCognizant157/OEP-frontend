@@ -10,7 +10,7 @@
 .analyticsBody {
   background-color: #1c2333;
   color: aliceblue;
-  max-width: 900px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   padding: 2.5rem 3rem;
@@ -27,9 +27,9 @@
 
 .analytics-dashboard {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
-  padding: 20px;
+  /* padding: 20px; */
   background-color: #1a222f;
   color: aliceblue;
 }
@@ -43,8 +43,8 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: block;
   align-content: center;
-  width: 250px;
-  height: 250px;
+  /* width: 250px; */
+  /* height: 250px; */
   max-width: 700px; /* Example: A maximum pixel width */
   margin: 20px auto; /* Optional: Adds space and centers the chart */
 }

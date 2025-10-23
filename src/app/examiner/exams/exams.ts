@@ -137,6 +137,15 @@ export class Exams implements OnInit {
     });
   }
 
+  
+  getApprovalStatus(status: number,approval:boolean): { text: string; class: string } {
+    if (status === 1) return { text: 'Approved', class: 'status-approved' };
+    if(status === 0 && approval === true) return {text:'Submitted For Approval',class:'status-awaited'};
+    if (status === 0) return { text: 'Pending', class: 'status-pending' };
+    return { text: 'Rejected', class: 'status-rejected' };
+  }
+
+
   onExamUpdated(): void {
     this.closeUpdateModal();
     this.fetchExams();
