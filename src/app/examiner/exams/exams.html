@@ -7,6 +7,9 @@
       <mat-card-header>
         <mat-card-title>{{ exam.name }}</mat-card-title>
         <mat-card-subtitle>{{ exam.description }}</mat-card-subtitle>
+        <mat-card-subtitle [ngClass]="getApprovalStatus(exam.approvalStatus, exam.submittedForApproval).class">
+            {{ getApprovalStatus(exam.approvalStatus, exam.submittedForApproval).text }}
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content class="card-content" (click)="viewExamDetails(exam.eid)">
         <mat-divider></mat-divider>

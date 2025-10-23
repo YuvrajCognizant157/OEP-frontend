@@ -1,19 +1,10 @@
-:host {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Align at the top, not center vertically */
-  min-height: calc(100vh - 64px); /* Assuming 64px for navbar height */
-  background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%); /* Full dark background */
-  padding: 2rem; /* Add padding to prevent container from touching edges */
-  box-sizing: border-box;
-}
 
 .topics-container {
   max-width: 900px;
   width: 100%;
   margin: 0 auto;
   padding: 2.5rem 3rem;
-  background-color: #1a222f; /* Dark background from our theme */
+  background-color: #1a222f;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -45,11 +36,24 @@ h2 {
 
 .topics-container mat-list-item {
   color: #e0e7ff !important;
-  height: 60px !important;
+  height: 72px !important; /* Increase height for two lines */
   border-bottom: 1px solid #2a3544;
   transition: background-color 0.2s ease-in-out;
   font-size: 1.05rem;
-  cursor: pointer; /* <-- ADD THIS LINE */
+  cursor: pointer;
+}
+.topic-list-div{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  overflow: visible;
+}
+
+mat-list-item:last-child {
+  border-bottom: none;
+}
+
+mat-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 mat-progress-bar {
@@ -64,11 +68,14 @@ mat-list {
   color: #e0e7ff !important;
 }
 
-mat-list-item {
+.list-items {
   height: 60px !important;
   border-bottom: 1px solid #2a3544;
   transition: background-color 0.2s ease-in-out;
   font-size: 1.05rem; 
+  display: flex;
+  flex-direction: row;
+  overflow: visible;
 }
 
 mat-list-item:last-child {
@@ -77,4 +84,32 @@ mat-list-item:last-child {
 
 mat-list-item:hover {
   background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Use ::ng-deep to style the encapsulated Material components */
+::ng-deep .topics-container .mat-mdc-list-item-title {
+  color: #e0e7ff; /* Main title color */
+  font-weight: 500;
+}
+
+::ng-deep .topics-container .mat-mdc-list-item-line {
+  color: #aeb8d0; /* Lighter color for secondary text */
+  font-size: 1rem;
+}
+
+::ng-deep .topics-container .list-items mat-icon {
+  width: auto !important;
+  margin: 10px !important;
+  align-self: center !important;
+  color: #7b8bac; /* This is the light-blue icon color */
+  /* overflow: visible !important; */
+}
+
+::ng-deep .topics-container .mat-mdc-list-item-icon {
+  color: #7b8bac;
+}
+
+::ng-deep .topics-container .mat-mdc-list-item-meta mat-icon {
+  font-family: 'Material Icons' !important;
+  color: #7b8bac !important;
 }

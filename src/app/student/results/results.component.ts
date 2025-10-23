@@ -31,12 +31,13 @@ import { RouterLink } from '@angular/router';
 ],
 })
 export class ResultsComponent implements OnInit {
-  results: ExamResultSummary[] = [];
+  results = signal<ExamResultSummary[]>([]);;
   userId!: number;
 
   // State variables for dialogs
   isLoading = false;
   resultData = signal<Result[] >([]);
+
 
   // References to the <ng-template> blocks in the HTML
   @ViewChild('resultDialog') resultDialog!: TemplateRef<any>;
@@ -51,7 +52,7 @@ export class ResultsComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.authService.getUserRole()?.id!;
     this.resultService.viewResultsByUserId(this.userId).subscribe({
-      next: (data) => (this.results = data),
+      next: (data) => (this.results.set(data)),
       error: (err) => console.error('Failed to load exams', err),
     });
   }
@@ -65,11 +66,22 @@ export class ResultsComponent implements OnInit {
 
     this.resultService.createAndViewResult(examId,this.userId).subscribe({
       next: (res:ResultCalculationResponseDTO) =>{
-        // convert shared Result.createdAt (Date) to local Result.createdAt (string)
-        const mappedResults: Result[] = res.results.map(r => ({
-          ...r,
-          createdAt: r.createdAt instanceof Date ? r.createdAt.toISOString() : String(r.createdAt)
-        }));
+  
+        const mappedResults: Result[] = res.results.map(r => {
+          const takenOnStr = r.takenOn instanceof Date ? r.takenOn.toISOString() : String(r.takenOn);
+          const createdAtStr = (r as any).createdAt instanceof Date
+            ? (r as any).createdAt.toISOString()
+            : ((r as any).createdAt ? String((r as any).createdAt) : takenOnStr);
+
+          return {
+            ...r,
+            userId: (r as any).userId ?? this.userId,
+            eid: (r as any).eid ?? examId,
+            attempts: (r as any).attempts ?? (r as any).attempt ?? 1,
+            createdAt: createdAtStr,
+            takenOn: takenOnStr
+          } as Result;
+        });
         this.resultData.set(mappedResults);
         this.isLoading = false;
       },

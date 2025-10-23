@@ -2,7 +2,7 @@
 :host {
     --color-primary-accent: #1e88e5;    /* Deep Blue Accent */
     --color-warn: #e53935;              /* Deep Red */
-    --color-background: #0f0f0f;        /* Near Black Main Background */
+    --color-background: #1a222f;        /* Near Black Main Background */
     --color-card-surface: #1e1e1e;      /* Card Surface */
     --color-text-main: #e0e0e0;         /* Off-white text */
     --color-text-secondary: #a0a0a0;    /* Muted detail text */
@@ -42,6 +42,7 @@
     font-weight: 500;
     border-radius: 4px;
     padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* --- Question Grid --- */
@@ -54,7 +55,7 @@
 
 /* --- Question Card Styling --- */
 .question-card {
-    background-color: var(--color-card-surface);
+    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 8px; 
     color: var(--color-text-main);
     /* Prominent left border accent */
@@ -167,7 +168,7 @@
 /* --- Paginator Styling --- */
 mat-paginator {
     /* Match the paginator background to the card surface for consistency */
-    background-color: var(--color-card-surface) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
     color: var(--color-text-main) !important;
     border-radius: 8px;
     padding: 10px;

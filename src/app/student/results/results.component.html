@@ -7,9 +7,9 @@
         </button>
     </header>
 
-    @if (results.length > 0) {
+    @if (results().length > 0) {
         <div class="exam-grid">
-            @for (examSummary of results; track examSummary.eid) {
+            @for (examSummary of results(); track examSummary.eid) {
                 <mat-card class="exam-card" (click)="viewResult(examSummary.eid)">
                     <mat-card-header>
                         <mat-card-title>{{ examSummary.examName }}</mat-card-title>
@@ -34,7 +34,7 @@
                     </mat-card-content>
                     
                     <mat-card-actions align="end" class="card-actions">
-                        <button mat-flat-button color="primary">
+                        <button mat-flat-button color="primary" (click)="viewResult(examSummary.eid); $event.stopPropagation()">
                             View All Attempts
                         </button>
                     </mat-card-actions>
@@ -64,7 +64,7 @@
                             <span class="taken-on">Taken On: {{ attempt.createdAt | date: 'mediumDate' }}</span>
                         </div>
                         <div class="score-info">
-                            Score: <strong class="score-value">{{ attempt.score || 0 }} / Total Marks</strong>
+                            Score: <strong class="score-value">{{ attempt.score || 0 }}</strong>
                         </div>
                     </div>
                 }

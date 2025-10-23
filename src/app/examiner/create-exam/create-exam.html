@@ -33,8 +33,11 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Displayed Questions (optional)</mat-label>
+      <mat-label>Displayed Questions (min 1)**</mat-label>
       <input matInput type="number" formControlName="displayedQuestions" />
+      @if (examForm.get('displayedQuestions')?.invalid && (examForm.get('displayedQuestions')?.touched || examForm.get('displayedQuestions')?.dirty)) {
+        <mat-error>displayedQuestions must be at least 1.</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill">

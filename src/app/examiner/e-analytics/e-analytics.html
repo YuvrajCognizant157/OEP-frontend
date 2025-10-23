@@ -1,66 +1,155 @@
-@if (analyticsData.averageScoresPerExam.length > 0) {
+<!-- Main container with loading state -->
+@if (analyticsData.totalExamsCreated > 0 || analyticsData.averageScoresPerExam.length > 0) {
 
 <div class="analyticsBody">
   <div>
     <h2>Examiner Analytics</h2>
   </div>
 
+  <!-- Main dashboard grid -->
   <div class="analytics-dashboard">
+
+    <!-- Stat Card: Total Exams -->
     <div class="stat-card chart-container">
       <h2>Total Exams Created</h2>
       <p class="stat-number">{{ analyticsData.totalExamsCreated }}</p>
     </div>
 
-    <div class="chart-container">
-      <canvas
-        class="charts"
-        baseChart
-        [data]="doughnutChartData"
-        [options]="doughnutChartOptions"
-        [type]="'doughnut'"
-      >
-      </canvas>
-    </div>
+    <!-- Chart: Question Approval (Doughnut) -->
+    @if (analyticsData.questionApprovalStats.length > 0) {
+      <div class="chart-container">
+        <canvas
+          class="charts"
+          baseChart
+          [data]="doughnutChartData"
+          [options]="doughnutChartOptions"
+          [type]="'doughnut'"
+        >
+        </canvas>
+      </div>
+    }
 
-    <div class="chart-container large">
-      <canvas class="charts" baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'"> </canvas>
-    </div>
+    <!-- Chart: Question Type Distribution (Pie) -->
+    @if (analyticsData.questionTypeDistribution.length > 0) {
+      <div class="chart-container">
+        <canvas
+          class="charts"
+          baseChart
+          [data]="questionTypeChartData"
+          [options]="questionTypeChartOptions"
+          [type]="'pie'"
+        >
+        </canvas>
+      </div>
+    }
 
-    <div class="chart-container large">
-      <canvas
-        class="charts"
-        baseChart
-        [data]="participationChartData"
-        [options]="participationChartOptions"
-        [type]="'bar'"
-      >
-      </canvas>
-    </div>
+    <!-- Chart: Average Score (Bar) -->
+    @if (analyticsData.averageScoresPerExam.length > 0) {
+      <div class="chart-container large">
+        <canvas class="charts" baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'"> </canvas>
+      </div>
+    }
 
-    <div class="chart-container large">
-      <canvas
-        class="charts"
-        baseChart
-        [data]="topicQuestionCountsChartData"
-        [options]="topicQuestionCountsChartOptions"
-        [type]="'bar'"
-      >
-      </canvas>
-    </div>
+    <!-- Chart: Student Participation (Bar) -->
+    @if (analyticsData.studentParticipation.length > 0) {
+      <div class="chart-container large">
+        <canvas
+          class="charts"
+          baseChart
+          [data]="participationChartData"
+          [options]="participationChartOptions"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    }
 
-    <div class="chart-container large">
-      <canvas
-        class="charts"
-        baseChart
-        [data]="AvgTopicScoresChartData"
-        [options]="AvgTopicScoresChartOptions"
-        [type]="'bar'"
-      >
-      </canvas>
-    </div>
+    <!-- Chart: Submissions Over Time (Line) -->
+    @if (analyticsData.submissionsOverTime.length > 0) {
+      <div class="chart-container large">
+        <canvas
+          class="charts"
+          baseChart
+          [data]="submissionsTimeChartData"
+          [options]="submissionsTimeChartOptions"
+          [type]="'line'"
+        >
+        </canvas>
+      </div>
+    }
 
+    <!-- Chart: Performance vs. Participation (Scatter) -->
+    @if (analyticsData.examPerformanceCorrelation.length > 0) {
+      <div class="chart-container large">
+        <canvas
+          class="charts"
+          baseChart
+          [data]="correlationChartData"
+          [options]="correlationChartOptions"
+          [type]="'scatter'"
+        >
+        </canvas>
+      </div>
+    }
+    
+    <!-- Chart: Topic Question Counts (Bar) -->
+    @if (analyticsData.topicQuestionCounts.length > 0) {
+      <div class="chart-container large">
+        <canvas
+          class="charts"
+          baseChart
+          [data]="topicQuestionCountsChartData"
+          [options]="topicQuestionCountsChartOptions"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    }
+
+    <!-- Chart: Avg Topic Scores (Bar) -->
+    @if (analyticsData.avgTopicScores.length > 0) {
+      <div class="chart-container large">
+        <canvas
+          class="charts"
+          baseChart
+          [data]="AvgTopicScoresChartData"
+          [options]="AvgTopicScoresChartOptions"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    }
+
+    <!-- Chart: Hardest Questions (Horizontal Bar) -->
+    @if (analyticsData.hardestQuestions.length > 0) {
+      <div class="chart-container large">
+        <canvas
+          class="charts"
+          baseChart
+          [data]="hardestQuestionsChartData"
+          [options]="hardestQuestionsChartOptions"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    }
+
+    <!-- Chart: Easiest Questions (Horizontal Bar) -->
+    @if (analyticsData.easiestQuestions.length > 0) {
+      <div class="chart-container large">
+        <canvas
+          class="charts"
+          baseChart
+          [data]="easiestQuestionsChartData"
+          [options]="easiestQuestionsChartOptions"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    }
+    
   </div>
 </div>
-}@else {
-<p class="analyticsBody">Loading Analytics....</p>
+} @else {
+  <p class="analyticsBody loading">Loading Analytics....</p>
 }

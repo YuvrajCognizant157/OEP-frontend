@@ -5,10 +5,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TopicDialog } from './topic-dialog/topic-dialog'; 
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-topics',
-  imports: [CommonModule,MatListModule,MatProgressBarModule,MatDialogModule],
+  imports: [CommonModule,MatListModule,MatProgressBarModule,MatDialogModule,MatIconModule],
   templateUrl: './topics.html',
   styleUrl: './topics.css'
 })

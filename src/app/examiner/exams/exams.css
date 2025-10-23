@@ -6,6 +6,9 @@
   --accent-purple: #675ee3;
   --border-color: #404a5e;
   --warn-color: #f44336; /* Default Material warn color */
+  --status-approved: #66bb6a;
+  --status-pending: #ffa726;
+  --status-rejected: #ef5350;
   display: flex;
   justify-content: center;
   background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
@@ -54,6 +57,8 @@
 
 mat-card-header {
   padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 mat-card-title {
@@ -68,7 +73,6 @@ mat-card-subtitle {
 
 .card-content {
   cursor: pointer;
-  padding-top: 16px;
   padding-bottom: 16px;
 }
 
@@ -120,6 +124,19 @@ mat-card-actions {
 
 .card-actions button mat-icon {
   margin-right: 4px;
+}
+
+.status-approved {
+  color: var(--status-approved) !important;
+}
+.status-pending {
+  color: var(--status-pending) !important;
+}
+.status-rejected {
+  color: var(--status-rejected) !important;
+}
+.status-awaited{
+  color: yellow !important;
 }
 
 .card-actions button:disabled {
