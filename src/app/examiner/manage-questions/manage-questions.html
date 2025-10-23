@@ -1,59 +1,68 @@
 <div class="manage-container">
-  <div class="header">
-    <h2>Manage Your Questions</h2>
-    <button mat-raised-button color="primary" (click)="openAddQuestionDialog()" class="add-question-btn">
-      <mat-icon>add_circle_outline</mat-icon> Add New Question
-    </button>
-  </div>
-
-  <mat-divider></mat-divider>
-
-  <div *ngIf="isLoading" class="loading">
-    <mat-spinner diameter="50"></mat-spinner>
-  </div>
-
-  <div *ngIf="!isLoading && questions.length === 0" class="no-data">
-    <mat-icon class="no-data-icon">lightbulb_outline</mat-icon>
-    <p>No questions found. Click 'Add New Question' to get started!</p>
-  </div>
-
-  <div *ngIf="!isLoading && questions.length > 0" class="question-grid">
-    <mat-card *ngFor="let q of questions" class="question-card">
-      
-      <div class="card-header-content">
-        <mat-card-title>
-          <span class="question-title-text">
-            {{ (q.questionName | slice:0:70) + (q.questionName.length > 70 ? '....' : '') }}
-          </span>
-        </mat-card-title>
-        
-        <div class="card-metadata">
-          <span class="metadata-item question-type">
-            <mat-icon>category</mat-icon> {{ q.questionType ? (q.questionType | uppercase) : "N/A" }}
-          </span>
-          <span class="metadata-item question-id">
-            <mat-icon>vpn_key</mat-icon> {{ q.questionId || "N/A" }}
-          </span>
-        </div>
-      </div>
-
-      <mat-divider></mat-divider>
-
-      <mat-card-actions align="end" class="card-actions-group">
-        <button mat-button color="primary" (click)="updateQuestion(q.questionId)" class="action-btn update-btn">
-          <mat-icon>edit</mat-icon> Update
+    <div class="header">
+        <h2>Manage Your Questions</h2>
+        <button mat-raised-button color="primary" (click)="openAddQuestionDialog()" class="add-question-btn">
+            <mat-icon>add_circle_outline</mat-icon> Add New Question
         </button>
-        <button mat-button color="warn" (click)="deleteQuestion(q.questionId)" class="action-btn delete-btn">
-          <mat-icon>delete</mat-icon> Delete
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+    </div>
 
-  <mat-paginator
-    [length]="totalQuestions"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10, 20]"
-    (page)="onPageChange($event)">
-  </mat-paginator>
+    <mat-divider></mat-divider>
+
+    <div *ngIf="isLoading" class="loading">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Loading questions...</p>
+    </div>
+
+    <div *ngIf="!isLoading && questions.length === 0" class="no-records-container">
+        <img src="assets/images/no-data.gif" alt="No Questions Found" class="no-data-gif" />
+        <p>No questions found!</p>
+        <p>Click 'Add New Question' to populate the question bank.</p>
+    </div>
+
+    <div *ngIf="!isLoading && questions.length > 0" class="table-container mat-elevation-z4">
+
+        <table mat-table [dataSource]="questions" class="questions-table">
+            
+            <ng-container matColumnDef="questionId">
+                <th mat-header-cell *matHeaderCellDef> QID </th>
+                <td mat-cell *matCellDef="let q"> {{ q.questionId || "N/A" }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="questionName">
+                <th mat-header-cell *matHeaderCellDef> Question Content </th>
+                <td mat-cell *matCellDef="let q" class="question-content-cell">
+                    {{ (q.questionName | slice:0:100) + (q.questionName.length > 100 ? '....' : '') }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="questionType">
+                <th mat-header-cell *matHeaderCellDef> Type </th>
+                <td mat-cell *matCellDef="let q">
+                    <span class="type-badge">{{ q.questionType ? (q.questionType | uppercase) : "N/A" }}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let q">
+                    <button mat-icon-button color="primary" (click)="updateQuestion(q.questionId)" title="Update">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="danger" (click)="deleteQuestion(q.questionId)" title="Delete">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+
+    <mat-paginator
+      [length]="totalQuestions"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
 </div>
