@@ -4,6 +4,7 @@ export interface RegisterStudentRequest {
   password: string;
   phoneNo: string;
   dob: string;
+  verifyEmail: boolean;
 }
 
 export interface RegisterStudentResponse {
