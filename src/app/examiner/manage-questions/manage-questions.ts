@@ -12,6 +12,7 @@ import { ExamService } from '../../core/services/exam.service';
 import { AuthService } from '../../core/services/auth.service';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-manage-questions',
@@ -23,7 +24,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatPaginatorModule,
     MatDialogModule,
     MatListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTableModule
   ],
   templateUrl: './manage-questions.html',
   styleUrl: './manage-questions.css'
@@ -36,6 +38,9 @@ export class ManageQuestions implements OnInit {
   currentPage = 0;
   isLoading = false;
   userId!: number;
+
+
+  displayedColumns: string[] = ['questionId', 'questionName', 'questionType', 'actions'];
 
   constructor(
     private questionService: QuestionService,
@@ -80,10 +85,10 @@ export class ManageQuestions implements OnInit {
 
     dialogRef.afterClosed().subscribe((examId) => {
       console.log('Selected exam ID:', examId);
-      
+
       if (examId) {
         console.log('Navigating to add questions for exam ID:', examId);
-        
+
         this.router.navigate([`/examiner/dashboard/add-questions/${examId}`]);
       }
     });

@@ -203,3 +203,54 @@
     min-height: 120px;
     color: var(--color-text-secondary);
 }
+
+
+/* --- Global container for the "No Records" message --- */
+.no-records-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px; /* Increased padding for more space */
+    min-height: 250px; /* Ensures the container occupies a good amount of space */
+    border: 2px dashed #4b4b4b; /* Subtle dashed border */
+    border-radius: 12px;
+    margin: 20px auto; /* Center the container on the page */
+    background-color: #1e1e1e; /* Dark background for visibility */
+}
+
+/* --- GIF Size Adjustment (The Fix) --- */
+.no-data-gif {
+    /* 🔑 Significantly reduced size */
+    width: 80px; 
+    height: 80px;
+    margin-bottom: 20px;
+    object-fit: contain; /* Ensures the GIF scales nicely */
+    border-radius: 50%;
+    /* Optional: Small glow/shadow effect to highlight the GIF */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
+}
+
+/* --- Attractive and Highlighted Messages (The Fix) --- */
+.no-records-container p {
+    margin: 8px 0; /* Vertical spacing between messages */
+    color: #a0a0a0; /* Default text color */
+    font-size: 1.1rem;
+}
+
+/* 🔑 Highlighted Main Message */
+.no-records-container p:first-of-type {
+    font-weight: 700; /* Bolder text */
+    font-size: 1.4rem; /* Larger font size */
+    color: var(--header-accent, #d842cc); /* Use an accent color to highlight the message */
+    text-transform: uppercase; /* Makes the message stand out */
+    letter-spacing: 0.5px;
+}
+
+/* Secondary instruction message */
+.no-records-container p:last-of-type {
+    font-style: italic;
+    font-size: 1rem;
+    color: #7d7d7d;
+}

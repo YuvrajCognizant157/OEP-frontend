@@ -251,29 +251,65 @@ export class SAnalytics implements OnInit {
     }]
   };
 
-  // ---- Line Chart ----
-  // public lineChartOptions: ChartConfiguration['options'] = {
-  //   responsive: true,
-  //   plugins: {
-  //     legend: { display: true },
-  //     title: { display: true, text: 'Weekly Progress Trend' }
-  //   },
-  //   scales: {
-  //     y: { beginAtZero: true }
-  //   }
-  // };
-  // public lineChartType: ChartType = 'line';
-  // public lineChartData: ChartData<'line'> = {
-  //   labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-  //   datasets: [
-  //     {
-  //       data: [60, 72, 85, 90],
-  //       label: 'Progress (%)',
-  //       borderColor: '#46ccd5',
-  //       backgroundColor: 'rgba(70, 204, 213, 0.3)',
-  //       fill: true,
-  //       tension: 0.4
-  //     }
-  //   ]
-  // };
+
+
+  // student-analytics.ts or student-dashboard.ts
+
+// ...
+
+get hasBarData(): boolean {
+    // Safely compute total sum of numeric values in barChartData datasets
+    return this.getTotalFromChartData(this.barChartData) > 0;
+}
+
+get hasPieData(): boolean {
+    // Safely compute total sum of numeric values in pieChartData datasets
+    return this.getTotalFromChartData(this.pieChartData) > 0;
+}
+
+get hasDoughnutData(): boolean {
+    // Safely compute total sum of numeric values in doughnutChartData datasets
+    return this.getTotalFromChartData(this.doughnutChartData) > 0;
+}
+
+get hasLineData(): boolean {
+    // Return true if there are available exams (line chart driven by exam attempts)
+    return this.availableExams.length > 0;
+}
+
+/**
+ * Helper to safely extract numeric total from ChartData datasets.
+ * Handles numbers, numeric arrays (e.g. [x,y]), and point objects with a numeric 'y' property.
+ */
+private getTotalFromChartData(chartData?: any): number {
+    if (!chartData || !Array.isArray(chartData.datasets) || chartData.datasets.length === 0) {
+        return 0;
+    }
+
+    let total = 0;
+    for (const ds of chartData.datasets) {
+        const data = ds?.data;
+        if (!Array.isArray(data)) continue;
+
+        for (const item of data) {
+            if (typeof item === 'number') {
+                total += item;
+            } else if (Array.isArray(item)) {
+                // e.g. [x, y] pairs - sum numeric elements
+                for (const v of item) {
+                    if (typeof v === 'number') total += v;
+                }
+            } else if (item && typeof item === 'object') {
+                // chart point objects like {x:..., y:...}
+                if (typeof item.y === 'number') total += item.y;
+                else if (typeof item.value === 'number') total += item.value;
+            }
+        }
+    }
+
+    return total;
+}
+
+// ...
+
 }
