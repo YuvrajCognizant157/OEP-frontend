@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,8 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { AnalyticsService } from '../../core/services/analytics.service';
 import { AuthService } from '../../core/services/auth.service';
+import { ResultService } from '../../core/services/result.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-s-analytics',
@@ -20,16 +22,25 @@ import { AuthService } from '../../core/services/auth.service';
     BaseChartDirective,
     MatIconModule,
     MatProgressSpinnerModule,
-    RouterLink
+    RouterLink,
+    FormsModule, ReactiveFormsModule
   ],
   templateUrl: './s-analytics.html',
   styleUrl: './s-analytics.css'
 })
 export class SAnalytics implements OnInit {
 
-  constructor(private analyticsService: AnalyticsService, private authService: AuthService) { }
+  constructor(private analyticsService: AnalyticsService,
+    private authService: AuthService, @Inject(ResultService) private resultService: ResultService
+  ) { }
 
-  userId!: number; 
+  userId!: number;
+
+  isLoadingResults = true;
+
+  allExamResults: any[] = [];
+  availableExams: { eid: number, examName: string }[] = [];
+  selectedExamId!: number;
 
 
   ngOnInit(): void {
@@ -83,7 +94,106 @@ export class SAnalytics implements OnInit {
       },
       error: (err) => console.error('Error loading analytics', err)
     });
+
+    this.resultService.viewResultsByUserId(this.userId).subscribe({
+      next: (results: any[]) => {
+        this.allExamResults = results.filter(e => e.attemptsData && e.attemptsData.length > 0);
+        this.availableExams = this.allExamResults.map(exam => ({
+          eid: exam.eid,
+          examName: exam.examName
+        }));
+
+        // Select the first exam with data by default
+        if (this.availableExams.length > 0) {
+          this.selectedExamId = this.availableExams[0].eid;
+          this.loadLineChartData(this.selectedExamId);
+        }
+        this.isLoadingResults = false;
+      },
+      error: (err) => {
+        console.error('Error loading exam results', err);
+        this.isLoadingResults = false;
+      }
+    });
   }
+
+
+  onExamSelect(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const newId = +target.value; // Convert string value to number
+    this.selectedExamId = newId;
+    this.loadLineChartData(newId);
+  }
+
+  loadLineChartData(examId: number): void {
+    const exam = this.allExamResults.find(e => e.eid === examId);
+    if (!exam || exam.attemptsData.length === 0) {
+      this.lineChartData = { labels: ['N/A'], datasets: [{ data: [0], label: 'Score (%)' }] };
+      // Update chart options title
+      if (this.lineChartOptions?.plugins?.title) {
+        (this.lineChartOptions.plugins.title as any).text = 'No Attempts Recorded';
+      }
+      return;
+    }
+
+    // Map attempt number to label
+    const labels = exam.attemptsData.map((a: any) => `Attempt ${a.attempt}`);
+
+    // Calculate score percentage
+    const scores = exam.attemptsData.map((a: any) =>
+      ((a.score / exam.totalMarks) * 100)
+    );
+
+    this.lineChartData = {
+      labels: labels,
+      datasets: [
+        {
+          data: scores,
+          label: 'Score (%)',
+          borderColor: '#099bc7',
+          backgroundColor: 'rgba(9, 155, 199, 0.3)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 6, // Make points stand out
+          pointBackgroundColor: '#099bc7',
+          pointBorderColor: '#fff',
+        }
+      ]
+    };
+
+    // Update chart title with the selected exam name
+    if (this.lineChartOptions?.plugins?.title) {
+      (this.lineChartOptions.plugins.title as any).text = `${exam.examName}: Score Progression`;
+    }
+  }
+
+
+  // ---- Line Chart Configuration Update ----
+  public lineChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    plugins: {
+      legend: { display: false }, // Removed legend as only one line exists
+      title: { display: true, text: 'Score Progression by Exam' } // Initial Title
+    },
+    scales: {
+      y: { beginAtZero: true, max: 100 } // Set max to 100 for percentage
+    }
+  };
+  public lineChartType: ChartType = 'line';
+  public lineChartData: ChartData<'line'> = {
+    labels: ['Attempt 1', 'Attempt 2', 'Attempt 3'],
+    datasets: [
+      {
+        data: [0, 0, 0], // Initial placeholder data
+        label: 'Score (%)',
+        borderColor: '#099bc7',
+        backgroundColor: 'rgba(9, 155, 199, 0.3)',
+        fill: true,
+        tension: 0.4
+      }
+    ]
+  };
+
 
 
 
@@ -142,28 +252,28 @@ export class SAnalytics implements OnInit {
   };
 
   // ---- Line Chart ----
-  public lineChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    plugins: {
-      legend: { display: true },
-      title: { display: true, text: 'Weekly Progress Trend' }
-    },
-    scales: {
-      y: { beginAtZero: true }
-    }
-  };
-  public lineChartType: ChartType = 'line';
-  public lineChartData: ChartData<'line'> = {
-    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-    datasets: [
-      {
-        data: [60, 72, 85, 90],
-        label: 'Progress (%)',
-        borderColor: '#46ccd5',
-        backgroundColor: 'rgba(70, 204, 213, 0.3)',
-        fill: true,
-        tension: 0.4
-      }
-    ]
-  };
+  // public lineChartOptions: ChartConfiguration['options'] = {
+  //   responsive: true,
+  //   plugins: {
+  //     legend: { display: true },
+  //     title: { display: true, text: 'Weekly Progress Trend' }
+  //   },
+  //   scales: {
+  //     y: { beginAtZero: true }
+  //   }
+  // };
+  // public lineChartType: ChartType = 'line';
+  // public lineChartData: ChartData<'line'> = {
+  //   labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+  //   datasets: [
+  //     {
+  //       data: [60, 72, 85, 90],
+  //       label: 'Progress (%)',
+  //       borderColor: '#46ccd5',
+  //       backgroundColor: 'rgba(70, 204, 213, 0.3)',
+  //       fill: true,
+  //       tension: 0.4
+  //     }
+  //   ]
+  // };
 }
