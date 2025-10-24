@@ -15,7 +15,7 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './question-feedback.html',
   styleUrl: './question-feedback.css'
 })
-export class QuestionFeedback implements OnInit {
+export class  QuestionFeedback implements OnInit {
   userId = -1; 
   feedbacks: GetQuestionFeedback[] = [];
 

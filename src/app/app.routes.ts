@@ -92,6 +92,10 @@ export const routes: Routes = [
         loadComponent: () => import('./question/question-feedback/question-feedback').then((m) => m.QuestionFeedback),
       },
       {
+        path:'view-all-feedbacks',
+        loadComponent: () => import('./student/s-feedback/s-feedback').then((m) => m.SFeedback),
+      },
+      {
         path:'', redirectTo: 'dashboard', pathMatch: 'full'
       }
     ]

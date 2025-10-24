@@ -1,5 +1,5 @@
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +16,7 @@ import { SimplifiedExam, GetExamDataDTO } from '../../shared/models/exam.model';
 import { SimplifiedResult, RawResultDTO, ExamResultSummary } from '../../shared/models/result.model';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { OverallAverageScoreTopicWise } from './student-dashboard.model';
+import { LayoutService } from '../../core/services/layout.service';
 
 interface IPercentageAnalytics {
   questionsEncounteredPercent: number;
@@ -39,7 +40,10 @@ interface IPercentageAnalytics {
   templateUrl: './student-dashboard.html',
   styleUrl: './student-dashboard.css',
 })
-export class StudentDashboardComponent implements OnInit {
+export class StudentDashboardComponent implements OnInit,OnDestroy {
+
+  private sLayoutService = inject(LayoutService);
+  
   public userFullName: string = 'Student';
   public isLoading: boolean = true;
 
@@ -77,6 +81,9 @@ export class StudentDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // 1. Fetch Profile Data
+
+    this.sLayoutService.hideSLayout();
+
     this.profileService.getUserProfile()?.subscribe({
       next: (profileData) => {
         if (profileData && profileData.fullName) {
@@ -340,5 +347,9 @@ export class StudentDashboardComponent implements OnInit {
 
     const total = this.topicExamsChartData.datasets[0].data.reduce((sum, current) => sum + current, 0);
     return total > 0;
+  }
+
+  ngOnDestroy(): void {
+    this.sLayoutService.showSLayout();
   }
 }
