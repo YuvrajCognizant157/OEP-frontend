@@ -11,29 +11,35 @@ import { ReportedQuestionsComponent } from './admin/reported-questions/reported-
 import { ReviewExamComponent } from './admin/review-exam/review-exam';
 import { profileAuthGuardfn } from './core/auth-guards/profile-auth.guard';
 import { About } from './about/about';
+import { LoggedInGuard } from './core/auth-guards/logged-in.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
   {path: 'about', component:About },
   {
     path: 'login',
-    loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent)
+    loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent),
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'forgot-password',
-    loadComponent: () => import('./shared/forgot-password/forgot-password').then(m => m.ForgotPassword)
+    loadComponent: () => import('./shared/forgot-password/forgot-password').then(m => m.ForgotPassword),
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'register-employee',
-    loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent)
+    loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent),
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'register-student',
-    loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
+    loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent),
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'verify-otp/:userId',
-    loadComponent: () => import('./student/verify-otp/verify-otp').then(m => m.VerifyOtpComponent)
+    loadComponent: () => import('./student/verify-otp/verify-otp').then(m => m.VerifyOtpComponent),
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'view-profile',
