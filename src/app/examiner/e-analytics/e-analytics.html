@@ -64,19 +64,6 @@
       </div>
     }
 
-    <!-- Chart: Submissions Over Time (Line) -->
-    @if (analyticsData.submissionsOverTime.length > 0) {
-      <div class="chart-container large">
-        <canvas
-          class="charts"
-          baseChart
-          [data]="submissionsTimeChartData"
-          [options]="submissionsTimeChartOptions"
-          [type]="'line'"
-        >
-        </canvas>
-      </div>
-    }
 
     <!-- Chart: Performance vs. Participation (Scatter) -->
     @if (analyticsData.examPerformanceCorrelation.length > 0) {
@@ -143,6 +130,20 @@
           [data]="easiestQuestionsChartData"
           [options]="easiestQuestionsChartOptions"
           [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    }
+
+    <!-- Chart: Submissions Over Time (Line) -->
+    @if (analyticsData.submissionsOverTime.length > 0) {
+      <div class="chart-container large last">
+        <canvas
+          class="charts wired"
+          baseChart
+          [data]="submissionsTimeChartData"
+          [options]="submissionsTimeChartOptions"
+          [type]="'line'"
         >
         </canvas>
       </div>
