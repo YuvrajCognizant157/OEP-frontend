@@ -131,3 +131,18 @@ mat-paginator {
     color: #f1f1f1;
     font-size: 1.1rem;
 }
+
+/* --- Search Field Styling --- */
+.search-field {
+    width: 60%;
+    margin: 1.5rem;
+    /* You may need to add MatFormFieldModule to your component imports */
+}
+
+/* 🔑 Style for the no filter results message */
+.no-filter-results {
+    color: var(--color-text-secondary);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}

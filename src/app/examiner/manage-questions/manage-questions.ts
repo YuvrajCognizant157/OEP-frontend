@@ -13,6 +13,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatFormFieldModule } from '@angular/material/form-field'; 
+import { MatInputModule } from '@angular/material/input';
+
 
 @Component({
   selector: 'app-manage-questions',
@@ -25,19 +31,26 @@ import { MatTableModule } from '@angular/material/table';
     MatDialogModule,
     MatListModule,
     MatProgressSpinnerModule,
-    MatTableModule
-  ],
+    MatTableModule,
+    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatFormFieldModule, 
+    MatInputModule,
+],
   templateUrl: './manage-questions.html',
   styleUrl: './manage-questions.css'
 })
 export class ManageQuestions implements OnInit {
 
   questions: any[] = [];
+  dataSource = new MatTableDataSource<any>(this.questions);
   totalQuestions = 0;
   pageSize = 5;
   currentPage = 0;
   isLoading = false;
   userId!: number;
+  searchQuery: string = '';
 
 
   displayedColumns: string[] = ['questionId', 'questionName', 'questionType', 'actions'];
@@ -62,6 +75,7 @@ export class ManageQuestions implements OnInit {
 
         this.questions = res.results || [];
         this.totalQuestions = res.totalCount || 0;
+        this.dataSource = new MatTableDataSource(this.questions);
         this.isLoading = false;
       },
       error: (err) => {
@@ -69,6 +83,12 @@ export class ManageQuestions implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  applyFilter(): void {
+    // Trim and convert input value to lowercase for case-insensitive filtering
+    const filterValue = this.searchQuery.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   onPageChange(event: PageEvent): void {
