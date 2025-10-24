@@ -10,13 +10,18 @@ import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
 import { ReportedQuestionsComponent } from './admin/reported-questions/reported-questions';
 import { ReviewExamComponent } from './admin/review-exam/review-exam';
 import { profileAuthGuardfn } from './core/auth-guards/profile-auth.guard';
+import { About } from './about/about';
 
 export const routes: Routes = [
   { path: '', component: Home },
-  {path: 'about', loadComponent: () => import('./about/about').then((m) => m.About)  },
+  {path: 'about', component:About },
   {
     path: 'login',
     loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent)
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () => import('./shared/forgot-password/forgot-password').then(m => m.ForgotPassword)
   },
   {
     path: 'register-employee',

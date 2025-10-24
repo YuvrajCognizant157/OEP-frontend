@@ -110,6 +110,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
     });
   }
+  forgotPassword() : void {
+    this.router.navigate(['/forgot-password']);
+  }
   registerAsEmployee(): void {
     this.router.navigate(['/register-employee']);
   }
