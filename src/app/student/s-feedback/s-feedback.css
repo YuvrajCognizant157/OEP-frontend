@@ -1,0 +1,132 @@
+:host {
+    display: block;
+    padding: 2rem;
+    background-color: var(--color-bg-primary, #0d121b);
+    color: var(--color-text-primary, #ffffff);
+}
+
+.feedback-panel {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--color-bg-panel, #1e293b);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ... existing CSS ... */
+
+/* --- Loading Indicator Style --- */
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    gap: 1rem;
+    color: var(--color-accent, #0078d4);
+    font-weight: 500;
+}
+
+/* ... existing CSS for table and media queries ... */
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-accent, #0078d4);
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: var(--color-text-muted, #9ca3af);
+}
+
+.tab-content-wrapper {
+    padding: 1rem 0.5rem;
+}
+
+/* --- Material Table Styling --- */
+.full-width-table {
+    width: 100%;
+    background-color: var(--color-bg-panel, #1e293b);
+}
+
+/* Dark theme table headers */
+.mat-header-cell {
+    background-color: var(--color-bg-header, #2c3e50);
+    color: var(--color-text-primary, #ffffff);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.mat-cell {
+    color: var(--color-text-primary, #ffffff);
+    border-bottom-color: rgba(255, 255, 255, 0.1); /* Subtle divider */
+    padding: 8px 16px;
+}
+
+.mat-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: background-color 0.2s;
+}
+
+/* Ensure feedback text doesn't overflow */
+.feedback-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px; /* Adjust as needed */
+    color: var(--color-text-muted, #9ca3af);
+}
+
+.no-data {
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-text-muted, #9ca3af);
+    font-style: italic;
+}
+
+/* --- Custom Material Tab Themeing (Using ::ng-deep) --- */
+/* Target the tab group for dark theme colors */
+:host ::ng-deep .mat-mdc-tab-group {
+    --mdc-primary-tab-indicator-color: var(--color-accent, #0078d4);
+    --mdc-filled-tab-container-color: var(--color-bg-panel, #1e293b);
+    --mdc-tab-text-color: var(--color-text-muted, #9ca3af);
+    --mdc-tab-hover-label-text-color: var(--color-text-primary, #ffffff);
+    --mdc-tab-focus-label-text-color: var(--color-accent, #0078d4);
+    
+    .mat-mdc-tab {
+        /* Ensure active tab text is bright */
+        .mdc-tab__text-label {
+            color: var(--color-text-primary, #ffffff) !important;
+        }
+    }
+}
+
+
+/* --- RESPONSIVENESS: Stack columns on small screens --- */
+@media (max-width: 768px) {
+    /* Hide the least essential columns */
+    .mat-column-userId, .mat-column-totalMarks {
+        display: none;
+    }
+
+    .feedback-panel {
+        padding: 1rem;
+    }
+    
+    /* Make the table scrollable horizontally if necessary */
+    .mat-table {
+        min-width: 600px; /* Ensure table doesn't compress too much */
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Further reduction for smaller phones */
+    h2 {
+        font-size: 1.5rem;
+    }
+}

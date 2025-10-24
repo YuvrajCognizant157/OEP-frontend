@@ -28,7 +28,7 @@ export class SNavbar implements OnInit, OnDestroy {
     { label: 'Exams', path: '/student/available-exams', icon: 'border_color' },
     { label: 'Results', path: '/student/results', icon: 'assessment' },
     { label: 'Analytics', path: '/student/analytics', icon: 'analytics' },
-    { label: 'Feedback', path: '/student/feedback', icon: 'feedback' }
+    { label: 'Feedback', path: '/student/view-all-feedbacks', icon: 'feedback' }
   ];
 
   activeLinkIndex = 0;              // <-- default to 0 (never -1)
