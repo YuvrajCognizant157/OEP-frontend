@@ -16,6 +16,7 @@ import { LoggedInGuard } from './core/auth-guards/logged-in.guard';
 export const routes: Routes = [
   { path: '', component: Home },
   {path: 'about', component:About },
+  {path:'help', loadComponent: () => import('./help/help').then(m => m.HelpComponent)},
   {
     path: 'login',
     loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent),
