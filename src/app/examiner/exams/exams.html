@@ -4,11 +4,15 @@
   <div class="exam-cards-grid">
     @for(exam of exams; track exam.eid) {
     <mat-card class="exam-card">
-      <mat-card-header>
+      <mat-card-header (click)="viewExamDetails(exam.eid)">
         <mat-card-title>{{ exam.name }}</mat-card-title>
         <mat-card-subtitle>{{ exam.description }}</mat-card-subtitle>
-        <mat-card-subtitle [ngClass]="getApprovalStatus(exam.approvalStatus, exam.submittedForApproval).class">
+        <mat-card-subtitle>
+          <mat-chip
+            [ngClass]="getApprovalStatus(exam.approvalStatus, exam.submittedForApproval).class"
+            >
             {{ getApprovalStatus(exam.approvalStatus, exam.submittedForApproval).text }}
+          </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content class="card-content" (click)="viewExamDetails(exam.eid)">
@@ -32,7 +36,7 @@
         <button
           mat-flat-button
           class="update-button"
-          [disabled]="exam.approvalStatus === 1||exam.submittedForApproval===true"
+          [disabled]="exam.approvalStatus === 1 || exam.submittedForApproval === true"
           (click)="onUpdateExam(exam.eid)"
         >
           <mat-icon>edit</mat-icon>
@@ -52,7 +56,7 @@
         <button
           mat-flat-button
           color="warn"
-          [disabled]="exam.approvalStatus === 1||exam.submittedForApproval===true"
+          [disabled]="exam.approvalStatus === 1 || exam.submittedForApproval === true"
           (click)="onDeleteExam(exam.eid)"
         >
           <mat-icon>delete</mat-icon>
