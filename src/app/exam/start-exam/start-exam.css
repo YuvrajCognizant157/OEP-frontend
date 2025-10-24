@@ -309,3 +309,24 @@ button {
     top: 0.5rem;
   }
 }
+.exam-info-chips {
+        display: flex;
+        flex-wrap: wrap; /* Allow chips to wrap on small screens */
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0; /* Adds some vertical padding */
+        width: 100%; /* Ensures the list takes full width for space-between to work */
+        gap: 8px; /* Adds spacing between chips when they wrap */
+      }
+
+      /* On smaller screens, stack them or center them */
+      @media (max-width: 600px) {
+        .exam-info-chips {
+          justify-content: center; /* Center chips on small screens */
+        }
+      }
+
+      /* Optional: Add a minimum margin to each chip */
+      .exam-info-chips mat-chip {
+        margin: 4px;
+      }

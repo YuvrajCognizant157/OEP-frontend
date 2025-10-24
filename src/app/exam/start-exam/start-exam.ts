@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FeedbackService, AddQuestionFeedbackDTO } from '../../core/services/feedback.service';
 import { ExamStateService } from '../../core/services/exam-state.service';
 import { LayoutService } from '../../core/services/layout.service';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-start-exam',
@@ -28,7 +29,8 @@ import { LayoutService } from '../../core/services/layout.service';
     FormsModule,
     MatInputModule,
     MatButtonModule,
-  ],
+    MatChipsModule
+],
   templateUrl: './start-exam.html',
   styleUrl: './start-exam.css',
 })
