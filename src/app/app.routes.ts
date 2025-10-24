@@ -17,30 +17,32 @@ import { AdminAuthGuard } from './core/auth-guards/admin-auth.guard';
 export const routes: Routes = [
   { path: '', component: Home },
   {path: 'about', component:About },
+  {path:'help', loadComponent: () => import('./help/help').then(m => m.HelpComponent)},
+  {path:'unauthorized', loadComponent: () => import('./shared/unauthorized/unauthorized').then(m => m.Unauthorized)},
   {
     path: 'login',
     loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent),
-    // canActivate:[LoggedInGuard]
-  },
+    canActivate:[LoggedInGuard]
+  },  
   {
     path: 'forgot-password',
     loadComponent: () => import('./shared/forgot-password/forgot-password').then(m => m.ForgotPassword),
-    // canActivate:[LoggedInGuard]
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'register-employee',
     loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent),
-    // canActivate:[LoggedInGuard]
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'register-student',
     loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent),
-    // canActivate:[LoggedInGuard]
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'verify-otp/:userId',
     loadComponent: () => import('./student/verify-otp/verify-otp').then(m => m.VerifyOtpComponent),
-    // canActivate:[LoggedInGuard]
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'view-profile',
