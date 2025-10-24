@@ -1,9 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 
-export const LoggedInGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
-  const authService = inject(AuthService);
+export const LoggedInGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   const tokenInStorage = localStorage.getItem("token");

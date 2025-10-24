@@ -40,7 +40,8 @@ export class Header{
           },
           error: (err) => {
             this.userFullName.set('User_Error');
-            alert('some error occured fetching user details ' + err);
+            console.log(err);
+            alert('some error occured fetching user details ' + err.message);
           },
         });
       } else {
