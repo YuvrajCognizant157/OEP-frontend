@@ -1,176 +1,148 @@
-/* --- UI Variables --- */
-:host {
-    --color-primary-accent: #1e88e5;    /* Deep Blue Accent */
-    --color-warn: #e53935;              /* Deep Red */
-    --color-background: #1a222f;        /* Near Black Main Background */
-    --color-card-surface: #1e1e1e;      /* Card Surface */
-    --color-text-main: #e0e0e0;         /* Off-white text */
-    --color-text-secondary: #a0a0a0;    /* Muted detail text */
-    --color-border-subtle: #333333;     /* Dark border/divider */
-}
+/* --- Table Specific Styles --- */
 
-.manage-container {
-    background-color: var(--color-background);
-    padding: 40px 30px; /* Increased padding */
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    font-family: 'Roboto', 'Arial', sans-serif;
-    min-height: 100vh;
-    box-sizing: border-box;
-}
 
-/* --- Header Styling --- */
-.header {
+.header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    color: var(--color-text-main);
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--color-border-subtle);
-    margin-bottom: 10px; 
+    margin: 1rem;
+}
+.header mat-button:first-child {
+    background-color: #3f9bff; /* light blue */
+    color: #3f9bff;
 }
 
-.header h2 {
-    font-size: 1.8rem;
-    font-weight: 300;
-    margin: 0;
+.header mat-button:nth-child(2) {
+    background-color: #ff4d4d; /* red */
+    color: #ff4d4d;
 }
 
-.add-question-btn {
-    font-weight: 500;
-    border-radius: 4px;
-    padding: 10px 20px;
+.header h2{
+    color: #ffc107;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.table-container {
+    margin: 1.2rem;
+    /* Use the same background as your cards/paginator */
     background-color: rgba(255, 255, 255, 0.05);
-}
-
-/* --- Question Grid --- */
-.question-grid {
-    display: grid;
-    /* Responsive grid with minmax for better flow */
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 25px; 
-}
-
-/* --- Question Card Styling --- */
-.question-card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px; 
-    color: var(--color-text-main);
-    /* Prominent left border accent */
-    border-left: 5px solid var(--color-primary-accent);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    padding: 15px 20px; 
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.question-card:hover {
-    transform: translateY(-4px); /* Smoother lift effect */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-    border-left-color: #3f9bff; /* Subtle color change on hover */
-}
-
-/* Card Content Structure */
-.card-header-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.question-card mat-card-title {
-    font-size: 1.1rem;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--color-text-main);
-    padding: 0;
-    margin: 0;
-}
-
-/* Metadata (ID and Type) - The "Pill" Style */
-.card-metadata {
-    display: flex;
-    gap: 15px;
-    margin-top: 5px;
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-}
-
-.metadata-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background-color: #2a2a2a; /* Dark pill background */
-    font-weight: 500;
-}
-
-.metadata-item mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-    color: var(--color-primary-accent);
-}
-
-/* Differentiate the Type icon color */
-.question-type mat-icon {
-    color: #ffc107; /* Amber/Yellow for Type differentiation */
-}
-
-
-/* Actions */
-.question-card mat-divider {
-    margin: 15px 0;
-    border-top-color: var(--color-border-subtle);
-}
-
-.card-actions-group {
-    padding: 0;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.action-btn {
-    font-weight: 500;
-    border-radius: 4px;
-    padding: 0 10px;
-    min-width: 90px;
-}
-
-.action-btn mat-icon {
-    margin-right: 4px;
-    font-size: 20px;
-}
-
-/* --- Empty/Loading States --- */
-.loading, .no-data {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 300px; 
-    color: var(--color-text-secondary);
-    font-size: 1.2rem;
-    font-weight: 400;
-    text-align: center;
-    gap: 15px;
-}
-
-.no-data-icon {
-    font-size: 60px;
-    width: 60px;
-    height: 60px;
-    color: var(--color-primary-accent);
-}
-
-/* --- Paginator Styling --- */
-mat-paginator {
-    /* Match the paginator background to the card surface for consistency */
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    color: var(--color-text-main) !important;
     border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* Ensures table edges are rounded */
+}
+
+.questions-table {
+    width: 100%;
+    color: var(--color-text-main);
+    background-color: transparent; /* Table background handled by container */
+}
+
+/* Header Cells */
+.questions-table th {
+    background-color: #2a2a2a; /* Darker header background */
+    color: var(--color-primary-accent);
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-bottom: 2px solid var(--color-border-subtle);
+    padding: 15px 20px;
+}
+
+/* Data Cells */
+.questions-table td {
+    color: var(--color-text-main);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: 15px 20px;
+    font-size: 0.95rem;
+}
+
+/* Alternating Row Color for readability */
+.questions-table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.questions-table tr:hover {
+    background-color: rgba(63, 155, 255, 0.1); /* Light blue hover effect */
+}
+
+/* Question Content cell for wrapping long text */
+.question-content-cell {
+    max-width: 400px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Type Badge/Pill style */
+.type-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background-color: #ffc107; /* Amber/Yellow background */
+    color: #1a222f; /* Dark text for contrast */
+}
+
+/* Action Buttons */
+.questions-table mat-icon-button {
+    margin: 0 4px;
+}
+
+/* Ensure mat-paginator still uses the intended styling */
+mat-paginator {
+    margin-top: 15px;
+}
+
+/* Reuse existing no-records styles for the empty state */
+/* .no-records-container, .no-data-gif and its styling should remain unchanged */
+
+
+/* --- New Styles for No Records Found State --- */
+
+.no-records-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    min-height: 200px; /* Ensure a decent size even when empty */
+    border: 1px dashed #3a3a3a; /* Subtle border for visual separation */
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.no-data-gif {
+    width: 100px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 50%; /* Optional: Make it look like an avatar or badge */
+    background-color: #2c2c2c;
+    padding: 5px;
+}
+
+.no-records-container p {
+    margin: 5px 0;
+    color: #9e9e9e; /* Light gray text */
+    font-size: 1rem;
+}
+
+.no-records-container p:first-of-type {
+    font-weight: bold;
+    color: #f1f1f1;
+    font-size: 1.1rem;
+}
+
+/* --- Search Field Styling --- */
+.search-field {
+    width: 60%;
+    margin: 1.5rem;
+    /* You may need to add MatFormFieldModule to your component imports */
+}
+
+/* 🔑 Style for the no filter results message */
+.no-filter-results {
+    color: var(--color-text-secondary);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
 }

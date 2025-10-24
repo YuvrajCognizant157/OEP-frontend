@@ -83,14 +83,15 @@ mat-divider {
 .exam-details {
   padding-top: 16px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 12px;
 }
 
 .detail-item {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 5px;
   font-size: 0.95rem;
 }
 .else-case{
@@ -127,16 +128,16 @@ mat-card-actions {
 }
 
 .status-approved {
-  color: var(--status-approved) !important;
+  background-color: var(--status-approved) !important;
 }
 .status-pending {
-  color: var(--status-pending) !important;
+  background-color: var(--status-pending) !important;
 }
 .status-rejected {
-  color: var(--status-rejected) !important;
+  background-color: var(--status-rejected) !important;
 }
 .status-awaited{
-  color: yellow !important;
+  background-color: yellow !important;
 }
 
 .card-actions button:disabled {

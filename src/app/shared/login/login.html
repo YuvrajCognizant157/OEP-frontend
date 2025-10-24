@@ -23,6 +23,10 @@
 
   <div class="divider"><span>OR</span></div>
 
+  <button class="action-btn employee" (click)="forgotPassword()" [disabled]="loading">
+    <span class="material-icons">key</span> Forgot Password
+  </button>
+
   <button class="action-btn employee" (click)="registerAsEmployee()" [disabled]="loading">
     <span class="material-icons">person</span> Register as Employee
   </button>

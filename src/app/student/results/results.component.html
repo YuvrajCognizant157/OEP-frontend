@@ -43,7 +43,11 @@
         </div>
 
     } @else {
-        <p class="empty-state-message">No exam history available yet.</p>
+        <div class="no-records-container">
+            <img src="assets/GIFs/no-data.gif" alt="No Exam History" class="no-data-gif" />
+            <p>No exam history available yet.</p>
+            <p>Once you complete an exam, the summary cards will appear here!</p>
+        </div>
     }
 </div>
 
@@ -70,7 +74,11 @@
                 }
             </div>
         } @else {
-            <p class="empty-state-message">No result data was found for this exam.</p>
+            <div class="no-records-container dialog-empty-state">
+                <img src="assets/GIFs/no-data.gif" alt="No Attempt Details" class="no-data-gif" />
+                <p>No result data was found for this exam.</p>
+                <p>Please check if the exam was fully completed.</p>
+            </div>
         }
     </mat-dialog-content>
     <mat-dialog-actions align="end">

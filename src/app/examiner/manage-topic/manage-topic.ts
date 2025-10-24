@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core'; // Import OnDestroy
+import { Component, inject, signal, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core'; // Import OnDestroy
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Subscription, timer } from 'rxjs'; // Import Subscription and timer
@@ -20,7 +20,7 @@ interface Topic {
   tid: number;
   subject: string;
   approvalStatus: number;
-  submittedForApproval : boolean
+  submittedForApproval: boolean;
 }
 
 export interface TopicResponse {
@@ -44,6 +44,7 @@ export interface TopicResponse {
   ],
   templateUrl: './manage-topic.html',
   styleUrl: './manage-topic.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageTopic implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
@@ -99,9 +100,10 @@ export class ManageTopic implements OnInit, OnDestroy {
     }
   }
 
-  getApprovalStatus(status: number,approval:boolean): { text: string; class: string } {
+  getApprovalStatus(status: number, approval: boolean): { text: string; class: string } {
     if (status === 1) return { text: 'Approved', class: 'status-approved' };
-    if(status === 0 && approval === true) return {text:'Submitted For Approval',class:'status-awaited'};
+    if (status === 0 && approval === true)
+      return { text: 'Submitted For Approval', class: 'status-awaited' };
     if (status === 0) return { text: 'Pending', class: 'status-pending' };
     return { text: 'Rejected', class: 'status-rejected' };
   }
@@ -128,7 +130,7 @@ export class ManageTopic implements OnInit, OnDestroy {
   createTopic(topicName: string) {
     this.topicsService.createTopicService(topicName, this.examinerId).subscribe({
       next: (response: TopicResponse) => {
-        if(response.topicStatus >=1){
+        if (response.topicStatus >= 1) {
           this.startPollingForTopics();
         }
         alert(response.message);
@@ -146,7 +148,7 @@ export class ManageTopic implements OnInit, OnDestroy {
         // Optimistically update the local data for immediate UI feedback
         this.topics.update((currentTopics) =>
           currentTopics.map((t) =>
-            t.tid === tid ? { ...t, subject: topicName, approvalStatus: 0 } : t
+            t.tid === tid ? { ...t, subject: topicName, submittedForApproval: true } : t
           )
         );
       },
@@ -173,8 +175,13 @@ export class ManageTopic implements OnInit, OnDestroy {
     this.topicsService.sendTopicForApproval(topicId).subscribe({
       next: (response: TopicResponse) => {
         alert(response.message);
+        
         this.topics.update((currentTopics) =>
-          currentTopics.map((t) => (t.tid === topicId ? { ...t, approvalStatus: 0 } : t))
+          currentTopics.map((t) =>
+            t.tid === topicId
+              ? { ...t, approvalStatus: 0, submittedForApproval: true }
+              : t
+          )
         );
       },
       error: (err) => {
@@ -182,5 +189,11 @@ export class ManageTopic implements OnInit, OnDestroy {
         alert('An error occurred while submitting the topic. Please try again.');
       },
     });
+  }
+
+  isTopicLocked(topic: Topic): boolean {
+    const isApproved = topic.approvalStatus === 1;
+    const isSubmitted = topic.approvalStatus === 0 && topic.submittedForApproval === true;
+    return isApproved || isSubmitted;
   }
 }

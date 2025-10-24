@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { ExamStateService } from '../../core/services/exam-state.service';
 import { ExamService } from '../../core/services/exam.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { SubmittedExamDTO } from '../../shared/models/exam.model';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { ExamStateService } from '../../core/services/exam-state.service';
+
 
 interface SubmitResponse {
   msg: string;
@@ -16,17 +17,22 @@ interface SubmitResponse {
   templateUrl: './review-exam.html',
   styleUrl: './review-exam.css',
 })
-export class ReviewExam implements OnInit {
-  selectedAnswers: { qid: number; Resp: string[] }[] = [];
+export class ReviewExam implements OnInit, OnDestroy {
+  private autoSubmitTimer: any;
+
+  selectedAnswers: { qid: number; name: string; Resp: string[] }[] = [];
   examId!: number;
   userId!: number;
-  timeLeft!: number;
+  timeLeft: number = 0;
 
-  constructor(private router: Router, private examService: ExamService,private examStateService: ExamStateService) {}
+  constructor(
+    private router: Router,
+    private examService: ExamService,
+    private examStateService: ExamStateService
+  ) {}
 
   ngOnInit(): void {
-    
-const data = this.examStateService.examData();
+    const data = this.examStateService.examData();
 
     if (!data) {
       console.warn('Missing exam data');
@@ -39,9 +45,16 @@ const data = this.examStateService.examData();
     this.timeLeft = data.timeLeft;
 
     if (this.timeLeft > 0) {
-      setTimeout(() => {
+      this.autoSubmitTimer = setTimeout(() => {
         this.submitExam();
       }, this.timeLeft * 1000);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.autoSubmitTimer) {
+      clearTimeout(this.autoSubmitTimer);
+      this.autoSubmitTimer = null;
     }
   }
 
@@ -54,12 +67,12 @@ const data = this.examStateService.examData();
 
     this.examService.submitExam(payload).subscribe({
       next: (res: any) => {
+        this.timeLeft = 0;
         this.examStateService.clearExamData();
-        this.router.navigate([`/student/exam-feedback/${this.examId}`]);
         alert((res as SubmitResponse)?.msg ?? JSON.stringify(res));
+        this.router.navigate([`/student/exam-feedback/${this.examId}`]);
       },
       error: (err) => {
-        console.log(err?.error?.errors);
         console.error('Submit failed', err);
       },
     });

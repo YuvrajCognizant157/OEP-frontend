@@ -17,7 +17,11 @@ body {
   color-scheme: dark;
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
+  font-family: var(--mat-sys-body-medium-font-family);
+  font-size: var(--mat-sys-body-medium-font-size);
+  font-weight: var(--mat-sys-body-medium-font-weight);
+  line-height: var(--mat-sys-body-medium-line-height);
+  letter-spacing: var(--mat-sys-body-medium-letter-spacing);
 
   margin: 0;
 }

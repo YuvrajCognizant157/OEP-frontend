@@ -1,104 +1,126 @@
 <div class="loading-component" *ngIf="!examData">
-  <div *ngIf="!backendError">
-    <p>Please wait, loading exam...</p>
-  </div>
-  <div *ngIf="backendError">
-    <p>Some error occurred...</p>
-  </div>
+ <div *ngIf="!backendError">
+  <p>Please wait, loading exam...</p>
+ </div>
+ <div *ngIf="backendError">
+  <p>Some error occurred...</p>
+ </div>
 </div>
 
 <div class="exam-container" *ngIf="examStarted">
-  <mat-card-header class="exam-details">
-    <mat-card-title>{{ examData.name }}</mat-card-title>
-    <mat-card-content>
-      <p>
-        <strong>Total Marks:</strong> {{ examData.totalMarks }} <strong>Duration:</strong>
-        {{ examData.duration }} mins <strong>Time Left:</strong> {{ getFormattedTime() }}
-      </p>
-    </mat-card-content>
-  </mat-card-header>
+ <mat-card-header class="exam-details">
+  <mat-card-title>{{ examData.name }}</mat-card-title>
+  <mat-card-content>
+   <p>
+    <strong>Total Marks:</strong> {{ examData.totalMarks }} <strong>Duration:</strong>
+    {{ examData.duration }} mins <strong>Time Left:</strong> {{ getFormattedTime() }}
+   </p>
+  </mat-card-content>
+ </mat-card-header>
 
-  <ng-container *ngIf="!timeUp; else timeUpTemplate">
-    <mat-card *ngIf="currentQuestion">
-      <mat-card-content>
-        <h4 *ngIf="currentQuestion.type === 'MCQ'">Select the correct option:</h4>
-        <h4 *ngIf="currentQuestion.type !== 'MCQ'">Select the correct options:</h4>
+ <ng-container *ngIf="!timeUp; else timeUpTemplate">
+  <mat-card *ngIf="currentQuestion">
+   <mat-card-content>
+    <mat-card-title>
+               <strong>
+            Question {{ currentIndex + 1 }} of {{ examData.questions.length }}
+          </strong>
 
-        <mat-radio-group
-          *ngIf="currentQuestion.type === 'MCQ'"
-          class="options-container"
-          [value]="getSelectedRadioValue(currentQuestion.qid)"
-          (change)="onOptionSelected(currentQuestion.qid, $event.value)"
-        >
-          <div *ngFor="let option of currentQuestion.ParsedOptions" class="option-item">
-            <mat-radio-button [value]="option.id">
-              {{ option.value }}
-            </mat-radio-button>
-          </div>
-        </mat-radio-group>
+          <p style="font-size: 1.1em; margin: 10px 0 0 0;">
+            {{ currentQuestion.questionName }}
+          </p>
 
-        <div *ngIf="currentQuestion.type !== 'MCQ'" class="options-container">
-          <div *ngFor="let option of currentQuestion.ParsedOptions" class="option-item">
-            <mat-checkbox
-              [checked]="isOptionSelected(currentQuestion.qid, option.id)"
-              (change)="onOptionToggled(currentQuestion.qid, option.id, $event.checked)"
-            >
-              {{ option.value }}
-            </mat-checkbox>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+     <mat-card-subtitle>
+      <p><strong>Marks:</strong> {{ currentQuestion.marks }}</p>
+     </mat-card-subtitle>
+    </mat-card-title>
 
-    <div class="report-section" *ngIf="currentQuestion">
-      <button mat-stroked-button color="warn" (click)="openReportModal()">
-        Report an Issue with this Question
-      </button>
+    <h4 *ngIf="currentQuestion.type === 'MCQ'">Select the correct option:</h4>
+    <h4 *ngIf="currentQuestion.type !== 'MCQ'">Select the correct options:</h4>
+
+    <mat-radio-group
+     *ngIf="currentQuestion.type === 'MCQ'"
+     class="options-container"
+     [value]="getSelectedRadioValue(currentQuestion.qid)"
+     (change)="onOptionSelected(currentQuestion.qid,currentQuestion.questionName  ,$event.value)"
+    >
+     <div *ngFor="let option of currentQuestion.ParsedOptions" class="option-item">
+      <mat-radio-button [value]="option.id">
+       {{ option.value }}
+      </mat-radio-button>
+     </div>
+    </mat-radio-group>
+
+    <div *ngIf="currentQuestion.type !== 'MCQ'" class="options-container">
+     <div *ngFor="let option of currentQuestion.ParsedOptions" class="option-item">
+      <mat-checkbox
+       [checked]="isOptionSelected(currentQuestion.qid,option.id)"
+       (change)="onOptionToggled(currentQuestion.qid, currentQuestion.questionName ,option.id, $event.checked)"
+      >
+       {{ option.value }}
+      </mat-checkbox>
+     </div>
     </div>
+   </mat-card-content>
+  </mat-card>
 
-    <div class="navigation-buttons">
-      <button mat-raised-button color="primary" (click)="markAndNext()">
-        {{ currentIndex < examData.questions.length - 1 ? 'Save & Next' : 'Finish Exam' }}
+  <div class="report-section" *ngIf="currentQuestion">
+   <button mat-stroked-button color="warn" (click)="openReportModal()">
+    Report an Issue with this Question
+   </button>
+  </div>
+
+  <div class="navigation-buttons">
+      <button
+        mat-stroked-button
+        (click)="onPrevious()"
+        [disabled]="currentIndex === 0"
+        style="margin-right: 10px;"
+      >
+        Previous
       </button>
-    </div>
-  </ng-container>
 
-  <ng-template #timeUpTemplate>
-    <mat-card class="alert alert-warning">
-      Time is up! Your responses are being submitted.
-    </mat-card>
-  </ng-template>
+         <button mat-raised-button color="primary" (click)="markAndNext()">
+    {{ currentIndex < examData.questions.length - 1 ? 'Save & Next' : 'Finish Exam' }}
+   </button>
+  </div>
+ </ng-container>
+
+ <ng-template #timeUpTemplate>
+  <mat-card class="alert alert-warning">
+   Time is up! Your responses are being submitted.
+  </mat-card>
+ </ng-template>
 </div>
 
-<!-- REPORT ISSUE MODAL -->
 <div *ngIf="isReportModalVisible" class="modal-overlay" (click)="closeReportModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h3>Report Issue for Question #{{ currentQuestion.qid }}</h3>
-      <button class="close-button" (click)="closeReportModal()">&times;</button>
-    </div>
-
-    <div *ngIf="!feedbackSubmitted; else feedbackSuccessTemplate">
-      <p class="modal-subtitle">Please provide optional feedback about the issue.</p>
-      <mat-form-field appearance="outline" class="feedback-input-dark">
-        <mat-label>Optional Feedback</mat-label>
-        <textarea matInput [(ngModel)]="questionFeedback" rows="3" cdkTextareaAutosize></textarea>
-      </mat-form-field>
-      <button
-        mat-flat-button
-        class="submit-report-btn"
-        (click)="submitQuestionReport()"
-        [disabled]="feedbackSubmitted"
-      >
-        Submit Report
-      </button>
-    </div>
-
-    <ng-template #feedbackSuccessTemplate>
-      <div class="feedback-success-message">
-        <h4>Thank You!</h4>
-        <p>Your report has been submitted successfully.</p>
-      </div>
-    </ng-template>
+ <div class="modal-content" (click)="$event.stopPropagation()">
+  <div class="modal-header">
+   <h3>Report Issue for Question #{{ currentQuestion.qid }}</h3>
+   <button class="close-button" (click)="closeReportModal()">&times;</button>
   </div>
+
+  <div *ngIf="!feedbackSubmitted; else feedbackSuccessTemplate">
+   <p class="modal-subtitle">Please provide optional feedback about the issue.</p>
+   <mat-form-field appearance="outline" class="feedback-input-dark">
+    <mat-label>Optional Feedback</mat-label>
+    <textarea matInput [(ngModel)]="questionFeedback" rows="3" cdkTextareaAutosize></textarea>
+   </mat-form-field>
+   <button
+    mat-flat-button
+    class="submit-report-btn"
+    (click)="submitQuestionReport()"
+    [disabled]="feedbackSubmitted"
+   >
+    Submit Report
+   </button>
+  </div>
+
+  <ng-template #feedbackSuccessTemplate>
+   <div class="feedback-success-message">
+    <h4>Thank You!</h4>
+    <p>Your report has been submitted successfully.</p>
+   </div>
+  </ng-template>
+ </div>
 </div>

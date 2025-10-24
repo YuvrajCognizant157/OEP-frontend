@@ -10,26 +10,37 @@ import {ExamFeedbackComponent} from './admin/exam-feedback/exam-feedback';
 import { ReportedQuestionsComponent } from './admin/reported-questions/reported-questions';
 import { ReviewExamComponent } from './admin/review-exam/review-exam';
 import { profileAuthGuardfn } from './core/auth-guards/profile-auth.guard';
+import { About } from './about/about';
+import { LoggedInGuard } from './core/auth-guards/logged-in.guard';
 import { AdminAuthGuard } from './core/auth-guards/admin-auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
-  {path: 'about', loadComponent: () => import('./about/about').then((m) => m.About)  },
+  {path: 'about', component:About },
   {
     path: 'login',
-    loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent)
+    loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent),
+    // canActivate:[LoggedInGuard]
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () => import('./shared/forgot-password/forgot-password').then(m => m.ForgotPassword),
+    // canActivate:[LoggedInGuard]
   },
   {
     path: 'register-employee',
-    loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent)
+    loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent),
+    // canActivate:[LoggedInGuard]
   },
   {
     path: 'register-student',
-    loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent)
+    loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent),
+    // canActivate:[LoggedInGuard]
   },
   {
     path: 'verify-otp/:userId',
-    loadComponent: () => import('./student/verify-otp/verify-otp').then(m => m.VerifyOtpComponent)
+    loadComponent: () => import('./student/verify-otp/verify-otp').then(m => m.VerifyOtpComponent),
+    // canActivate:[LoggedInGuard]
   },
   {
     path: 'view-profile',
@@ -128,6 +139,41 @@ export const routes: Routes = [
  
   /*Angular routes are relative to the app's root, not the browser's URL path. So using '/' as a redirect target doesn't work as expected. It may cause infinite redirects or blank pages.
   */
+{path: 'admin/dashboard',
+   canActivate: [AdminAuthGuard],
+   loadComponent: () =>
+     import('./admin/dashboard/dashboard').then(m => m.DashboardComponent),
+   // 👇 Child routes rendered inside DashboardComponent
+   children: [
+     {
+       path: 'approve-exam',
+       loadComponent: () =>
+         import('./admin/approve-exam/approve-exam').then(m => m.ApproveExamComponent)
+     },
+     {
+       path: 'approve-topic',
+       loadComponent: () =>
+         import('./admin/approve-topic/approve-topic').then(m => m.ApproveTopicComponent)
+     },
+     {
+       path: 'reported-questions',
+       loadComponent: () =>
+         import('./admin/reported-questions/reported-questions').then(m => m.ReportedQuestionsComponent)
+     },
+     {
+       path: 'block-users',
+       loadComponent: () =>
+         import('./admin/block-user/block-user').then(m => m.BlockUserComponent)
+     },
+     {
+       path: 'exam-feedback',
+       loadComponent: () =>
+         import('./admin/exam-feedback/exam-feedback').then(m => m.ExamFeedbackComponent)
+     },
+     { path: '', redirectTo: '', pathMatch: 'full' }
+   ]
+ },
+
 {
     path: 'admin/dashboard',
    canActivate: [AdminAuthGuard],

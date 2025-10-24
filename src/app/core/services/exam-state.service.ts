@@ -4,7 +4,7 @@ import { signal } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class ExamStateService {
   private _examData = signal<{
-    selectedAnswers: { qid: number; Resp: string[] }[];
+    selectedAnswers: { qid: number; name:string;Resp: string[] }[];
     examId: number;
     userId: number;
     timeLeft: number;
@@ -13,7 +13,7 @@ export class ExamStateService {
   examData = this._examData.asReadonly();
 
   setExamData(data: {
-    selectedAnswers: { qid: number; Resp: string[] }[];
+    selectedAnswers: { qid: number; name:string;Resp: string[] }[];
     examId: number;
     userId: number;
     timeLeft: number;
