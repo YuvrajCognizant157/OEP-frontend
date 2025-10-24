@@ -1,42 +1,49 @@
 <header>
-    <nav>
-        <div class="nav-logo">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#f1f1f1"
-                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M15.5 12H8.5" stroke="#f1f1f1" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                <path d="M12 15.5V8.5" stroke="#f1f1f1" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round" />
-            </svg>
-            <a [routerLink]="['/']" style="text-decoration: none; color: inherit;">
-                <span>Online Exam Portal</span>
+    <nav class="nav-inner">
+        <div class="nav-left">
+            <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle menu">
+                <mat-icon>{{ isMenuOpen() ? 'close' : 'menu' }}</mat-icon>
+            </button>
+
+            <a [routerLink]="['/']" class="nav-logo-link" (click)="closeMenu()">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                        stroke="#f1f1f1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M15.5 12H8.5" stroke="#f1f1f1" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M12 15.5V8.5" stroke="#f1f1f1" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                <span class="brand">Online Exam Portal</span>
             </a>
         </div>
-        <button class="menu-toggle" (click)="toggleMenu()" *ngIf="!isMenuOpen()">
-            <mat-icon fontIcon="menu"></mat-icon>
-        </button>
-        <button class="menu-toggle" (click)="toggleMenu()" *ngIf="isMenuOpen()">
-            <mat-icon fontIcon="close"></mat-icon>
-        </button>
-        <div class="nav-links" [ngClass]="{'open': isMenuOpen()}">
-            <a [routerLink]="getRole() === 'student' ? ['/student/dashboard'] : getRole() === 'admin' ? ['/admin/dashboard'] : ['/examiner/dashboard']"
-                routerLinkActive="active-link dashboard-link-active" 
-                (click)="isMenuOpen.set(false)">
-                Dashboard
-            </a>
-            <a [routerLink]="['/about']" routerLinkActive="active-link" (click)="isMenuOpen.set(false)">About</a>
-            <a [routerLink]="['/help']" routerLinkActive="active-link" (click)="isMenuOpen.set(false)">Help</a>
+
+        <div class="nav-links-wrapper" [class.open]="isMenuOpen()">
+            <div class="nav-links">
+                <a [routerLink]="dashboardLink()" routerLinkActive="active-link"
+                    [routerLinkActiveOptions]="{ exact: false }" (click)="closeMenu()">
+                    Dashboard
+                </a>
+
+                <a [routerLink]="['/about']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="closeMenu()">
+                    About
+                </a>
+
+                <a [routerLink]="['/help']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="closeMenu()">
+                    Help
+                </a>
+            </div>
         </div>
+
         <div class="nav-actions">
-            <ng-container *ngIf="isLoggedIn">
-                <div class="avatar-container">
-                    <mat-icon class="icon-avatar">account_circle</mat-icon>
-                    <span class="avatar-name">{{ userFullName() || 'Loading...'}}</span>
-                </div>
-            </ng-container>
-            <button [ngClass]="isLoggedIn ? 'logout-btn' : 'signin-btn'" [routerLink]="!isLoggedIn ? ['/login'] : null"
-                (click)="handleAuthAction()">
+            <div *ngIf="isLoggedIn" class="avatar">
+                <mat-icon class="icon-avatar">account_circle</mat-icon>
+                <span class="avatar-name">{{ userFullName() || 'Loading...' }}</span>
+            </div>
+
+            <button class="auth-btn" (click)="handleAuthAction()" [class.logout-btn]="isLoggedIn">
                 {{ isLoggedIn ? 'Log out' : 'Sign in' }}
             </button>
         </div>

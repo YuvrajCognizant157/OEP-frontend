@@ -1,26 +1,24 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, signal, effect } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { CommonModule } from '@angular/common';
+
+// NOTE: Replace these service imports with your actual service paths
 import { AuthService } from '../core/services/auth.service';
-import { Router, RouterLink } from '@angular/router';
 import { ProfileService } from '../core/services/profile.service';
 import { LoginService } from '../core/services/login.service';
 
 @Component({
   selector: 'app-header',
-  imports: [MatIconModule, MatButtonModule, MatExpansionModule, CommonModule, RouterLink],
+  standalone: true,
+  imports: [CommonModule, RouterLink, RouterModule, MatIconModule, MatButtonModule],
   templateUrl: './header.html',
-  styleUrls: ['./header.css'],
+  styleUrls: ['./header.css']
 })
-export class Header{
-  public userFullName =  signal<string | null>(null);
+export class Header {
+  public userFullName = signal<string | null>(null);
   public isMenuOpen = signal<boolean>(false);
-
-  get isLoggedIn(): boolean {
-    return this.loginService.loginStatus() ? true : false;
-  }
 
   constructor(
     private authService: AuthService,
@@ -28,50 +26,54 @@ export class Header{
     private profileService: ProfileService,
     private loginService: LoginService
   ) {
-    
-    this.loginService.loginStatus.set( !!localStorage.getItem("token"));
+    // initialize login status from localStorage into the signal maintained in LoginService
+    this.loginService.loginStatus.set(!!localStorage.getItem('token'));
 
     effect(() => {
       if (this.loginService.loginStatus()) {
-        
+        // fetch profile
         this.profileService.getUserProfile()?.subscribe({
-          next: (profileData) => {
-            this.userFullName.set(profileData?.fullName ?? 'User');
-          },
-          error: (err) => {
-            this.userFullName.set('User_Error');
-            console.log(err);
-            alert('some error occured fetching user details ' + err.message);
-          },
+          next: (profileData) => this.userFullName.set(profileData?.fullName ?? 'User'),
+          error: () => this.userFullName.set('User'),
         });
       } else {
-        this.userFullName.set('User');
+        this.userFullName.set(null);
       }
     });
   }
 
+  get isLoggedIn(): boolean {
+    return !!this.loginService.loginStatus();
+  }
 
   getRole(): string | null {
     if (!this.isLoggedIn) return null;
-    const userRole = localStorage.getItem('userRole')?.toLocaleLowerCase();
+    return localStorage.getItem('userRole')?.toLowerCase() ?? null;
+  }
 
-    return userRole ? userRole : null;
+  toggleMenu() {
+    this.isMenuOpen.set(!this.isMenuOpen());
+  }
+
+  closeMenu() {
+    this.isMenuOpen.set(false);
   }
 
   handleAuthAction() {
     if (this.isLoggedIn) {
       this.authService.logout();
       this.loginService.loginStatus.set(false);
+      this.router.navigate(['/']);
     } else {
       this.router.navigate(['/login']);
     }
   }
-  login() {
-    this.router.navigate(['/login']);
-  }
 
-  toggleMenu() {
-    this.isMenuOpen.set(!this.isMenuOpen()); // Toggle menu state
+  // helper used in template to compute dashboard link with exact matching behavior
+  dashboardLink() {
+    const role = this.getRole();
+    if (role === 'student') return ['/student/dashboard'];
+    if (role === 'admin') return ['/admin/dashboard'];
+    return ['/examiner/dashboard'];
   }
-
 }
