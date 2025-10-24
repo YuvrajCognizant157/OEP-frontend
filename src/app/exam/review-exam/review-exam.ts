@@ -17,7 +17,7 @@ interface SubmitResponse {
   styleUrl: './review-exam.css',
 })
 export class ReviewExam implements OnInit {
-  selectedAnswers: { qid: number; Resp: string[] }[] = [];
+  selectedAnswers: { qid: number;name:string ;Resp: string[] }[] = [];
   examId!: number;
   userId!: number;
   timeLeft!: number;
