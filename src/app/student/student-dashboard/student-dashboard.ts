@@ -35,7 +35,7 @@ interface IPercentageAnalytics {
     MatProgressSpinnerModule,
     RouterLink,
     RouterLinkActive
-],
+  ],
   templateUrl: './student-dashboard.html',
   styleUrl: './student-dashboard.css',
 })
@@ -73,7 +73,7 @@ export class StudentDashboardComponent implements OnInit {
     private analyticsService: AnalyticsService,
     private examService: ExamService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // 1. Fetch Profile Data
@@ -256,7 +256,7 @@ export class StudentDashboardComponent implements OnInit {
     labels: ['Single Attempts', 'Double Attempts', 'Triple Attempts'],
     datasets: [
       {
-        data: [0, 0, 0], // Placeholder data
+        data: [], // Placeholder data
         label: 'Exam Attempts Distribution',
         backgroundColor: ['#29b6f6', '#ffb74d', '#ef5350'], // Blue, Orange, Red
         borderColor: '#fff',
@@ -319,5 +319,26 @@ export class StudentDashboardComponent implements OnInit {
     } else {
       alert("Couldn't get access to the examId");
     }
+  }
+
+
+  get hasAttemptsData(): boolean {
+    if (!this.attemptsChartData || !this.attemptsChartData.datasets || this.attemptsChartData.datasets.length === 0) {
+      return false;
+    }
+
+    const total = this.attemptsChartData.datasets[0].data.reduce((sum, current) => sum + current, 0);
+    return total > 0;
+  }
+
+  // 2. Getter for Exams Appeared by Topic Chart
+  get hasTopicData(): boolean {
+ 
+    if (!this.topicExamsChartData || !this.topicExamsChartData.datasets || this.topicExamsChartData.datasets.length === 0) {
+      return false;
+    }
+
+    const total = this.topicExamsChartData.datasets[0].data.reduce((sum, current) => sum + current, 0);
+    return total > 0;
   }
 }

@@ -8,8 +8,15 @@
                 <mat-card-title>Performance througout Attempts</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType">
-                </canvas>
+                <div class="no-records-container" *ngIf="!hasBarData">
+                    <img src="assets/GIFs/bar-chart.gif" alt="No Bar Chart Data" class="no-data-gif" />
+                    <p>No attempt scores recorded yet!</p>
+                    <p>Complete your first exam to see your performance history.</p>
+                </div>
+                <div *ngIf="hasBarData">
+                    <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType">
+                    </canvas>
+                </div>
             </mat-card-content>
         </mat-card>
 
@@ -19,8 +26,15 @@
                 <mat-card-title>Performance By topics</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="pieChartType">
-                </canvas>
+                <div class="no-records-container" *ngIf="!hasPieData">
+                    <img src="assets/GIFs/pie-chart.gif" alt="No Pie Chart Data" class="no-data-gif" />
+                    <p>Topic performance data not available!</p>
+                    <p>Take exams covering various topics to get a breakdown of your strengths.</p>
+                </div>
+                <div *ngIf="hasPieData">
+                    <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="pieChartType">
+                    </canvas>
+                </div>
             </mat-card-content>
         </mat-card>
 
@@ -29,9 +43,16 @@
                 <mat-card-title>Attempts Count Records</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions"
-                    [type]="doughnutChartType">
-                </canvas>
+                <div class="no-records-container" *ngIf="!hasDoughnutData">
+                    <img src="assets/GIFs/pie-chart.gif" alt="No Doughnut Chart Data" class="no-data-gif" />
+                    <p>No attempts history to show!</p>
+                    <p>This chart will show your single, double, and triple attempt breakdown.</p>
+                </div>
+                <div *ngIf="hasDoughnutData">
+                    <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions"
+                        [type]="doughnutChartType">
+                    </canvas>
+                </div>
             </mat-card-content>
         </mat-card>
 
@@ -56,8 +77,10 @@
                     <mat-spinner diameter="50"></mat-spinner>
                 </div>
 
-                <div *ngIf="!isLoadingResults && availableExams.length === 0" class="no-data-message">
-                    No completed exam results available to track progression.
+                <div *ngIf="!isLoadingResults && availableExams.length === 0" class="no-records-container">
+                    <img src="assets/GIFs/bar-chart.gif" alt="No Line Chart Data" class="no-data-gif" />
+                    <p>No completed exam results available to track progression.</p>
+                    <p>Complete at least one exam to view your score trends here.</p>
                 </div>
 
                 <div *ngIf="!isLoadingResults && availableExams.length > 0" class="chart-container">
