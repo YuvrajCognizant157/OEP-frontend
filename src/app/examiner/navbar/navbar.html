@@ -1,18 +1,45 @@
 <mat-toolbar class="custom-navbar">
   <span class="brand">Examiner Panel</span>
   <div class="nav-links">
-    <a mat-button routerLink="/examiner/dashboard/analytics" routerLinkActive="active-link"
+    <a
+      routerLink="/examiner/dashboard/analytics"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
       >Analytics</a
     >
-    <a mat-button routerLink="/examiner/dashboard/exams" routerLinkActive="active-link">Exams</a>
-    <a mat-button routerLink="/examiner/dashboard/topics" routerLinkActive="active-link">Topics</a>
-    <a mat-button routerLink="/examiner/dashboard/create-exam" routerLinkActive="active-link"
+    <a
+      mat-button
+      routerLink="/examiner/dashboard/exams"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
+      >Exams</a
+    >
+    <a
+      mat-button
+      routerLink="/examiner/dashboard/topics"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
+      >Topics</a
+    >
+    <a
+      mat-button
+      routerLink="/examiner/dashboard/create-exam"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
       >Create Exam</a
     >
-    <a mat-button routerLink="/examiner/dashboard/manage-topic" routerLinkActive="active-link"
+    <a
+      mat-button
+      routerLink="/examiner/dashboard/manage-topic"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
       >Manage Topics</a
     >
-    <a mat-button routerLink="/examiner/dashboard/manage-questions" routerLinkActive="active-link"
+    <a
+      mat-button
+      routerLink="/examiner/dashboard/manage-questions"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
       >Manage Questions</a
     >
   </div>
@@ -22,16 +49,52 @@
   <div class="overlay" [ngClass]="{ show: isMenuOpen }">
     <button class="close-btn" (click)="closeMenu()">×</button>
     <div class="overlay-content">
-      <a mat-button routerLink="/examiner/dashboard/analytics" (click)="closeMenu()">Analytics</a>
-      <a mat-button routerLink="/examiner/dashboard/exams" (click)="closeMenu()">Exams</a>
-      <a mat-button routerLink="/examiner/dashboard/topics" (click)="closeMenu()">Topics</a>
-      <a mat-button routerLink="/examiner/dashboard/create-exam" (click)="closeMenu()"
+      <a
+        mat-button
+        routerLink="/examiner/dashboard/analytics"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: false }"
+        (click)="closeMenu()"
+        >Analytics</a
+      >
+      <a
+        mat-button
+        routerLink="/examiner/dashboard/exams"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: false }"
+        (click)="closeMenu()"
+        >Exams</a
+      >
+      <a
+        mat-button
+        routerLink="/examiner/dashboard/topics"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: false }"
+        (click)="closeMenu()"
+        >Topics</a
+      >
+      <a
+        mat-button
+        routerLink="/examiner/dashboard/create-exam"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: false }"
+        (click)="closeMenu()"
         >Create Exam</a
       >
-      <a mat-button routerLink="/examiner/dashboard/manage-topic" (click)="closeMenu()"
+      <a
+        mat-button
+        routerLink="/examiner/dashboard/manage-topic"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: false }"
+        (click)="closeMenu()"
         >Manage Topics</a
       >
-      <a mat-button routerLink="/examiner/dashboard/manage-questions" (click)="closeMenu()"
+      <a
+        mat-button
+        routerLink="/examiner/dashboard/manage-questions"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: false }"
+        (click)="closeMenu()"
         >Manage Questions</a
       >
     </div>

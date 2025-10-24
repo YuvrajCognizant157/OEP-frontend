@@ -1,11 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Exam } from '../exams';
+import { MatChipSet, MatChip } from '@angular/material/chips';
 
 @Component({
   selector: 'app-exam-modal',
   imports: [
     CommonModule,
+    MatChipSet, MatChip 
   ],
   templateUrl: './exam-modal.html',
   styleUrl: './exam-modal.css',

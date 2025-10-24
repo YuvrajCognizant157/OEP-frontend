@@ -17,7 +17,7 @@ interface SubmitResponse {
   styleUrl: './review-exam.css',
 })
 export class ReviewExam implements OnInit {
-  selectedAnswers: { qid: number; Resp: string[] }[] = [];
+  selectedAnswers: { qid: number;name:string ;Resp: string[] }[] = [];
   examId!: number;
   userId!: number;
   timeLeft!: number;
@@ -56,6 +56,7 @@ const data = this.examStateService.examData();
       next: (res: any) => {
         this.examStateService.clearExamData();
         this.router.navigate([`/student/exam-feedback/${this.examId}`]);
+        this.timeLeft =0;
         alert((res as SubmitResponse)?.msg ?? JSON.stringify(res));
       },
       error: (err) => {
