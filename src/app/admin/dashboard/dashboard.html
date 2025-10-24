@@ -1,12 +1,12 @@
 <mat-toolbar color="primary" class="admin-toolbar">
 <span class="brand">Admin Panel</span>
 <div class="nav-links">
-<a mat-button routerLink="/admin/dashboard" routerLinkActive="active-link">Dashboard</a>
-<a mat-button routerLink="/admin/dashboard/approve-exam" routerLinkActive="active-link">Approve Exams</a>
-<a mat-button routerLink="/admin/dashboard/reported-questions" routerLinkActive="active-link">Reported Questions</a>
-<a mat-button routerLink="/admin/dashboard/approve-topic" routerLinkActive="active-link">Approve Topics</a>
-<a mat-button routerLink="/admin/dashboard/block-users" routerLinkActive="active-link">Manage Users</a>
-<a mat-button routerLink="/admin/dashboard/exam-feedback" routerLinkActive="active-link">Exam Feedback</a>
+<a mat-button routerLink="/admin/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Dashboard</a>
+<a mat-button routerLink="/admin/dashboard/approve-exam" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Approve Exams</a>
+<a mat-button routerLink="/admin/dashboard/reported-questions" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Reported Questions</a>
+<a mat-button routerLink="/admin/dashboard/approve-topic" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Approve Topics</a>
+<a mat-button routerLink="/admin/dashboard/block-users" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Manage Users</a>
+<a mat-button routerLink="/admin/dashboard/exam-feedback" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Exam Feedback</a>
 </div>
 <!-- Hamburger icon for mobile -->
 <button class="menu-toggle" (click)="toggleMenu()">☰</button>
@@ -14,7 +14,7 @@
 <div class="overlay" [ngClass]="{ show: isMenuOpen }">
 <button class="close-btn" (click)="closeMenu()">×</button>
 <div class="overlay-content">
-<a mat-button routerLink="/admin/dashboard" (click)="closeMenu()">Dashboard</a>
+<a mat-button routerLink="/admin/dashboard" (click)="closeMenu()" >Dashboard</a>
 <a mat-button routerLink="/admin/dashboard/approve-exam" (click)="closeMenu()">Approve Exams</a>
 <a mat-button routerLink="/admin/dashboard/reported-questions" (click)="closeMenu()">Reported Questions</a>
 <a mat-button routerLink="/admin/dashboard/approve-topic" (click)="closeMenu()">Approve Topics</a>

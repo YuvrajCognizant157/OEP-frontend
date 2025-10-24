@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet ,RouterModule} from '@angular/router';
 
 import { AdminService } from '../../core/services/admin.service';
 
@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
 
   standalone: true,
 
-  imports: [CommonModule, MatCardModule, MatIconModule, MatToolbarModule, RouterLink, RouterOutlet,DecimalPipe],
+  imports: [CommonModule, MatCardModule, MatIconModule, MatToolbarModule, RouterLink, RouterOutlet,DecimalPipe,RouterModule],
 
   templateUrl: './dashboard.html',
 

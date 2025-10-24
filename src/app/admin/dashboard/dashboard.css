@@ -354,4 +354,17 @@
   color: #bbb;
 
 }
- 
+ .active-link {
+  /* A simple bright white with bold text */
+  color: #6f81df !important;
+  font-weight: 700; /* Bolder */
+  opacity: 1;
+  
+  border-bottom: 3px solid #d36868;
+  border-radius: 0; 
+}
+
+/* Optional: Make other links slightly faded */
+.nav-links > a:not(.active-link) {
+  opacity: 0.7;
+}
