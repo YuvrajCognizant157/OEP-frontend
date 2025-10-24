@@ -1,241 +1,187 @@
-
 header {
   background-color: #575485;
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
   width: 100%;
   box-sizing: border-box;
+  position: relative; /* 🔑 Important for absolute positioning of backdrop */
+    z-index: 100;
 }
 
-nav {
+.menu-backdrop {
+    /* 🔑 Covers the whole viewport */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* 🔑 Make it semi-transparent and dark */
+    background-color: rgba(0, 0, 0, 0.6); 
+    
+    /* 🔑 Place it just behind the menu drawer (z-index of nav-links should be > 999) */
+    z-index: 998; 
+    
+    cursor: pointer;
+    
+    /* Only show on mobile */
+    display: none; 
+}
+
+.nav-inner {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: 1000;
-  font-size: 1.5rem;
-  color: #f1f1f1;
-}
-
-.nav-logo svg path {
-  stroke: #f1f1f1;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2.5rem;
-}
-
-.nav-links a {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  color: #FFFFFF;
-  font-weight: 900;
-  font-size: 1.3rem;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover,
-.nav-links a.active-link {
-  color: var(--header-accent);
-}
-
-.nav-links a.active-link::after {
-    content: '';
-    position: absolute;
-    bottom: -5px; 
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: var(--header-accent);
-    border-radius: 2px;
-}
-
-/* Ensure the hover effect doesn't create a double line when active */
-.nav-links a.active-link:hover::after {
-    background-color: var(--header-accent);
-}
-
-.nav-links a mat-icon {
-  font-size: 1.4rem;
-  height: 1.4rem;
-  width: 1.4rem;
-}
-
-.nav-links .arrow {
-  font-size: 0.6rem;
-  margin-left: 0.2rem;
-  vertical-align: middle;
-}
-
-.nav-actions {
+.nav-left {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.avatar-container {
+.nav-logo-link {
   display: flex;
-  flex-direction: row; /* Changed to row for horizontal alignment */
   align-items: center;
-  gap: 0.5rem; /* Space between icon and name */
-  text-align: center;
-  font-size: 0.85rem;
+  gap: 0.75rem;
+  font-weight: 800;
   color: #f1f1f1;
+  text-decoration: none;
 }
 
-.icon-avatar {
-  font-size: 40px;
-  width: 40px;
-  height: 40px;
-  color: #d842cc;
-}
-
-.signin-btn, .signup-btn {
-  background-color: #5d5fef;
-  color: white;
-  border: none;
-  padding: 0.8rem 1.8rem;
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: 2rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.signin-btn:hover, .signup-btn:hover {
-  background-color: #4a4cc7;
-}
-
-.logout-btn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 0.8rem 1.8rem;
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: 2rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.logout-btn:hover {
-  background-color: #c82333;
-}
+.brand { font-size: 1.2rem; font-weight: 800; }
 
 .menu-toggle {
   display: none;
   background: none;
   border: none;
-  cursor: pointer;
   color: #f1f1f1;
-  font-size: 1.5rem;
+  cursor: pointer;
+  font-size: 1.4rem;
 }
 
-.menu-toggle mat-icon {
-  font-size: 24px;
-  width: 24px;
-  height: 24px;
+/* Desktop links */
+.nav-links-wrapper { display: block; }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
 }
 
-/* Responsive Styles */
-@media (max-width: 900px) { 
-    /* 1. Show the menu toggle button */
-    .menu-toggle {
-        display: block; 
-    }
-    
-    /* 2. Style the Navigation Links for Mobile (SIDE DRAWER) */
-    .nav-links {
-        /* Reset desktop styles */
-        display: flex; /* Keep flex to stack links */
-        flex-direction: column;
-        
-        /* Positioning for a Side Drawer */
-        position: fixed;
-        top: 0; /* Align to the top of the viewport */
-        right: 0;
-        bottom: 0; /* Cover the full height of the viewport */
-        left: auto; 
-        
-        /* Drawer Size and Appearance */
-        width: 280px; /* Fixed width for the drawer */
-        max-width: 80%; /* Ensure it doesn't cover too much on small phones */
-        
-        /* 🔑 NEW DRAWER BACKGROUND COLOR */
-        background-color: #39365C; /* Darker shade for contrast */
-        
-        padding: 65px 0 0 0; /* Add top padding to start below the header height */
-        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.4); 
-        
-        /* Initial state: Hidden off-screen to the right */
-        transform: translateX(100%); 
-        opacity: 1; /* Keep opacity at 1 so background is solid */
-        pointer-events: none; 
-        transition: transform 0.3s ease-out;
-        z-index: 999; 
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  position: relative;
+}
+
+.nav-links a:hover {
+  background-color: rgba(255,255,255,0.06);
+}
+
+/* Active route styling: persistent filled state */
+.nav-links a.active-link {
+  background-color: rgba(255,255,255,0.14);
+  color: var(--header-accent, #1a181b);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar { display: flex; 
+  align-items: center;
+   gap: 0.1rem;
+    color: #f1f1f1;
+     cursor: default; 
+    padding: 0.2rem 0;
+     
+   }
+
+
+.icon-avatar { font-size: 2.4rem; color: #d842cc; 
+ width: 2.4rem;
+    height: 2.4rem; }
+.avatar-name {  
+    margin: 0;     
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.auth-btn {
+  background-color: #272728;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.auth-btn.logout-btn {
+  background-color: #e53935; /* A Warn/Red color for Log out */
+}
+
+.auth-btn:hover { filter: brightness(0.95); }
+
+/* Specific hover effect for Log out (optional) */
+.auth-btn.logout-btn:hover {
+  filter: brightness(1.1); /* Slightly brighter on hover */
+}
+
+/* ----------------- Responsive (Mobile) ----------------- */
+@media (max-width: 900px) {
+  .menu-toggle { display: block; }
+
+  .menu-backdrop {
+        display: block;
     }
 
-    /* 3. Drawer Open State */
-    .nav-links.open {
-        /* Slide the drawer into view */
-        transform: translateX(0);
-        pointer-events: all;
-    }
+  /* Hide desktop links, show drawer */
+  .nav-links-wrapper { display: block; }
+  .nav-links {
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0; /* drawer from the left */
+    bottom: 0;
+    width: 280px;
+    max-width: 80%;
+    padding: 70px 1rem 1rem 1rem;
+    background-color: #39365C;
+    transform: translateX(-100%);
+    transition: transform 0.28s ease-out;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.4);
+    z-index: 999;
+    gap: 0.25rem;
+  }
 
-    /* 4. Style the Links inside the Drawer */
-    .nav-links a {
-        font-size: 1.1rem;
-        font-weight: 500;
-        color: #e0e0e0;
-        /* Padding to prevent sticking to the left */
-        padding: 12px 1.5rem; 
-        width: 100%;
-        box-sizing: border-box;
-        position: relative;
-    }
-    
-    .nav-links a:hover {
-        /* Slightly darker hover for contrast */
-        background-color: #575485; 
-        color: #ffffff;
-    }
+  .nav-links-wrapper.open .nav-links, .nav-links[ng-reflect-ng-class*="open"] {
+    transform: translateX(0);
+  }
 
-    .nav-links a.active-link {
-        color: var(--header-accent);
-        background-color: rgba(154, 119, 255, 0.1);
-        font-weight: 600; 
-    }
-    
-    .nav-links a.active-link::after {
-        content: none;
-    }
-    
-    .nav-actions {
-        display: flex;
-    }
-    
-    /* 🔑 Ensure the avatar and log out button don't disappear behind the drawer */
-    nav {
-        z-index: 1000; /* Ensure nav content stays above the drawer */
-    }
+  .nav-links a {
+    width: 100%;
+    padding: 0.8rem 0.8rem;
+    font-size: 1rem;
+  }
+
+  /* keep avatar + button visible on top nav */
+  .nav-actions { gap: 0.5rem; }
+  .avatar-name { display: none; }
 }
 
 @media (max-width: 550px) {
-    
-    .signin-btn, .logout-btn {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-    }
-
-    .avatar-name {
-        display: none;
-    }
+  .auth-btn { padding: 0.45rem 0.8rem; font-size: 0.92rem; }
 }
