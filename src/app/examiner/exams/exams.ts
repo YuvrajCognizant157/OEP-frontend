@@ -23,6 +23,7 @@ export interface Exam {
   submittedForApproval: boolean;
   adminRemarks: string | null;
   tids: number[];
+  topicNames:number[];
   userId: number;
   reviewerId: number | null;
   questions: any[];
