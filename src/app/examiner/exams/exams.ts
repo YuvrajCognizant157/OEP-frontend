@@ -9,6 +9,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService, userDetails } from '../../core/services/auth.service';
 import { MatChip } from '@angular/material/chips';
+import { Router } from '@angular/router';
 // Define the interface for a single Exam object
 export interface Exam {
   eid: number;
@@ -58,7 +59,7 @@ export class Exams implements OnInit {
   isUpdateModalOpen = signal<boolean>(false);
   examToUpdate = signal<Exam | null>(null);
 
-  constructor(private examinerService: ExaminerService, private authService: AuthService) {}
+  constructor(private examinerService: ExaminerService, private authService: AuthService,private router:Router) {}
 
   userId = -1;
 
@@ -118,6 +119,12 @@ export class Exams implements OnInit {
         },
       });
     }
+  }
+
+  // ADDED: New method for the add question button
+  onAddQuestion(examId: number): void {
+    this.router.navigate([`/examiner/dashboard/add-questions/${examId}`]);
+    console.log('Add question to exam ID:', examId);
   }
 
   sendExamForApproval(examId: number): void {

@@ -55,6 +55,8 @@ export class StartExam implements OnInit, OnDestroy {
   questionFeedback: string = '';
   feedbackSubmitted: boolean = false;
 
+  isPanelCollapsed: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -242,6 +244,30 @@ export class StartExam implements OnInit, OnDestroy {
       this.selectedAnswers.push({ qid, name: questionName, Resp: [String(optionId)] });
     }
   }
+
+  // Toggle sidebar open/close
+  togglePanel(): void {
+    this.isPanelCollapsed = !this.isPanelCollapsed;
+  }
+
+  // Navigate to a specific question
+  goToQuestion(index: number): void {
+    this.currentIndex = index;
+    this.currentQuestion = this.examData.questions[this.currentIndex];
+  }
+
+  // Helper to check if a question is answered
+  isQuestionAnswered(qid: number): boolean {
+    return this.selectedAnswers.some((a) => a.qid === qid && a.Resp.length > 0);
+  }
+
+  get answeredCount(): number {
+  return this.selectedAnswers.filter(a => a.Resp && a.Resp.length > 0).length;
+}
+
+get unansweredCount(): number {
+  return this.examData?.questions?.length - this.answeredCount;
+}
 
   ngOnDestroy(): void {
     if (this.timerInterval && this.timeLeft) {
