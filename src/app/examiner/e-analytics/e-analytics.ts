@@ -191,7 +191,7 @@ export class EAnalytics implements OnInit {
   public hardestQuestionsChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     indexAxis: 'y', // Makes it a horizontal bar chart
-    scales: { x: { beginAtZero: true, max: 100 } }, // Assuming scores 0-100
+    scales: { x: { beginAtZero: true, max: 10 } }, // Assuming scores 0-100
     plugins: {
       legend: { display: false },
       title: { display: true, text: 'Top 5 Hardest Questions (Lowest Avg. Score)' },
@@ -206,7 +206,7 @@ export class EAnalytics implements OnInit {
   public easiestQuestionsChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     indexAxis: 'y', // Makes it a horizontal bar chart
-    scales: { x: { beginAtZero: true, max: 100 } }, // Assuming scores 0-100
+    scales: { x: { beginAtZero: true, max: 10 } }, // Assuming scores 0-100
     plugins: {
       legend: { display: false },
       title: { display: true, text: 'Top 5 Easiest Questions (Highest Avg. Score)' },

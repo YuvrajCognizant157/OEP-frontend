@@ -59,6 +59,7 @@
 
 .chart-container.large {
   grid-column: span 1; 
+  height: 275px;
 }
 
 .stat-card {
@@ -78,4 +79,13 @@
 }
 .charts{
    color: #dedbdb !important;
+}
+.wired{
+  width: 100%;
+}
+.chart-container.last {
+  grid-column: span 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
