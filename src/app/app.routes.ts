@@ -16,11 +16,13 @@ import { LoggedInGuard } from './core/auth-guards/logged-in.guard';
 export const routes: Routes = [
   { path: '', component: Home },
   {path: 'about', component:About },
+  {path:'help', loadComponent: () => import('./help/help').then(m => m.HelpComponent)},
+  {path:'unauthorized', loadComponent: () => import('./shared/unauthorized/unauthorized').then(m => m.Unauthorized)},
   {
     path: 'login',
     loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent),
     // canActivate:[LoggedInGuard]
-  },
+  },  
   {
     path: 'forgot-password',
     loadComponent: () => import('./shared/forgot-password/forgot-password').then(m => m.ForgotPassword),
