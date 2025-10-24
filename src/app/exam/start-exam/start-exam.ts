@@ -49,7 +49,7 @@ export class StartExam implements OnInit, OnDestroy {
   currentQuestion!: StartExamQuestionDTO;
 
   DisplayOptions: optionDisplayType[] = [];
-  selectedAnswers: { qid: number; Resp: string[] }[] = [];
+  selectedAnswers: { qid: number; name: string; Resp: string[] }[] = [];
 
   isReportModalVisible: boolean = false;
   questionFeedback: string = '';
@@ -66,7 +66,6 @@ export class StartExam implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.layoutService.hideLayout();
     document.documentElement.requestFullscreen();
-
     this.examId = Number(this.route.snapshot.paramMap.get('examId')) || 7;
     this.startExam();
   }
@@ -81,12 +80,24 @@ export class StartExam implements OnInit, OnDestroy {
     this.feedbackSubmitted = false; // Reset submission status
   }
 
+  // *** NEW METHOD ***
+  // Goes to the previous question
+  onPrevious(): void {
+    // Only go back if we are not on the first question
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.currentQuestion = this.examData.questions[this.currentIndex];
+    }
+  }
+
   markAndNext() {
     this.closeReportModal(); // Ensure modal is closed when moving to next question
+    // Check if there are more questions left
     if (this.currentIndex < this.examData.questions.length - 1) {
       this.currentIndex++;
       this.currentQuestion = this.examData.questions[this.currentIndex];
     } else {
+      // This is the last question, so finish the exam
       this.timeUp = true;
       clearInterval(this.timerInterval);
       this.onFinishExam();
@@ -136,7 +147,8 @@ export class StartExam implements OnInit, OnDestroy {
           }
 
           this.examData = res.examData;
-          this.currentQuestion = this.examData.questions[0];
+          // Set the first question
+          this.currentQuestion = this.examData.questions[this.currentIndex]; // Was [0]
           this.timeLeft = res.examData.duration * 60;
           this.startTimer();
           this.examStarted = true;
@@ -180,12 +192,12 @@ export class StartExam implements OnInit, OnDestroy {
     return null; // No selection
   }
 
-  onOptionSelected(qid: number, selectedOptionId: number) {
+  onOptionSelected(qid: number, questionName: string, selectedOptionId: number) {
     const index = this.selectedAnswers.findIndex((a) => a.qid === qid);
     if (index !== -1) {
       this.selectedAnswers[index].Resp = [String(selectedOptionId)];
     } else {
-      this.selectedAnswers.push({ qid, Resp: [String(selectedOptionId)] });
+      this.selectedAnswers.push({ qid, name: questionName, Resp: [String(selectedOptionId)] });
     }
   }
 
@@ -196,7 +208,7 @@ export class StartExam implements OnInit, OnDestroy {
     const unansweredQids = allQuestionIds.filter((qid) => !answeredQids.includes(qid));
 
     unansweredQids.forEach((qid) => {
-      this.selectedAnswers.push({ qid, Resp: [] });
+      this.selectedAnswers.push({ qid, name: '', Resp: [] });
     });
 
     this.examStateService.setExamData({
@@ -215,7 +227,8 @@ export class StartExam implements OnInit, OnDestroy {
     const answer = this.selectedAnswers.find((a) => a.qid === qid);
     return answer ? answer.Resp.includes(String(optionId)) : false;
   }
-  onOptionToggled(qid: number, optionId: number, checked: boolean) {
+
+  onOptionToggled(qid: number, questionName: string, optionId: number, checked: boolean) {
     const answer = this.selectedAnswers.find((a) => a.qid === qid);
     if (answer) {
       if (checked) {
@@ -226,15 +239,15 @@ export class StartExam implements OnInit, OnDestroy {
         answer.Resp = answer.Resp.filter((id) => id !== String(optionId));
       }
     } else {
-      this.selectedAnswers.push({ qid, Resp: [String(optionId)] });
+      this.selectedAnswers.push({ qid, name: questionName, Resp: [String(optionId)] });
     }
   }
 
   ngOnDestroy(): void {
-    // This is a safety net in case the user navigates away
-    // (e.g., browser back button) before finishing the exam.
-    this.layoutService.showLayout(); // <-- SHOW LAYOUT
-
+    if (this.timerInterval && this.timeLeft) {
+      clearInterval(this.timerInterval);
+    }
+    this.layoutService.showLayout();
     // Also good practice to exit fullscreen if component is destroyed
     if (document.fullscreenElement) {
       document.exitFullscreen();

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink  } from '@angular/router';
+import {  RouterLink, RouterModule } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, MatToolbarModule,MatButtonModule,CommonModule],
+  imports: [RouterLink, MatToolbarModule,MatButtonModule,CommonModule,RouterModule],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css']
 })

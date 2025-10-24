@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService, userDetails } from '../../core/services/auth.service';
-
+import { MatChip } from '@angular/material/chips';
 // Define the interface for a single Exam object
 export interface Exam {
   eid: number;
@@ -23,14 +23,15 @@ export interface Exam {
   submittedForApproval: boolean;
   adminRemarks: string | null;
   tids: number[];
+  topicNames: number[];
   userId: number;
   reviewerId: number | null;
   questions: any[];
   examFeedbacks: any[];
   responses: any[];
   results: any[];
-  reviewer: any | null; 
-  user: any | null; 
+  reviewer: any | null;
+  user: any | null;
 }
 
 @Component({
@@ -43,6 +44,7 @@ export interface Exam {
     MatIconModule,
     MatCardModule,
     MatDividerModule,
+    MatChip,
   ],
   templateUrl: './exams.html',
   styleUrl: './exams.css',
@@ -51,24 +53,24 @@ export class Exams implements OnInit {
   exams: Exam[] = [];
   selectedExam: Exam | null = null;
   isModalOpen: boolean = false;
-  tids : number[]=[];
+  tids: number[] = [];
 
   isUpdateModalOpen = signal<boolean>(false);
   examToUpdate = signal<Exam | null>(null);
 
-  constructor(private examinerService: ExaminerService,private authService: AuthService) {}
+  constructor(private examinerService: ExaminerService, private authService: AuthService) {}
 
   userId = -1;
 
   ngOnInit(): void {
-    let tokenDetails:userDetails = this.authService.getUserRole()!;
+    let tokenDetails: userDetails = this.authService.getUserRole()!;
     this.userId = tokenDetails?.id;
     this.fetchExams();
   }
 
   fetchExams(): void {
     this.examinerService.getExamsForExaminer(this.userId).subscribe({
-      next: (data:Exam[]) => {
+      next: (data: Exam[]) => {
         this.exams = data;
       },
       error: (err) => {
@@ -79,7 +81,7 @@ export class Exams implements OnInit {
 
   viewExamDetails(examId: number): void {
     this.examinerService.getExamById(examId).subscribe({
-      next: (data:Exam) => {
+      next: (data: Exam) => {
         this.selectedExam = data;
         this.isModalOpen = true;
       },
@@ -137,14 +139,21 @@ export class Exams implements OnInit {
     });
   }
 
-  
-  getApprovalStatus(status: number,approval:boolean): { text: string; class: string } {
-    if (status === 1) return { text: 'Approved', class: 'status-approved' };
-    if(status === 0 && approval === true) return {text:'Submitted For Approval',class:'status-awaited'};
-    if (status === 0) return { text: 'Pending', class: 'status-pending' };
-    return { text: 'Rejected', class: 'status-rejected' };
+  getApprovalStatus(
+    status: number,
+    approval: boolean
+  ): { text: string; class: string; matColor?: 'primary' | 'accent' | 'warn' } {
+    if (status === 1) {
+      return { text: 'Approved', class: 'status-approved', matColor: 'accent' };
+    }
+    if (status === 0 && approval === true) {
+      return { text: 'Submitted For Approval', class: 'status-awaited', matColor: 'primary' };
+    }
+    if (status === 0) {
+      return { text: 'Pending', class: 'status-pending', matColor: 'primary' };
+    }
+    return { text: 'Rejected', class: 'status-rejected', matColor: 'warn' };
   }
-
 
   onExamUpdated(): void {
     this.closeUpdateModal();

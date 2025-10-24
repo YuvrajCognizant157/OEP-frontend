@@ -2,45 +2,58 @@
 <div class="modal-overlay" (click)="onModalClick($event)">
   <div class="modal-content">
     <div class="modal-header">
-      <h3>{{ exam?.name }} Details</h3>
+      <h3 class="exam-name">{{ exam?.name }} Details</h3>
       <button class="close-button" (click)="onClose()">&times;</button>
     </div>
     @if(exam){
-      <div class="modal-body" >
-      <p><strong>Exam ID:</strong> {{ exam.eid }}</p>
-      <p><strong>Total Questions:</strong> {{ exam.totalQuestions }}</p>
-      <p><strong>Total Marks:</strong> {{ exam.marksPerQuestion * exam.totalQuestions }}</p>
-      <p>
-        <strong>Approval Status:</strong> {{ exam.approvalStatus == 1 ? 'Approved' : 'Pending' }}
-      </p>
-      @if (exam.tids.length>0) {
-          <h4>Associated Topic IDs</h4>
-          <div class="topic-ids-container">
-            @for(tid of exam.tids; track $index) {
-              <span class="topic-id-badge">{{ tid }},</span>
-            }
-          </div>
-        }
+    <div class="modal-body">
+      <mat-chip-set class="exam-info-chips">
+        <mat-chip color="primary"> <strong>ID:</strong> {{ exam.eid }} </mat-chip>
+
+        <mat-chip> <strong>Questions:</strong> {{ exam.totalQuestions }} </mat-chip>
+
+        <mat-chip>
+          <strong>Marks:</strong> {{ exam.marksPerQuestion * exam.totalQuestions }}
+        </mat-chip>
+
+        <mat-chip
+          [color]="exam.approvalStatus == 1 ? 'accent' : ''"
+          [highlighted]="exam.approvalStatus == 1"
+        >
+          <strong>Status:</strong> {{ exam.approvalStatus == 1 ? 'Approved' : 'Pending' }}
+        </mat-chip>
+      </mat-chip-set>
+
+      @if (exam.topicNames.length>0) {
+      <h4>Associated Topic Names</h4>
+      <div class="topic-ids-container">
+        <mat-chip
+          *ngFor="let name of exam.topicNames; let i = index"
+          class="topic-id-badge topic-names"
+        >
+          {{ exam.tids[i] }}: {{ name }}
+        </mat-chip>
+      </div>
+      }
 
       <h4>Questions ({{ exam.questions.length }})</h4>
       <ul class="question-list">
-        @if (exam.questions && exam.questions.length > 0) {
-          @for (ques of exam.questions; track ques.qid) {
-            <li >
-              <p>
-                <strong>Q{{ ques.qid }}:</strong> {{ ques.questionText }}
-              </p>
-              <p><strong>Marks:</strong> {{ ques.marks }}</p>
-              <p><strong>Type:</strong> {{ ques.type }}</p>
-            </li>
-          }
-        }@else {
-          <p> Please Wait, While we load the Questions for You.</p>
+        @if (exam.questions && exam.questions.length > 0) { @for (ques of exam.questions; track
+        ques.qid) {
+        <li>
+          <p>
+            <strong>Q{{ ques.qid }}:</strong> {{ ques.questionText }}
+          </p>
+          <p><strong>Marks:</strong> {{ ques.marks }}</p>
+          <p><strong>Type:</strong> {{ ques.type }}</p>
+        </li>
+        } }@else {
+        <p>Please Wait, While we load the Questions for You.</p>
         }
       </ul>
     </div>
     }@else {
-      <p>Couldn't Find the Exam , you were looking For.</p>
+    <p>Couldn't Find the Exam , you were looking For.</p>
     }
   </div>
 </div>
