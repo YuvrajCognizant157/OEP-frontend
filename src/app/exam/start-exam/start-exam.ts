@@ -49,7 +49,7 @@ export class StartExam implements OnInit, OnDestroy {
   currentQuestion!: StartExamQuestionDTO;
 
   DisplayOptions: optionDisplayType[] = [];
-  selectedAnswers: { qid: number;name:string; Resp: string[] }[] = [];
+  selectedAnswers: { qid: number; name: string; Resp: string[] }[] = [];
 
   isReportModalVisible: boolean = false;
   questionFeedback: string = '';
@@ -192,12 +192,12 @@ export class StartExam implements OnInit, OnDestroy {
     return null; // No selection
   }
 
-  onOptionSelected(qid: number,questionName:string ,selectedOptionId: number) {
+  onOptionSelected(qid: number, questionName: string, selectedOptionId: number) {
     const index = this.selectedAnswers.findIndex((a) => a.qid === qid);
     if (index !== -1) {
       this.selectedAnswers[index].Resp = [String(selectedOptionId)];
     } else {
-      this.selectedAnswers.push({ qid,name:questionName, Resp: [String(selectedOptionId)] });
+      this.selectedAnswers.push({ qid, name: questionName, Resp: [String(selectedOptionId)] });
     }
   }
 
@@ -208,7 +208,7 @@ export class StartExam implements OnInit, OnDestroy {
     const unansweredQids = allQuestionIds.filter((qid) => !answeredQids.includes(qid));
 
     unansweredQids.forEach((qid) => {
-      this.selectedAnswers.push({ qid, name: "",Resp: [] });
+      this.selectedAnswers.push({ qid, name: '', Resp: [] });
     });
 
     this.examStateService.setExamData({
@@ -228,7 +228,7 @@ export class StartExam implements OnInit, OnDestroy {
     return answer ? answer.Resp.includes(String(optionId)) : false;
   }
 
-  onOptionToggled(qid: number, questionName:string ,optionId: number, checked: boolean) {
+  onOptionToggled(qid: number, questionName: string, optionId: number, checked: boolean) {
     const answer = this.selectedAnswers.find((a) => a.qid === qid);
     if (answer) {
       if (checked) {
@@ -239,15 +239,15 @@ export class StartExam implements OnInit, OnDestroy {
         answer.Resp = answer.Resp.filter((id) => id !== String(optionId));
       }
     } else {
-      this.selectedAnswers.push({ qid,name:questionName, Resp: [String(optionId)] });
+      this.selectedAnswers.push({ qid, name: questionName, Resp: [String(optionId)] });
     }
   }
 
   ngOnDestroy(): void {
-    // This is a safety net in case the user navigates away
-    // (e.g., browser back button) before finishing the exam.
-    this.layoutService.showLayout(); // <-- SHOW LAYOUT
-
+    if (this.timerInterval && this.timeLeft) {
+      clearInterval(this.timerInterval);
+    }
+    this.layoutService.showLayout();
     // Also good practice to exit fullscreen if component is destroyed
     if (document.fullscreenElement) {
       document.exitFullscreen();

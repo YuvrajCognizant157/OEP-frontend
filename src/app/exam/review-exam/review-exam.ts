@@ -56,6 +56,7 @@ const data = this.examStateService.examData();
       next: (res: any) => {
         this.examStateService.clearExamData();
         this.router.navigate([`/student/exam-feedback/${this.examId}`]);
+        this.timeLeft =0;
         alert((res as SubmitResponse)?.msg ?? JSON.stringify(res));
       },
       error: (err) => {
