@@ -48,4 +48,9 @@
             </button>
         </div>
     </nav>
+
+    <div class="menu-backdrop" 
+         *ngIf="isMenuOpen()" 
+         (click)="closeMenu()">
+    </div>
 </header>

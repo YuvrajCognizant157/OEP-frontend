@@ -3,6 +3,28 @@ header {
   padding: 1rem 2rem;
   width: 100%;
   box-sizing: border-box;
+  position: relative; /* 🔑 Important for absolute positioning of backdrop */
+    z-index: 100;
+}
+
+.menu-backdrop {
+    /* 🔑 Covers the whole viewport */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* 🔑 Make it semi-transparent and dark */
+    background-color: rgba(0, 0, 0, 0.6); 
+    
+    /* 🔑 Place it just behind the menu drawer (z-index of nav-links should be > 999) */
+    z-index: 998; 
+    
+    cursor: pointer;
+    
+    /* Only show on mobile */
+    display: none; 
 }
 
 .nav-inner {
@@ -121,6 +143,10 @@ header {
 /* ----------------- Responsive (Mobile) ----------------- */
 @media (max-width: 900px) {
   .menu-toggle { display: block; }
+
+  .menu-backdrop {
+        display: block;
+    }
 
   /* Hide desktop links, show drawer */
   .nav-links-wrapper { display: block; }
