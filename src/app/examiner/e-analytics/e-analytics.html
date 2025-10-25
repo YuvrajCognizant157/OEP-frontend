@@ -9,12 +9,6 @@
   <!-- Main dashboard grid -->
   <div class="analytics-dashboard">
 
-    <!-- Stat Card: Total Exams -->
-    <div class="stat-card chart-container">
-      <h2>Total Exams Created</h2>
-      <p class="stat-number">{{ analyticsData.totalExamsCreated }}</p>
-    </div>
-
     <!-- Chart: Question Approval (Doughnut) -->
     @if (analyticsData.questionApprovalStats.length > 0) {
       <div class="chart-container">
@@ -42,6 +36,12 @@
         </canvas>
       </div>
     }
+
+     <!-- Stat Card: Total Exams -->
+    <div class="stat-card chart-container">
+      <h2>Total Exams Created</h2>
+      <p class="stat-number">{{ analyticsData.totalExamsCreated }}</p>
+    </div>
 
     <!-- Chart: Average Score (Bar) -->
     @if (analyticsData.averageScoresPerExam.length > 0) {

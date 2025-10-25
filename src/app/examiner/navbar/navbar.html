@@ -1,13 +1,15 @@
 <mat-toolbar class="custom-navbar">
-  <span class="brand">Examiner Panel</span>
   <div class="nav-links">
     <a
+      mat-button
+      class="nav-link"
       routerLink="/examiner/dashboard/analytics"
       routerLinkActive="active-link"
       [routerLinkActiveOptions]="{ exact: false }"
       >Analytics</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/exams"
       routerLinkActive="active-link"
@@ -15,6 +17,7 @@
       >Exams</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/topics"
       routerLinkActive="active-link"
@@ -22,6 +25,7 @@
       >Topics</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/create-exam"
       routerLinkActive="active-link"
@@ -29,6 +33,7 @@
       >Create Exam</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/manage-topic"
       routerLinkActive="active-link"
@@ -36,6 +41,7 @@
       >Manage Topics</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/manage-questions"
       routerLinkActive="active-link"
@@ -44,10 +50,13 @@
     >
   </div>
   <!-- Hamburger Icon -->
-  <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+   <button class="menu-toggle" mat-icon-button (click)="toggleMenu()" aria-label="Menu">
+    <mat-icon>menu</mat-icon>
+    </button>
+
   <!-- Responsive Drawer -->
   <div class="overlay" [ngClass]="{ show: isMenuOpen }">
-    <button class="close-btn" (click)="closeMenu()">×</button>
+    <button mat-icon-button class="close-btn" (click)="closeMenu()">×</button>
     <div class="overlay-content">
       <a
         mat-button
