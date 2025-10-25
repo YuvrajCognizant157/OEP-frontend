@@ -6,8 +6,8 @@
   --accent-purple: #675ee3;
   --border-color: #404a5e;
   --warn-color: #f44336; /* Default Material warn color */
-  --status-approved: #66bb6a;
-  --status-pending: #ffa726;
+  --status-approved: #0ca314;
+  --status-pending: #c57907;
   --status-rejected: #ef5350;
   display: flex;
   justify-content: center;
@@ -153,7 +153,7 @@ mat-card-actions {
   background-color: var(--status-rejected) !important;
 }
 .status-awaited {
-  background-color: yellow !important;
+  background-color: rgb(159, 159, 7) !important;
 }
 
 .card-actions button:disabled {
