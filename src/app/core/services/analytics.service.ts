@@ -27,4 +27,8 @@ export class AnalyticsService {
   getTotalActiveQuestions(): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/total-active-questions`);
   }
+
+  getTopicWiseQuestionCount(studentId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/topic-wise-questions-attempted/${studentId}`);
+  }
 }
