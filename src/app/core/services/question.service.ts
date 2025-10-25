@@ -74,5 +74,35 @@ export class QuestionService {
     return this.http.put<string>(`${this.apiUrl}/update-question/${questionId}`, questionData, { responseType: 'text' as 'json' });
   }
 
+  /**
+   * Uploads an Excel file along with tid (required) and optional eid to the backend.
+   * Matches the controller action: POST /import-excel expecting UploadQuestionsDto (File, Tid, Eid) from form.
+   */
+  uploadQuestionsExcel(file: File, eid?: number): Observable<any> {
+    if (!file) {
+      throw new Error('No file provided.');
+    }
+
+    // if (!tid || tid <= 0) {
+    //   throw new Error('Tid (topic id) is required and must be > 0.');
+    // }
+
+    // Optional file type check
+    if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
+        file.type !== 'application/vnd.ms-excel') {
+      throw new Error('Invalid file type. Please upload an Excel file (.xlsx or .xls).');
+    }
+
+    const formDataToSend = new FormData();
+    // Use property names that match the UploadQuestionsDto on the server (case-insensitive, but PascalCase is common)
+    formDataToSend.append('File', file, file.name);
+    // formDataToSend.append('Tid', tid.toString());
+    if (eid != null) {
+      formDataToSend.append('Eid', eid.toString());
+    }
+
+    return this.http.post<any>(`${this.apiUrl}/import-excel`, formDataToSend);
+  }
+
   
 }
