@@ -12,6 +12,7 @@ import { ReviewExamComponent } from './admin/review-exam/review-exam';
 import { profileAuthGuardfn } from './core/auth-guards/profile-auth.guard';
 import { About } from './about/about';
 import { LoggedInGuard } from './core/auth-guards/logged-in.guard';
+import { AdminAuthGuard } from './core/auth-guards/admin-auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -91,6 +92,10 @@ export const routes: Routes = [
         loadComponent: () => import('./question/question-feedback/question-feedback').then((m) => m.QuestionFeedback),
       },
       {
+        path:'view-all-feedbacks',
+        loadComponent: () => import('./student/s-feedback/s-feedback').then((m) => m.SFeedback),
+      },
+      {
         path:'', redirectTo: 'dashboard', pathMatch: 'full'
       }
     ]
@@ -140,45 +145,41 @@ export const routes: Routes = [
  
   /*Angular routes are relative to the app's root, not the browser's URL path. So using '/' as a redirect target doesn't work as expected. It may cause infinite redirects or blank pages.
   */
-{
-    path: 'admin/dashboard',
-    component: DashboardComponent,
-    children: [
-      {
-        path:'',component:DashboardComponent
-      },
-      {
-        path: 'approve-exam',
-        component: ApproveExamComponent
-      },
-      
-      {
-        path:'approve-topic',
-        component:ApproveTopicComponent
-      },
-   
-      {
-        path: 'reported-questions',
-        component: ReportedQuestionsComponent
-      },
-      {
-        path:'review-exam/:examId',
-        component:ReviewExamComponent
-      },
-      {
-        path: 'block-users',
-        component: BlockUserComponent
-      },
-      {
-        path: 'exam-feedback',
-        component: ExamFeedbackComponent
-      },
-      // {
-      //   path:'review-questions',
-      //   component:ReviewQuestionComponent
-      // }
-    ]
-  },
+{path: 'admin/dashboard',
+   canActivate: [AdminAuthGuard],
+   loadComponent: () =>
+     import('./admin/dashboard/dashboard').then(m => m.DashboardComponent),
+   // 👇 Child routes rendered inside DashboardComponent
+   children: [
+     {
+       path: 'approve-exam',
+       loadComponent: () =>
+         import('./admin/approve-exam/approve-exam').then(m => m.ApproveExamComponent)
+     },
+     {
+       path: 'approve-topic',
+       loadComponent: () =>
+         import('./admin/approve-topic/approve-topic').then(m => m.ApproveTopicComponent)
+     },
+     {
+       path: 'reported-questions',
+       loadComponent: () =>
+         import('./admin/reported-questions/reported-questions').then(m => m.ReportedQuestionsComponent)
+     },
+     {
+       path: 'block-users',
+       loadComponent: () =>
+         import('./admin/block-user/block-user').then(m => m.BlockUserComponent)
+     },
+     {
+       path: 'exam-feedback',
+       loadComponent: () =>
+         import('./admin/exam-feedback/exam-feedback').then(m => m.ExamFeedbackComponent)
+     },
+     { path: '', redirectTo: '', pathMatch: 'full' }
+   ]
+ },
+
 
   { path: '**', redirectTo: '' },
 ];

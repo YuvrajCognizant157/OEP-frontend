@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ApproveExamComponent } from './approve-exam';
+import { SNavbar } from './s-navbar';
 
-describe('ApproveExam', () => {
-  let component: ApproveExamComponent;
-  let fixture: ComponentFixture<ApproveExamComponent>;
+describe('SNavbar', () => {
+  let component: SNavbar;
+  let fixture: ComponentFixture<SNavbar>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ApproveExamComponent]
+      imports: [SNavbar]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ApproveExamComponent);
+    fixture = TestBed.createComponent(SNavbar);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

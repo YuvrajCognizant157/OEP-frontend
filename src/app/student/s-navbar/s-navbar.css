@@ -1,0 +1,155 @@
+/* --- Global Navbar Container --- */
+.s-navbar-container {
+    background-color: var(--color-bg-panel, #1e293b);
+    color: var(--color-text-primary, #ffffff);
+    /* Shadow for depth */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); 
+    z-index: 1200;
+    position: sticky;
+    top: 0;
+}
+
+/* --- 1. DESKTOP TABS (MatTabs) Styling --- */
+.desktop-tabs {
+    /* Center the tabs group if needed, but flex by default usually works */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Target the anchor tag inside the tab label for styling */
+.desktop-tabs a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: var(--color-text-muted, #9ca3af);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.desktop-tabs a:hover {
+    color: var(--color-text-primary, #ffffff);
+}
+
+/* 🔑 Active tab link style */
+.desktop-tabs a.active-tab-link {
+    color: var(--color-accent, #0078d4);
+}
+
+/* Customize MatTab colors for the dark theme */
+:host ::ng-deep .mat-mdc-tab-group {
+    /* Hide the default content area since we use router-outlet */
+    .mat-mdc-tab-body-wrapper { display: none; }
+    
+    /* Adjust tab header background */
+    .mat-mdc-tab-header { 
+        background-color: var(--color-bg-panel, #1e293b); 
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Accent color for the active indicator */
+    .mat-mdc-tab-header .mat-mdc-tab-labels .mat-mdc-tab {
+        .mat-mdc-tab-ripple { display: none; }
+    }
+    
+    .mat-mdc-tab-header .mat-mdc-tab-indicator {
+        background-color: var(--color-accent, #0078d4) !important;
+        height: 3px;
+    }
+}
+
+
+/* --- 2. MOBILE DRAWER (MatSidenav) Styling --- */
+.menu-toggle {
+    display: none; /* Hidden on desktop */
+    color: var(--color-text-primary, #ffffff);
+    padding: 10px;
+}
+
+.sidenav-container {
+    /* Fix for position in Angular Material */
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000; /* Above other content */
+    background: transparent;
+}
+
+.mobile-drawer {
+    width: 250px;
+    background-color: var(--color-bg-primary, #0d121b); /* Darker background for the drawer */
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    position: relative;
+    z-index: 1100;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+}
+
+.drawer-header h3 {
+    margin: 0;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.mobile-drawer a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: var(--color-text-muted, #9ca3af);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-drawer a:hover {
+    background-color: var(--color-bg-panel, #1e293b);
+    color: var(--color-text-primary);
+}
+
+/* 🔑 Active mobile link style */
+.mobile-drawer a.active-link {
+    background-color: var(--color-accent, #0078d4);
+    color: white;
+    font-weight: 600;
+}
+
+
+/* --- RESPONSIVE BREAKPOINT --- */
+@media (max-width: 900px) {
+    .desktop-tabs {
+        display: none; /* Hide tabs on mobile */
+    }
+    .menu-toggle {
+        display: block; /* Show menu button on mobile */
+    }
+    .s-navbar-container {
+        /* Just the menu button visible in the header on mobile */
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+    }
+
+    .sidenav-container {
+        top: 60px; /* Below the navbar */
+        height: calc(100% - 60px);
+    }
+}

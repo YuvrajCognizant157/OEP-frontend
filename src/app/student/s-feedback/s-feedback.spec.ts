@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ApproveExamComponent } from './approve-exam';
+import { SFeedback } from './s-feedback';
 
-describe('ApproveExam', () => {
-  let component: ApproveExamComponent;
-  let fixture: ComponentFixture<ApproveExamComponent>;
+describe('SFeedback', () => {
+  let component: SFeedback;
+  let fixture: ComponentFixture<SFeedback>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ApproveExamComponent]
+      imports: [SFeedback]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ApproveExamComponent);
+    fixture = TestBed.createComponent(SFeedback);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
