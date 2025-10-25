@@ -139,7 +139,16 @@ export class StudentDashboardComponent implements OnInit,OnDestroy {
         this.basicAnalytics.totalExams = results.totalExams || 0;
         this.basicAnalytics.totalQuestions = results.totalQuestions || 0;
         this.availableExamsList = results.examData;
-        this.examResultsHistory = results.resultData;
+        // sort by most recent attempt date (descending)
+        this.examResultsHistory = (results.resultData || []).sort((a: any, b: any) => {
+          const aLast = a.attemptsData && a.attemptsData.length
+            ? Math.max(...a.attemptsData.map((x: any) => new Date(x.takenOn).getTime()))
+            : 0;
+          const bLast = b.attemptsData && b.attemptsData.length
+            ? Math.max(...b.attemptsData.map((x: any) => new Date(x.takenOn).getTime()))
+            : 0;
+          return bLast - aLast; // descending: most recent first
+        });
         // 3. NOW ALL DATA IS READY, PERFORM CALCULATION
         this.calcBasicAnalyticsPercent();
 
