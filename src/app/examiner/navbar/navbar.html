@@ -1,13 +1,15 @@
 <mat-toolbar class="custom-navbar">
-  <span class="brand">Examiner Panel</span>
   <div class="nav-links">
     <a
+      mat-button
+      class="nav-link"
       routerLink="/examiner/dashboard/analytics"
       routerLinkActive="active-link"
       [routerLinkActiveOptions]="{ exact: false }"
       >Analytics</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/exams"
       routerLinkActive="active-link"
@@ -15,6 +17,7 @@
       >Exams</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/topics"
       routerLinkActive="active-link"
@@ -22,6 +25,7 @@
       >Topics</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/create-exam"
       routerLinkActive="active-link"
@@ -29,6 +33,7 @@
       >Create Exam</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/manage-topic"
       routerLinkActive="active-link"
@@ -36,6 +41,7 @@
       >Manage Topics</a
     >
     <a
+      class="nav-link"
       mat-button
       routerLink="/examiner/dashboard/manage-questions"
       routerLinkActive="active-link"

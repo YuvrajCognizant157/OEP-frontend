@@ -10,7 +10,7 @@
 
   align-items: center;
 
-  justify-content: flex-start;
+  justify-content: center;
 
   flex-wrap: nowrap;
   width:100%;
@@ -53,6 +53,7 @@
   align-items: center;
 
   gap: 1.3rem;
+  justify-content: space-between;
 
 }
 
@@ -79,16 +80,22 @@
   transform: scale(1.05); /* ✅ slight zoom on hover */
 
 }
- 
+.nav-link{
+  display: flex;
+  justify-content: center;
+  width: 162px;
+}
 
-.active-link {
-  /* A simple bright white with bold text */
+.nav-links .active-link {
   color: #6f81df !important;
-  font-weight: 700; /* Bolder */
+  font-weight: 700;
   opacity: 1;
-  
-  border-bottom: 3px solid #d36868;
-  border-radius: 0; 
+  border-bottom: 3px solid #d36868; 
+  width: 163px;
+  align-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(121, 119, 119, 0.5);
+  transition: color 0.3s ease;
 }
 
 /* Optional: Make other links slightly faded */
