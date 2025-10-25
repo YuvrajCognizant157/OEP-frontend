@@ -108,6 +108,11 @@ export const routes: Routes = [
     canActivateChild:[examinerAuthGuardFn],
     children: [
       {
+        path: 'import-excel-questions',
+        loadComponent: () => import('./examiner/import-excel-questions/import-excel-questions').then((m) => m.ImportExcelQuestions),
+      },
+
+      {
         path: 'analytics',
         loadComponent: () => import('./examiner/e-analytics/e-analytics').then((m) => m.EAnalytics),       
       },

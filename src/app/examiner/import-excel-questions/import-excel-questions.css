@@ -1,0 +1,121 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #121212; /* Dark theme background */
+  font-family: 'Roboto', sans-serif;
+}
+
+.upload-card {
+  max-width: 600px;
+  width: 100%;
+  background-color: #1e1e1e; /* Dark card background */
+  color: #ffffff; /* Light text for dark theme */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 16px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.upload-card mat-card-title {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.upload-card mat-card-subtitle {
+  color: #b0b0b0;
+}
+
+.instructions {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #252525;
+  border-radius: 4px;
+  border-left: 4px solid #3f51b5; /* Accent color border */
+}
+
+.instructions .icon {
+  font-size: 48px;
+  color: #3f51b5;
+  margin: 1.2rem;
+}
+
+.instructions p {
+  margin: 0 0 8px;
+  font-weight: 500;
+}
+
+.instructions ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.instructions ul li {
+  margin-bottom: 8px;
+  color: #d0d0d0;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.full-width ::ng-deep .mat-form-field-label {
+  color: #b0b0b0;
+}
+
+.full-width ::ng-deep .mat-form-field-underline {
+  background-color: #b0b0b0;
+}
+
+.full-width input {
+  color: #ffffff;
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.file-upload button {
+  margin-right: 16px;
+}
+
+.file-upload .file-name {
+  color: #ffffff;
+  font-style: italic;
+}
+
+button[type="submit"] {
+  width: 100%;
+}
+
+mat-spinner {
+  margin-right: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .upload-card {
+    margin: 16px;
+    padding: 8px;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Snackbar styles (add to global styles if needed) */
+.success-snackbar {
+  background-color: #4caf50;
+}
+
+.error-snackbar {
+  background-color: #f44336;
+}
