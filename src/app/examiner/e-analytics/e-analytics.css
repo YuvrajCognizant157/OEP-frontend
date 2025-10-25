@@ -89,3 +89,16 @@
   display: flex;
   justify-content: center;
 }
+
+@media (max-width : 1024px ) {
+   .analytics-dashboard{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width : 810px) {
+  .analytics-dashboard{
+    display: flex;
+    flex-direction: column;
+  }
+}
