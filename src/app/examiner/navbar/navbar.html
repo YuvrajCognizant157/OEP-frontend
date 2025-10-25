@@ -50,10 +50,13 @@
     >
   </div>
   <!-- Hamburger Icon -->
-  <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+   <button class="menu-toggle" mat-icon-button (click)="toggleMenu()" aria-label="Menu">
+    <mat-icon>menu</mat-icon>
+    </button>
+
   <!-- Responsive Drawer -->
   <div class="overlay" [ngClass]="{ show: isMenuOpen }">
-    <button class="close-btn" (click)="closeMenu()">×</button>
+    <button mat-icon-button class="close-btn" (click)="closeMenu()">×</button>
     <div class="overlay-content">
       <a
         mat-button
