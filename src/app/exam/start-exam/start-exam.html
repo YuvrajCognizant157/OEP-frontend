@@ -2,7 +2,6 @@
   <!-- LEFT: Exam content -->
   <div class="exam-container">
     <mat-card-header class="exam-details">
-      
       <div class="p-8 bg-gray-50 min-h-screen">
         <mat-card-title>{{ examData.name }}</mat-card-title>
         <mat-chip-set class="exam-info-chips" aria-label="Exam Information">
@@ -124,5 +123,37 @@
         {{ i + 1 }}
       </button>
     </div>
+  </div>
+</div>
+
+<div *ngIf="isReportModalVisible" class="modal-overlay" (click)="closeReportModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Report Issue for Question #{{ currentQuestion.qid }}</h3>
+      <button class="close-button" (click)="closeReportModal()">&times;</button>
+    </div>
+
+    <div *ngIf="!feedbackSubmitted; else feedbackSuccessTemplate">
+      <p class="modal-subtitle">Please provide optional feedback about the issue.</p>
+      <mat-form-field appearance="outline" class="feedback-input-dark">
+        <mat-label>Optional Feedback</mat-label>
+        <textarea matInput [(ngModel)]="questionFeedback" rows="3" cdkTextareaAutosize></textarea>
+      </mat-form-field>
+      <button
+        mat-flat-button
+        class="submit-report-btn"
+        (click)="submitQuestionReport()"
+        [disabled]="feedbackSubmitted"
+      >
+        Submit Report
+      </button>
+    </div>
+
+    <ng-template #feedbackSuccessTemplate>
+      <div class="feedback-success-message">
+        <h4>Thank You!</h4>
+        <p>Your report has been submitted successfully.</p>
+      </div>
+    </ng-template>
   </div>
 </div>
