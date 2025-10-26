@@ -6,13 +6,13 @@
   --accent-purple: #675ee3;
   --border-color: #404a5e;
   --warn-color: #f44336; /* Default Material warn color */
-  --status-approved: #66bb6a;
-  --status-pending: #ffa726;
+  --status-approved: #0ca314;
+  --status-pending: #c57907;
   --status-rejected: #ef5350;
   display: flex;
   justify-content: center;
   background: linear-gradient(135deg, #1e2a3b 0%, #0d121b 100%);
-  padding: 2rem; 
+  padding: 2rem;
 }
 
 .exam-list-container {
@@ -58,7 +58,23 @@
 mat-card-header {
   padding-bottom: 0;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-content {
+  display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.add-question-btn {
+  background-color: var(--accent-purple);
+  color: var(--text-main);
+  flex-shrink: 0;
+  margin-left: 8px;
 }
 
 mat-card-title {
@@ -94,7 +110,7 @@ mat-divider {
   gap: 5px;
   font-size: 0.95rem;
 }
-.else-case{
+.else-case {
   display: flex;
   justify-content: center;
 }
@@ -136,11 +152,62 @@ mat-card-actions {
 .status-rejected {
   background-color: var(--status-rejected) !important;
 }
-.status-awaited{
-  background-color: yellow !important;
+.status-awaited {
+  background-color: rgb(159, 159, 7) !important;
 }
 
 .card-actions button:disabled {
   background-color: rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 0.3);
+}
+
+/* --- ADDED: Responsive Styles --- */
+
+@media (max-width: 768px) {
+  :host {
+    padding: 1rem; /* Reduce padding on host */
+  }
+
+  .exam-list-container {
+    padding: 24px; /* Reduce padding inside container */
+    min-width: 90%;
+  }
+
+  .page-title {
+    font-size: 2rem; /* Smaller title */
+  }
+}
+
+@media (max-width: 480px) {
+  .exam-list-container {
+    padding: 16px; /* Even less padding */
+  }
+
+  .exam-cards-grid {
+    /* Adjust grid to ensure cards fit well on small screens */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px; /* Reduce gap */
+  }
+
+  .exam-details {
+    flex-direction: column; /* Stack details vertically */
+    align-items: flex-start; /* Align to the left */
+    gap: 8px; /* Tighter spacing */
+  }
+
+  mat-card-actions {
+    flex-wrap: wrap; /* Allow buttons to wrap */
+    justify-content: center; /* Center buttons when they wrap */
+  }
+
+  .card-actions button {
+    /* Make buttons take more space if needed */
+    flex-grow: 1;
+  }
+
+  .add-question-btn {
+    /* Ensure mini-fab doesn't get too big */
+    width: 40px;
+    height: 40px;
+  }
 }

@@ -17,30 +17,32 @@ import { AdminAuthGuard } from './core/auth-guards/admin-auth.guard';
 export const routes: Routes = [
   { path: '', component: Home },
   {path: 'about', component:About },
+  {path:'help', loadComponent: () => import('./help/help').then(m => m.HelpComponent)},
+  {path:'unauthorized', loadComponent: () => import('./shared/unauthorized/unauthorized').then(m => m.Unauthorized)},
   {
     path: 'login',
     loadComponent: () => import('./shared/login/login').then(m => m.LoginComponent),
-    // canActivate:[LoggedInGuard]
-  },
+    canActivate:[LoggedInGuard]
+  },  
   {
     path: 'forgot-password',
     loadComponent: () => import('./shared/forgot-password/forgot-password').then(m => m.ForgotPassword),
-    // canActivate:[LoggedInGuard]
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'register-employee',
     loadComponent: () => import('./register/register-employee/register.employee').then(m => m.RegisterEmployeeComponent),
-    // canActivate:[LoggedInGuard]
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'register-student',
     loadComponent: () => import('./register/register-student/register-student').then(m => m.RegisterStudentComponent),
-    // canActivate:[LoggedInGuard]
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'verify-otp/:userId',
     loadComponent: () => import('./student/verify-otp/verify-otp').then(m => m.VerifyOtpComponent),
-    // canActivate:[LoggedInGuard]
+    canActivate:[LoggedInGuard]
   },
   {
     path: 'view-profile',
@@ -90,6 +92,10 @@ export const routes: Routes = [
         loadComponent: () => import('./question/question-feedback/question-feedback').then((m) => m.QuestionFeedback),
       },
       {
+        path:'view-all-feedbacks',
+        loadComponent: () => import('./student/s-feedback/s-feedback').then((m) => m.SFeedback),
+      },
+      {
         path:'', redirectTo: 'dashboard', pathMatch: 'full'
       }
     ]
@@ -101,6 +107,11 @@ export const routes: Routes = [
     canActivate: [examinerAuthGuardFn],
     canActivateChild:[examinerAuthGuardFn],
     children: [
+      {
+        path: 'import-excel-questions',
+        loadComponent: () => import('./examiner/import-excel-questions/import-excel-questions').then((m) => m.ImportExcelQuestions),
+      },
+
       {
         path: 'analytics',
         loadComponent: () => import('./examiner/e-analytics/e-analytics').then((m) => m.EAnalytics),       
@@ -154,6 +165,12 @@ export const routes: Routes = [
        path: 'approve-topic',
        loadComponent: () =>
          import('./admin/approve-topic/approve-topic').then(m => m.ApproveTopicComponent)
+     },
+     {
+      path:'review-exam/:examId',
+      loadComponent:()=>import('./admin/review-exam/review-exam').then(m=>m.ReviewExamComponent)
+
+
      },
      {
        path: 'reported-questions',

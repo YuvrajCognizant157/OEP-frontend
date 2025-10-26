@@ -1,0 +1,256 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Use a viewport-based height for better full-screen display */
+  min-height: 100vh; 
+  background-color: #0d1117; /* Very dark background (Github/VS Code dark theme inspired) */
+  font-family: 'Inter', 'Roboto', sans-serif;
+  padding: 24px;
+}
+
+/* --- Card Styles --- */
+.upload-card {
+  max-width: 700px;
+  width: 100%;
+  background-color: #161b22; /* Dark card background */
+  color: #c9d1d9; /* Light text for dark theme */
+  border-radius: 12px; /* Smoother corners */
+  /* Deep, soft shadow for depth */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 32px;
+  animation: fadeIn 0.6s ease-out;
+  border: 1px solid #30363d; /* Subtle border for definition */
+}
+
+/* --- Header & Illustration Layout --- */
+.card-header-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.header-text mat-card-title {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700; /* Bold title */
+  margin-bottom: 4px;
+}
+
+.header-text mat-card-subtitle {
+  color: #8b949e; /* Subdued subtitle color */
+  font-size: 16px;
+}
+
+.illustration-placeholder {
+  flex-shrink: 0;
+  margin-left: 20px;
+  padding: 12px; /* Breathing room around the icon */
+  border-radius: 8px;
+  background-color: #1f242c; /* Slightly darker background to make icon pop */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.illustration-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: auto;
+  color: #58a6ff; /* Primary accent color (Blue) */
+  opacity: 0.7;
+  opacity: 0.9; /* Make it more opaque */
+  text-shadow: 0 0 15px rgba(88, 166, 255, 0.6); /* Glowing effect */
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.illustration-icon:hover {
+  color: #79c0ff; /* Lighter on hover */
+  text-shadow: 0 0 20px rgba(121, 192, 255, 0.8); /* More intense glow */
+}
+
+/* --- Instructions Section --- */
+.instructions-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #1f242c; /* Slightly lighter background for the section */
+  border-radius: 8px;
+  /* Highlight border */
+  border: 1px solid #30363d; 
+}
+
+.instruction-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.instruction-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #58a6ff;
+}
+
+.instructions-section .icon {
+  font-size: 24px;
+  color: #58a6ff;
+  margin-right: 10px;
+}
+
+.checklist-list {
+  list-style-type: none; /* Remove default bullets */
+  padding: 0;
+  margin: 0;
+}
+
+.checklist-list li {
+  margin-bottom: 10px;
+  padding-left: 20px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #c9d1d9;
+}
+
+/* Custom bullet point */
+.checklist-list li::before {
+  content: "•"; 
+  color: #58a6ff; 
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em;
+  margin-left: -1em;
+}
+
+.column-names {
+  font-family: 'Consolas', 'Courier New', monospace;
+  background-color: #2b323c;
+  padding: 2px 5px;
+  border-radius: 4px;
+  color: #79c0ff;
+  font-weight: 500;
+}
+
+/* --- Form Field Overrides (Mat-Form-Field) --- */
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Apply dark theme styles to Material form fields */
+.full-width ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0.5em; /* Adjusting padding for outline appearance */
+}
+
+.full-width ::ng-deep .mat-form-field-label {
+  color: #8b949e !important; /* Label color */
+}
+
+.full-width ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #30363d !important; /* Outline border color */
+}
+
+.full-width ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #58a6ff !important; /* Focused outline color */
+}
+
+.full-width input {
+  color: #c9d1d9; /* Input text color */
+}
+
+.full-width mat-icon {
+  color: #8b949e;
+}
+
+/* --- File Upload Section --- */
+.file-upload-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.select-file-button {
+  background-color: #238636; /* Success/Go-to color for action */
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.select-file-button:hover {
+  background-color: #2ea043;
+  box-shadow: 0 2px 8px rgba(35, 134, 54, 0.4);
+}
+
+.file-name-display {
+  color: #79c0ff; /* Accent color for file name */
+  font-style: italic;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.placeholder-text {
+  color: #8b949e;
+}
+
+/* --- Action Button Group --- */
+.action-button-group {
+  padding-top: 10px;
+}
+
+.upload-button {
+  width: 100%;
+  height: 48px; /* Slightly taller button */
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #58a6ff; /* Strong primary accent */
+  color: #161b22; /* Dark text for contrast */
+  transition: all 0.2s ease;
+}
+
+.upload-button:hover:not([disabled]) {
+  background-color: #79c0ff;
+  box-shadow: 0 4px 15px rgba(88, 166, 255, 0.5);
+}
+
+.upload-button[disabled] {
+  background-color: #30363d !important;
+  color: #8b949e !important;
+  cursor: not-allowed;
+}
+
+/* Add this to your existing CSS to style the icon within the select dropdown */
+.dropdown-icon {
+  color: #8b949e; /* Consistent with other form field icons */
+  margin-right: 8px;
+}
+
+mat-spinner {
+  margin-right: 8px;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 650px) {
+  .upload-card {
+    padding: 20px;
+    border-radius: 0; /* Full width on small screens */
+  }
+
+  .card-header-layout {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .illustration-placeholder {
+    margin: 10px 0 20px;
+  }
+}
+
+/* --- Animation --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

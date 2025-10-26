@@ -1,0 +1,109 @@
+/* Using the global dark theme variables */
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - var(--header-height, 64px) - var(--footer-height, 80px)); /* Adjust for header/footer if present */
+    background-color: var(--color-bg-primary, #0d121b);
+    color: var(--color-text-primary, #ffffff);
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+.unauthorized-container {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    background-color: var(--color-bg-panel, #1e293b); /* Slightly lighter panel background */
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.illustration-wrapper {
+    margin-bottom: 2rem;
+    width: 100%; /* Ensure illustration respects container width */
+    max-width: 400px; /* Max size for the illustration */
+}
+
+.illustration-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.status-icon {
+    font-size: 5rem; /* Large icon for emphasis */
+    width: 5rem;
+    height: 5rem;
+    color: #ef5350; /* A warning/error red color */
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+}
+
+.message {
+    font-size: 1.1rem;
+    color: var(--color-text-muted, #9ca3af);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 550px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    gap: 1rem;
+    justify-content: center;
+}
+
+.actions button {
+    min-width: 180px; /* Ensure buttons are a decent size */
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+}
+
+/* --- RESPONSIVENESS --- */
+@media (max-width: 600px) {
+    .unauthorized-container {
+        padding: 2rem 1rem;
+    }
+
+    .illustration-wrapper {
+        max-width: 300px; /* Smaller illustration on mobile */
+    }
+
+    .status-icon {
+        font-size: 4rem;
+        width: 4rem;
+        height: 4rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .message {
+        font-size: 0.95rem;
+    }
+
+    .actions {
+        flex-direction: column; /* Stack buttons vertically on very small screens */
+        align-items: center;
+    }
+
+    .actions button {
+        width: 100%; /* Full width for stacked buttons */
+        max-width: 250px; /* Constrain max width for aesthetics */
+    }
+}

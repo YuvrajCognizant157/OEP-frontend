@@ -97,6 +97,13 @@ canvas {
     box-shadow: 0 0 0 2px rgba(9, 155, 199, 0.3);
 }
 
+@media (max-width: 800px) {
+    .page-title {
+        font-size: 2.2rem;
+        margin-top: 2rem;
+    }
+}
+
 /* Responsive adjustment for small screens */
 @media (max-width: 600px) {
 

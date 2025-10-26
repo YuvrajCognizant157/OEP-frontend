@@ -194,3 +194,139 @@ button {
 .option-item {
   display: block; /* Ensures each option takes its own line */
 }
+.exam-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Exam container adjusts width depending on screen */
+.exam-container {
+  flex: 1;
+  min-width: 0;
+}
+
+/* --- Question Navigation Panel --- */
+.question-nav-panel {
+  width: 240px;
+  background-color: #1e2a3b;
+  color: white;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.question-nav-panel.collapsed {
+  width: 50px;
+  padding: 0.5rem;
+  overflow: hidden;
+}
+
+.question-nav-panel.collapsed .panel-header h3,
+.question-nav-panel.collapsed .panel-stats,
+.question-nav-panel.collapsed .question-buttons {
+  display: none;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collapse-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.panel-stats {
+  margin: 10px 0;
+  font-size: 0.9rem;
+  color: #c1c8d6;
+}
+
+.question-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.question-buttons button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  background-color: #394b63;
+  transition: background 0.2s ease;
+  font-weight: 500;
+}
+
+.question-buttons button.answered {
+  background-color: #2e8b57;
+}
+
+.question-buttons button.current {
+  background-color: #3498db;
+}
+
+.question-buttons button:hover {
+  background-color: #5d7aa6;
+}
+
+/* --- Responsive behavior --- */
+@media (max-width: 992px) {
+  .exam-layout {
+    flex-direction: column;
+  }
+
+  .question-nav-panel {
+    width: 100%;
+    order: -1;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .question-nav-panel.collapsed {
+    width: 100%;
+    height: 3rem;
+  }
+
+  .collapse-btn {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+  }
+}
+.exam-info-chips {
+        display: flex;
+        flex-wrap: wrap; /* Allow chips to wrap on small screens */
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0; /* Adds some vertical padding */
+        width: 100%; /* Ensures the list takes full width for space-between to work */
+        gap: 8px; /* Adds spacing between chips when they wrap */
+      }
+
+      /* On smaller screens, stack them or center them */
+      @media (max-width: 600px) {
+        .exam-info-chips {
+          justify-content: center; /* Center chips on small screens */
+        }
+      }
+
+      /* Optional: Add a minimum margin to each chip */
+      .exam-info-chips mat-chip {
+        margin: 4px;
+      }

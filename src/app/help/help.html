@@ -1,0 +1,58 @@
+<div class="help-container">
+
+    <section class="help-hero">
+        <div class="hero-content">
+            <mat-icon class="hero-icon">help_center</mat-icon>
+            <h1>Need Help? We've Got You Covered.</h1>
+            <p class="subtitle">
+                Find answers to the most common questions about using the Online Exam Portal.
+            </p>
+        </div>
+        <div class="hero-illustration">
+            <img src="assets/illustrations/help.svg" alt="Person asking for help">
+        </div>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <section class="faq-section">
+        <h2 class="section-title">Frequently Asked Questions (FAQ)</h2>
+
+        <mat-accordion multi>
+            <div *ngFor="let categoryGroup of faqs" class="category-group">
+                <h3>{{ categoryGroup.category }}</h3>
+                <mat-expansion-panel *ngFor="let item of categoryGroup.questions">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title class="faq-question-title">
+                            {{ item.q }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <p class="faq-answer">{{ item.a }}</p>
+                </mat-expansion-panel>
+                <mat-divider class="category-divider"></mat-divider>
+            </div>
+        </mat-accordion>
+    </section>
+
+    <section class="support-section mat-elevation-z2">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Still Can't Find an Answer?</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    Our dedicated support team is ready to assist you. Reach out via email or check our documentation.
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" routerLink="/contact">
+                    <mat-icon>email</mat-icon> Contact Support
+                </button>
+                <button mat-stroked-button color="accent" routerLink="/docs">
+                    <mat-icon>book</mat-icon> View Documentation
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </section>
+
+</div>
