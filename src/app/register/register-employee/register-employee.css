@@ -35,6 +35,10 @@ body {
 .form-group {
   margin-bottom: 15px;
 }
+.form-control{
+  color: white;
+  background-color: #3a005a;
+}
 
 label {
   display: block;
@@ -70,6 +74,19 @@ input:focus {
 
 .register-btn:hover {
   background-color: #a678d1;
+}
+.register-btn:disabled {
+  background-color: #5a5a7a; /* Or your preferred disabled color */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.field-error {
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+input.ng-invalid.ng-touched {
+  border-color: #ff6b6b;
 }
 
 .error-message {

@@ -10,9 +10,15 @@
           id="email"
           name="email"
           [(ngModel)]="email"
+          #emailRef="ngModel"
           required
-          ngModel
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          class="form-control"
         />
+        <div *ngIf="emailRef.invalid && emailRef.touched" class="error-message">
+          <small *ngIf="emailRef.errors?.['required']">Email is required.</small>
+          <small *ngIf="emailRef.errors?.['pattern']">Please enter a valid email address.</small>
+        </div>
       </div>
 
       <div class="form-group">
@@ -61,31 +67,25 @@
       </div>
 
       <div class="form-group">
-        <label for="role">Role</label>
-        <input
-          type="text"
-          id="role"
-          name="role"
-          [(ngModel)]="role"
-          ngModel
-        />
-      </div>
-
-      <div class="form-group">
         <label for="token">Token</label>
         <input
           type="text"
           id="token"
           name="token"
           [(ngModel)]="token"
+          #tokenRef="ngModel"
+          required
           ngModel
         />
+        <div *ngIf="tokenRef.invalid && tokenRef.touched" class="error-message">
+          <small *ngIf="tokenRef.errors?.['required']">Token is required.</small>
+        </div>
       </div>
 
       <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
       <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
-      <button type="submit" class="register-btn">
+      <button type="submit" class="register-btn" [disabled]="registerForm.invalid ">
         Register
       </button>
     </form>

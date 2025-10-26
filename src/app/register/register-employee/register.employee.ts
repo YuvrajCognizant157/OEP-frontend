@@ -29,7 +29,6 @@ export class RegisterEmployeeComponent {
   password = '';
   dob: string = '';
   phoneNo = '';
-  role = 'Examiner';
   token = '';
   errorMessage = '';
   successMessage = '';
@@ -43,7 +42,6 @@ export class RegisterEmployeeComponent {
       password: this.password,
       dob: this.dob,
       phoneNo: this.phoneNo,
-      role: this.role,
       token: this.token
     };    
     this.registerService.registerExaminer(registerData).subscribe({
