@@ -148,7 +148,7 @@ export class ManageTopic implements OnInit, OnDestroy {
         // Optimistically update the local data for immediate UI feedback
         this.topics.update((currentTopics) =>
           currentTopics.map((t) =>
-            t.tid === tid ? { ...t, subject: topicName, submittedForApproval: true } : t
+            t.tid === tid ? { ...t, subject: topicName } : t
           )
         );
       },
