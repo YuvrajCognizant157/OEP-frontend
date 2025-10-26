@@ -56,6 +56,26 @@
             </mat-card-content>
         </mat-card>
 
+        <mat-card class="chart-card full-width">
+            <mat-card-header>
+                <mat-card-title>Topic-Wise Effort</mat-card-title>
+                <mat-card-subtitle>Total Questions Attempted by Topic</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <ng-container *ngIf="hasTopicLineData; else noTopicData">
+                    <div style="display: block;">
+                        <canvas baseChart [data]="topicLineChartData" [options]="topicLineChartOptions"
+                            [type]="topicLineChartType">
+                        </canvas>
+                    </div>
+                </ng-container>
+
+                <ng-template #noTopicData>
+                    <p class="no-data-message">No topic-wise question attempt data available.</p>
+                </ng-template>
+            </mat-card-content>
+        </mat-card>
+
         <!-- Line Chart -->
         <mat-card class="chart-card full-width">
             <mat-card-header class="chart-header-controls">

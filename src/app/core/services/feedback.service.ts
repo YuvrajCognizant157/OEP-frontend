@@ -10,14 +10,18 @@ export interface AddQuestionFeedbackDTO {
 }
 
 @Injectable({ providedIn: 'root' })
-export class FeedbackService{
-    private baseUrl = 'https://localhost:44395/api/QuestionFeedback';
-    constructor(private http: HttpClient) {}
+export class FeedbackService {
+  private baseUrl = 'https://localhost:44395/api/QuestionFeedback';
+  constructor(private http: HttpClient) { }
 
-    getAllFeedbacksByUserId(userId: number): Observable<GetQuestionFeedback[]> {
-        return this.http.get<GetQuestionFeedback[]>(`${this.baseUrl}/get-all-question-feedbacks-by-userId/${userId}`);
-    }
-    addQuestionFeedback(payload: AddQuestionFeedbackDTO): Observable<any> {
+  getAllFeedbacksByUserId(userId: number): Observable<GetQuestionFeedback[]> {
+    return this.http.get<GetQuestionFeedback[]>(`${this.baseUrl}/get-all-question-feedbacks-by-userId/${userId}`);
+  }
+  addQuestionFeedback(payload: AddQuestionFeedbackDTO): Observable<any> {
     return this.http.post(`${this.baseUrl}/add-question-feedback`, payload);
+  }
+
+  getAllExamFeedbacksByUserId(userId: number): Observable<any> {
+    return this.http.get<any>(`https://localhost:44395/api/ExamFeedback/all-exam-feedbacks-s/${userId}`);
   }
 }

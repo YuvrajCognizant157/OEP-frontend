@@ -1,0 +1,41 @@
+<div class="s-navbar-container">
+
+    <button mat-icon-button class="menu-toggle" (click)="toggleDrawer()" *ngIf="isMobileView">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-sidenav-container class="sidenav-container" *ngIf="isMobileView">
+        <mat-sidenav mode="over" [opened]="isDrawerOpen" (backdropClick)="closeDrawer()" class="mobile-drawer">
+            <div class="drawer-header">
+                <h3>Student Navigation</h3>
+                <button mat-icon-button (click)="closeDrawer()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+
+            <a *ngFor="let link of navLinks" [routerLink]="link.path" routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }" (click)="closeDrawer()">
+                <mat-icon>{{ link.icon }}</mat-icon>
+                <span>{{ link.label }}</span>
+            </a>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+
+
+    <nav class="desktop-tabs" *ngIf="!isMobileView">
+        <mat-tab-group [selectedIndex]="activeLinkIndex" animationDuration="300ms">
+            <mat-tab *ngFor="let link of navLinks">
+                <ng-template mat-tab-label>
+                    <a [routerLink]="link.path" routerLinkActive="active-tab-link"
+                        [routerLinkActiveOptions]="{ exact: false }">
+                        <mat-icon>{{ link.icon }}</mat-icon>
+                        {{ link.label }}
+                    </a>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </nav>
+</div>

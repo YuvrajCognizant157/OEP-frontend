@@ -6,10 +6,11 @@ import { map, shareReplay } from 'rxjs/operators';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import {MatIconModule} from '@angular/material/icon';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, MatToolbarModule,MatButtonModule,CommonModule,RouterModule],
+  imports: [RouterLink, MatToolbarModule,MatButtonModule,CommonModule,RouterModule,MatIconModule],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css']
 })
