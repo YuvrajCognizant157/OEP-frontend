@@ -1,47 +1,67 @@
 <mat-card class="upload-card">
-  <mat-card-header>
-    <mat-card-title>Upload Question List</mat-card-title>
-    <mat-card-subtitle>Import questions from an Excel file</mat-card-subtitle>
-  </mat-card-header>
-  
+  <div class="card-header-layout">
+    <div class="header-text">
+      <mat-card-title>Question List Importer</mat-card-title>
+      <mat-card-subtitle>Import questions efficiently from an Excel file (.xlsx, .xls)</mat-card-subtitle>
+    </div>
+    <div class="illustration-placeholder">
+      <mat-icon class="illustration-icon">cloud_upload</mat-icon>
+    </div>
+  </div>
+
   <mat-card-content>
-    <div class="instructions">
-      <mat-icon class="icon">upload_file</mat-icon>
-      <p><strong>Instructions:</strong></p>
-      <ul>
-        <li>Prepare an Excel file (.xlsx or .xls) with the following columns: <strong>questionname, option1, option2, option3, option4, type, correctoptions, tid</strong>.</li>
-        <li>Ensure column names are exactly as specified (case-sensitive).</li>
-        <li>File size must not exceed 50 MB.</li>
-        <li>Provide Topic ID (Tid) and optionally Exam ID (Eid).</li>
-        <li>Each row represents a question; tid in the file may be overridden by the provided Tid if applicable.</li>
+    <div class="instructions-section">
+      <div class="instruction-header">
+        <mat-icon class="icon">info</mat-icon>
+        <h3>Preparation Checklist</h3>
+      </div>
+
+      <ul class="checklist-list">
+        <li>Prepare an Excel file (.xlsx or .xls) with these **case-sensitive** columns:
+          <span class="column-names">questionname, option1, ..., option4, type, correctoptions, tid</span>.
+        </li>
+        <li>File size limit is **50 MB**.</li>
       </ul>
     </div>
-    
+
     <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-      <!-- <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Topic ID (Tid)</mat-label>
-        <input matInput type="number" formControlName="tid" min="1" required>
-        <mat-error *ngIf="uploadForm.get('tid')?.hasError('required')">Tid is required</mat-error>
-        <mat-error *ngIf="uploadForm.get('tid')?.hasError('min')">Tid must be greater than 0</mat-error>
-      </mat-form-field> -->
-      
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Exam ID (Eid) - Optional</mat-label>
-        <input matInput type="number" formControlName="eid">
+
+
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Select Exam</mat-label>
+        <mat-select formControlName="eid" required>
+          <mat-option *ngFor="let exam of examsList" [value]="exam.eid">
+            {{ exam.name }} (ID: {{ exam.eid }})
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>assignment</mat-icon>
       </mat-form-field>
-      
-      <div class="file-upload">
+
+
+
+      <div class="file-upload-section">
         <input #fileInput type="file" id="fileInput" (change)="onFileSelected($event)" accept=".xlsx, .xls" hidden>
-        <button mat-raised-button color="primary" (click)="fileInput.click()">
+
+        <button mat-flat-button color="primary" class="select-file-button" (click)="fileInput.click()">
           <mat-icon>attach_file</mat-icon> Select Excel File
         </button>
-        <span class="file-name" *ngIf="selectedFile as file">{{ file.name }}</span>
+
+        <span class="file-name-display" *ngIf="selectedFile as file">
+          {{ file.name }}
+        </span>
+        <span class="file-name-display placeholder-text" *ngIf="!selectedFile">
+          No file selected.
+        </span>
       </div>
-      
-      <button mat-raised-button color="accent" type="submit" [disabled]="isUploading || uploadForm.invalid">
-        <mat-spinner *ngIf="isUploading" diameter="20"></mat-spinner>
-        <span *ngIf="!isUploading">Upload</span>
-      </button>
+
+      <div class="action-button-group">
+        <button mat-flat-button color="accent" type="submit" [disabled]="isUploading || uploadForm.invalid"
+          class="upload-button">
+          <mat-spinner *ngIf="isUploading" diameter="20"></mat-spinner>
+          <span *ngIf="!isUploading">Initiate Upload</span>
+        </button>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>
