@@ -138,18 +138,20 @@
     }
     .s-navbar-container {
         /* Just the menu button visible in the header on mobile */
-        position: fixed;
-        top: 0;
+        position: relative;
+        top: 5px;
         left: 0;
         right: 0;
-        height: 90px;
+        height: 60px;
         display: flex;
         align-items: center;
         padding: 0 1rem;
+        background-color: var(--color-bg-panel, #1e293b);
+        z-index: 1001;
     }
 
     .sidenav-container {
-        top: 60px; /* Below the navbar */
-        height: calc(100% - 60px);
+        top: calc(64px + 60px); /* Below the navbar */
+        height: calc(100% - (64px + 60px));
     }
 }

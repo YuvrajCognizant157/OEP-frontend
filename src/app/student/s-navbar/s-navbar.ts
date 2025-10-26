@@ -24,7 +24,6 @@ import { filter } from 'rxjs/operators';
 })
 export class SNavbar implements OnInit, OnDestroy {
   navLinks = [
-    { label: 'Dashboard', path: '/student/dashboard', icon: 'home' },
     { label: 'Exams', path: '/student/available-exams', icon: 'border_color' },
     { label: 'Results', path: '/student/results', icon: 'assessment' },
     { label: 'Analytics', path: '/student/analytics', icon: 'analytics' },
