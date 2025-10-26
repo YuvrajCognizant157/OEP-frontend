@@ -4,7 +4,6 @@ export interface RegisterEmployeeRequest {
   password: string;
   dob: string;
   phoneNo: string;
-  role: string;
   token: string;
 }
 
