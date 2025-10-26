@@ -167,6 +167,12 @@ export const routes: Routes = [
          import('./admin/approve-topic/approve-topic').then(m => m.ApproveTopicComponent)
      },
      {
+      path:'review-exam/:examId',
+      loadComponent:()=>import('./admin/review-exam/review-exam').then(m=>m.ReviewExamComponent)
+
+
+     },
+     {
        path: 'reported-questions',
        loadComponent: () =>
          import('./admin/reported-questions/reported-questions').then(m => m.ReportedQuestionsComponent)
@@ -185,6 +191,41 @@ export const routes: Routes = [
    ]
  },
 
+{
+    path: 'admin/dashboard',
+   canActivate: [AdminAuthGuard],
+   loadComponent: () =>
+     import('./admin/dashboard/dashboard').then(m => m.DashboardComponent),
+   // 👇 Child routes rendered inside DashboardComponent
+   children: [
+     {
+       path: 'approve-exam',
+       loadComponent: () =>
+         import('./admin/approve-exam/approve-exam').then(m => m.ApproveExamComponent)
+     },
+     {
+       path: 'approve-topic',
+       loadComponent: () =>
+         import('./admin/approve-topic/approve-topic').then(m => m.ApproveTopicComponent)
+     },
+     {
+       path: 'reported-questions',
+       loadComponent: () =>
+         import('./admin/reported-questions/reported-questions').then(m => m.ReportedQuestionsComponent)
+     },
+     {
+       path: 'block-users',
+       loadComponent: () =>
+         import('./admin/block-user/block-user').then(m => m.BlockUserComponent)
+     },
+     {
+       path: 'exam-feedback',
+       loadComponent: () =>
+         import('./admin/exam-feedback/exam-feedback').then(m => m.ExamFeedbackComponent)
+     },
+     { path: '', redirectTo: '', pathMatch: 'full' }
+   ]
+ },
 
   { path: '**', redirectTo: '' },
 ];
