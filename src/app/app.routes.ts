@@ -158,6 +158,12 @@ export const routes: Routes = [
          import('./admin/approve-topic/approve-topic').then(m => m.ApproveTopicComponent)
      },
      {
+      path:'review-exam/:examId',
+      loadComponent:()=>import('./admin/review-exam/review-exam').then(m=>m.ReviewExamComponent)
+
+
+     },
+     {
        path: 'reported-questions',
        loadComponent: () =>
          import('./admin/reported-questions/reported-questions').then(m => m.ReportedQuestionsComponent)

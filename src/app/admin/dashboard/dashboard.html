@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="admin-toolbar">
 <span class="brand">Admin Panel</span>
 <div class="nav-links">
-<a mat-button routerLink="/admin/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Dashboard</a>
+
 <a mat-button routerLink="/admin/dashboard/approve-exam" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Approve Exams</a>
 <a mat-button routerLink="/admin/dashboard/reported-questions" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Reported Questions</a>
 <a mat-button routerLink="/admin/dashboard/approve-topic" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Approve Topics</a>
@@ -77,11 +77,10 @@
 </div>
 </div>
 <!-- ✅ Render child components (like block-user) here -->
-<ng-template #showChild>
-<router-outlet></router-outlet>
+<ng-template #showChild>>
 </ng-template>
 <!-- Loading template -->
 <ng-template #loadingTpl>
 <div class="loading">Loading analytics...</div>
 </ng-template>
- 
+ <router-outlet></router-outlet>

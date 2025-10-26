@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AdminService } from '../../core/services/admin.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
@@ -7,7 +7,7 @@ import { ReviewExamComponent } from '../review-exam/review-exam';
 @Component({
  selector: 'app-approve-exam',
  standalone: true,
- imports:[CommonModule,MatSnackBarModule],
+ imports:[CommonModule,MatSnackBarModule,RouterModule],
  templateUrl: './approve-exam.html',
  styleUrls: ['./approve-exam.css']
 })
@@ -15,7 +15,7 @@ export class ApproveExamComponent implements OnInit {
  exams: any[] = [];
  userId!: number;
  loading = false;
- constructor(private adminService: AdminService, private snack: MatSnackBar, private router: Router) {}
+ constructor(private adminService: AdminService, private snack: MatSnackBar, private router: Router,private route:ActivatedRoute) {}
  ngOnInit(): void {
    const storedId = localStorage.getItem('userId');
    if (storedId) this.userId = Number(storedId);
