@@ -15,32 +15,38 @@
         <mat-icon class="icon">info</mat-icon>
         <h3>Preparation Checklist</h3>
       </div>
-      
+
       <ul class="checklist-list">
-        <li>Prepare an Excel file (.xlsx or .xls) with these **case-sensitive** columns: 
+        <li>Prepare an Excel file (.xlsx or .xls) with these **case-sensitive** columns:
           <span class="column-names">questionname, option1, ..., option4, type, correctoptions, tid</span>.
         </li>
         <li>File size limit is **50 MB**.</li>
       </ul>
     </div>
-    
+
     <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-    
-   
-      
+
+
+
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Exam ID (Eid) </mat-label>
-        <input matInput type="number" formControlName="eid" required placeholder="Enter Exam ID">
+        <mat-label>Select Exam</mat-label>
+        <mat-select formControlName="eid" required>
+          <mat-option *ngFor="let exam of examsList" [value]="exam.eid">
+            {{ exam.name }} (ID: {{ exam.eid }})
+          </mat-option>
+        </mat-select>
         <mat-icon matSuffix>assignment</mat-icon>
       </mat-form-field>
-      
+
+
+
       <div class="file-upload-section">
         <input #fileInput type="file" id="fileInput" (change)="onFileSelected($event)" accept=".xlsx, .xls" hidden>
-        
+
         <button mat-flat-button color="primary" class="select-file-button" (click)="fileInput.click()">
           <mat-icon>attach_file</mat-icon> Select Excel File
         </button>
-        
+
         <span class="file-name-display" *ngIf="selectedFile as file">
           {{ file.name }}
         </span>
@@ -48,9 +54,10 @@
           No file selected.
         </span>
       </div>
-      
+
       <div class="action-button-group">
-        <button mat-flat-button color="accent" type="submit" [disabled]="isUploading || uploadForm.invalid" class="upload-button">
+        <button mat-flat-button color="accent" type="submit" [disabled]="isUploading || uploadForm.invalid"
+          class="upload-button">
           <mat-spinner *ngIf="isUploading" diameter="20"></mat-spinner>
           <span *ngIf="!isUploading">Initiate Upload</span>
         </button>

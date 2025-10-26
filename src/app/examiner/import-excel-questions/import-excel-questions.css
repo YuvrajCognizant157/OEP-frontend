@@ -221,6 +221,12 @@
   cursor: not-allowed;
 }
 
+/* Add this to your existing CSS to style the icon within the select dropdown */
+.dropdown-icon {
+  color: #8b949e; /* Consistent with other form field icons */
+  margin-right: 8px;
+}
+
 mat-spinner {
   margin-right: 8px;
 }

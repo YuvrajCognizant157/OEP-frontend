@@ -13,13 +13,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { Exam } from '../exams/exams';
+import { ExamService } from '../../core/services/exam.service';
+import { AuthService } from '../../core/services/auth.service';
+import { MatSelectModule } from "@angular/material/select";
 
 @Component({
   selector: 'app-import-excel-questions',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,  // Add this
+    FormsModule, // Add this
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -28,8 +32,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatIconModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    MatSnackBarModule
-  ],
+    MatSnackBarModule,
+    MatSelectModule
+],
   templateUrl: './import-excel-questions.html',
   styleUrls: ['./import-excel-questions.css']
 })
@@ -40,11 +45,15 @@ export class ImportExcelQuestions implements OnInit {
   selectedFile: File | null = null;
   maxFileSize = 50 * 1024 * 1024; // 50 MB
   isUploading = false;
+  userId!: number;
+  examsList: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private questionService: QuestionService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private examService: ExamService,
+    private authService: AuthService
   ) {
     this.uploadForm = this.fb.group({
       // tid: [null, [Validators.required, Validators.min(1)]],
@@ -53,7 +62,17 @@ export class ImportExcelQuestions implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    this.userId = this.authService.getUserId()!;
+
+    this.examService.getUnapprovedExams(this.userId).subscribe({
+      next: (exams: Exam[]) => {
+        console.log('Unapproved Exams:', exams);
+        this.examsList = exams.map(({ eid, name }) => ({ eid, name }));
+      }
+    });
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement | null;
