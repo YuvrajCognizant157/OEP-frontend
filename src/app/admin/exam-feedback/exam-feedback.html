@@ -9,6 +9,7 @@
 <div *ngIf="!loading && feedbacks.length > 0" class="feedback-grid">
 <div *ngFor="let fb of feedbacks" class="feedback-card">
 <h3>Student ID: {{ fb.studentId }}</h3>
+<h5>Exam ID:{{fb.eid}}</h5>
 <p class="feedback-text">“{{ fb.feedback }}”</p>
 <button class="remark-btn" (click)="openRemarkDialog(fb)">Add Remark</button>
 </div>
