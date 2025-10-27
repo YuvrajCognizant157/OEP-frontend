@@ -10,6 +10,7 @@ import { FeedbackService } from '../../core/services/feedback.service'; // Adjus
 import { HttpClientModule } from '@angular/common/http';
 import { ExamFeedback } from '../../shared/models/exam-feedback.model'; // 1. Define the Interfaces (or import them)
 import { QuestionFeedback } from '../../shared/models/question-review.model';
+import { AuthService } from '../../core/services/auth.service';
 // 1. Define the Interfaces (or import them)
 
 
@@ -32,7 +33,8 @@ import { QuestionFeedback } from '../../shared/models/question-review.model';
 export class SFeedback implements OnInit {
 
   private feedbackService = inject(FeedbackService);
-  private readonly userId = 9;
+  private authS = inject(AuthService);
+  private readonly userId = this.authS.getUserId()!;
 
   // Data Signals
   examFeedbacks = signal<ExamFeedback[]>([]);
