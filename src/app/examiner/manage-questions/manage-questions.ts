@@ -18,6 +18,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { MatInputModule } from '@angular/material/input';
+import { QuestionDetailsDialog } from './question-details-dialog/question-details-dialog';
 
 
 @Component({
@@ -37,6 +38,7 @@ import { MatInputModule } from '@angular/material/input';
     MatLabel,
     MatFormFieldModule, 
     MatInputModule,
+    QuestionDetailsDialog
 ],
   templateUrl: './manage-questions.html',
   styleUrl: './manage-questions.css'
@@ -82,6 +84,17 @@ export class ManageQuestions implements OnInit {
         console.error('Error fetching questions:', err);
         this.isLoading = false;
       },
+    });
+  }
+
+  viewQuestionDetails(questionId: number): void {
+    // 🔑 Open the dialog and pass the necessary ID
+    this.dialog.open(QuestionDetailsDialog, {
+      width: '600px', // Customize width as needed
+      maxWidth: '90vw', // Ensure responsiveness
+      data: { 
+        questionId: questionId 
+      }
     });
   }
 

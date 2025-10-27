@@ -1,0 +1,74 @@
+.dialog-container {
+  padding: 0;
+  background-color: #212121; /* Dark background */
+  color: #f0f0f0; /* Light text */
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #3d3d3d;
+}
+
+.dialog-header h2 {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  margin: 0;
+  color: #ffb74d; /* Warning color for heading */
+}
+
+.dialog-header mat-icon {
+  margin-right: 8px;
+  color: #ffb74d;
+}
+
+.error-count {
+  font-weight: 600;
+  color: #ef5350; /* Strong error color */
+}
+
+.dialog-content {
+  padding: 20px 24px;
+  max-height: 500px; /* Limits the height and enables scrolling */
+  overflow-y: auto;
+}
+
+.dialog-description {
+  margin-bottom: 15px;
+  color: #bbbbbb;
+}
+
+.error-table-wrapper {
+  overflow-x: auto;
+}
+
+.mat-table {
+  width: 100%;
+  background-color: #333;
+  color: #f0f0f0;
+}
+
+.mat-header-cell {
+  background-color: #383838;
+  color: #f0f0f0;
+  font-weight: 600;
+}
+
+.mat-cell {
+  border-color: #444;
+}
+
+.row-col {
+  min-width: 80px;
+  font-weight: bold;
+}
+
+.no-data-row td {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  padding: 15px;
+}

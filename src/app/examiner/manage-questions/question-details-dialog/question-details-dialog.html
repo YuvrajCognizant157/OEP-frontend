@@ -1,0 +1,65 @@
+<div class="dialog-header">
+  <h2 mat-dialog-title class="dialog-title">Question Details (ID: {{ data.questionId }})</h2>
+  <button mat-icon-button (click)="onClose()" class="close-button" aria-label="Close dialog">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="dialog-content">
+  
+  <div *ngIf="isLoading()" class="loading-center">
+    <mat-spinner diameter="40" color="accent"></mat-spinner>
+    <p>Loading question data...</p>
+  </div>
+
+  <div *ngIf="hasError()" class="error-state">
+    <mat-icon color="warn">error_outline</mat-icon>
+    <p>Failed to load question details. Please try again.</p>
+    <button mat-flat-button color="primary" (click)="loadQuestionDetails(data.questionId)">Retry</button>
+  </div>
+
+  <div *ngIf="!isLoading() && questionDetails() as qd" class="question-details-wrapper">
+    
+    <div class="metadata-chips-group">
+      <mat-chip-row color="accent" selected>
+        <mat-icon matChipAvatar>assignment</mat-icon>
+        {{ qd.examTitle }} (EID: {{ qd.examId }})
+      </mat-chip-row>
+      
+      <mat-chip-row color="primary" selected>
+        <mat-icon matChipAvatar>label_important</mat-icon>
+        {{ qd.topicName }} (TID: {{ qd.topicId }})
+      </mat-chip-row>
+      
+      <mat-chip-row [color]="qd.type === 'MCQ' ? 'warn' : 'primary'" selected>
+        <mat-icon matChipAvatar>category</mat-icon>
+        Type: {{ qd.type }}
+      </mat-chip-row>
+    </div>
+
+    <div class="section question-section">
+      <h3>Question:</h3>
+      <p class="question-text">{{ qd.questionText }}</p>
+    </div>
+
+    <div class="section options-section">
+      <h3>Options:</h3>
+      <div class="options-list">
+        <div 
+          *ngFor="let option of qd.options | keyvalue" 
+          class="option-item"
+          [class.correct-option]="isCorrectOption(option.key)"
+        >
+          <span class="option-key">{{ option.key }}.</span>
+          <span class="option-value">{{ option.value }}</span>
+          <mat-icon *ngIf="isCorrectOption(option.key)" class="correct-icon">check_circle</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button (click)="onClose()" color="primary">Close</button>
+</mat-dialog-actions>
