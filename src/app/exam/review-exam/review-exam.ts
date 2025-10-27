@@ -72,8 +72,8 @@ export class ReviewExam implements OnInit, OnDestroy {
         alert((res as SubmitResponse)?.msg ?? JSON.stringify(res));
         this.router.navigate([`/student/exam-feedback/${this.examId}`]);
       },
-      error: (err) => {
-        console.error('Submit failed', err);
+      error: (err:any) => {
+        console.error('Submit failed', err.msg);
       },
     });
   }

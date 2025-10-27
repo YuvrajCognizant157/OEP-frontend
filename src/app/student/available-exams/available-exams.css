@@ -62,6 +62,10 @@
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 25px;
 }
+.page-container,
+.exams-grid {
+    overflow: visible;
+}
 
 /* --- Individual Exam Card Styling --- */
 .exam-card {
@@ -73,6 +77,10 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex; 
     flex-direction: column;
+    
+position: relative;
+    z-index: 1;
+
 }
 
 .exam-card:hover {
@@ -150,6 +158,10 @@
     padding: 8px 16px 16px 16px !important;
     text-align: right;
     border-top: 1px solid var(--color-border);
+    
+position: relative;
+    z-index: 2;
+
 }
 
 
