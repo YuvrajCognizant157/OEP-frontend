@@ -17,6 +17,16 @@ import { Exam } from '../exams/exams';
 import { ExamService } from '../../core/services/exam.service';
 import { AuthService } from '../../core/services/auth.service';
 import { MatSelectModule } from "@angular/material/select";
+import { MatDialog } from '@angular/material/dialog';
+
+
+// Assuming ImportResultDto looks like this in TypeScript
+interface ImportResultDto {
+  totalRows: number;
+  inserted: number;
+  errors: { rowNumber: number; message: string }[];
+}
+
 
 @Component({
   selector: 'app-import-excel-questions',
@@ -34,7 +44,7 @@ import { MatSelectModule } from "@angular/material/select";
     MatProgressBarModule,
     MatSnackBarModule,
     MatSelectModule
-],
+  ],
   templateUrl: './import-excel-questions.html',
   styleUrls: ['./import-excel-questions.css']
 })
@@ -53,7 +63,8 @@ export class ImportExcelQuestions implements OnInit {
     private questionService: QuestionService,
     private snackBar: MatSnackBar,
     private examService: ExamService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {
     this.uploadForm = this.fb.group({
       // tid: [null, [Validators.required, Validators.min(1)]],
@@ -112,25 +123,81 @@ export class ImportExcelQuestions implements OnInit {
 
     this.isUploading = true;
 
+    // 🔑 Cast the response type to the expected DTO
     this.questionService.uploadQuestionsExcel(this.selectedFile, this.uploadForm.value.eid).subscribe({
-      next: (response) => {
+      next: (response: ImportResultDto) => { // 🔑 Check the response content here
         this.isUploading = false;
-        this.snackBar.open('Questions imported successfully!', 'Close', { duration: 5000, panelClass: ['success-snackbar'] });
         this.resetForm();
+
+        const insertedCount = response.inserted;
+        const errorCount = response.errors.length;
+        const totalCount = response.totalRows;
+
+        if (errorCount === 0 && insertedCount > 0) {
+          // Case 1: All questions imported successfully
+          this.snackBar.open(`${insertedCount} questions imported successfully!`, 'Close', { duration: 7000, panelClass: ['success-snackbar'] });
+
+        } else if (insertedCount > 0 && errorCount > 0) {
+          // Case 2: Partial success - some inserted, some failed
+          const successMsg = `Import Complete: ${insertedCount} inserted, ${errorCount} failed.`;
+          this.snackBar.open(successMsg, 'View Errors', { duration: 15000, panelClass: ['warning-snackbar'] })
+            .onAction().subscribe(() => {
+              // 🔑 Display detailed error list in a new dialog/modal
+              this.displayImportErrorsInSnackbar(response.errors);
+            });
+
+        } else if (insertedCount === 0 && errorCount > 0) {
+          // Case 3: Total failure (but still HTTP 200)
+          const failureMsg = `Import failed: ${errorCount} errors found.`;
+          this.snackBar.open(failureMsg, 'View Errors', { duration: 15000, panelClass: ['error-snackbar'] })
+            .onAction().subscribe(() => {
+              // 🔑 Display detailed error list in a new dialog/modal
+              this.displayImportErrorsInSnackbar(response.errors);
+            });
+
+        } else {
+          // Case 4: File was empty/no data rows
+          this.snackBar.open('File processed, but no questions were found.', 'Close', { duration: 7000, panelClass: ['info-snackbar'] });
+        }
       },
-      error: (error) => {
+
+      error: (error) => { // 🔑 This block handles true HTTP failures (4xx, 5xx)
         this.isUploading = false;
-        let errorMessage = 'Failed to import questions.';
-        if (error?.status === 400) {
-          errorMessage = error?.error?.message || errorMessage;
+        let errorMessage = 'Failed to import questions due to a network or server issue.';
+
+        if (error?.status === 400 && error.error?.message) {
+          errorMessage = error.error.message; // Use specific 400 message if available
         } else if (error?.status === 500) {
           errorMessage = 'Server error occurred. Please try again later.';
         }
-        this.snackBar.open(errorMessage, 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
+
+        this.snackBar.open(errorMessage, 'Close', { duration: 7000, panelClass: ['error-snackbar'] });
       }
     });
   }
 
+  /**
+   * Placeholder function to display the list of row errors using a Material Dialog.
+   */
+  // NOT recommended for showing full error lists
+
+private displayImportErrorsInSnackbar(errors: ImportResultDto['errors']): void {
+  // Take only the first 3 errors to fit the Snackbar space
+  const displayErrors = errors.slice(0, 3);
+  
+  let errorMessage = `Failed rows: ${errors.length}. See console for full list.`;
+
+  // Concatenate the first few errors for a little detail
+  displayErrors.forEach(err => {
+    errorMessage += ` [Row ${err.rowNumber}: ${err.message.substring(0, 20)}...]`;
+  });
+  
+  // Show the message without an action button, relying on duration
+  this.snackBar.open(errorMessage, 'Close', { 
+    duration: 10000, 
+    panelClass: ['error-snackbar'] 
+  });
+}
   private resetForm(): void {
     this.uploadForm.reset();
     this.selectedFile = null;
