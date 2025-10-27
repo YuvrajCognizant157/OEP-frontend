@@ -51,7 +51,7 @@ export class BlockUserComponent implements OnInit {
 
   }
 
-  // ✅ Fetch all users
+  //  Fetch all users
 
   loadUsers(): void {
 
@@ -95,7 +95,7 @@ export class BlockUserComponent implements OnInit {
 
   }
 
-  // ✅ Toggle block/unblock
+  //  Toggle block/unblock
 
 toggleUser(user: User): void {
 
@@ -127,7 +127,7 @@ toggleUser(user: User): void {
 
     next: () => {
 
-      // ✅ update correct local state
+      //  update correct local state
 
       user.isBlocked = !user.isBlocked;
 
