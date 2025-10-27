@@ -17,10 +17,9 @@
         </mat-chip>
 
         <mat-chip
-          [color]="exam.approvalStatus == 1 ? 'accent' : ''"
-          [highlighted]="exam.approvalStatus == 1"
+          [ngClass]="getApprovalStatus(exam.approvalStatus,exam.submittedForApproval).class"
         >
-          <strong>Status:</strong> {{ exam.approvalStatus == 1 ? 'Approved' : 'Pending' }}
+          <strong>Status:</strong> {{ getApprovalStatus(exam.approvalStatus,exam.submittedForApproval).text }}
         </mat-chip>
       </mat-chip-set>
 

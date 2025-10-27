@@ -1,3 +1,13 @@
+:host {
+  --page-bg: #1c2333;
+  --card-bg: #2a3447;
+  --text-main: #ffffff;
+  --text-light: #c1c8d6;
+  --accent-purple: #675ee3;
+  --status-approved: #66bb6a;
+  --status-pending: #ffa726;
+  --status-rejected: #ef5350;
+}
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -83,10 +93,22 @@
 .topic-names {
   font-weight: bold;
   font-size: 1rem;
-  color: #32CD32; /* LimeGreen */
-  background-color: #f0f0f0;
+  color: #32CD32;
+  background-color: #918e8e;
   padding: 2px 6px;
   margin-right: 4px;
   border-radius: 10px;
   display: inline-block;
+}
+.status-approved {
+  color: var(--status-approved) !important;
+}
+.status-pending {
+  color: var(--status-pending) !important;
+}
+.status-rejected {
+  color: var(--status-rejected) !important;
+}
+.status-awaited{
+  color: yellow !important;
 }

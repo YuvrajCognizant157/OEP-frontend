@@ -144,8 +144,7 @@ export class UpdateExamModal implements OnInit {
     // The C# backend expects a JSON string, not an array of strings.
     // Let's re-serialize it.
     const finalPayload = {
-      ...payload,
-      tids: JSON.stringify(payload.tids)
+      ...payload
     };
 
 
