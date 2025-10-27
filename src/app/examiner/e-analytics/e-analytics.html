@@ -1,5 +1,5 @@
 <!-- Main container with loading state -->
-@if (analyticsData.totalExamsCreated > 0 || analyticsData.averageScoresPerExam.length > 0) {
+@if (analyticsData.examsStatusInformation.totalExamsCreated > 0 || analyticsData.averageScoresPerExam.length > 0) {
 
 <div class="analyticsBody">
   <div>
@@ -38,9 +38,13 @@
     }
 
      <!-- Stat Card: Total Exams -->
-    <div class="stat-card chart-container">
-      <h2>Total Exams Created</h2>
-      <p class="stat-number">{{ analyticsData.totalExamsCreated }}</p>
+    <div class="chart-container" *ngIf="analyticsData.examsStatusInformation.totalExamsCreated > 0">
+      <canvas
+        baseChart
+        [data]="ExamStatusDoughnutChartData"
+        [options]="ExamStatusDoughnutChartOptions"
+        [type]="'doughnut'"
+      ></canvas>
     </div>
 
     <!-- Chart: Average Score (Bar) -->

@@ -1,13 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnalyticsService } from '../../core/services/analytics.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { AuthService } from '../../core/services/auth.service';
-import { Chart, ChartConfiguration, ChartData, ChartType, registerables,Point } from 'chart.js';
+import { Chart, ChartConfiguration, ChartData, ChartType, registerables, Point } from 'chart.js';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { Subscription, switchMap, timer } from 'rxjs';
 import 'chartjs-adapter-date-fns'; // Import date adapter
-import 'chart.js/auto'; 
+import 'chart.js/auto';
 
 Chart.register(...registerables);
 Chart.defaults.color = '#FFFFFF';
@@ -19,7 +19,13 @@ interface ScatterPoint extends Point {
 }
 
 interface AnalyticsData {
-  totalExamsCreated: number;
+  examsStatusInformation: {
+    totalExamsCreated: number;
+    approvedExams: number;
+    submittedForApprovalExams: number;
+    rejectedExams: number;
+    pendingExams: number;
+  };
   averageScoresPerExam: {
     averageScore: number;
     examId: number;
@@ -63,9 +69,15 @@ interface AnalyticsData {
   templateUrl: './e-analytics.html',
   styleUrls: ['./e-analytics.css'],
 })
-export class EAnalytics implements OnInit {
+export class EAnalytics implements OnInit, OnDestroy {
   analyticsData: AnalyticsData = {
-    totalExamsCreated: 0,
+    examsStatusInformation: {
+      totalExamsCreated: 0,
+      approvedExams: 0,
+      submittedForApprovalExams: 0,
+      pendingExams: 0,
+      rejectedExams: 0,
+    },
     averageScoresPerExam: [],
     questionApprovalStats: [],
     studentParticipation: [],
@@ -86,6 +98,25 @@ export class EAnalytics implements OnInit {
   examinerId = this.authS.getUserRole()?.id! || 6;
 
   constructor(private anService: AnalyticsService) {}
+
+  //0. Exam Status info
+  public ExamStatusDoughnutChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    plugins: {
+      legend: { display: true, position: 'top' },
+      title: { display: true, text: 'Exams Approval Status' },
+    },
+  };
+
+  public ExamStatusDoughnutChartData: ChartData<'doughnut'> = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: ['#28a745', '#ffc107', '#dc3545', '#17a2b8'],
+      },
+    ],
+  };
 
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -127,7 +158,7 @@ export class EAnalytics implements OnInit {
     datasets: [{ data: [], label: 'Number of Students', backgroundColor: '#56D798' }],
   };
 
-   public topicQuestionCountsChartOptions: ChartConfiguration['options'] = {
+  public topicQuestionCountsChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     scales: { y: { beginAtZero: true } },
     plugins: {
@@ -153,7 +184,6 @@ export class EAnalytics implements OnInit {
     datasets: [{ data: [], label: 'Average Score', backgroundColor: '#d7565aff' }],
   };
 
-
   public questionTypeChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
@@ -163,10 +193,12 @@ export class EAnalytics implements OnInit {
   };
   public questionTypeChartData: ChartData<'pie'> = {
     labels: [],
-    datasets: [{ data: [], backgroundColor: ['#007bff', '#6610f2', '#6f42c1', '#e83e8c', '#fd7e14'] }],
+    datasets: [
+      { data: [], backgroundColor: ['#007bff', '#6610f2', '#6f42c1', '#e83e8c', '#fd7e14'] },
+    ],
   };
 
-  // --- New Chart: Submissions Over Time (Line) ---
+  // --- Submissions Over Time (Line) ---
   public submissionsTimeChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     scales: {
@@ -184,14 +216,22 @@ export class EAnalytics implements OnInit {
   };
   public submissionsTimeChartData: ChartData<'line'> = {
     labels: [], // Dates will go here
-    datasets: [{ data: [], label: 'Submissions', backgroundColor: '#17a2b8', borderColor: '#17a2b8', fill: 'origin' }],
+    datasets: [
+      {
+        data: [],
+        label: 'Submissions',
+        backgroundColor: '#17a2b8',
+        borderColor: '#17a2b8',
+        fill: 'origin',
+      },
+    ],
   };
 
   // --- New Chart: Hardest Questions (Horizontal Bar) ---
   public hardestQuestionsChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    indexAxis: 'y', // Makes it a horizontal bar chart
-    scales: { x: { beginAtZero: true, max: 10 } }, // Assuming scores 0-100
+    indexAxis: 'y',
+    scales: { x: { beginAtZero: true, max: 10 } },
     plugins: {
       legend: { display: false },
       title: { display: true, text: 'Top 5 Hardest Questions (Lowest Avg. Score)' },
@@ -205,8 +245,8 @@ export class EAnalytics implements OnInit {
   // --- New Chart: Easiest Questions (Horizontal Bar) ---
   public easiestQuestionsChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    indexAxis: 'y', // Makes it a horizontal bar chart
-    scales: { x: { beginAtZero: true, max: 10 } }, // Assuming scores 0-100
+    indexAxis: 'y',
+    scales: { x: { beginAtZero: true, max: 10 } },
     plugins: {
       legend: { display: false },
       title: { display: true, text: 'Top 5 Easiest Questions (Highest Avg. Score)' },
@@ -266,7 +306,7 @@ export class EAnalytics implements OnInit {
 
           this.processAnalyticsData();
 
-          console.log('Fetched new analytics data:',this.analyticsData);
+          console.log('Fetched new analytics data:', this.analyticsData);
         },
         error: (err) => {
           console.error('Error fetching analytics:', err);
@@ -275,6 +315,13 @@ export class EAnalytics implements OnInit {
   }
 
   private processAnalyticsData(): void {
+    //0. ExamStatusData
+    this.ExamStatusDoughnutChartData.labels = ['Approved', 'Submitted for Approval', 'Rejected', 'Pending'];
+    this.ExamStatusDoughnutChartData.datasets[0].data = [this.analyticsData.examsStatusInformation.approvedExams,
+          this.analyticsData.examsStatusInformation.submittedForApprovalExams,
+          this.analyticsData.examsStatusInformation.rejectedExams,
+          this.analyticsData.examsStatusInformation.pendingExams,];
+
     // 1. Process Average Scores Data
     this.barChartData.labels = this.analyticsData.averageScoresPerExam.map((e) => e.examTitle);
     this.barChartData.datasets[0].data = this.analyticsData.averageScoresPerExam.map(
@@ -298,28 +345,28 @@ export class EAnalytics implements OnInit {
     );
 
     //4. Topic Avg Scores
-    this.AvgTopicScoresChartData.labels = this.analyticsData.avgTopicScores.map(
-      (p) => p.subject
-    );
+    this.AvgTopicScoresChartData.labels = this.analyticsData.avgTopicScores.map((p) => p.subject);
     this.AvgTopicScoresChartData.datasets[0].data = this.analyticsData.avgTopicScores.map(
       (p) => p.averageScore
-    )
+    );
 
     //5. Topic Questions Count
-    this.topicQuestionCountsChartData.labels  = this.analyticsData.topicQuestionCounts.map(
+    this.topicQuestionCountsChartData.labels = this.analyticsData.topicQuestionCounts.map(
       (p) => p.subject
-    )
-    this.topicQuestionCountsChartData.datasets[0].data  = this.analyticsData.topicQuestionCounts.map(
+    );
+    this.topicQuestionCountsChartData.datasets[0].data = this.analyticsData.topicQuestionCounts.map(
       (p) => p.questionCount
-    )
+    );
 
     if (this.analyticsData.questionTypeDistribution) {
       this.questionTypeChartData = {
         labels: this.analyticsData.questionTypeDistribution.map((q) => q.type),
-        datasets: [{
-          data: this.analyticsData.questionTypeDistribution.map((q) => q.count),
-          backgroundColor: ['#007bff', '#6610f2', '#6f42c1', '#e83e8c', '#fd7e14', '#20c997'],
-        }],
+        datasets: [
+          {
+            data: this.analyticsData.questionTypeDistribution.map((q) => q.count),
+            backgroundColor: ['#007bff', '#6610f2', '#6f42c1', '#e83e8c', '#fd7e14', '#20c997'],
+          },
+        ],
       };
     }
 
@@ -327,14 +374,16 @@ export class EAnalytics implements OnInit {
     if (this.analyticsData.submissionsOverTime) {
       this.submissionsTimeChartData = {
         labels: this.analyticsData.submissionsOverTime.map((s) => s.date), // Already strings
-        datasets: [{
-          data: this.analyticsData.submissionsOverTime.map((s) => s.submissionCount),
-          label: 'Submissions',
-          backgroundColor: 'rgba(23, 162, 184, 0.5)',
-          borderColor: '#17a2b8',
-          fill: 'origin',
-          tension: 0.3
-        }],
+        datasets: [
+          {
+            data: this.analyticsData.submissionsOverTime.map((s) => s.submissionCount),
+            label: 'Submissions',
+            backgroundColor: 'rgba(23, 162, 184, 0.5)',
+            borderColor: '#17a2b8',
+            fill: 'origin',
+            tension: 0.3,
+          },
+        ],
       };
     }
 
@@ -342,11 +391,13 @@ export class EAnalytics implements OnInit {
     if (this.analyticsData.hardestQuestions) {
       this.hardestQuestionsChartData = {
         labels: this.analyticsData.hardestQuestions.map((q) => q.questionText),
-        datasets: [{
-          data: this.analyticsData.hardestQuestions.map((q) => q.averageScore),
-          label: 'Average Score',
-          backgroundColor: '#dc3545',
-        }],
+        datasets: [
+          {
+            data: this.analyticsData.hardestQuestions.map((q) => q.averageScore),
+            label: 'Average Score',
+            backgroundColor: '#dc3545',
+          },
+        ],
       };
     }
 
@@ -354,36 +405,41 @@ export class EAnalytics implements OnInit {
     if (this.analyticsData.easiestQuestions) {
       this.easiestQuestionsChartData = {
         labels: this.analyticsData.easiestQuestions.map((q) => q.questionText),
-        datasets: [{
-          data: this.analyticsData.easiestQuestions.map((q) => q.averageScore),
-          label: 'Average Score',
-          backgroundColor: '#28a745',
-        }],
+        datasets: [
+          {
+            data: this.analyticsData.easiestQuestions.map((q) => q.averageScore),
+            label: 'Average Score',
+            backgroundColor: '#28a745',
+          },
+        ],
       };
     }
 
     // 10. Performance vs. Participation Correlation
     if (this.analyticsData.examPerformanceCorrelation) {
-      const scatterData: ScatterPoint[] = this.analyticsData.examPerformanceCorrelation.map(e => ({
-        x: e.studentCount,
-        y: e.averageScore,
-        examTitle: e.examTitle // Store extra data for tooltip
-      }));
+      const scatterData: ScatterPoint[] = this.analyticsData.examPerformanceCorrelation.map(
+        (e) => ({
+          x: e.studentCount,
+          y: e.averageScore,
+          examTitle: e.examTitle, // Store extra data for tooltip
+        })
+      );
 
       this.correlationChartData = {
-        datasets: [{
-          data: scatterData,
-          label: 'Exam',
-          backgroundColor: '#ffc107',
-          pointRadius: 6,
-          pointHoverRadius: 8,
-        }],
+        datasets: [
+          {
+            data: scatterData,
+            label: 'Exam',
+            backgroundColor: '#ffc107',
+            pointRadius: 6,
+            pointHoverRadius: 8,
+          },
+        ],
       };
     }
   }
 
   ngOnDestroy(): void {
-    
     if (this.analyticsSubscription) {
       this.analyticsSubscription.unsubscribe();
     }
