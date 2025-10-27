@@ -51,10 +51,20 @@
     <div class="topics-container grid-col-span-2">
       <h3>Select Topics**</h3>
       <div class="topics-checkbox-group">
-        @for (topic of topics; track topic.tid) {
-          <mat-checkbox class="topic-checkbox" (change)="onTopicChange($event, topic.tid)">
-            {{ topic.subject }}
-          </mat-checkbox>
+        @if (topicsAsync$ | async; as resolvedTopics) {
+          
+          @for (topic of resolvedTopics; track topic.tid) {
+            <mat-checkbox class="topic-checkbox" (change)="onTopicChange($event, topic.tid)">
+              {{ topic.subject }}
+            </mat-checkbox>
+          }
+
+          @if (resolvedTopics.length === 0) {
+            <p>No topics available.</p>
+          }
+
+        } @else {
+          <p>Loading topics...</p>
         }
       </div>
     </div>
