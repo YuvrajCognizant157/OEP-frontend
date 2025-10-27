@@ -69,6 +69,7 @@ export class StartExam implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.layoutService.hideLayout();
+     this.layoutService.hideSLayout();
     document.documentElement.requestFullscreen();
     this.examId = Number(this.route.snapshot.paramMap.get('examId')) || 7;
     this.startExam();
@@ -276,6 +277,7 @@ get unansweredCount(): number {
       clearInterval(this.timerInterval);
     }
     this.layoutService.showLayout();
+     this.layoutService.showSLayout();
     // Also good practice to exit fullscreen if component is destroyed
     if (document.fullscreenElement) {
       document.exitFullscreen();
