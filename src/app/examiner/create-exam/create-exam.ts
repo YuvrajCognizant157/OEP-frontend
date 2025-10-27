@@ -10,6 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import {ReactiveFormsModule} from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-exam',
@@ -22,7 +24,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 })
 export class CreateExam implements OnInit {
   examForm!: FormGroup;
-  topics: any[] = [];
+  topicsAsync$!: Observable<any[]>;
   userId = -1;
 
   constructor(
@@ -36,6 +38,8 @@ export class CreateExam implements OnInit {
   ngOnInit(): void {
     let tokenDetails: userDetails = this.authService.getUserRole()!;
     this.userId = tokenDetails?.id;
+
+    //reactive forms
     this.examForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -46,19 +50,19 @@ export class CreateExam implements OnInit {
       marksPerQuestion: [null, [Validators.required, Validators.min(1)]],
     });
 
-    this.getTopics();
+    this.loadTopics();
   }
 
-  getTopics() {
-    this.topicService.getTopics().subscribe({
-      next: (data) => {
-        this.topics = data;
-      },
-      error: (err) => {
+  loadTopics() {
+    this.topicsAsync$ = this.topicService.getTopics().pipe(
+      catchError(err => {
         console.error('Error fetching topics:', err);
-      },
-    });
+        // Return an empty array to prevent the UI from breaking
+        return of([]); 
+      })
+    );
   }
+
   onTopicChange(event: MatCheckboxChange, topicId: number) {
     const tids = (this.examForm.get('tids')?.value as number[]) || [];
 
@@ -83,8 +87,8 @@ export class CreateExam implements OnInit {
 
       this.examinerService.addExam(examData).subscribe({
         next:(response :{msg:string;examId:number}) => {
-          console.log('Exam metadata saved. You can now add questions:', response);
-          alert('Exam metadata saved successfully.');
+          
+          alert('Exam metadata saved successfully. \n'+response.msg);
           
           this.router.navigate(['/examiner/dashboard/add-questions',response.examId]);
         },
