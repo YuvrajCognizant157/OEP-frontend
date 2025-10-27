@@ -1,0 +1,41 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>
+      <mat-icon color="warn">warning</mat-icon> Import Errors Found
+    </h2>
+    <span class="error-count">{{ totalErrors }} Errors</span>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <p class="dialog-description">
+      The following questions failed to import. Please correct these rows in your Excel file and re-upload.
+    </p>
+
+    <div class="error-table-wrapper mat-elevation-z2">
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="rowNumber">
+          <th mat-header-cell *matHeaderCellDef class="row-col"> Row # </th>
+          <td mat-cell *matCellDef="let error"> {{ error.rowNumber }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="message">
+          <th mat-header-cell *matHeaderCellDef> Error Message </th>
+          <td mat-cell *matCellDef="let error"> {{ error.message }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+        <tr class="mat-row no-data-row" *matNoDataRow>
+          <td class="mat-cell" colspan="2">No errors found.</td>
+        </tr>
+      </table>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-raised-button (click)="onClose()" color="primary">Close</button>
+  </mat-dialog-actions>
+</div>

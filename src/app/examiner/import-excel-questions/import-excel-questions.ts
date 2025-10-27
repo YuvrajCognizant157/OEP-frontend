@@ -18,6 +18,7 @@ import { ExamService } from '../../core/services/exam.service';
 import { AuthService } from '../../core/services/auth.service';
 import { MatSelectModule } from "@angular/material/select";
 import { MatDialog } from '@angular/material/dialog';
+import { ImportErrorDialog } from './import-error-dialog/import-error-dialog';
 
 
 // Assuming ImportResultDto looks like this in TypeScript
@@ -43,7 +44,8 @@ interface ImportResultDto {
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    ImportErrorDialog
   ],
   templateUrl: './import-excel-questions.html',
   styleUrls: ['./import-excel-questions.css']
@@ -143,7 +145,7 @@ export class ImportExcelQuestions implements OnInit {
           this.snackBar.open(successMsg, 'View Errors', { duration: 15000, panelClass: ['warning-snackbar'] })
             .onAction().subscribe(() => {
               // 🔑 Display detailed error list in a new dialog/modal
-              this.displayImportErrorsInSnackbar(response.errors);
+              this.displayImportErrors(response.errors);
             });
 
         } else if (insertedCount === 0 && errorCount > 0) {
@@ -152,7 +154,7 @@ export class ImportExcelQuestions implements OnInit {
           this.snackBar.open(failureMsg, 'View Errors', { duration: 15000, panelClass: ['error-snackbar'] })
             .onAction().subscribe(() => {
               // 🔑 Display detailed error list in a new dialog/modal
-              this.displayImportErrorsInSnackbar(response.errors);
+              this.displayImportErrors(response.errors);
             });
 
         } else {
@@ -176,28 +178,14 @@ export class ImportExcelQuestions implements OnInit {
     });
   }
 
-  /**
-   * Placeholder function to display the list of row errors using a Material Dialog.
-   */
-  // NOT recommended for showing full error lists
-
-private displayImportErrorsInSnackbar(errors: ImportResultDto['errors']): void {
-  // Take only the first 3 errors to fit the Snackbar space
-  const displayErrors = errors.slice(0, 3);
-  
-  let errorMessage = `Failed rows: ${errors.length}. See console for full list.`;
-
-  // Concatenate the first few errors for a little detail
-  displayErrors.forEach(err => {
-    errorMessage += ` [Row ${err.rowNumber}: ${err.message.substring(0, 20)}...]`;
-  });
-  
-  // Show the message without an action button, relying on duration
-  this.snackBar.open(errorMessage, 'Close', { 
-    duration: 10000, 
-    panelClass: ['error-snackbar'] 
-  });
-}
+  private displayImportErrors(errors: ImportResultDto['errors']): void {
+    this.dialog.open(ImportErrorDialog, {
+      data: { errors: errors },
+      width: '600px',
+      maxHeight: '80vh',
+      autoFocus: false
+    });
+  }
   private resetForm(): void {
     this.uploadForm.reset();
     this.selectedFile = null;
