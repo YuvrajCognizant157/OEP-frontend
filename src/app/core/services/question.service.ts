@@ -104,5 +104,9 @@ export class QuestionService {
     return this.http.post<any>(`${this.apiUrl}/import-excel`, formDataToSend);
   }
 
+  getQuestionDetailsById(questionId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/get-question-by-id/${questionId}`);
+  }
+
   
 }
