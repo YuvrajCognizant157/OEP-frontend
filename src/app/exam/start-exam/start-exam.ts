@@ -69,8 +69,12 @@ export class StartExam implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.layoutService.hideLayout();
-     this.layoutService.hideSLayout();
-    document.documentElement.requestFullscreen();
+    this.layoutService.hideSLayout();
+
+    document.documentElement.requestFullscreen().catch(err => {
+      console.warn("Could not enter fullscreen:", err);
+    });
+
     this.examId = Number(this.route.snapshot.paramMap.get('examId')) || 7;
     this.startExam();
   }
@@ -85,7 +89,6 @@ export class StartExam implements OnInit, OnDestroy {
     this.feedbackSubmitted = false; // Reset submission status
   }
 
-  // *** NEW METHOD ***
   // Goes to the previous question
   onPrevious(): void {
     // Only go back if we are not on the first question
@@ -120,7 +123,6 @@ export class StartExam implements OnInit, OnDestroy {
     this.feedbackService.addQuestionFeedback(payload).subscribe({
       next: () => {
         this.feedbackSubmitted = true;
-        // Close the modal after a short delay to show the success message
         setTimeout(() => {
           this.closeReportModal();
         }, 2000);
@@ -136,7 +138,7 @@ export class StartExam implements OnInit, OnDestroy {
     this.examService.startExam(this.examId, this.userId).subscribe({
       next: (res: any) => {
         if (res.success) {
-          if (res.examData.questions) {
+          if (res.examData.questions.length >0) {
             for (let q of res.examData.questions) {
               const parsedOptions = JSON.parse(q.options);
 
@@ -150,10 +152,20 @@ export class StartExam implements OnInit, OnDestroy {
               q.options = displayOptions;
             }
           }
+          else{
+            throw new Error("No questions Available.");
+          }
 
           this.examData = res.examData;
-          // Set the first question
-          this.currentQuestion = this.examData.questions[this.currentIndex]; // Was [0]
+          // Pre-populate the selectedAnswers array with all questions
+          this.selectedAnswers = this.examData.questions.map((q: StartExamQuestionDTO) => {
+            return {
+              qid: q.qid,
+              name: q.questionName,
+              Resp: []     
+            };
+          });
+          this.currentQuestion = this.examData.questions[this.currentIndex];
           this.timeLeft = res.examData.duration * 60;
           this.startTimer();
           this.examStarted = true;
@@ -201,21 +213,11 @@ export class StartExam implements OnInit, OnDestroy {
     const index = this.selectedAnswers.findIndex((a) => a.qid === qid);
     if (index !== -1) {
       this.selectedAnswers[index].Resp = [String(selectedOptionId)];
-    } else {
-      this.selectedAnswers.push({ qid, name: questionName, Resp: [String(selectedOptionId)] });
+      this.selectedAnswers[index].name = questionName; 
     }
   }
 
   onFinishExam() {
-    const allQuestionIds = this.examData.questions.map((q: any) => q.qid);
-
-    const answeredQids = this.selectedAnswers.map((a) => a.qid);
-    const unansweredQids = allQuestionIds.filter((qid) => !answeredQids.includes(qid));
-
-    unansweredQids.forEach((qid) => {
-      this.selectedAnswers.push({ qid, name: '', Resp: [] });
-    });
-
     this.examStateService.setExamData({
       selectedAnswers: this.selectedAnswers,
       examId: this.examData.eid,
@@ -236,6 +238,7 @@ export class StartExam implements OnInit, OnDestroy {
   onOptionToggled(qid: number, questionName: string, optionId: number, checked: boolean) {
     const answer = this.selectedAnswers.find((a) => a.qid === qid);
     if (answer) {
+      answer.name = questionName;
       if (checked) {
         if (!answer.Resp.includes(String(optionId))) {
           answer.Resp.push(String(optionId));
@@ -243,8 +246,6 @@ export class StartExam implements OnInit, OnDestroy {
       } else {
         answer.Resp = answer.Resp.filter((id) => id !== String(optionId));
       }
-    } else {
-      this.selectedAnswers.push({ qid, name: questionName, Resp: [String(optionId)] });
     }
   }
 
@@ -265,11 +266,12 @@ export class StartExam implements OnInit, OnDestroy {
   }
 
   get answeredCount(): number {
-  return this.selectedAnswers.filter(a => a.Resp && a.Resp.length > 0).length;
+  return this.selectedAnswers.filter(a => a.Resp && a.Resp.length > 0).length || 0;
 }
 
 get unansweredCount(): number {
-  return this.examData?.questions?.length - this.answeredCount;
+  const total = this.examData?.questions?.length || 0;
+  return total - this.answeredCount;
 }
 
   ngOnDestroy(): void {
