@@ -1,0 +1,168 @@
+/* Apply a unique, high-contrast dark theme to the dialog host */
+:host {
+  --dialog-bg: #212121;
+  --panel-bg: #2b2b2b;
+  --text-primary: #f0f0f0;
+  --text-secondary: #aaaaaa;
+  --accent-color: #00bcd4; /* Cyan/Teal for contrast */
+  --correct-color: #4caf50; /* Green for correct answers */
+  --border-color: #383838;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dialog-title {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.close-button {
+  color: var(--text-secondary);
+}
+
+.dialog-content {
+  padding: 24px;
+  background-color: var(--dialog-bg);
+  color: var(--text-primary);
+  /* Scrollable content inside the dialog */
+  max-height: 70vh; 
+}
+
+/* --- Loading & Error States --- */
+.loading-center, .error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  text-align: center;
+}
+.loading-center p {
+  margin-top: 10px;
+  color: var(--accent-color);
+}
+.error-state mat-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+/* --- Content Styling --- */
+.question-details-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h3 {
+  color: var(--accent-color);
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0 0 8px 0;
+  border-bottom: 2px solid rgba(var(--accent-color), 0.2);
+  padding-bottom: 4px;
+}
+
+/* Metadata Chips */
+.metadata-chips-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--border-color);
+}
+.mat-chip-row {
+  border-radius: 4px;
+  font-weight: 500;
+}
+.mat-chip-row.mat-accent {
+  background-color: rgba(0, 188, 212, 0.2) !important; /* Lighter shade of cyan */
+  color: var(--accent-color) !important;
+}
+
+/* Question Section */
+.question-section {
+  padding: 10px 0;
+}
+.question-text {
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  padding: 8px 0;
+}
+
+/* Options Section */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 15px;
+  border-radius: 8px;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.option-key {
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-right: 10px;
+  min-width: 20px;
+}
+
+.option-value {
+  flex-grow: 1;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+/* Highlight Correct Options */
+.correct-option {
+  background-color: rgba(76, 175, 80, 0.15); /* Subtle green background */
+  border-color: var(--correct-color);
+}
+
+.correct-option .option-key, .correct-icon {
+  color: var(--correct-color);
+}
+
+.correct-icon {
+  margin-left: auto;
+  min-width: 24px;
+}
+
+.dialog-actions {
+  background-color: var(--panel-bg);
+  border-top: 1px solid var(--border-color);
+  padding: 10px 24px;
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 600px) {
+  .dialog-content {
+    padding: 16px;
+  }
+  .metadata-chips-group {
+    flex-direction: column; /* Stack chips vertically on small screens */
+  }
+  .mat-chip-row {
+    width: 100%;
+    justify-content: center;
+  }
+  .dialog-title {
+    font-size: 1.1rem;
+  }
+}
