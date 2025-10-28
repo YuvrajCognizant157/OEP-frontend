@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
-        this.errorMessage = 'Invalid credentials. Please try again.';
+        this.errorMessage = err.error.Message || 'Invalid credentials. Please try again.';
         this.loading = false;
         console.error(err);
       },
