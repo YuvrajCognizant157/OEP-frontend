@@ -4,7 +4,7 @@
         <mat-icon>menu</mat-icon>
     </button>
 
-    <mat-sidenav-container class="sidenav-container" *ngIf="isMobileView">
+    <mat-sidenav-container class="sidenav-container" *ngIf="isMobileView && isDrawerOpen">
         <mat-sidenav mode="over" [opened]="isDrawerOpen" (backdropClick)="closeDrawer()" class="mobile-drawer">
             <div class="drawer-header">
                 <h3>Student Navigation</h3>
