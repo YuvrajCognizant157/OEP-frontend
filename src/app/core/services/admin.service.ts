@@ -7,7 +7,7 @@ import { ExamFeedback } from '../../shared/models/exam-feedback.model';
 import { ApproveTopic } from '../../shared/models/approve-topic.model';
 import { BlockUserComponent } from '../../admin/block-user/block-user';
 import { QuestionDetail, QuestionReport, QuestionReviewDTO } from '../../shared/models/admin.model';
-
+import {environment } from '../../../environments/environment';
 export interface ToggleUserStatusDto
 {
   userId:number;
@@ -18,7 +18,8 @@ export interface ToggleUserStatusDto
   providedIn: 'root',
 })
 export class AdminService {
-  private readonly apiUrl = 'https://localhost:44395/api/Admin';
+  private apiUrl = environment.apiUrl;
+  // private readonly apiUrl = 'https://localhost:44395/api/Admin';
 
   constructor(private http: HttpClient) {}
 
