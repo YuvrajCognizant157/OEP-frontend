@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { GetExamDataDTO, SubmittedExamDTO } from '../../shared/models/exam.model';
 import { AvailableExam, ExamDetails } from '../../shared/models/exam.model';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({ providedIn: 'root' })
 export class ExamService {
-  private baseUrl = 'https://localhost:44395/api/Exams';
-  private feebackBaseUrl = 'https://localhost:44395/api/ExamFeedback';
+  private backendUrl = environment.apiUrl;
+  private baseUrl = `${this.backendUrl}/api/Exams`;
+  private feebackBaseUrl = `${this.backendUrl}/api/ExamFeedback`;
 
   constructor(private http: HttpClient) {}
 

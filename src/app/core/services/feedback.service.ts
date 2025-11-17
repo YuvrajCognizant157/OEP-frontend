@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GetQuestionFeedback } from '../../question/question-feedback/question-feedback.model';
+import { environment } from '../../../environments/environment.prod';
 
 export interface AddQuestionFeedbackDTO {
   feedback: string;
@@ -11,7 +12,8 @@ export interface AddQuestionFeedbackDTO {
 
 @Injectable({ providedIn: 'root' })
 export class FeedbackService {
-  private baseUrl = 'https://localhost:44395/api/QuestionFeedback';
+  private backendUrl = environment.apiUrl;
+  private baseUrl = `${this.backendUrl}/api/QuestionFeedback`;
   constructor(private http: HttpClient) { }
 
   getAllFeedbacksByUserId(userId: number): Observable<GetQuestionFeedback[]> {

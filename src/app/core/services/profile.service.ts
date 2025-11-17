@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserDetails } from '../../shared/profile/user.model';
 
+import { environment } from '../../../environments/environment.prod';
 export interface userDetails {
     id?: number;
     role: string;
@@ -22,8 +23,9 @@ export class ProfileService {
         private authService: AuthService,
         private http: HttpClient
     ) { }
+    private backendUrl = environment.apiUrl;
 
-    private baseUrl = 'https://localhost:44395/api/Users';
+  private baseUrl = `${this.backendUrl}/api/Users`;
 
     private userUrl(id: number): string {
         return `${this.baseUrl}/${encodeURIComponent(String(id))}`;

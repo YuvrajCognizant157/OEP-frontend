@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ListQuestionsByExaminerId } from '../../shared/models/questions.model';
-
+import { environment } from '../../../environments/environment.prod';
 export interface AddQuestionPayload {
   type: string;
   question: string;
@@ -29,7 +29,8 @@ export interface AddQuestionsByBatchPayload {
 
 @Injectable({ providedIn: 'root' })
 export class QuestionService {
-  private apiUrl = 'https://localhost:44395/api/Questions';
+  private backendUrl = environment.apiUrl;
+  private apiUrl = `${this.backendUrl}/api/Questions`;
 
   constructor(private http: HttpClient) { }
 

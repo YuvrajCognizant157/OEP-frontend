@@ -2,10 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {ResultCalculationResponseDTO} from '../../shared/models/result.model';
-
+import { environment } from '../../../environments/environment.prod';
 @Injectable({ providedIn: 'root' })
 export class ResultService {
-  private baseUrl = 'https://localhost:44395/api/Results';
+  private backendUrl = environment.apiUrl;
+  private baseUrl = `${this.backendUrl}/api/Results`;
 
   constructor(private http: HttpClient) {}
 

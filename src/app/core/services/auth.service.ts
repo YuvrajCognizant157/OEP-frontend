@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment.prod';
 import { Observable } from 'rxjs';interface JwtTokenData {
   sub: string;
   'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
@@ -26,7 +27,8 @@ interface ResendOtpResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:44395/api/Auth';
+  private backendUrl = environment.apiUrl;
+  private apiUrl = `${this.backendUrl}/api/Auth`;
   
   public pendingVerificationUserId = signal<number | null>(null);
   constructor(private router: Router) {}

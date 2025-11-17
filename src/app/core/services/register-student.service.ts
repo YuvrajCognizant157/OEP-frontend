@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RegisterStudentRequest } from '../../register/register-student/register-student.model';
+import { environment } from '../../../environments/environment.prod';
 
 export interface RegisterResponse {
   msg: string;
@@ -11,7 +12,8 @@ export interface RegisterResponse {
 
 @Injectable({ providedIn: 'root' })
 export class RegisterStudentService {
-  private apiUrl = 'https://localhost:44395/api/Auth/student/register';
+  private backendUrl = environment.apiUrl;
+  private apiUrl = `${this.backendUrl}/api/Auth/student/register`;
 
   constructor(private http: HttpClient) {}
 

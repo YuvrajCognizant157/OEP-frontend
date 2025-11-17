@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TopicResponse } from '../../examiner/manage-topic/manage-topic';
-
+import { environment } from '../../../environments/environment.prod';
 interface createTopicRequest {
   TopicName: string;
   examinerId: number;
@@ -10,7 +10,8 @@ interface createTopicRequest {
 
 @Injectable({ providedIn: 'root' })
 export class TopicsService {
-  private apiUrl = 'https://localhost:44395/api/Topics';
+  private backendUrl = environment.apiUrl;
+  private apiUrl = `${this.backendUrl}/api/Topics`;
 
   constructor(private http: HttpClient) {}
 
