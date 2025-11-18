@@ -18,6 +18,10 @@ export class RegisterStudentService {
   constructor(private http: HttpClient) {}
 
   registerStudent(data: RegisterStudentRequest): Observable<RegisterResponse> {
+    console.log('Backend URL:', this.backendUrl);
+    console.log('API URL:', this.apiUrl);
+    
+    
     return this.http.post<RegisterResponse>(this.apiUrl, data); 
   }
 }
