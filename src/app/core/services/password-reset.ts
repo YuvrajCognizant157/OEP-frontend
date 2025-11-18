@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment.prod';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class PasswordReset {
   private backendUrl = environment.apiUrl;
   private apiUrl = `${this.backendUrl}/api/Auth`;
 
