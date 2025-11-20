@@ -8,7 +8,7 @@
     "build": "npm run generate-env && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "netlify:build": "npm run build && node ./set-env.js"
+    "netlify:build": "npm run build"
   },
   "prettier": {
     "printWidth": 100,
