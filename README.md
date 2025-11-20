@@ -2,6 +2,14 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.3.
 
+## 🌎 Live Deployment
+
+The **OEPFrontend** project is currently deployed and available for live viewing at the following URL:
+
+> **[https://front-online-exam-portal.netlify.app/](https://front-online-exam-portal.netlify.app/)**
+
+---
+
 ## Development server
 
 To start a local development server, run:
