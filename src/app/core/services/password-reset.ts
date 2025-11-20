@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment.prod';
+import { EnvService } from './env.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root'})
 export class PasswordReset {
-  private backendUrl = environment.apiUrl;
-  private apiUrl = `${this.backendUrl}/api/Auth`;
+  private apiUrl :string;
 
-  constructor(private http : HttpClient){}
+  constructor(private http: HttpClient, private env: EnvService) {
+    this.apiUrl = `${this.env.apiUrl}/api/Auth`;
+  }
 
   requestOtp(email:string , verifyWithEmail : boolean) : Observable<any>{
     const body = {email,verifyWithEmail};

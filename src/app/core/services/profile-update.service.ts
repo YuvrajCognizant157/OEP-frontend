@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UpdateUser } from '../../shared/profile-update/profile-update.model';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment.prod';
-@Injectable({
-  providedIn: 'root'
-})
+import { EnvService } from './env.service';
+@Injectable({providedIn: 'root'})
 export class ProfileUpdateService {
-  private backendUrl = environment.apiUrl;
-  private apiUrl = `${this.backendUrl}/api/Auth`;
+  private apiUrl :string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private env: EnvService) {
+    this.apiUrl = `${this.env.apiUrl}/api/Auth`;
+  }
 
   updateUser(user: UpdateUser): Observable<any> {
     return this.http.put(this.apiUrl, user);

@@ -1,31 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ExamApprovalStatus } from '../../shared/models/exam-approval.model';
-import { QuestionReview } from '../../shared/models/question-review.model';
-import { ExamFeedback } from '../../shared/models/exam-feedback.model';
 import { ApproveTopic } from '../../shared/models/approve-topic.model';
-import { BlockUserComponent } from '../../admin/block-user/block-user';
 import { QuestionDetail, QuestionReport, QuestionReviewDTO } from '../../shared/models/admin.model';
-import { environment } from '../../../environments/environment.prod';
+import { EnvService } from './env.service';
 export interface ToggleUserStatusDto
 {
   userId:number;
   isActive:boolean;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: 'root'})
 export class AdminService {
-  private backendUrl = environment.apiUrl;
-  private readonly apiUrl = `${this.backendUrl}/api/Admin`;
 
-  constructor(private http: HttpClient) {}
+  private readonly baseUrl: string;
+
+  constructor(private http: HttpClient, private env: EnvService) {
+    this.baseUrl = `${this.env.apiUrl}/api/Admin`;
+  }
+
 
   /** ✅ Get list of exams pending approval */
   toggleBlockUser(userId: number): Observable<any> {
-   const url = `${this.apiUrl}/blockuser/${userId}`;
+    const url = `${this.baseUrl}/blockuser/${userId}`;
    return this.http.put(url, null, { responseType: 'text' });}
 
 
@@ -33,7 +30,7 @@ export class AdminService {
 
 getAllUsers(): Observable<any[]> {
 
-  return this.http.get<any[]>(`${this.apiUrl}/all-users`);
+  return this.http.get<any[]>(`${this.baseUrl}/all-users`);
 
 }
 
@@ -41,46 +38,46 @@ getAllUsers(): Observable<any[]> {
 
 toggleUserStatus(dto:ToggleUserStatusDto): Observable<any> {
 
-  return this.http.post(`${this.apiUrl}/toggle-user-status`,dto, { responseType: 'text' });
+  return this.http.post(`${this.baseUrl}/toggle-user-status`,dto, { responseType: 'text' });
 
 }
  
 
   getAssignedExams(adminId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/approve-exam-list?userId=${adminId}`);
+    return this.http.get(`${this.baseUrl}/approve-exam-list?userId=${adminId}`);
   }
 
  getExamQuestions(examId: number): Observable<any> {
- return this.http.get(`${this.apiUrl}/exam/${examId}/review`);
+   return this.http.get(`${this.baseUrl}/exam/${examId}/review`);
 }
   approveOrRejectExam(ExamId: number, userId: number,Status: string): Observable<any> {
     const body={ExamId, userId, Status};
-    return this.http.post(`${this.apiUrl}/approve-exam`, body);
+    return this.http.post(`${this.baseUrl}/approve-exam`, body);
   }
 
   /** ✅ Get all reported questions */
   getReportedQuestions(adminId: number): Observable<QuestionReport[] | string> {
-    return this.http.get<QuestionReport[] | string>(`${this.apiUrl}/reported-questions?adminId=${adminId}`);
+    return this.http.get<QuestionReport[] | string>(`${this.baseUrl}/reported-questions?adminId=${adminId}`);
   }
   getQuestionDetailsById(qid: number): Observable<QuestionDetail> {
-    return this.http.get<QuestionDetail>(`${this.apiUrl}/review-questions/${qid}`);
+    return this.http.get<QuestionDetail>(`${this.baseUrl}/review-questions/${qid}`);
   }
   reviewQuestion(payload: QuestionReviewDTO): Observable<string> {
-    return this.http.post(`${this.apiUrl}/review-questions`, payload, { responseType: 'text' });
+    return this.http.post(`${this.baseUrl}/review-questions`, payload, { responseType: 'text' });
   }
 
   /** ✅ Block user */
 
   // blockUser(dto: BlockUser): Observable<string> {
 
-  //   return this.http.post(`${this.apiUrl}/block-users`, dto, { responseType: 'text' });
+  //   return this.http.post(`${this.env.apiUrl}/block-users`, dto, { responseType: 'text' });
 
   // }
 
   /** ✅ Fetch all feedback for an exam */
 
   getExamFeedback(userId: number){
-    return this.http.get(`${this.apiUrl}/exam-feedback-review?userId=${userId}`);
+    return this.http.get(`${this.baseUrl}/exam-feedback-review?userId=${userId}`);
   }
 
   /** ✅ Add remarks */
@@ -88,20 +85,20 @@ toggleUserStatus(dto:ToggleUserStatusDto): Observable<any> {
   addAdminRemarks(examId: number, remark: string){
 
     const body={remarks:remark};
-    return this.http.post(`${this.apiUrl}/add-adminremarks/${examId}`,body);
+    return this.http.post(`${this.baseUrl}/add-adminremarks/${examId}`,body);
 
   }
 
   /** ✅ Get topics pending approval */
 
   getTopicsForApproval(userId: number): Observable<any> {
-    return this.http.get<ApproveTopic[]>(`${this.apiUrl}/topic-list?userId=${userId}`);
+    return this.http.get<ApproveTopic[]>(`${this.baseUrl}/topic-list?userId=${userId}`);
   }
 
   /** ✅ Approve or reject topic */
 
   approveOrRejectTopic(topicId: number, userId: number, action: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/approve-topic`, { topicId, userId, action });
+    return this.http.patch(`${this.baseUrl}/approve-topic`, { topicId, userId, action });
   }
 }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ListQuestionsByExaminerId } from '../../shared/models/questions.model';
-import { environment } from '../../../environments/environment.prod';
+import { EnvService } from './env.service';
 export interface AddQuestionPayload {
   type: string;
   question: string;
@@ -29,10 +29,11 @@ export interface AddQuestionsByBatchPayload {
 
 @Injectable({ providedIn: 'root' })
 export class QuestionService {
-  private backendUrl = environment.apiUrl;
-  private apiUrl = `${this.backendUrl}/api/Questions`;
+  private apiUrl :string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private env: EnvService) {
+    this.apiUrl = `${this.env.apiUrl}/api/Questions`;
+  }
 
   // Method to add a single question
   addSingleQuestion(question: AddQuestionPayload, examId: number, userId: number): Observable<string> {

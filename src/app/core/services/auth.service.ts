@@ -1,8 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
-import { Observable } from 'rxjs';interface JwtTokenData {
+import { Observable } from 'rxjs';import { EnvService } from './env.service';
+interface JwtTokenData {
   sub: string;
   'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
   exp: number;
@@ -27,8 +27,8 @@ interface ResendOtpResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
-  private backendUrl = environment.apiUrl;
-  private apiUrl = `${this.backendUrl}/api/Auth`;
+  private env = inject(EnvService);
+  private baseUrl = `${this.env.apiUrl}/api/Auth`;
   
   public pendingVerificationUserId = signal<number | null>(null);
   constructor(private router: Router) {}
@@ -89,10 +89,10 @@ export class AuthService {
   }
 
   verifyOTP(userId: number, otp: number,allowSuccessMail:boolean): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/student/verifyotp/${userId}`, {otp:otp,AllowSuccessMail:allowSuccessMail});
+    return this.http.post<string>(`${this.baseUrl}/student/verifyotp/${userId}`, {otp:otp,AllowSuccessMail:allowSuccessMail});
   }
 
   resendOTP(userId: number): Observable<ResendOtpResponse> {
-    return this.http.get<ResendOtpResponse>(`${this.apiUrl}/student/resendotp/${userId}`);
+    return this.http.get<ResendOtpResponse>(`${this.baseUrl}/student/resendotp/${userId}`);
   }
 } 
