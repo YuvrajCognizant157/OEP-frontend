@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoginRequest, LoginResponse } from '../../shared/login/login.model'; 
@@ -6,7 +6,7 @@ import { LoginRequest, LoginResponse } from '../../shared/login/login.model';
 import { EnvService } from './env.service';
 
 @Injectable({ providedIn: 'root' })
-export class LoginService {
+export class LoginService implements OnInit {
   //private backendUrl = environment.apiUrl;
   //private apiUrl = `${this.backendUrl}/api/Auth`;
   loginStatus = signal<boolean>(false);
@@ -21,6 +21,7 @@ export class LoginService {
    * Sends login request to backend
    */
   login(data: LoginRequest): Observable<LoginResponse> {
+    console.log(this.env.apiUrl);
     return this.http.post<LoginResponse>(`${this.env.apiUrl}/login`, data);
   }
 
