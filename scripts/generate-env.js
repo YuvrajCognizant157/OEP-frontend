@@ -7,7 +7,7 @@ const targetPath = path.join(__dirname, '..', 'src', 'assets', 'env.js');
 const envFileContent = `
 (function(window) {
   window.__env = window.__env || {};
-  window.__env.API_URL = "${process.env.API_URL || ''}";
+  window.__env.NG_APP_API_URL = "${process.env.NG_APP_API_URL || ''}";
 })(this);
 `;
 
