@@ -7,14 +7,16 @@ import { EnvService } from './env.service';
 @Injectable({ providedIn: 'root' })
 export class LoginService {
   loginStatus = signal<boolean>(false);
-
-  constructor(private http: HttpClient, private env: EnvService) { }
+  private baseUrl: string;
+  constructor(private http: HttpClient, private env: EnvService) {
+    this.baseUrl = `${this.env.apiUrl}/api/Auth`;
+  }
 
   /**
    * Sends login request to backend
    */
   login(data: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.env.apiUrl}/login`, data);
+    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, data);
   }
 
   /**
