@@ -2,9 +2,10 @@
   "name": "oep-frontend",
   "version": "0.0.0",
   "scripts": {
+    "generate-env": "node scripts/generate-env.js",
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "npm run generate-env && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "netlify:build": "npm run build && node ./set-env.js"
