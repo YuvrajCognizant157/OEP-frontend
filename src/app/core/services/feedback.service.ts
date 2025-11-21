@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GetQuestionFeedback } from '../../question/question-feedback/question-feedback.model';
-import { environment } from '../../../environments/environment.prod';
+import { EnvService } from './env.service';
 
 export interface AddQuestionFeedbackDTO {
   feedback: string;
@@ -12,9 +12,11 @@ export interface AddQuestionFeedbackDTO {
 
 @Injectable({ providedIn: 'root' })
 export class FeedbackService {
-  private backendUrl = environment.apiUrl;
-  private baseUrl = `${this.backendUrl}/api/QuestionFeedback`;
-  constructor(private http: HttpClient) { }
+  private baseUrl: string;
+
+  constructor(private http: HttpClient, private env: EnvService) {
+    this.baseUrl = `${this.env.apiUrl}/api/QuestionFeedback`;
+  }
 
   getAllFeedbacksByUserId(userId: number): Observable<GetQuestionFeedback[]> {
     return this.http.get<GetQuestionFeedback[]>(`${this.baseUrl}/get-all-question-feedbacks-by-userId/${userId}`);
@@ -24,6 +26,6 @@ export class FeedbackService {
   }
 
   getAllExamFeedbacksByUserId(userId: number): Observable<any> {
-    return this.http.get<any>(`https://localhost:44395/api/ExamFeedback/all-exam-feedbacks-s/${userId}`);
+    return this.http.get<any>(`${this.env.apiUrl}/api/ExamFeedback/all-exam-feedbacks-s/${userId}`);
   }
 }

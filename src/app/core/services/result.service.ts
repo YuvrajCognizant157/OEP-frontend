@@ -2,13 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {ResultCalculationResponseDTO} from '../../shared/models/result.model';
-import { environment } from '../../../environments/environment.prod';
+import { EnvService } from './env.service';
+
 @Injectable({ providedIn: 'root' })
 export class ResultService {
-  private backendUrl = environment.apiUrl;
-  private baseUrl = `${this.backendUrl}/api/Results`;
+  private baseUrl: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private env: EnvService) {
+    this.baseUrl = `${this.env.apiUrl}/api/Results`;
+  }
 
   viewResult(examId: number, userId: number) {
     return this.http.post(`${this.baseUrl}/view-exam-result/${examId}?userid=${userId}`, {});

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserDetails } from '../../shared/profile/user.model';
 
-import { environment } from '../../../environments/environment.prod';
+import { EnvService } from './env.service';
 export interface userDetails {
     id?: number;
     role: string;
@@ -19,13 +19,17 @@ export interface userDetails {
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
+
+  private baseUrl: string;
     constructor(private router: Router,
         private authService: AuthService,
-        private http: HttpClient
-    ) { }
-    private backendUrl = environment.apiUrl;
+      private http: HttpClient,
+      private env: EnvService
+    ) {
+      this.baseUrl = `${this.env.apiUrl}/api/Users`;
+    }
 
-  private baseUrl = `${this.backendUrl}/api/Users`;
+  
 
     private userUrl(id: number): string {
         return `${this.baseUrl}/${encodeURIComponent(String(id))}`;
