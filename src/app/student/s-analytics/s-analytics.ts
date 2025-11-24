@@ -237,7 +237,7 @@ export class SAnalytics implements OnInit {
   // Helper getter for the new chart data
   get hasTopicLineData(): boolean {
     const labelCount = this.topicLineChartData.labels?.length ?? 0;
-    return labelCount > 1 && this.getTotalFromChartData(this.topicLineChartData) > 0;
+    return labelCount >= 1 && this.getTotalFromChartData(this.topicLineChartData) > 0;
   }
 
 
