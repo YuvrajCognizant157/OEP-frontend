@@ -117,7 +117,7 @@ export class SAnalytics implements OnInit {
           datasets: [
             {
               label: 'Questions Attempted',
-              data: topics.Qmap(t => t.questionsAttempted),
+              data: topicsQ.map(t => t.questionsAttempted),
               fill: true, 
               tension: 0.2,
               borderColor: '#5e60ce',
