@@ -128,7 +128,7 @@ export class SAnalytics implements OnInit {
             }
           ]
         };
-        console.log('Chart-Data: ',topicLineChartData);
+        console.log('Chart-Data: ',this.topicLineChartData);
       },
       error: (err) => console.error('Error loading topic analytics', err)
     });
