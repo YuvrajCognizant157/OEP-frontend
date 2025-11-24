@@ -102,8 +102,10 @@ export class SAnalytics implements OnInit {
       next: (res:  TopicWiseQuestionCount[] ) => {
         console.log('Topic Wise Question Count Response:', res);
 
-        let topics = res;
-        if (!topics || topics.length === 0) return;
+        let topicsQ = res;
+        if (!topicsQ || topicsQ.length === 0) return;
+
+        console.log('TopicsQ-Data: ',topicsQ);
         
         // Use a color array for variety/colorfulness
         const colors = [
@@ -111,11 +113,11 @@ export class SAnalytics implements OnInit {
         ];
 
         this.topicLineChartData = {
-          labels: topics.map(t => t.topicName),
+          labels: topicsQ.map(t => t.topicName),
           datasets: [
             {
               label: 'Questions Attempted',
-              data: topics.map(t => t.questionsAttempted),
+              data: topics.Qmap(t => t.questionsAttempted),
               fill: true, 
               tension: 0.2,
               borderColor: '#5e60ce',
